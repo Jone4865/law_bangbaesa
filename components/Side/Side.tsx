@@ -45,11 +45,12 @@ function Side({ modal, setModalState }: Props) {
         }}
       >
         <h1>
-          <img />
+          <span />
           <span onClick={() => setModalState(false)}>X</span>
         </h1>
         {Buttons.map((button, index) => (
           <Link
+            key={button}
             to={button}
             spy={true}
             smooth={true}
@@ -58,7 +59,7 @@ function Side({ modal, setModalState }: Props) {
               setModalState(false);
             }}
           >
-            <div key={button} className={styles.side_hover}>
+            <div className={styles.side_hover}>
               <span>{button}</span>
             </div>
           </Link>
