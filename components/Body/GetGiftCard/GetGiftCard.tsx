@@ -29,13 +29,13 @@ export default function GetGiftCard({ title, content, logo_color }: Props) {
   //get 요청
   useEffect(() => {
     (async () => {
-      const data = await (
+      const adata = await (
         await fetch("/api/getData", {
           method: "GET",
         })
       ).json();
 
-      const newData: Data[] = data?.data?.map((v: any) => {
+      const newData: Data[] = adata?.data?.map((v: any) => {
         const originBuyPrice = Math.round(
           (+v?.split("\n\t\t\t\t\t\t")[3]?.split("(")[0]?.replaceAll(",", "") /
             (100 -
@@ -72,7 +72,7 @@ export default function GetGiftCard({ title, content, logo_color }: Props) {
       setData(newData);
     })();
   }, [getData]);
-  console.log(data);
+
   return (
     <div className={cx("container")}>
       <div className={cx("wrap")}>
@@ -99,50 +99,53 @@ export default function GetGiftCard({ title, content, logo_color }: Props) {
             <span className={cx("sell")}>판매가</span>
           </div>
           <div className={cx("map")}>
-            {data?.map((item, index) => (
-              <div key={index} className={cx("map_item")}>
-                <span className={cx("map_name")}>{item?.name}</span>
-                <div className={cx("map_buy")}>
-                  <span className={cx("buy_price")}>
-                    {item?.originBuyPrice -
-                      (item?.originBuyPrice / 100) *
-                        (item?.buyPercentage + 0.5) <
-                    0
-                      ? 0
-                      : (
-                          item?.originBuyPrice -
+            {data?.map(
+              (item, index) =>
+                item.name && (
+                  <div key={index} className={cx("map_item")}>
+                    <span className={cx("map_name")}>{item?.name}</span>
+                    <div className={cx("map_buy")}>
+                      <span className={cx("buy_price")}>
+                        {item?.originBuyPrice -
                           (item?.originBuyPrice / 100) *
-                            (item?.buyPercentage + 0.5)
+                            (item?.buyPercentage + 0.5) <
+                        0
+                          ? 0
+                          : (
+                              item?.originBuyPrice -
+                              (item?.originBuyPrice / 100) *
+                                (item?.buyPercentage + 0.5)
+                            ).toLocaleString()}
+                        &nbsp;
+                      </span>
+                      <span className={cx("percent")}>
+                        (
+                        {item.buyPercentage + 0.5 > 100
+                          ? 100
+                          : item.buyPercentage + 0.5}
+                        %)
+                      </span>
+                    </div>
+                    <div className={cx("map_sell")}>
+                      <span className={cx("sell_price")}>
+                        {(
+                          item?.originSellPrice -
+                          (item?.originSellPrice / 100) *
+                            (item?.sellPercentage + 0.5)
                         ).toLocaleString()}
-                    &nbsp;
-                  </span>
-                  <span className={cx("percent")}>
-                    (
-                    {item.buyPercentage + 0.5 > 100
-                      ? 100
-                      : item.buyPercentage + 0.5}
-                    %)
-                  </span>
-                </div>
-                <div className={cx("map_sell")}>
-                  <span className={cx("sell_price")}>
-                    {(
-                      item?.originSellPrice -
-                      (item?.originSellPrice / 100) *
-                        (item?.sellPercentage + 0.5)
-                    ).toLocaleString()}
-                    &nbsp;
-                  </span>
-                  <span className={cx("percent")}>
-                    (
-                    {item?.sellPercentage + 0.5 > 100
-                      ? 100
-                      : item?.sellPercentage + 0.5}
-                    %)
-                  </span>
-                </div>
-              </div>
-            ))}
+                        &nbsp;
+                      </span>
+                      <span className={cx("percent")}>
+                        (
+                        {item?.sellPercentage + 0.5 > 100
+                          ? 100
+                          : item?.sellPercentage + 0.5}
+                        %)
+                      </span>
+                    </div>
+                  </div>
+                )
+            )}
           </div>
         </div>
       </div>
