@@ -40,7 +40,7 @@ export default function GetGiftCard({ title, content, logo_color }: Props) {
           (+v?.split("\n\t\t\t\t\t\t")[3]?.split("(")[0]?.replaceAll(",", "") /
             (100 -
               parseFloat(
-                v.split("\n\t\t\t\t\t\t")[3].split("(")[1].replaceAll("%)", "")
+                v.split("\n\t\t\t\t\t\t")[3]?.split("(")[1].replaceAll("%)", "")
               ))) *
             100
         );
@@ -48,7 +48,7 @@ export default function GetGiftCard({ title, content, logo_color }: Props) {
           (+v?.split("\n\t\t\t\t\t\t")[3]?.split("(")[0]?.replaceAll(",", "") /
             (100 -
               parseFloat(
-                v.split("\n\t\t\t\t\t\t")[3].split("(")[1].replaceAll("%)", "")
+                v.split("\n\t\t\t\t\t\t")[3]?.split("(")[1].replaceAll("%)", "")
               ))) *
             100
         );
@@ -65,14 +65,14 @@ export default function GetGiftCard({ title, content, logo_color }: Props) {
           ),
           originSellPrice: isNaN(originSellPrice) ? 0 : originSellPrice,
           sellPercentage: parseFloat(
-            v.split("\n\t\t\t\t\t\t")[3].split("(")[1].replaceAll("%)", "")
+            v.split("\n\t\t\t\t\t\t")[3]?.split("(")[1].replaceAll("%)", "")
           ),
         };
       });
       setData(newData);
     })();
   }, [getData]);
-
+  console.log(data);
   return (
     <div className={cx("container")}>
       <div className={cx("wrap")}>
