@@ -29,13 +29,13 @@ export default function GetGiftCard({ title, content, logo_color }: Props) {
   //get 요청
   useEffect(() => {
     (async () => {
-      const adata = await (
+      const gift_data = await (
         await fetch("/api/getData", {
           method: "GET",
         })
       ).json();
 
-      const newData: Data[] = adata?.data?.map((v: any) => {
+      const newData: Data[] = gift_data?.data?.map((v: any) => {
         const originBuyPrice = Math.round(
           (+v?.split("\n\t\t\t\t\t\t")[3]?.split("(")[0]?.replaceAll(",", "") /
             (100 -
