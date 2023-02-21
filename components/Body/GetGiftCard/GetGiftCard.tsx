@@ -4,6 +4,7 @@ import className from "classnames/bind";
 import Content_Part from "../Item/Content_Part/Content_Part";
 import Image from "next/image";
 import useInterval from "../../../public/hooks 10-47-17-443/useInterval/useInterval";
+import * as crypto from "crypto-js";
 
 const cx = className.bind(styles);
 
@@ -35,7 +36,14 @@ export default function GetGiftCard({ title, content, logo_color }: Props) {
         })
       ).json();
 
-      const newData: Data[] = gift_data?.data?.map((v: any) => {
+      const secretKey = process.env.NEXT_PUBLIC_SECRET_KEY
+        ? process.env.NEXT_PUBLIC_SECRET_KEY
+        : "";
+
+      const bytes = crypto.AES.decrypt(gift_data.data, secretKey);
+      const originData = bytes.toString(crypto.enc.Utf8).split("| ");
+
+      const newData: Data[] = originData?.map((v: any) => {
         const originBuyPrice = Math.round(
           (+v?.split("\n\t\t\t\t\t\t")[3]?.split("(")[0]?.replaceAll(",", "") /
             (100 -

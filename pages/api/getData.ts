@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { useState } from "react";
+import * as Crypto from "crypto-js";
 
 const axios = require("axios");
 const cheerio = require("cheerio");
@@ -8,8 +9,6 @@ const iconv = require("iconv-lite");
 type Data = {
   data: any;
 };
-
-var dataArr: any = [];
 
 const getHTML = async () => {
   try {
@@ -30,21 +29,30 @@ const parsing = async () => {
   const tableData = $(
     `body > table > tbody > tr > td:nth-child(2) > table:nth-child(2) > tbody > tr > td:nth-child(2) > table > tbody > tr > td > table > tbody > tr:nth-child(4) > td > div > table > tbody`
   );
-  dataArr = [];
+  const dataArr = [];
   var num;
   for (num = 3; num <= 96; num++) {
     dataArr.push(tableData.find(`tr:nth-of-type(${num})`).text());
   }
+  return dataArr;
 };
 
-export default function getData(
+export default async function getData(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
   if (res.statusCode === 200) {
-    parsing();
+    const secretKey = process.env.NEXT_PUBLIC_SECRET_KEY
+      ? process.env.NEXT_PUBLIC_SECRET_KEY
+      : "";
+    const dataArr = await parsing();
+    const ciphertext = Crypto.AES.encrypt(
+      dataArr.join("| "),
+      secretKey
+    ).toString();
+
     res.status(200).json({
-      data: dataArr && dataArr,
+      data: ciphertext,
     });
   }
 }
