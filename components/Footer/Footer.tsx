@@ -13,7 +13,13 @@ export default function Footer() {
           <div className={cx("top_container")}>
             <div className={cx("top_wrap")}>
               <div className={cx("image")} onClick={() => router.push("/")}>
-                <Image fill src="/img/logo/logo.png" alt="푸터 로고" />
+                <Image
+                  fill
+                  src="/img/logo/logo.png"
+                  alt="푸터 로고"
+                  priority
+                  quality={100}
+                />
               </div>
               <div className={cx("content_wrap")}>
                 <span className={cx("content")}>

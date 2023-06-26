@@ -46,6 +46,8 @@ export default function Marquee() {
                   alt="코인 아이콘"
                   fill
                   src={`/img/marquee/${v.code.toLowerCase()}.png`}
+                  priority
+                  quality={100}
                 />
               </div>
               <div>1 {v.code + " = "}</div>
@@ -67,6 +69,8 @@ export default function Marquee() {
                           v?.changeRate > 0 ? "up" : "down"
                         }.png`}
                         fill
+                        priority
+                        quality={100}
                       />
                     </div>
                   )}

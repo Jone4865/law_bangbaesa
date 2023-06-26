@@ -24,7 +24,13 @@ export default function Item({ title, content, img_name, item_name }: Props) {
         <div className={cx("content")}>{content}</div>
       </div>
       <div className={cx(`image_${item_name}`)}>
-        <Image src={`/img/body/${img_name}.png`} fill alt="바디 이미지" />
+        <Image
+          src={`/img/body/${img_name}.png`}
+          fill
+          alt="바디 이미지"
+          priority
+          quality={100}
+        />
       </div>
     </div>
   );

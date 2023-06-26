@@ -65,7 +65,13 @@ export default function RoomSide({ onClickRoomId, setOfferId }: Props) {
         >
           <div className={cx("img_wrap")}>
             {v.isNewChatMessage && <div className={cx("circle")} />}
-            <Image fill alt="프로필 이미지" src={"/img/chat/profile.png"} />
+            <Image
+              fill
+              alt="프로필 이미지"
+              src={"/img/chat/profile.png"}
+              priority
+              quality={100}
+            />
           </div>
           <span>{v.otherIdentity}</span>
         </div>

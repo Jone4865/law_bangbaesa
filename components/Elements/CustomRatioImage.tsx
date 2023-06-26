@@ -25,6 +25,7 @@ function CustomRatioImage({ src, ratio1, ratio2 }: Props) {
         fill
         quality={100}
         style={{ objectFit: "contain" }}
+        priority
       />
     </div>
   );

@@ -154,6 +154,8 @@ export default function Mypage() {
                             alt="화살표"
                             src={"/img/mypage/arrow.png"}
                             fill
+                            priority
+                            quality={100}
                           />
                         </div>
                       </div>

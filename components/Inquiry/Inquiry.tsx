@@ -70,6 +70,8 @@ export default function Inquiry() {
               src={"/img/inquiry/inquiry.png"}
               width={73.1}
               height={61.8}
+              priority
+              quality={100}
             />
           </div>
           <div>

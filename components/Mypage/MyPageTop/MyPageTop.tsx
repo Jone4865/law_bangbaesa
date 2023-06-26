@@ -56,7 +56,13 @@ export default function MyPageTop({ detail, data, handleRefetch }: Props) {
             >
               <div>정보수정</div>
               <div className={cx("top_img_wrap")}>
-                <Image alt="화살표" src={"/img/mypage/arrow.png"} fill />
+                <Image
+                  alt="화살표"
+                  src={"/img/mypage/arrow.png"}
+                  fill
+                  priority
+                  quality={100}
+                />
               </div>
             </div>
           )}
@@ -76,7 +82,13 @@ export default function MyPageTop({ detail, data, handleRefetch }: Props) {
                 <div className={cx("black")}>적 피드백</div>
               </div>
               <div className={cx("ment_img")}>
-                <Image alt="화살표" src={"/img/mypage/thumb_up.png"} fill />
+                <Image
+                  alt="화살표"
+                  src={"/img/mypage/thumb_up.png"}
+                  fill
+                  priority
+                  quality={100}
+                />
               </div>
             </div>
           </div>
@@ -94,7 +106,13 @@ export default function MyPageTop({ detail, data, handleRefetch }: Props) {
                 <div className={cx("black")}>적 피드백</div>
               </div>
               <div className={cx("ment_img")}>
-                <Image alt="화살표" src={"/img/mypage/thumb_down.png"} fill />
+                <Image
+                  alt="화살표"
+                  src={"/img/mypage/thumb_down.png"}
+                  fill
+                  priority
+                  quality={100}
+                />
               </div>
             </div>
           </div>

@@ -147,6 +147,8 @@ export default function CreateOffer() {
                     alt="코인 이미지"
                     src={`/img/otc/${idx === 0 ? "btc" : "usdt"}.png`}
                     fill
+                    priority
+                    quality={100}
                   />
                 </div>
                 <div>{v}</div>
@@ -200,13 +202,27 @@ export default function CreateOffer() {
               onClick={() => handleDecrement("price")}
               className={cx("btn_img_wrap")}
             >
-              <Image alt="-" src={"/img/otc/minus.png"} width={14} height={2} />
+              <Image
+                alt="-"
+                src={"/img/otc/minus.png"}
+                width={14}
+                height={2}
+                priority
+                quality={100}
+              />
             </div>
             <div
               onClick={() => handleIncrement("price")}
               className={cx("btn_img_wrap")}
             >
-              <Image alt="+" src={"/img/otc/plus.png"} width={14} height={14} />
+              <Image
+                alt="+"
+                src={"/img/otc/plus.png"}
+                width={14}
+                height={14}
+                priority
+                quality={100}
+              />
             </div>
           </div>
         </div>
@@ -264,13 +280,27 @@ export default function CreateOffer() {
               onClick={() => handleDecrement("time")}
               className={cx("btn_img_wrap")}
             >
-              <Image alt="-" src={"/img/otc/minus.png"} width={14} height={2} />
+              <Image
+                alt="-"
+                src={"/img/otc/minus.png"}
+                width={14}
+                height={2}
+                priority
+                quality={100}
+              />
             </div>
             <div
               onClick={() => handleIncrement("time")}
               className={cx("btn_img_wrap")}
             >
-              <Image alt="+" src={"/img/otc/plus.png"} width={14} height={14} />
+              <Image
+                alt="+"
+                src={"/img/otc/plus.png"}
+                width={14}
+                height={14}
+                priority
+                quality={100}
+              />
             </div>
           </div>
         </div>
@@ -283,7 +313,13 @@ export default function CreateOffer() {
         />
         <div className={cx("sub_text")}>
           <div className={cx("help_img")}>
-            <Image fill alt="?" src={"/img/otc/help.png"} />
+            <Image
+              fill
+              alt="?"
+              src={"/img/otc/help.png"}
+              priority
+              quality={100}
+            />
           </div>
           <div>
             오퍼를 조회하는 모든 사람이 조건을 보게 됩니다.

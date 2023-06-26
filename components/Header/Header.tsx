@@ -68,7 +68,13 @@ export default function Header({ setModalState }: Props) {
         <div className={cx("header_logo")}>
           <div onClick={() => onNavigate("/")}>
             <div className={cx("image_wrap")}>
-              <Image alt="로고" src={"/img/logo/logo_on.png"} fill />
+              <Image
+                alt="로고"
+                src={"/img/logo/logo_on.png"}
+                fill
+                priority
+                quality={100}
+              />
             </div>
           </div>
         </div>
@@ -116,6 +122,8 @@ export default function Header({ setModalState }: Props) {
             width={20}
             height={16}
             alt="헤더 삼단바 아이콘"
+            priority
+            quality={100}
           />
         </div>
       </div>

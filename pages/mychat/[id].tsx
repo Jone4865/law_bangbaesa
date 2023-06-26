@@ -355,7 +355,13 @@ const Room: NextPage<Props> = ({ id }) => {
               className={cx("mobile_wrap")}
             >
               <div className={cx("people_img")}>
-                <Image alt="사람" src={"/img/chat/user.png"} fill />
+                <Image
+                  alt="사람"
+                  src={"/img/chat/user.png"}
+                  fill
+                  priority
+                  quality={100}
+                />
               </div>
               <span>{peopleCount}</span>
             </div>
@@ -370,7 +376,13 @@ const Room: NextPage<Props> = ({ id }) => {
               <div
                 className={cx(infoVisible ? "arrow_wrap_down" : "arrow_wrap")}
               >
-                <Image alt="화살표" src={"/img/chat/arrow.png"} fill />
+                <Image
+                  alt="화살표"
+                  src={"/img/chat/arrow.png"}
+                  fill
+                  priority
+                  quality={100}
+                />
               </div>
             </div>
           </div>

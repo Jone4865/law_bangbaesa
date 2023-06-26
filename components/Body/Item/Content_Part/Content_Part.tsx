@@ -18,7 +18,13 @@ export default function Content_Part({ title, content, logo_color }: Props) {
       )}
     >
       <div className={cx("logo")}>
-        <Image fill alt="바디 로고" src={`/img/logo/logo_${logo_color}.png`} />
+        <Image
+          fill
+          alt="바디 로고"
+          src={`/img/logo/logo_${logo_color}.png`}
+          priority
+          quality={100}
+        />
       </div>
       <div className={cx("title")}>{title}</div>
       <div className={cx("content")}>{content}</div>

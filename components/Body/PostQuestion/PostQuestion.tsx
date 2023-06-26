@@ -75,7 +75,13 @@ export default function PostQuestion() {
       <div className={cx("wrap")}>
         <div className={cx("image_wrap")}>
           <div className={cx("image")}>
-            <Image fill src="/img/logo/logo_orange.png" alt="질문하기 로고" />
+            <Image
+              fill
+              src="/img/logo/logo_orange.png"
+              alt="질문하기 로고"
+              priority
+              quality={100}
+            />
           </div>
         </div>
         <h1 className={cx("title")}>문의하기</h1>

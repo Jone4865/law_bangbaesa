@@ -22,7 +22,13 @@ export default function SideStatus({ level, mobile, setMobileMore }: Props) {
           onClick={() => setMobileMore && setMobileMore(false)}
           className={cx("close_wrap")}
         >
-          <Image alt="닫기" src={"/img/mypage/close.png"} fill />
+          <Image
+            alt="닫기"
+            src={"/img/mypage/close.png"}
+            fill
+            priority
+            quality={100}
+          />
         </div>
       </div>
       <div className={cx("wrap")}>

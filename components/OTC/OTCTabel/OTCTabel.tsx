@@ -132,6 +132,8 @@ export default function OTCTabel({
                               src={"/img/otc/thumb.png"}
                               alt="엄지척"
                               fill
+                              priority
+                              quality={100}
                             />
                           </div>{" "}
                           {v.positiveCount}
@@ -291,7 +293,13 @@ export default function OTCTabel({
         ) : (
           <div className={cx("none_data_wrap")}>
             <div className={cx("none_data_img")}>
-              <Image alt="느낌표" src={"/img/mypage/warning.png"} fill />
+              <Image
+                alt="느낌표"
+                src={"/img/mypage/warning.png"}
+                fill
+                priority
+                quality={100}
+              />
             </div>
             <span>아직 거래를 하지 않았습니다.</span>
           </div>

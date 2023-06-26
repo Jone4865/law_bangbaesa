@@ -36,6 +36,8 @@ const SearchDropDown = ({ setKind }: Props) => {
           width={16.7}
           height={8.8}
           className={cx(isOpen ? "img" : "img_rotate")}
+          priority
+          quality={100}
         />
       </div>
       {isOpen && (

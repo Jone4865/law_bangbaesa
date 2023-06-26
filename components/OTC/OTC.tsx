@@ -347,6 +347,8 @@ export default function OTC({
                             alt="화살표"
                             src={"/img/mypage/arrow.png"}
                             fill
+                            priority
+                            quality={100}
                           />
                         </div>
                       </div>
@@ -382,6 +384,8 @@ export default function OTC({
                       src={"/img/inquiry/arrow_b.png"}
                       width={15}
                       height={9.5}
+                      priority
+                      quality={100}
                     />
                   </div>
                 }
@@ -394,6 +398,8 @@ export default function OTC({
                       src={"/img/inquiry/arrow_b.png"}
                       width={15}
                       height={9.5}
+                      priority
+                      quality={100}
                     />
                   </div>
                 }

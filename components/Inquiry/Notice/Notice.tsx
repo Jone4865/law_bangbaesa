@@ -140,6 +140,8 @@ export default function Notice({ setDetailData }: Props) {
                 src={"/img/inquiry/arrow_b.png"}
                 width={15}
                 height={9.5}
+                priority
+                quality={100}
               />
             </div>
           }
@@ -150,6 +152,8 @@ export default function Notice({ setDetailData }: Props) {
                 src={"/img/inquiry/arrow_b.png"}
                 width={15}
                 height={9.5}
+                priority
+                quality={100}
               />
             </div>
           }

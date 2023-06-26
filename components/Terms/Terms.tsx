@@ -11,7 +11,13 @@ export default function Terms() {
     <div className={cx("container")}>
       <div className={cx("logo_wrap")}>
         <div className={cx("terms_logo")}>
-          <Image src="/img/logo/logo_on.png" alt="약관로고" fill />
+          <Image
+            src="/img/logo/logo_on.png"
+            alt="약관로고"
+            fill
+            priority
+            quality={100}
+          />
         </div>
       </div>
       <div className={cx("terms_body")}>

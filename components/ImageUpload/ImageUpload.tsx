@@ -51,6 +51,8 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
             alt="Uploaded Image"
             fill
             onClick={handleImageClick}
+            priority
+            quality={100}
           />
         </div>
         <input

@@ -331,7 +331,13 @@ const Room: NextPage<Props> = ({ id }) => {
               <div
                 className={cx(infoVisible ? "arrow_wrap_down" : "arrow_wrap")}
               >
-                <Image alt="화살표" src={"/img/chat/arrow.png"} fill />
+                <Image
+                  alt="화살표"
+                  src={"/img/chat/arrow.png"}
+                  fill
+                  priority
+                  quality={100}
+                />
               </div>
             </div>
           </div>
