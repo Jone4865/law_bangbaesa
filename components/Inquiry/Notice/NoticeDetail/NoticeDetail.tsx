@@ -6,7 +6,7 @@ import moment from "moment";
 const cx = className.bind(styles);
 
 type Data = {
-  id: string;
+  id: number;
   title: string;
   content: string;
   createdAt: string;

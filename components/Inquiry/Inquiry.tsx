@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./Inquiry.module.scss";
 import className from "classnames/bind";
 import Notice from "./Notice/Notice";
@@ -15,7 +15,7 @@ import NoticeDetail from "./Notice/NoticeDetail/NoticeDetail";
 const cx = className.bind(styles);
 
 type Data = {
-  id: string;
+  id: number;
   title: string;
   content: string;
   createdAt: string;

@@ -19,7 +19,7 @@ const cx = className.bind(styles);
 
 type Data = {
   id: number;
-  content: React.ReactNode;
+  content: string;
   createdAt: string;
   hits: number;
   title: string;
