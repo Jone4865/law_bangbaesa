@@ -1,4 +1,4 @@
-import {
+import React, {
   useState,
   FormEvent,
   useEffect,
@@ -19,8 +19,8 @@ import Image from "next/image";
 const cx = className.bind(styles);
 
 type Data = {
-  id: string;
-  content: string;
+  id: number;
+  content: React.ReactNode;
   createdAt: string;
   hits: number;
   title: string;
@@ -39,13 +39,28 @@ export default function Notice({ setDetailData }: Props) {
   const [searchText, setSearchText] = useState("");
   const [data, setData] = useState<Data[] | []>([
     {
-      content:
-        "방배사 사이트가 오픈하였습니다오픈하였습니다오픈하였습니다오픈하였습니다오픈하였습니다오픈하였습니다오픈하였습니다오픈하였습니다오픈하였습니다오픈하였습니다오픈하였습니다오픈하였습니다오픈하였습니다오픈하였습니다오픈하였습니다오픈하였습니다오픈하였습니다오픈하였습니다...오픈하였습니다오픈하였습니다오픈하였습니다오픈하였습니다오픈하였습니다오픈하였습니다오픈하였습니다오픈하였습니다오픈하였습니다오픈하였습니다오픈하였습니다오픈하였습니다.오픈하였습니다오픈하였습니다.오픈하였습니다오픈하였습니다.오픈하였습니다오픈하였습니다..",
+      content: (
+        <div>
+          안녕하십니까?
+          <br />
+          방배사와 함께해주시는 모든 분들께 깊은 감사의 말씀을 드립니다.
+          <br />
+          방배사 웹서비스가 2023년 6월에 오픈을 하였습니다.
+          <br />
+          항상 여러분이 편하게 사용하실 수 있도록 노력하는 방배사가 되겠습니다.
+          <br />
+          불편사항이나 궁금하신게 있으시다면
+          <br />
+          언제든 고객센터를 통해 문의주시면 감사하겠습니다.
+          <br />늘 행복하시고 건강하세요.
+          <br />
+          감사합니다.
+        </div>
+      ),
       createdAt: "20230518",
-      hits: 101123,
-      id: "1",
-      title:
-        "방배사 사이트가 오픈하였습니다오픈하였습니다오픈하였습니다오픈하였습니다오픈하였습니다오픈하였습니다오픈하였습니다오픈하였습니다오픈하였습니다오픈하였습니다.",
+      hits: 244,
+      id: 1,
+      title: "방배사 사이트가 오픈하였습니다.",
     },
   ]);
   const [kind, setKind] = useState<"title" | "content">("title");
