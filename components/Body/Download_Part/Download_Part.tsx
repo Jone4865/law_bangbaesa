@@ -19,16 +19,16 @@ export default function Download_Part() {
               alt="앱스토어"
               quality={100}
               fill
-              src={"/img/Download_part/app.webp"}
+              src={"/img/download/app.png"}
               priority
             />
           </div>
           <div onClick={onClickHandle} className={cx("img", "margin_left")}>
             <Image
               quality={100}
-              alt="앱스토어"
+              alt="플레이 스토어"
               fill
-              src={"/img/Download_part/google.webp"}
+              src={"/img/download/google.png"}
               priority
             />
           </div>

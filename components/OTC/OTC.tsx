@@ -44,7 +44,7 @@ type Props = {
   coinKind?: "BTC" | "TETHER";
   nickName?: string | undefined;
   isChat?: boolean;
-  setIsData?: Dispatch<SetStateAction<boolean>>;
+  setTotalOffer?: Dispatch<SetStateAction<number>>;
 };
 
 export default function OTC({
@@ -54,7 +54,7 @@ export default function OTC({
   part = "otc",
   nickName = undefined,
   isChat = false,
-  setIsData,
+  setTotalOffer,
 }: Props) {
   const btns = ["구매", "판매", "USDT", "BTC"];
   const [take] = useState(10);
@@ -145,9 +145,6 @@ export default function OTC({
     onCompleted(data) {
       setTotalCount(data.findManyOffer.totalCount);
       setData(data.findManyOffer.offers);
-      if (data.findManyOffer.totalCount !== 0 && setIsData) {
-        setIsData(true);
-      }
     },
     fetchPolicy: "no-cache",
   });
@@ -161,6 +158,7 @@ export default function OTC({
   });
 
   useEffect(() => {
+    setTotalOffer && setTotalOffer(data?.length !== 0 ? data?.length : 0);
     findManyOffer({
       variables: {
         isChat,
@@ -181,7 +179,7 @@ export default function OTC({
             : "USDT",
       },
     });
-  }, [coinKind, partKind, isChat, nickName]);
+  }, [coinKind, partKind, isChat, nickName, data]);
 
   useEffect(() => {
     if (router.pathname === "/otc") {

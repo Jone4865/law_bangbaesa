@@ -33,7 +33,7 @@ export default function Mypage() {
   const [data, setData] = useState<Data>();
   const [refetch, setRefetch] = useState(false);
   const [offerState, setOfferState] = useState<"SELL" | "BUY">("BUY");
-  const [isData, setIsData] = useState(true);
+  const [totalOffer, setTotalOffer] = useState(0);
 
   const [part, setPart] =
     useState<"mypage" | "home" | "otc" | "user">("mypage");
@@ -98,7 +98,7 @@ export default function Mypage() {
     }
   }, [router.query.id, refetch]);
 
-  useEffect(() => {}, [nowAble, data, isData]);
+  useEffect(() => {}, [nowAble, data]);
 
   return (
     <div className={cx("container")}>
@@ -184,47 +184,40 @@ export default function Mypage() {
                   </div>
                 </div>
               )}
-              {isData ? (
-                <div className={cx("offer_body")}>
-                  {nowAble === "like" ||
-                    (router.pathname === "/user/[id]" && (
+              <div
+                className={cx("offer_body", totalOffer === 0 ? "white" : null)}
+              >
+                {nowAble === "like" ||
+                  (router.pathname === "/user/[id]" && (
+                    <div
+                      onClick={() =>
+                        setOfferState((prev) =>
+                          prev === "SELL" ? "BUY" : "SELL"
+                        )
+                      }
+                      className={cx("toggle_body")}
+                    >
                       <div
-                        onClick={() =>
-                          setOfferState((prev) =>
-                            prev === "SELL" ? "BUY" : "SELL"
-                          )
-                        }
-                        className={cx("toggle_body")}
+                        className={cx(
+                          "toggle-circle",
+                          offerState === "SELL" && "toggle--checked"
+                        )}
                       >
-                        <div
-                          className={cx(
-                            "toggle-circle",
-                            offerState === "SELL" && "toggle--checked"
-                          )}
-                        >
-                          {offerState === "BUY" ? "구매" : "판매"}
-                        </div>
-                        <div>구매</div>
-                        <div>판매</div>
+                        {offerState === "BUY" ? "구매" : "판매"}
                       </div>
-                    ))}
-                  <OTC
-                    part={part}
-                    nickName={data ? data.identity : ""}
-                    isChat={nowAble !== "my" ? true : false}
-                    nowAble={nowAble}
-                    partKind={offerState}
-                    setIsData={setIsData}
-                  />
-                </div>
-              ) : (
-                <div className={cx("none_data_wrap")}>
-                  <div className={cx("none_data_img")}>
-                    <Image alt="느낌표" src={"/img/mypage/warning.png"} fill />
-                  </div>
-                  <span>아직 거래를 하지 않았습니다.</span>
-                </div>
-              )}
+                      <div>구매</div>
+                      <div>판매</div>
+                    </div>
+                  ))}
+                <OTC
+                  part={part}
+                  nickName={data ? data.identity : ""}
+                  isChat={nowAble !== "my" ? true : false}
+                  nowAble={nowAble}
+                  partKind={offerState}
+                  setTotalOffer={setTotalOffer}
+                />
+              </div>
             </div>
           </div>
         </div>

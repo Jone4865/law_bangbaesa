@@ -31,8 +31,6 @@ export default function Marquee() {
     },
   });
 
-  console.log(data && data[0].closePrice.toLocaleString());
-
   useEffect(() => {
     findManyMarketPrice();
   }, []);
