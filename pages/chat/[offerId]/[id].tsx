@@ -92,34 +92,34 @@ const Room: NextPage<Props> = ({ id }) => {
   const onSubmitHandle = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (message !== "") {
-      if (subscriptTexts) {
+      createChatMessage({
+        variables: { chatRoomId: id, message },
+      }).then(({ data }) => {
+        setMessage("");
         updateCheckedCurrentChatMessageByUser({
           variables: {
             chatRoomId: id,
             chatMessageId: subscriptTexts
               ? subscriptTexts[subscriptTexts?.length - 1]?.id
-              : 0,
-          },
-        });
-      }
-      createChatMessage({
-        variables: { chatRoomId: id, message },
-      }).then(() => {
-        findManyChatMessageByUser({
-          variables: {
-            take: 10,
-            chatRoomId: +id,
-            direction: "PREV",
-            cursorId: null,
+              : data.createChatMessage.chatMessage.id,
           },
           fetchPolicy: "no-cache",
-        }).then(({ data }) => {
-          console.log(data.findManyChatMessageByUser.chatMessages);
-          setDatas(data.findManyChatMessageByUser.chatMessages);
-          divRef.current && divRef.current.focus();
+          onCompleted: () => {
+            findManyChatMessageByUser({
+              variables: {
+                take: 10,
+                chatRoomId: +id,
+                direction: "PREV",
+                cursorId: null,
+              },
+              fetchPolicy: "no-cache",
+            }).then(({ data }) => {
+              setDatas(data.findManyChatMessageByUser.chatMessages);
+              divRef.current && divRef.current.focus();
+            });
+          },
         });
       });
-      setMessage("");
     }
   };
 
@@ -154,6 +154,7 @@ const Room: NextPage<Props> = ({ id }) => {
     FIND_MANY_CHAT_MESSAGE_BY_USER,
     {
       onError: (e) => toast.error(e.message ?? `${e}`),
+      fetchPolicy: "no-cache",
     }
   );
 
@@ -210,7 +211,9 @@ const Room: NextPage<Props> = ({ id }) => {
     if (containerRef.current && scroll) {
       scrollToBottom();
     }
-    inputRef.current && inputRef.current.focus();
+    if (datas?.length > 10 && inputRef.current) {
+      inputRef.current.focus();
+    }
   }, [isMobile, datas]);
 
   useEffect(() => {

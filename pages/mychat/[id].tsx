@@ -215,7 +215,7 @@ const Room: NextPage<Props> = ({ id }) => {
     variables: {
       chatRoomId: id,
     },
-    onSubscriptionData: ({ subscriptionData, client }) => {
+    onSubscriptionData: ({ subscriptionData }) => {
       setDatas((prev) => [...prev, newData]);
       const newData = subscriptionData.data.subscribeChatMessage.chatMessage;
       if (newData.sender !== myNickName && !scroll && datas.length > 10) {

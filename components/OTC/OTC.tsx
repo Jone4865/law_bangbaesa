@@ -378,7 +378,7 @@ export default function OTC({
                 activeClass={cx("able_number")}
                 itemClass={cx("default_number")}
                 prevPageText={
-                  <div className={cx("left_arrow")}>
+                  <div className={cx(totalCount !== 0 ? "left_arrow" : "none")}>
                     <Image
                       alt="화살표"
                       src={"/img/inquiry/arrow_b.png"}
@@ -388,7 +388,9 @@ export default function OTC({
                   </div>
                 }
                 nextPageText={
-                  <div className={cx("right_arrow")}>
+                  <div
+                    className={cx(totalCount !== 0 ? "right_arrow" : "none")}
+                  >
                     <Image
                       alt="화살표"
                       src={"/img/inquiry/arrow_b.png"}
