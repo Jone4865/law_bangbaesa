@@ -1,18 +1,18 @@
 import styles from "./Solution.module.scss";
 import className from "classnames/bind";
-import Content_Part from "../Item/Content_Part/Content_Part";
 import React from "react";
 import Image_Part from "./Image_Part/Image_Part";
+import { useRouter } from "next/router";
 
 const cx = className.bind(styles);
 
 type Props = {
   title: React.ReactNode;
   content: React.ReactNode;
-  logo_color: "white" | "orange";
 };
 
-export default function Solution({ title, content, logo_color }: Props) {
+export default function Solution({ title, content }: Props) {
+  const router = useRouter();
   const titles = [
     "웹 로그분석",
     "리포트",
@@ -62,21 +62,16 @@ export default function Solution({ title, content, logo_color }: Props) {
     </>,
   ];
   return (
-    <div className={cx("container")}>
+    <div className={cx("container", router.pathname === "/" && "white")}>
       <div className={cx("wrap")}>
-        <div className={cx("title_wrap")}>
-          <Content_Part
-            title={title}
-            content={content}
-            logo_color={logo_color}
-          />
+        <div className={cx("top")}>
+          <div className={cx("title")}>{title}</div>
+          <div className={cx("content")}>{content}</div>
         </div>
         <div className={cx("img_wraper")}>
           <Image_Part title={titles[0]} content={contents[0]} img_num="1" />
           <Image_Part title={titles[1]} content={contents[1]} img_num="2" />
           <Image_Part title={titles[2]} content={contents[2]} img_num="3" />
-        </div>
-        <div className={cx("img_wraper")}>
           <Image_Part title={titles[3]} content={contents[3]} img_num="4" />
           <Image_Part title={titles[4]} content={contents[4]} img_num="5" />
           <Image_Part title={titles[5]} content={contents[5]} img_num="6" />

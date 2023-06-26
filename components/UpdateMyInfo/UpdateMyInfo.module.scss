@@ -1,0 +1,80 @@
+@import "public/scss/style.scss";
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 100px;
+  padding-bottom: 70px;
+  background-color: #fff;
+  color: #333;
+  position: relative;
+  font-size: 30px;
+  @include view("pc") {
+    padding-top: 170px;
+  }
+  @include view("small") {
+    font-size: 20px;
+  }
+  @include view("very_small") {
+    font-size: 20px;
+  }
+  @include view("mobile") {
+    font-size: 20px;
+  }
+}
+
+.top_wrap {
+  display: flex;
+  margin-bottom: 70px;
+  @include view("small") {
+    margin-bottom: 30px;
+  }
+  @include view("very_small") {
+    margin-bottom: 30px;
+  }
+  @include view("mobile") {
+    flex-direction: column;
+    margin: 0;
+  }
+}
+
+.body {
+  display: flex;
+  margin-bottom: 30px;
+  white-space: nowrap;
+  @include view("mobile") {
+    margin: 10px 0 20px;
+  }
+}
+
+.able {
+  padding-bottom: 4px;
+  color: #ff7401;
+  border-bottom: solid 4px #ff7401;
+  margin-right: 40px;
+  @include view("small") {
+    margin-right: 20px;
+  }
+  @include view("very_small") {
+    margin-right: 20px;
+  }
+  @include view("mobile") {
+    margin-right: 20px;
+  }
+}
+
+.default {
+  color: black;
+  margin-right: 40px;
+  cursor: pointer;
+  @include view("small") {
+    margin-right: 20px;
+  }
+  @include view("very_small") {
+    margin-right: 20px;
+  }
+  @include view("mobile") {
+    margin-right: 20px;
+  }
+}

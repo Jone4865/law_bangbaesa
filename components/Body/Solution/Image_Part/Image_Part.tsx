@@ -19,6 +19,7 @@ export default function Image_Part({ title, content, img_num }: Props) {
         fill
         alt="바디 이미지"
         quality={100}
+        priority
       />
       <div className={cx("text_wrap")}>
         <span className={cx("title")}>{title}</span>

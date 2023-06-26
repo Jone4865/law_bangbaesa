@@ -1,0 +1,136 @@
+@import "public/scss/style.scss";
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.wrap {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.box {
+  border: solid 1px gray;
+}
+
+.line {
+  width: 40px;
+  height: 1px;
+  background-color: #dcdcdc;
+  @include view("mobile") {
+    height: 30px;
+    background-color: #fff;
+    border-top: solid 1px #dcdcdc;
+    width: 6vw;
+    max-width: 40px;
+  }
+}
+
+.ableBox {
+  border: solid 1px #11a472;
+  border-radius: 10px;
+  width: 129px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  padding: 10px 0;
+  position: relative;
+  @include view("mobile") {
+    padding: 0;
+    padding-bottom: 10px;
+    max-width: 90px;
+    width: 20vw;
+  }
+}
+
+.defaultBox {
+  border: solid 1px #dcdcdc;
+  border-radius: 10px;
+  width: 129px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  padding: 10px 0;
+  position: relative;
+  @include view("mobile") {
+    padding: 0;
+    padding-bottom: 10px;
+    max-width: 90px;
+    width: 20vw;
+  }
+}
+
+.img_wrap {
+  position: relative;
+  width: 30px;
+  height: 30px;
+  margin-bottom: 10px;
+  @include view("mobile") {
+    margin-bottom: 5px;
+    margin-top: 5px;
+    width: 25px;
+    height: 25px;
+  }
+}
+
+.able_level {
+  position: absolute;
+  top: -1px;
+  right: -1px;
+  width: 42px;
+  height: 21px;
+  border-radius: 10px 10px 10px 0;
+  border: solid 1px #11a472;
+  background-color: #11a472;
+  white-space: nowrap;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  font-size: 10px;
+  @include view("mobile") {
+    position: relative;
+    width: 100%;
+    right: 0;
+  }
+}
+
+.notyet_level {
+  position: absolute;
+  top: -1px;
+  right: -1px;
+  width: 42px;
+  height: 21px;
+  border-radius: 10px 10px 10px 0;
+  border: solid 1px #b7b7b7;
+  background-color: #b7b7b7;
+  white-space: nowrap;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  font-size: 10px;
+  @include view("mobile") {
+    position: relative;
+    width: 100%;
+    right: 0;
+  }
+}
+
+.done {
+  color: #11a472;
+}

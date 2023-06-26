@@ -1,10 +1,15 @@
 import { useEffect, useState } from "react";
-import router from "next/router";
-import { Link } from "react-scroll";
+import router, { useRouter } from "next/router";
+import { useCookies } from "react-cookie";
 
 import styles from "./Header.module.scss";
 import className from "classnames/bind";
 import Image from "next/image";
+
+import { toast } from "react-toastify";
+
+import { useMutation } from "@apollo/client";
+import { SIGN_OUT_BY_USER } from "../../src/graphql/generated/mutation/signOutByUser";
 
 const cx = className.bind(styles);
 
@@ -13,71 +18,100 @@ type Props = {
 };
 
 export default function Header({ setModalState }: Props) {
+  const router = useRouter();
   const [scrollY, setScrollY] = useState(false);
+  const [cookies, , removeCookies] = useCookies(["login"]);
+  const [login, setLogin] = useState(false);
 
-  const Buttons = [
-    "홈",
-    "상품권 시세",
-    "컨설팅",
-    "서비스",
-    "솔루션",
-    "문의하기",
-    "다운로드",
+  const Btns = [
+    { name: "홈", path: "/" },
+    { name: "OTC", path: "/otc" },
+    { name: "상품권", path: "/gift-card" },
+    { name: "고객센터", path: "/inquiry" },
+    { name: "회사소개", path: "/introduction" },
   ];
 
+  const onNavigate = (path: string) => {
+    router.push(path);
+  };
+
+  const onLogout = () => {
+    removeCookies("login");
+    toast.success("로그아웃 되었습니다.");
+    signOutByUser();
+  };
+
+  const [signOutByUser] = useMutation(SIGN_OUT_BY_USER, {
+    onError: (e) => toast.error(e.message ?? `${e}`),
+    onCompleted(_data) {
+      setLogin(false);
+      router.push("/");
+    },
+  });
+
   useEffect(() => {
+    if (cookies.login) {
+      setLogin(true);
+    }
+
     (() => {
       window.addEventListener("scroll", () => {
         setScrollY(window.pageYOffset <= 20 ? false : true);
       });
     })();
-  }, []);
+  }, [cookies.login]);
 
   return (
-    <div className={!scrollY ? styles.header_trans : styles.header_black}>
-      <div className={styles.header_container}>
-        <div className={styles.header_logo}>
-          <Link to={"홈"} spy={true} smooth={true}>
+    <header className={cx("header")}>
+      <div className={cx("header_container")}>
+        <div className={cx("none")} />
+        <div className={cx("header_logo")}>
+          <div onClick={() => onNavigate("/")}>
             <div className={cx("image_wrap")}>
-              <Image
-                src={scrollY ? "/img/logo/logo_on.png" : "/img/logo/logo.png"}
-                onClick={() => router.push("/")}
-                alt="헤더 로고"
-                fill
-              />
+              <Image alt="로고" src={"/img/logo/logo_on.png"} fill />
             </div>
-          </Link>
+          </div>
         </div>
-        <div>
-          <div className={styles.herder_buttons_wrap}>
-            {Buttons.map((button, index) => (
+        <div className={cx("header_bottons_container")}>
+          <div className={cx("herder_buttons_wrap")}>
+            {Btns.map((btn) => (
               <div
-                key={button}
-                className={styles.header_hover}
+                key={btn.name}
+                className={cx(
+                  "header_hover",
+                  router.pathname === btn.path && "orange"
+                )}
                 onClick={() => {
                   setModalState(false);
                 }}
               >
-                <Link
-                  to={button}
-                  spy={true}
-                  smooth={true}
-                  offset={
-                    button === "역량" ? -55 : button === "문의하기" ? -75 : -50
-                  }
-                >
-                  <span>{button}</span>
-                </Link>
+                <div onClick={() => onNavigate(btn.path)}>
+                  <span>{btn.name}</span>
+                </div>
               </div>
             ))}
+            <div className={cx("sign_container")}>
+              <div
+                className={cx("link")}
+                onClick={() => (login ? onLogout() : onNavigate("/sign-in"))}
+              >
+                {login ? "로그아웃" : "로그인"}
+              </div>
+              <hr className={cx("line")} />
+              <div
+                className={cx(
+                  "link",
+                  login && router.pathname === "/mypage" && "orange"
+                )}
+                onClick={() => onNavigate(login ? "/mypage" : "/sign-up")}
+              >
+                {login ? "내정보" : "회원가입"}
+              </div>
+            </div>
           </div>
           <Image
-            className={styles.header_icon}
-            src={
-              scrollY && scrollY
-                ? "/img/icon/menu_white.svg"
-                : "/img/icon/menu_brown.svg"
-            }
+            className={cx("header_icon")}
+            src={"/img/icon/menu_white.svg"}
             onClick={() => setModalState(true)}
             width={20}
             height={16}
@@ -85,6 +119,6 @@ export default function Header({ setModalState }: Props) {
           />
         </div>
       </div>
-    </div>
+    </header>
   );
 }

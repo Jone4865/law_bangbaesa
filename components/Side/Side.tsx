@@ -1,6 +1,16 @@
-import { useEffect } from "react";
-import { Link } from "react-scroll";
+import { useEffect, useState } from "react";
+import router, { useRouter } from "next/router";
+import { useCookies } from "react-cookie";
+
 import styles from "./Side.module.scss";
+import className from "classnames/bind";
+
+import { toast } from "react-toastify";
+
+import { useMutation } from "@apollo/client";
+import { SIGN_OUT_BY_USER } from "../../src/graphql/generated/mutation/signOutByUser";
+
+const cx = className.bind(styles);
 
 type Props = {
   modal: boolean;
@@ -8,17 +18,55 @@ type Props = {
 };
 
 function Side({ modal, setModalState }: Props) {
-  const Buttons = [
-    "홈",
-    "상품권 시세",
-    "컨설팅",
-    "서비스",
-    "솔루션",
-    "문의하기",
-    "다운로드",
+  const router = useRouter();
+  const [cookies, , removeCookies] = useCookies(["login"]);
+  const [login, setLogin] = useState(false);
+
+  const Btns = [
+    {
+      name: login ? "로그아웃" : "로그인",
+      path: login ? "" : "/sign-in",
+    },
+    {
+      name: login ? "내정보" : "회원가입",
+      path: login ? "/mypage" : "/sign-up",
+    },
+    { name: "홈", path: "/" },
+    { name: "OTC", path: "/otc" },
+    { name: "상품권", path: "/gift-card" },
+    { name: "고객센터", path: "/inquiry" },
+    { name: "회사소개", path: "/introduction" },
   ];
 
+  const onNavigate = (path: string) => {
+    if (path === "") {
+      onLogout();
+    } else {
+      router.push(path);
+      setModalState(false);
+    }
+  };
+
+  const onLogout = () => {
+    toast.success("로그아웃 되었습니다.");
+    signOutByUser();
+  };
+
+  const [signOutByUser] = useMutation(SIGN_OUT_BY_USER, {
+    onError: (e) => toast.error(e.message ?? `${e}`),
+    onCompleted(_data) {
+      setModalState(false);
+      removeCookies("login");
+      setLogin(false);
+      router.push("/");
+    },
+  });
+
   useEffect(() => {
+    if (cookies.login) {
+      setLogin(true);
+    }
+
     const htmlEle = document?.getElementsByTagName("html").item(0);
     if (modal) {
       if (htmlEle) {
@@ -29,17 +77,17 @@ function Side({ modal, setModalState }: Props) {
         htmlEle.style.overflow = "unset";
       }
     }
-  }, [modal]);
+  }, [modal, cookies.login]);
 
   return (
     <div
-      className={`${!modal ? styles.side_none : ""} ${styles.side_contain}`}
+      className={cx(!modal ? "side_none" : "side_contain")}
       onClick={() => {
         setModalState(false);
       }}
     >
       <div
-        className={`${styles.side_slideout} ${styles.side_wrap}`}
+        className={cx("side_slideout", "side_wrap")}
         onClick={(event) => {
           event.stopPropagation();
         }}
@@ -48,21 +96,17 @@ function Side({ modal, setModalState }: Props) {
           <span />
           <span onClick={() => setModalState(false)}>X</span>
         </h1>
-        {Buttons.map((button, index) => (
-          <Link
-            key={button}
-            to={button}
-            spy={true}
-            smooth={true}
-            offset={-20}
-            onClick={() => {
-              setModalState(false);
-            }}
-          >
-            <div className={styles.side_hover}>
-              <span>{button}</span>
+        {Btns.map((btn, index) => (
+          <div key={index} onClick={() => onNavigate(btn.path)}>
+            <div
+              className={cx(
+                "side_hover",
+                router.pathname === btn.path && "color"
+              )}
+            >
+              <span>{btn.name}</span>
             </div>
-          </Link>
+          </div>
         ))}
       </div>
     </div>

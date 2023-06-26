@@ -1,0 +1,27 @@
+@import "public/scss/style.scss";
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  position: relative;
+  background-color: #fff;
+}
+
+.img_wrap {
+  background-color: red;
+  img {
+    height: 100%;
+    width: 100%;
+  }
+}
+
+.dots {
+  position: absolute;
+  bottom: 0;
+  ul {
+    margin: 0;
+    padding: 0;
+  }
+}

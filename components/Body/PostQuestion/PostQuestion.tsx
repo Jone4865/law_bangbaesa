@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 
 import styles from "./PostQuestion.module.scss";
 import className from "classnames/bind";
@@ -73,7 +72,6 @@ export default function PostQuestion() {
       }}
       className={cx("container")}
     >
-      <ToastContainer />
       <div className={cx("wrap")}>
         <div className={cx("image_wrap")}>
           <div className={cx("image")}>

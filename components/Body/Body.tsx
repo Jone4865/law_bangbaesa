@@ -1,73 +1,44 @@
 import { useState, useEffect } from "react";
-import styles from "./Body.module.scss";
-import className from "classnames/bind";
 import Item from "./Item/Item";
 import Solution from "./Solution/Solution";
 import { useMediaQuery } from "react-responsive";
-import PostQuestion from "./PostQuestion/PostQuestion";
+
 import Download_Part from "./Download_Part/Download_Part";
 import GetGiftCard from "./GetGiftCard/GetGiftCard";
+import CarouselPart from "../CarouselPart/CarouselPart";
+import OTC from "../OTC/OTC";
+import styles from "./Body.module.scss";
 
+import className from "classnames/bind";
+import { useRouter } from "next/router";
+import TopImage from "../TopImage/TopImage";
+import Marquee from "../Marquee/Marquee";
+import MarketPrice from "../MarketPrice/MarketPrice";
 const cx = className.bind(styles);
 
 export default function Body() {
+  const router = useRouter();
+  const coins = ["USDT", "BTC"];
+  const [buyCoinKind, setBuyCoinKind] = useState<"BTC" | "USDT">("USDT");
+  const [sellCoinKind, setSellCoinKind] = useState<"BTC" | "USDT">("USDT");
+  const [kind, setKind] = useState<"BUY" | "SELL">("BUY");
   const [middle, setMiddle] = useState(false);
   const isMiddle = useMediaQuery({
     query: "(min-width: 1300px) and (max-width: 1920px)",
   });
 
-  useEffect(() => {
-    if (isMiddle) {
-      setMiddle(true);
-    } else {
-      setMiddle(false);
-    }
-  }, [isMiddle]);
-
-  const [pc, setPc] = useState(true);
-  const isPc = useMediaQuery({
-    query: "(min-width: 759px) and (max-width: 1920px)",
-  });
-
-  useEffect(() => {
-    if (isPc) {
-      setPc(true);
-    } else {
-      setPc(false);
-    }
-  }, [isPc]);
-
   const titles = [
-    <>
-      <p>기업 상품권 판매 / </p>
-      <p>IT 서비스 운영대행</p>
-    </>,
     <>상품권 시세</>,
-    <>
-      <p>기업 상품권</p>
-      <p>운영대행 컨설팅</p>
-    </>,
     <>
       <p>고객맞춤 서비스</p>
     </>,
     <>방배사 솔루션</>,
-    <>문의하기</>,
   ];
 
   const contents = [
     <>
-      각 분야별 전문가들이 서비스 운영과 마케팅 홍보를 대행해
-      <br />
-      IT 서비스의 운영을 컨설팅합니다.
-    </>,
-    <>
       <p>아래의 가격표는 수량, 권종, 상품권의</p>
       <p>상태등의 따라 변경될 수 있습니다.</p>
-    </>,
-    <>
-      다년간 축척 된 글로벌 서비스 운영경험과 CS대응 노하우를
-      <br />
-      바탕으로 국내 IT 서비스의 해외진출을 컨설팅 해드립니다.
     </>,
     <>
       방배사는 기업을 대상으로 한 상품권 판매 온라인 광고에 최적화된
@@ -79,63 +50,133 @@ export default function Body() {
       <br />
       다양한 마케팅 솔루션을 보유하고 있습니다.
     </>,
-    <>
-      <p>기업상품권 판매대행에 대하여 궁금하신 점은</p>
-      <p>무엇이든 물어보세요.</p>
-    </>,
   ];
+
+  useEffect(() => {
+    if (isMiddle) {
+      setMiddle(true);
+    } else {
+      setMiddle(false);
+    }
+  }, [isMiddle]);
 
   return (
     <div className={cx("container")}>
-      <div className={cx("home_wrap")}>
-        <div id="홈">
-          <Item
-            title={titles[0]}
-            content={contents[0]}
-            logo_color={"white"}
-            img_name={pc && pc ? "bg1" : "bg1_m"}
-            item_name="home"
-          />
-        </div>
-        <div id="상품권 시세">
-          <GetGiftCard
-            title={titles[1]}
-            content={contents[1]}
-            logo_color={"orange"}
-          />
-        </div>
-        <div id="컨설팅">
-          <Item
-            title={titles[2]}
-            content={contents[2]}
-            logo_color={"white"}
-            img_name={pc && pc ? "bg3" : "bg3_m"}
-            item_name="consulting"
-          />
-        </div>
-        <div id="서비스">
-          <Item
-            title={titles[3]}
-            content={contents[3]}
-            logo_color={"orange"}
-            img_name={middle ? "bg4" : "bg4_m"}
-            item_name="service"
-          />
-        </div>
-        <div id="솔루션">
-          <Solution
-            title={titles[4]}
-            content={contents[4]}
-            logo_color={"orange"}
-          />
-        </div>
-        <div id="문의하기">
-          <PostQuestion />
-        </div>
-        <div id="다운로드">
-          <Download_Part />
+      {/* <CarouselPart /> */}
+      <TopImage imageName={"1"} />
+      <Marquee />
+      {/* <MarketPrice /> */}
+
+      <div className={cx("OTC_top")}>
+        <div className={cx("OTC_top_wrap")}>
+          <div />
+          <span>OTC</span>
+          <div onClick={() => router.push("/otc")}>전체보기</div>
         </div>
       </div>
+      <div className={cx("OTC_container")}>
+        <div className={cx("OTC_body")}>
+          <div className={cx("OTC_wrap")}>
+            <div className={cx("OTC_title")}>
+              <div className={cx("only_pc")}>구매</div>
+              <div className={cx("non_pc")}>
+                <div
+                  onClick={() => setKind("BUY")}
+                  className={cx(kind === "BUY" ? "able" : "default")}
+                >
+                  구매
+                </div>
+                <div
+                  onClick={() => setKind("SELL")}
+                  className={cx(kind === "SELL" ? "able" : "default")}
+                >
+                  판매
+                </div>
+              </div>
+              <div
+                className={cx("coin_btns")}
+                onClick={() =>
+                  setBuyCoinKind((prev) => (prev === "BTC" ? "USDT" : "BTC"))
+                }
+              >
+                <div
+                  className={cx(
+                    "orange",
+                    "toggle-circle",
+                    buyCoinKind === "BTC" && "toggle--checked"
+                  )}
+                >
+                  {buyCoinKind !== "BTC" ? "USDT" : "BTC"}
+                </div>
+                {coins.map((v, idx) => (
+                  <div key={idx}>{v}</div>
+                ))}
+              </div>
+            </div>
+            <OTC
+              partKind={kind}
+              part="home"
+              coinKind={buyCoinKind === "USDT" ? "TETHER" : "BTC"}
+              nowAble=""
+            />
+          </div>
+
+          <div className={cx("only_pc")}>
+            <div className={cx("only_pc_body")}>
+              <div>판매</div>
+              <div
+                className={cx("coin_btns")}
+                onClick={() =>
+                  setSellCoinKind((prev) => (prev === "BTC" ? "USDT" : "BTC"))
+                }
+              >
+                <div
+                  className={cx(
+                    "blue",
+                    "toggle-circle",
+                    sellCoinKind === "BTC" && "toggle--checked"
+                  )}
+                >
+                  {sellCoinKind !== "BTC" ? "USDT" : "BTC"}
+                </div>
+                {coins.map((v, idx) => (
+                  <div key={idx}>{v}</div>
+                ))}
+              </div>
+            </div>
+            <OTC
+              partKind={"SELL"}
+              part="home"
+              coinKind={sellCoinKind === "USDT" ? "TETHER" : "BTC"}
+              nowAble=""
+            />
+          </div>
+        </div>
+      </div>
+      <div className={cx("giftcard_container")}>
+        <div className={cx("giftcard_wrap")}>
+          <div className={cx("giftcard_title")}>상품권 시세</div>
+          <div className={cx("giftcard_content")}>
+            아래의 가격표는 수량, 권종, 상품권의 상태등의 따라
+            <br className={cx("mobile")} /> 변경될 수 있습니다.
+          </div>
+          <div
+            className={cx("show_more")}
+            onClick={() => router.push("gift-card")}
+          >
+            전체 보기
+          </div>
+          <GetGiftCard searchText="" />
+        </div>
+      </div>
+      <Item
+        title={titles[1]}
+        content={contents[1]}
+        img_name={middle ? "bg4" : "bg4_m"}
+        item_name="service"
+      />
+      <Solution title={titles[2]} content={contents[2]} />
+      <Download_Part />
     </div>
   );
 }

@@ -1,35 +1,13 @@
 @import "public/scss/style.scss";
 
-.header_trans {
+.header {
   position: fixed;
   width: 100vw;
   display: flex;
-  border-bottom: solid 1px rgba(255, 255, 255, 0.285);
-  color: #fff;
-  z-index: 3;
-  font-size: 18px;
-  @include view("middle") {
-    font-size: 15px;
-  }
-  @include view("small") {
-    font-size: 15px;
-  }
-  @include view("very_small") {
-    font-size: 15px;
-  }
-  @include view("mobile") {
-    font-size: 15px;
-  }
-}
-
-.header_black {
-  position: fixed;
-  width: 100vw;
-  display: flex;
-  border-bottom: solid 1px rgba(255, 255, 255, 0.285);
+  border-bottom: solid 1px #dcdcdc;
   color: black;
   background-color: white;
-  z-index: 3;
+  z-index: 4;
   font-size: 18px;
   @include view("middle") {
     font-size: 15px;
@@ -42,6 +20,7 @@
   }
   @include view("mobile") {
     font-size: 15px;
+    height: 70px;
   }
 }
 
@@ -51,7 +30,7 @@
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  padding: 30px 20px 30px 50px;
+  padding: 27px 160px;
   @include view("middle") {
     padding: 20px;
   }
@@ -62,7 +41,7 @@
     padding: 20px;
   }
   @include view("mobile") {
-    padding: 20px;
+    padding: 0 20px;
   }
 }
 
@@ -108,7 +87,8 @@
 }
 
 .header_hover {
-  margin: auto 1vw;
+  margin: auto 2.6vw auto 0;
+  white-space: nowrap;
   &:hover {
     cursor: pointer;
   }
@@ -150,5 +130,56 @@
   @include view("mobile") {
     width: 101.8px;
     height: 32.6px;
+  }
+}
+
+.sign_container {
+  border: solid 1px #dcdcdc;
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  white-space: nowrap;
+  height: 34px;
+  @include view("middle") {
+    font-size: 13px;
+  }
+  @include view("small") {
+    font-size: 13px;
+  }
+  @include view("very_small") {
+    font-size: 13px;
+  }
+  @include view("mobile") {
+    font-size: 13px;
+  }
+}
+
+.line {
+  height: 18px;
+  border: none;
+  background-color: #dcdcdc;
+  width: 3px;
+  margin: 0 -10px;
+}
+
+.orange {
+  color: #ff7401;
+}
+
+.link {
+  cursor: pointer;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 8px 23px;
+}
+
+.none {
+  display: none;
+  @include view("mobile") {
+    display: block;
   }
 }

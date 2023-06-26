@@ -1,165 +1,169 @@
 @import "public/scss/style.scss";
 
 .container {
-  width: 100%;
-  min-height: 100vh;
-  background-color: #f9f9f9;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 18px;
-  padding-top: 50px;
-  @include view("mobile") {
-    font-size: 12px;
-  }
-}
-
-.wrap {
-  display: flex;
-  flex-direction: column;
-  margin: auto;
-
-  max-width: 1020px;
-  display: flex;
+  max-width: 1200px;
   width: 70vw;
-
-  @include view("small") {
-    width: 95vw;
-  }
   @include view("very_small") {
     width: 95vw;
   }
   @include view("mobile") {
-    width: 90vw;
+    width: 100%;
   }
 }
 
-.title_wrap {
-  position: relative;
-  display: flex;
+.top {
+  display: grid;
   width: 100%;
-  height: 200px;
+  grid-template-columns: 2fr 1fr 1fr;
+  font-size: 16px;
+  align-items: center;
+  @include view("mobile") {
+    display: none;
+  }
 }
 
-.image_wrap {
-  position: absolute;
+.top_left {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-bottom: solid 2px #333;
+  border-top: solid 1px #dcdcdc;
+  border-left: solid 1px #dcdcdc;
+}
+
+.type {
+  display: flex;
+  height: 50px;
+  padding-left: 30px;
+  align-items: center;
+  border-right: solid 1px #dcdcdc;
+}
+
+.origin_price {
   width: 100%;
   height: 100%;
   display: flex;
-  align-items: flex-end;
-  justify-content: flex-end;
-}
-
-.image {
-  position: relative;
-  width: 364px;
-  height: 155px;
-  @include view("mobile") {
-    width: 50vw;
-    height: 20vw;
-  }
-}
-
-.name {
-  width: 510px;
-  margin-left: 30px;
-  @include view("mobile") {
-    font-size: 12px;
-    margin-left: 14px;
-  }
-}
-
-.buy {
-  width: 255px;
-  display: flex;
   justify-content: center;
   align-items: center;
-  @include view("mobile") {
-    min-width: 90px;
-    font-size: 12px;
-  }
-}
-
-.sell {
-  width: 255px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  @include view("mobile") {
-    min-width: 90px;
-  }
-}
-
-.card_title {
-  color: #fff;
-  display: flex;
-  background-color: #ff7401;
-  padding: 15px 0;
-  @include view("mobile") {
-    padding: 10px 0;
-  }
-}
-
-.map {
-  width: 100%;
-  background-color: #fff;
-  height: 550px;
-  overflow-y: scroll;
-  @include view("mobile") {
-    font-size: 10px;
-    height: 330px;
-  }
-}
-
-.map_item {
-  display: flex;
-  height: 50px;
-  @include view("mobile") {
-    height: 30px;
-  }
-}
-
-.map_name {
-  width: 510px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  color: #333;
-  margin-left: 21px;
-  @include view("mobile") {
-    margin-left: 10px;
-  }
-}
-
-.map_buy {
-  width: 255px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #3561c719;
-  @include view("mobile") {
-    min-width: 90px;
-  }
-}
-
-.map_sell {
-  width: 255px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  @include view("mobile") {
-    min-width: 90px;
-  }
 }
 
 .buy_price {
-  color: #3561c7;
+  background-color: #3561c7;
+  width: 100%;
+  height: 100%;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .sell_price {
-  color: #e77301;
+  background-color: #ff7401;
+  width: 100%;
+  height: 100%;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.percent {
+.map_container {
+  border: solid 1px #dcdcdc;
+  font-size: 14px;
+  max-height: 650px;
+  overflow-y: scroll;
+  @include view("mobile") {
+    border: none;
+    max-height: 1090px;
+  }
+}
+
+.map_wrap {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  height: 50px;
+  align-items: center;
+  border-bottom: solid 1px #dcdcdc;
+  @include view("mobile") {
+    display: flex;
+    flex-direction: column;
+    height: 103px;
+    align-items: normal;
+    padding: 20px;
+    position: relative;
+    border-radius: 10px;
+    border: solid 1px #dcdcdc;
+    margin-bottom: 10px;
+  }
+}
+
+.map_type {
+  padding: 0 30px;
+  border-right: solid 1px #dcdcdc;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  word-break: keep-all;
+  @include view("mobile") {
+    border-right: none;
+    padding: 0;
+  }
+}
+
+.map_origin_price {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-right: solid 1px #dcdcdc;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  @include view("mobile") {
+    border-right: none;
+    justify-content: flex-start;
+    margin-top: 8px;
+  }
+}
+
+.map_buy_price {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  color: #3561c7;
+  border-right: solid 1px #dcdcdc;
+  @include view("mobile") {
+    border-right: none;
+    justify-content: flex-end;
+    position: absolute;
+    right: 20px;
+    bottom: 0;
+  }
+}
+
+.map_sell_price {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  color: #ff7401;
+  @include view("mobile") {
+    justify-content: flex-end;
+    margin-top: 7px;
+  }
+}
+
+.black {
   color: #333;
+}
+
+.mobile {
+  display: none;
+  @include view("mobile") {
+    display: flex;
+    margin-right: 3px;
+  }
 }

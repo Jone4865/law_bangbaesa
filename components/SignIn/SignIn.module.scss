@@ -1,0 +1,192 @@
+@import "public/scss/style.scss";
+
+.container {
+  padding-top: 170px;
+  padding-bottom: 70px;
+  background-color: #f6f6f6;
+  font-weight: normal;
+  color: #333;
+  @include view("mobile") {
+    padding: 0;
+  }
+}
+
+.wrap {
+  display: flex;
+  justify-content: center;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  width: 700px;
+  background-color: #fff;
+  color: black;
+  padding: 30px;
+  border-radius: 10px;
+  @include view("mobile") {
+    width: 100%;
+    height: 100%;
+    padding: 0 20px;
+    padding-top: 100px;
+    padding-bottom: 285px;
+  }
+}
+
+.title {
+  border-bottom: solid 2px #333;
+  margin-bottom: 48.5px;
+  font-size: 30px;
+  width: 85px;
+  white-space: nowrap;
+  padding-bottom: 9.5px;
+  letter-spacing: -0.6px;
+  font-weight: normal;
+
+  @include view("very_small") {
+    font-size: 26px;
+  }
+  @include view("mobile") {
+    font-size: 26px;
+    padding-bottom: 9px;
+    margin-bottom: 30px;
+    width: 73px;
+  }
+}
+
+.part_title {
+  font-size: 20px;
+
+  @include view("very_small") {
+    font-size: 18px;
+  }
+  @include view("mobile") {
+    font-size: 18px;
+  }
+}
+
+.find_container {
+  display: flex;
+  color: #989898;
+  span {
+    margin: 0 3px;
+  }
+}
+
+.input {
+  margin: 20px 0;
+  border-radius: 10px;
+  border: solid 1px #dcdcdc;
+  padding: 15px 20px;
+  font-size: 18px;
+  letter-spacing: -0.36px;
+
+  @include view("very_small") {
+    font-size: 16px;
+  }
+  @include view("mobile") {
+    font-size: 16px;
+  }
+}
+
+.middle-wrap {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+}
+
+.login_btn {
+  height: 60px;
+  background-color: #ff7401;
+  color: #fff;
+  font-size: 20px;
+  letter-spacing: -0.4px;
+  border-radius: 10px;
+  border: none;
+  margin: 50px auto 30px auto;
+  width: 100%;
+  cursor: pointer;
+
+  @include view("very_small") {
+    font-size: 18px;
+  }
+  @include view("mobile") {
+    font-size: 18px;
+    margin: 30px auto;
+  }
+}
+
+.not_yet {
+  margin: 0 auto 20px auto;
+  @include view("mobile") {
+    margin: 0 auto;
+  }
+}
+
+.sign_btn {
+  width: 100%;
+  border-radius: 10px;
+  border: solid 1px #ff7401;
+  height: 60px;
+  background-color: #fff;
+  cursor: pointer;
+  color: #ff7401;
+  font-size: 20px;
+  letter-spacing: -0.4px;
+
+  @include view("very_small") {
+    font-size: 18px;
+  }
+  @include view("mobile") {
+    font-size: 18px;
+    margin-top: 20px;
+  }
+}
+
+.save_id {
+  color: #333;
+  margin-left: 10px;
+}
+
+.check {
+  background-color: #ff7401;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  outline: none;
+  appearance: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  cursor: pointer;
+  border: 1px solid #000;
+}
+
+.check::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 14px;
+  height: 14px;
+  background-color: white;
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.check:checked::before {
+  opacity: 1;
+}
+
+.check:checked {
+  border: none;
+}
+
+.check:not(:checked) {
+  background-color: #fff;
+  border: 1px solid #c7c7c7;
+}

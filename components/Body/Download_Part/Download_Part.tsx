@@ -1,5 +1,4 @@
-import { useState, useEffect } from "react";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import styles from "./Download_Part.module.scss";
 import className from "classnames/bind";
 import Image from "next/image";
@@ -7,45 +6,33 @@ import Image from "next/image";
 const cx = className.bind(styles);
 
 export default function Download_Part() {
+  const onClickHandle = () => {
+    toast.warn("아직 준비중입니다 !", { toastId: 1 });
+  };
   return (
     <div className={cx("container")}>
-      <ToastContainer />
       <div className={cx("wrap")}>
-        <div className={cx("left")}>
-          <div className={cx("logo")}>
-            <Image src="/img/Download_Part/logo.png" fill alt="로고" />
+        <div>방배사를 편리하게 이용해보세요!</div>
+        <div className={cx("img_wrap")}>
+          <div onClick={onClickHandle} className={cx("img")}>
+            <Image
+              alt="앱스토어"
+              quality={100}
+              fill
+              src={"/img/Download_part/app.webp"}
+              priority
+            />
+          </div>
+          <div onClick={onClickHandle} className={cx("img", "margin_left")}>
+            <Image
+              quality={100}
+              alt="앱스토어"
+              fill
+              src={"/img/Download_part/google.webp"}
+              priority
+            />
           </div>
         </div>
-        <div className={cx("right")}>
-          <div
-            className={cx("app")}
-            onClick={() =>
-              toast.warning("준비중입니다!", {
-                position: "top-center",
-              })
-            }
-          >
-            <Image src="/img/Download_Part/app.png" fill alt="apple" />
-          </div>
-          <div
-            className={cx("google")}
-            onClick={() =>
-              toast.warning("준비중입니다!", {
-                position: "top-center",
-              })
-            }
-          >
-            <Image src="/img/Download_Part/google.png" fill alt="google" />
-          </div>
-        </div>
-      </div>
-      <div className={cx("human_wrap")}>
-        <Image
-          src="/img/Download_Part/human.png"
-          width={226.1}
-          height={165}
-          alt="사람 이미지"
-        />
       </div>
     </div>
   );

@@ -38,19 +38,20 @@
     height: 30px;
     align-items: center;
   }
-  div {
-    color: #f3f3f3;
-    padding: 18.5px;
-    font-size: 15.5px;
-    border-bottom: solid 1px #f3f3f336;
-    &:hover {
-      cursor: pointer;
-    }
-  }
 }
 
 .side_none {
   display: none;
+}
+
+.side_hover {
+  color: #f3f3f3;
+  padding: 18.5px;
+  font-size: 15.5px;
+  border-bottom: solid 1px #f3f3f336;
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 .side_hover:hover {
@@ -83,7 +84,17 @@
   }
 }
 @keyframes shake {
-  0% { transform: none; }
-  50% { transform: scale(0.9); }
-  100% { transform: none; }
+  0% {
+    transform: none;
+  }
+  50% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: none;
+  }
+}
+
+.color {
+  color: #ff7401;
 }

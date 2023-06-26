@@ -1,0 +1,50 @@
+@import "public/scss/style.scss";
+
+.container {
+  padding-bottom: 70px;
+}
+
+.title {
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+.input {
+  width: 100%;
+  padding: 15px 20px;
+  border-radius: 10px;
+  border: solid 1px #dcdcdc;
+  margin-bottom: 40px;
+  @include view("mobile") {
+    margin-bottom: 20px;
+  }
+}
+
+.text_area {
+  width: 100%;
+  padding: 15px 20px;
+  min-height: 190px;
+  border-radius: 10px;
+  border: solid 1px #dcdcdc;
+  margin-bottom: 30px;
+  resize: none;
+  outline: none;
+}
+
+.bottom {
+  display: flex;
+  justify-content: center;
+}
+
+.btn {
+  background-color: #ff7401;
+  width: 310px;
+  height: 60px;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 20px;
+  @include view("mobile") {
+    width: 100%;
+  }
+}

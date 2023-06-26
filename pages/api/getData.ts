@@ -1,5 +1,4 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { useState } from "react";
 import * as Crypto from "crypto-js";
 
 const axios = require("axios");
@@ -32,7 +31,9 @@ const parsing = async () => {
   const dataArr = [];
   var num;
   for (num = 3; num <= 96; num++) {
-    dataArr.push(tableData.find(`tr:nth-of-type(${num})`).text());
+    const rowData = tableData.find(`tr:nth-of-type(${num})`).text();
+    const replacedData = rowData;
+    dataArr.push(replacedData);
   }
   return dataArr;
 };
@@ -47,7 +48,22 @@ export default async function getData(
       : "";
     const dataArr = await parsing();
     const ciphertext = Crypto.AES.encrypt(
-      dataArr.join("| "),
+      dataArr
+        .join("| ")
+        .split("| ")
+        .filter((v) => !v.includes("주유") && !v.includes("기프트"))
+        .filter(
+          (v) =>
+            v.includes("현대") ||
+            v.includes("신세계") ||
+            v.includes("관광") ||
+            v.includes("롯데") ||
+            v.includes("갤러리아")
+        )
+        .join("| ")
+        .replace(/\n\t\t\t\t\t/g, "")
+        .replace(/     /g, "")
+        .toString(),
       secretKey
     ).toString();
 

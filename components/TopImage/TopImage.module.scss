@@ -1,0 +1,35 @@
+@import "public/scss/style.scss";
+
+.wrap {
+  position: relative;
+  height: 601px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.bg_wrap {
+  width: 100%;
+  height: 601px;
+  position: absolute;
+}
+
+.img_wrap {
+  width: 1035px;
+  height: 601px;
+  position: absolute;
+
+  @include view("small") {
+    width: 390px;
+    height: 560px;
+  }
+  @include view("very_small") {
+    width: 390px;
+    height: 560px;
+  }
+  @include view("mobile") {
+    max-width: 390px;
+    width: 98%;
+    height: 560px;
+  }
+}

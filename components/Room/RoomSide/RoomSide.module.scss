@@ -1,0 +1,57 @@
+@import "public/scss/style.scss";
+
+.container {
+  width: 300px;
+  height: 622px;
+  border-radius: 10px;
+  background-color: #fff;
+  border: solid 1px #dcdcdc;
+  padding: 30px 20px;
+  overflow: scroll;
+  margin-right: 20px;
+  font-size: 20px;
+  @include view("mobile") {
+    position: absolute;
+    width: calc(100% - 40px);
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.14);
+    z-index: 4;
+    margin: 0 auto;
+    height: auto;
+    max-height: 400px;
+    left: 0;
+    right: 0;
+    padding: 20px;
+  }
+}
+
+.chat {
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  margin-bottom: 20px;
+  @include view("mobile") {
+    font-size: 18px;
+  }
+}
+
+.img_wrap {
+  position: relative;
+  width: 53px;
+  height: 53px;
+  margin-right: 10px;
+  @include view("mobile") {
+    width: 45px;
+    height: 45px;
+  }
+}
+
+.circle {
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  background-color: #ff7401;
+  border-radius: 100%;
+  z-index: 2;
+  right: 0;
+}

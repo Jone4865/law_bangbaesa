@@ -7,7 +7,7 @@ const cx = className.bind(styles);
 
 export default function Footer() {
   return (
-    <div className={cx("footer")}>
+    <footer className={cx("footer")}>
       <div className={cx("container")}>
         <div className={cx("wrap")}>
           <div className={cx("top_container")}>
@@ -25,12 +25,14 @@ export default function Footer() {
               </div>
             </div>
             <div className={cx("top_content")}>
-              <span className={cx("content_bottom")}>전화 : 010-4222-5489</span>
+              <a href="tel:010-4222-5489" className={cx("content_bottom")}>
+                전화 : 010-4222-5489
+              </a>
               <span className={cx("content_bottom", "email")}>
                 이메일 : bangbaesa@naver.com
               </span>
               <span
-                onClick={() => router.push("/Terms")}
+                onClick={() => router.push("/terms")}
                 className={cx("content_bottom", "terms")}
               >
                 서비스 이용약관
@@ -54,6 +56,6 @@ export default function Footer() {
           </span>
         </div>
       </div>
-    </div>
+    </footer>
   );
 }

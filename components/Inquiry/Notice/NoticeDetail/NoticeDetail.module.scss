@@ -1,0 +1,64 @@
+@import "public/scss/style.scss";
+
+.title {
+  font-size: 30px;
+  color: #333;
+  text-align: center;
+  padding: 30px 15px;
+  border-top: solid 2px #221e1f;
+  border-bottom: solid 1px #dcdcdc;
+  margin-bottom: 20px;
+  @include view("mobile") {
+    font-size: 20px;
+  }
+}
+
+.date_hits_wrap {
+  display: flex;
+  margin-bottom: 50px;
+  font-size: 16px;
+  color: #777;
+  justify-content: flex-end;
+  @include view("mobile") {
+    font-size: 14px;
+  }
+}
+
+.line {
+  margin: 0 10px;
+  height: 17px;
+  width: 1px;
+  background-color: #c5c5c5;
+}
+
+.content {
+  text-align: center;
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 30px;
+  line-height: 2.5;
+  letter-spacing: normal;
+  @include view("mobile") {
+    font-size: 16px;
+  }
+}
+
+.btn_wrap {
+  display: flex;
+  justify-content: center;
+}
+
+.btn {
+  height: 60px;
+  width: 310px;
+  background-color: #ff7401;
+  color: white;
+  font-size: 20px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  @include view("mobile") {
+    width: 100%;
+  }
+}

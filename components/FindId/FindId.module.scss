@@ -1,0 +1,140 @@
+@import "public/scss/style.scss";
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 180px 0;
+  background-color: #f6f6f6;
+  font-size: 20px;
+  position: relative;
+
+  @include view("very_small") {
+    font-size: 18px;
+  }
+  @include view("mobile") {
+    font-size: 18px;
+    padding: 0;
+    height: 926px;
+  }
+}
+
+.wrap {
+  background-color: white;
+  color: black;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 30px;
+  border-radius: 10px;
+  width: 700px;
+  @include view("mobile") {
+    height: 100%;
+    width: 100%;
+    padding: 0 20px;
+    justify-content: flex-start;
+    padding-top: 100px;
+  }
+}
+
+.title {
+  border-bottom: solid 2px black;
+  margin-bottom: 30px;
+  font-size: 30px;
+  width: 149px;
+  white-space: nowrap;
+  padding-bottom: 9.5px;
+  margin-bottom: 48.5px;
+  @include view("very_small") {
+    font-size: 26px;
+  }
+  @include view("mobile") {
+    font-size: 26px;
+    padding-bottom: 9px;
+    width: 128px;
+  }
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+}
+
+.input {
+  border-radius: 10px;
+  border: solid 1px #dcdcdc;
+  height: 50px;
+  padding: 15px 20px;
+  font-size: 18px;
+  width: 100%;
+  @include view("very_small") {
+    font-size: 16px;
+  }
+  @include view("mobile") {
+    font-size: 16px;
+  }
+}
+
+.btn {
+  border-radius: 10px;
+  border: none;
+  padding: 10px;
+  height: 60px;
+  font-size: 20px;
+  color: #fff;
+  background-color: #ff7401;
+  cursor: pointer;
+  margin-top: 20px;
+  @include view("very_small") {
+    font-size: 18px;
+  }
+  @include view("mobile") {
+    font-size: 18px;
+  }
+}
+
+.btn:disabled {
+  background-color: #dcdcdc;
+  cursor: default;
+}
+
+.part_input {
+  width: calc(100% - 87px);
+  padding: 15px 0;
+  padding-left: 20px;
+  border-radius: 10px 0 0 10px;
+  border: solid 1px #dcdcdc;
+  border-right: none;
+  height: 50px;
+  font-size: 18px;
+  margin-bottom: 10px;
+  @include view("very_small") {
+    font-size: 16px;
+  }
+  @include view("mobile") {
+    font-size: 16px;
+  }
+}
+
+.part_btn {
+  border-radius: 0 10px 10px 0;
+  margin: auto;
+  border: solid 1px #dcdcdc;
+  border-left: none;
+  background-color: white;
+  height: 50px;
+  font-size: 16px;
+  color: #ff7401;
+  padding: 15px 20px;
+  width: 87px;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.none {
+  display: none;
+}
+
+.text {
+  margin-bottom: 20px;
+}

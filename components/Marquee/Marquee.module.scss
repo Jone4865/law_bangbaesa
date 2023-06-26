@@ -1,0 +1,57 @@
+@import "public/scss/style.scss";
+
+.container {
+  height: 100px;
+  display: flex;
+  background-color: #fff;
+  color: #333;
+}
+
+.wrap {
+  display: flex;
+  margin-right: 70px;
+  align-items: center;
+}
+
+.img_wrap {
+  position: relative;
+  width: 28px;
+  height: 28px;
+  margin-right: 10px;
+}
+
+.bottom {
+  display: flex;
+  align-items: center;
+}
+
+.down_icon_wrap {
+  width: 17px;
+  height: 15px;
+  position: relative;
+  margin: auto 2px auto 0;
+}
+
+.up_icon_wrap {
+  width: 17px;
+  height: 15px;
+  position: relative;
+  margin: 0 2px 0 0;
+}
+
+.arrow_wrap {
+  display: flex;
+  margin: 0 2px;
+}
+
+.orange {
+  color: #ff7401;
+}
+
+.blue {
+  color: #3561c7;
+}
+
+.price {
+  margin-left: 3px;
+}

@@ -1,0 +1,17 @@
+@import "public/scss/style.scss";
+
+.container {
+  padding-top: 100px;
+  @include view("middle") {
+    padding-top: 75px;
+  }
+  @include view("small") {
+    padding-top: 75px;
+  }
+  @include view("very_small") {
+    padding-top: 75px;
+  }
+  @include view("mobile") {
+    padding-top: 70px;
+  }
+}

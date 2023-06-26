@@ -1,0 +1,77 @@
+@import "public/scss/style.scss";
+
+.container {
+  padding-top: 165px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f6f6f6;
+  color: #333;
+  @include view("mobile") {
+    padding-top: 100px;
+    background-color: #fff;
+  }
+}
+
+.wrap {
+  height: 700px;
+  width: 700px;
+  background-color: #fff;
+  border-radius: 10px;
+  margin-bottom: 70px;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  @include view("mobile") {
+    padding: 0 20px;
+    margin-bottom: 420px;
+  }
+}
+
+.circle_wrap {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.circle {
+  width: 63.6px;
+  height: 63.6px;
+  background-color: #f6f6f6;
+  color: #b7b7b7;
+  border-radius: 100%;
+  border: solid 1px #b7b7b7;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 40px;
+}
+
+.title {
+  margin: 40px 0 100px 0;
+  font-size: 20px;
+  width: 100%;
+}
+
+.content {
+  font-size: 20px;
+  display: flex;
+  text-align: center;
+  color: #c7c7c7;
+  letter-spacing: normal;
+  line-height: 1.5;
+  margin-top: 20px;
+}
+
+.btn {
+  cursor: pointer;
+  margin: auto auto 0 auto;
+  background-color: #ff7401;
+  width: 100%;
+  height: 60px;
+  font-size: 20px;
+  border: none;
+  border-radius: 10px;
+  color: #fff;
+}

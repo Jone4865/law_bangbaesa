@@ -1,0 +1,250 @@
+@import "public/scss/style.scss";
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 170px 0;
+  padding-bottom: 70px;
+  background-color: #f6f6f6;
+  font-size: 20px;
+  @include view("very_small") {
+    font-size: 18px;
+  }
+  @include view("mobile") {
+    font-size: 18px;
+    padding: 0;
+    height: 942px;
+  }
+}
+
+.wrap {
+  width: 700px;
+  background-color: white;
+  color: black;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-radius: 10px;
+  @include view("mobile") {
+    width: 100%;
+    height: 100%;
+    justify-content: flex-start;
+    padding-top: 80px;
+  }
+}
+
+.body {
+  padding: 30px;
+  @include view("mobile") {
+    padding: 20px;
+  }
+}
+
+.title {
+  border-bottom: solid 2px black;
+  width: 114px;
+  font-size: 30px;
+  padding-bottom: 9.5px;
+  margin-bottom: 45px;
+  @include view("very_small") {
+    font-size: 26px;
+  }
+  @include view("mobile") {
+    font-size: 26px;
+    padding-bottom: 9px;
+    margin-bottom: 29px;
+    width: 98px;
+  }
+}
+
+.part_title {
+  margin: 20px 0;
+}
+
+.part_input {
+  border-radius: 10px;
+  height: 50px;
+  font-size: 18px;
+  border: solid 1px #dcdcdc;
+  padding: 10px;
+  max-width: 470px;
+  width: 100%;
+  @include view("very_small") {
+    font-size: 16px;
+  }
+  @include view("mobile") {
+    font-size: 16px;
+  }
+}
+
+.part_btn {
+  height: 50px;
+  border-radius: 10px;
+  color: #ff7401;
+  border: solid 1px #ff7401;
+  background-color: #fff;
+  cursor: pointer;
+  font-size: 18px;
+  max-width: 160px;
+  width: 24vw;
+  min-width: 110px;
+  margin-left: 10px;
+  @include view("very_small") {
+    font-size: 16px;
+  }
+  @include view("mobile") {
+    font-size: 16px;
+  }
+}
+
+.part_btn:disabled {
+  background-color: #11a472;
+  cursor: default;
+  color: white;
+  border: none;
+}
+
+.input {
+  border-radius: 10px;
+  border: solid 1px #dcdcdc;
+  padding: 15px 20px;
+  width: 100%;
+  font-size: 18px;
+  height: 50px;
+  @include view("very_small") {
+    font-size: 16px;
+  }
+  @include view("mobile") {
+    font-size: 16px;
+  }
+}
+
+.btn {
+  border-radius: 10px;
+  border: none;
+  height: 60px;
+  cursor: pointer;
+  width: 100%;
+  font-size: 20px;
+  background-color: #ff7401;
+  color: #fff;
+  margin-top: 20px;
+  @include view("very_small") {
+    font-size: 18px;
+  }
+  @include view("mobile") {
+    font-size: 18px;
+  }
+}
+
+.btn:disabled {
+  cursor: default;
+  background-color: #dcdcdc;
+}
+
+.bottom {
+  padding: 30px;
+  font-size: 16px;
+  @include view("very_small") {
+    font-size: 14px;
+  }
+  @include view("mobile") {
+    font-size: 14px;
+    padding: 0 20px;
+  }
+}
+
+.part_wrap {
+  display: flex;
+  justify-content: space-between;
+}
+
+.line {
+  width: 100%;
+  height: 1px;
+  background-color: #dcdcdc;
+}
+
+.check {
+  position: relative;
+  width: 28px;
+  height: 28px;
+  padding: 5px;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  outline: none;
+  border: 1px solid #dcdcdc;
+  border-radius: 50%;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+.check:checked {
+  background-color: #11a472;
+}
+
+.check::before {
+  content: "";
+  position: absolute;
+  top: 47%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotateY(180deg);
+  width: 5.5px;
+  height: 10px;
+  border: 4px solid #fff;
+  border-top: none;
+  border-right: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  transform-origin: center;
+}
+
+.check:checked::before {
+  opacity: 1;
+  transform: translate(-50%, -50%) rotateY(180deg) rotate(-45deg);
+}
+
+.more {
+  margin-top: 10px;
+}
+
+.all {
+  font-size: 18px;
+  @include view("very_small") {
+    font-size: 16px;
+  }
+  @include view("mobile") {
+    font-size: 16px;
+  }
+}
+
+.check_all_wrap {
+  display: flex;
+  align-items: center;
+  margin-top: 30px;
+  div {
+    margin-left: 10px;
+  }
+}
+
+.check_wrap {
+  display: flex;
+  align-items: center;
+  input {
+    margin-left: 38px;
+  }
+  * {
+    margin: 10px 0;
+  }
+  div {
+    margin-left: 10px;
+  }
+}
+
+.more_policy {
+  color: #777;
+  border-bottom: solid 1px #777;
+  cursor: pointer;
+}
