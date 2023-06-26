@@ -82,13 +82,13 @@ export default function Body() {
               <div className={cx("non_pc")}>
                 <div
                   onClick={() => setKind("BUY")}
-                  className={cx(kind === "BUY" ? "able" : "default")}
+                  className={cx(kind === "BUY" ? "able_buy" : "default")}
                 >
                   구매
                 </div>
                 <div
                   onClick={() => setKind("SELL")}
-                  className={cx(kind === "SELL" ? "able" : "default")}
+                  className={cx(kind === "SELL" ? "able_sell" : "default")}
                 >
                   판매
                 </div>
@@ -101,9 +101,9 @@ export default function Body() {
               >
                 <div
                   className={cx(
-                    "orange",
                     "toggle-circle",
-                    buyCoinKind === "BTC" && "toggle--checked"
+                    buyCoinKind === "BTC" && "toggle--checked",
+                    kind === "BUY" ? "orange" : "blue"
                   )}
                 >
                   {buyCoinKind !== "BTC" ? "USDT" : "BTC"}

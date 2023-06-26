@@ -150,7 +150,19 @@
   }
 }
 
-.able {
+.able_sell {
+  padding-bottom: 10px;
+  font-size: 30px;
+  color: #3561c7;
+  border-bottom: solid 6px #3561c7;
+  margin-right: 30px;
+  @include view("mobile") {
+    font-size: 20px;
+    margin-right: 20px;
+  }
+}
+
+.able_buy {
   padding-bottom: 10px;
   font-size: 30px;
   color: #ff7401;
