@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect } from "react";
+import React, { Dispatch, SetStateAction, useEffect } from "react";
 import styles from "./NoticeDetail.module.scss";
 import className from "classnames/bind";
 import moment from "moment";
@@ -20,6 +20,12 @@ type Props = {
 
 export default function NoticeDetail({ detailData, setDetailData }: Props) {
   useEffect(() => {}, [detailData]);
+
+  const formattedContent = detailData.content?.replace(
+    /(?:\r\n|\r|\n)/g,
+    "<br>"
+  );
+
   return (
     <div className={cx("container")}>
       <div className={cx("wrap")}>
@@ -31,7 +37,10 @@ export default function NoticeDetail({ detailData, setDetailData }: Props) {
           <div className={cx("line")} />
           <div className={cx("hits")}>조회 : {detailData.hits}</div>
         </div>
-        <div className={cx("content")}>{detailData.content}</div>
+        <div
+          className={cx("content")}
+          dangerouslySetInnerHTML={{ __html: formattedContent || "" }}
+        ></div>
         <div className={cx("btn_wrap")}>
           <div className={cx("btn")} onClick={() => setDetailData(undefined)}>
             목록
