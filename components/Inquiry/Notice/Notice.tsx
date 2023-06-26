@@ -13,7 +13,6 @@ import Pagination from "react-js-pagination";
 import moment from "moment";
 import { FIND_MANY_NOTICE } from "../../../src/graphql/generated/query/findManyNotice";
 import SearchDropDown from "../../DropDown/SearchDropDown/SearchDropDown";
-import { useRouter } from "next/router";
 import Image from "next/image";
 
 const cx = className.bind(styles);
@@ -31,38 +30,12 @@ type Props = {
 };
 
 export default function Notice({ setDetailData }: Props) {
-  const router = useRouter();
   const [take] = useState(20);
   const [skip, setSkip] = useState(0);
   const [current, setCurrent] = useState(1);
   const [totalCount, setTotalCount] = useState(1);
   const [searchText, setSearchText] = useState("");
-  const [data, setData] = useState<Data[] | []>([
-    {
-      content: (
-        <div>
-          안녕하십니까?
-          <br />
-          방배사와 함께해주시는 모든 분들께 깊은 감사의 말씀을 드립니다.
-          <br />
-          방배사 웹서비스가 2023년 6월에 오픈을 하였습니다.
-          <br />
-          항상 여러분이 편하게 사용하실 수 있도록 노력하는 방배사가 되겠습니다.
-          <br />
-          불편사항이나 궁금하신게 있으시다면
-          <br />
-          언제든 고객센터를 통해 문의주시면 감사하겠습니다.
-          <br />늘 행복하시고 건강하세요.
-          <br />
-          감사합니다.
-        </div>
-      ),
-      createdAt: "20230518",
-      hits: 244,
-      id: 1,
-      title: "방배사 사이트가 오픈하였습니다.",
-    },
-  ]);
+  const [data, setData] = useState<Data[]>([]);
   const [kind, setKind] = useState<"title" | "content">("title");
 
   const handlePagination = (e: number) => {
@@ -81,8 +54,8 @@ export default function Notice({ setDetailData }: Props) {
   const [findManyNotice] = useLazyQuery(FIND_MANY_NOTICE, {
     onError: (e) => toast.error(e.message ?? `${e}`),
     onCompleted(data) {
-      // setTotalCount(data.findManyNotice.totalCount);
-      // setData(data.findManyNotice.notices);
+      setTotalCount(data.findManyNotice.totalCount);
+      setData(data.findManyNotice.notices);
     },
     fetchPolicy: "no-cache",
   });
@@ -149,7 +122,7 @@ export default function Notice({ setDetailData }: Props) {
           activeClass={cx("able_number")}
           itemClass={cx("default_number")}
           prevPageText={
-            <div className={cx("left_arrow")}>
+            <div className={cx("left_arrow", totalCount === 0 && "none")}>
               <Image
                 alt="화살표"
                 src={"/img/inquiry/arrow_b.png"}
@@ -161,7 +134,7 @@ export default function Notice({ setDetailData }: Props) {
             </div>
           }
           nextPageText={
-            <div className={cx("right_arrow")}>
+            <div className={cx("right_arrow", totalCount === 0 && "none")}>
               <Image
                 alt="화살표"
                 src={"/img/inquiry/arrow_b.png"}

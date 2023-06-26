@@ -44,6 +44,13 @@ export default function Mypage() {
     });
   };
 
+  const logoutHandle = () => {
+    removeCookies("login");
+    signOutByUser().then(() => {
+      window.location.replace("/");
+    });
+  };
+
   const [findMyInfoByUser] = useLazyQuery(FIND_MY_INFO_BY_USER, {
     onError: (e) => {
       toast.error(e.message ?? `${e}`), router.push("/sign-in");
@@ -66,10 +73,6 @@ export default function Mypage() {
 
   const [signOutByUser] = useMutation(SIGN_OUT_BY_USER, {
     onError: (e) => toast.error(e.message ?? `${e}`),
-    onCompleted(_data) {
-      removeCookies("login");
-      router.replace("/");
-    },
   });
 
   useEffect(() => {
@@ -253,7 +256,7 @@ export default function Mypage() {
                 </div>
                 <div>1:1 문의</div>
               </div>
-              <div onClick={() => signOutByUser()} className={cx("logout_btn")}>
+              <div onClick={logoutHandle} className={cx("logout_btn")}>
                 <div className={cx("logout_img")}>
                   <Image
                     alt="로그아웃 이미지"

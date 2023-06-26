@@ -158,7 +158,6 @@ export default function OTC({
   });
 
   useEffect(() => {
-    setTotalOffer && setTotalOffer(data?.length !== 0 ? data?.length : 0);
     findManyOffer({
       variables: {
         isChat,
@@ -179,9 +178,10 @@ export default function OTC({
             : "USDT",
       },
     });
-  }, [coinKind, partKind, isChat, nickName, data]);
+  }, [coinKind, partKind, isChat, nickName]);
 
   useEffect(() => {
+    setTotalOffer && setTotalOffer(totalCount);
     if (router.pathname === "/otc") {
       findManyOffer({
         variables: {
