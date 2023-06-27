@@ -201,7 +201,6 @@ export default function OTC({
       {part === "otc" && (
         <>
           <TopImage imageName={"1"} />
-          <Marquee />
         </>
       )}
       <div className={cx("wrap")}>
@@ -271,6 +270,11 @@ export default function OTC({
             </div>
           </div>
         </div>
+        {part === "otc" && (
+          <div style={{ border: "solid 1px #dcdcdc" }}>
+            <Marquee />
+          </div>
+        )}
         <div className={cx(part === "otc" ? "bottom_container" : "full")}>
           <div
             className={cx(part === "otc" ? "bottom_wrap" : "other_bottom_wrap")}
