@@ -413,6 +413,15 @@ export default function OTC({
             </div>
           )}
         </div>
+        <div
+          onClick={() => router.push("/create-offer")}
+          className={cx("mobile_create")}
+        >
+          <div>오퍼 만들기</div>
+          <div className={cx("arrow_wrap")}>
+            <Image fill alt="화살표" src={"/img/mypage/arrow.png"} />
+          </div>
+        </div>
       </div>
     </div>
   );

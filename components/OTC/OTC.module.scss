@@ -295,7 +295,7 @@
   background-color: #f6f6f6;
   color: #333;
   @include view("mobile") {
-    padding: 40px 0;
+    padding: 40px 0 20px 0;
   }
 }
 
@@ -531,4 +531,26 @@
 
 .blue {
   background-color: #3561c7;
+}
+
+.mobile_create {
+  display: none;
+  height: 60px;
+  font-size: 18px;
+  background-color: #ff7401;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  @include view("mobile") {
+    display: flex;
+  }
+  img {
+    margin-left: 10px;
+  }
+}
+
+.arrow_wrap {
+  position: relative;
+  width: 31.8px;
+  height: 20px;
 }
