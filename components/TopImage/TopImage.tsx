@@ -14,7 +14,7 @@ export default function TopImage({ imageName }: Props) {
   const [middle, setMiddle] = useState(true);
 
   const isMiddle = useMediaQuery({
-    query: "(min-width: 1300px) and (max-width: 1920px)",
+    query: "(min-width: 1300px) and (max-width: 10000px)",
   });
 
   useEffect(() => {

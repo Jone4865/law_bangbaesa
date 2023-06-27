@@ -13,7 +13,7 @@ export default function Introduction() {
   const [middle, setMiddle] = useState(false);
 
   const isMiddle = useMediaQuery({
-    query: "(min-width: 1300px) and (max-width: 1920px)",
+    query: "(min-width: 1300px) and (max-width: 10000px)",
   });
 
   useEffect(() => {

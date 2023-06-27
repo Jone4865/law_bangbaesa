@@ -115,16 +115,18 @@ export default function Header({ setModalState }: Props) {
               </div>
             </div>
           </div>
-          <Image
-            className={cx("header_icon")}
-            src={"/img/icon/menu_white.svg"}
-            onClick={() => setModalState(true)}
-            width={20}
-            height={16}
-            alt="헤더 삼단바 아이콘"
-            priority
-            quality={100}
-          />
+          <div className={cx("side_view")}>
+            <Image
+              className={cx("header_icon")}
+              src={"/img/icon/menu_white.svg"}
+              onClick={() => setModalState(true)}
+              width={20}
+              height={16}
+              alt="헤더 삼단바 아이콘"
+              priority
+              quality={100}
+            />
+          </div>
         </div>
       </div>
     </header>

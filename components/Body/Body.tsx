@@ -5,7 +5,6 @@ import { useMediaQuery } from "react-responsive";
 
 import Download_Part from "./Download_Part/Download_Part";
 import GetGiftCard from "./GetGiftCard/GetGiftCard";
-import CarouselPart from "../CarouselPart/CarouselPart";
 import OTC from "../OTC/OTC";
 import styles from "./Body.module.scss";
 
@@ -13,7 +12,6 @@ import className from "classnames/bind";
 import { useRouter } from "next/router";
 import TopImage from "../TopImage/TopImage";
 import Marquee from "../Marquee/Marquee";
-import MarketPrice from "../MarketPrice/MarketPrice";
 const cx = className.bind(styles);
 
 export default function Body() {
@@ -24,7 +22,7 @@ export default function Body() {
   const [kind, setKind] = useState<"BUY" | "SELL">("BUY");
   const [middle, setMiddle] = useState(false);
   const isMiddle = useMediaQuery({
-    query: "(min-width: 1300px) and (max-width: 1920px)",
+    query: "(min-width: 1300px) and (max-width: 10000px)",
   });
 
   const titles = [

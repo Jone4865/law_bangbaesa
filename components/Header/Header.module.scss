@@ -183,3 +183,10 @@
     display: block;
   }
 }
+
+.side_view {
+  display: none;
+  @include view("mobile") {
+    display: block;
+  }
+}
