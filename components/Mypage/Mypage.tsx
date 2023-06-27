@@ -52,8 +52,8 @@ export default function Mypage() {
   };
 
   const [findMyInfoByUser] = useLazyQuery(FIND_MY_INFO_BY_USER, {
-    onError: (e) => {
-      toast.error(e.message ?? `${e}`), router.push("/sign-in");
+    onError: (_e) => {
+      router.push("/sign-in");
     },
     onCompleted(data) {
       setData(data.findMyInfoByUser);

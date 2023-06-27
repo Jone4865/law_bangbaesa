@@ -48,15 +48,13 @@ function Side({ modal, setModalState }: Props) {
   };
 
   const onLogout = () => {
+    removeCookies("login");
     toast.success("로그아웃 되었습니다.");
     signOutByUser();
   };
 
   const [signOutByUser] = useMutation(SIGN_OUT_BY_USER, {
-    onError: (e) => toast.error(e.message ?? `${e}`),
     onCompleted(_data) {
-      setModalState(false);
-      removeCookies("login");
       setLogin(false);
       router.push("/");
     },
@@ -65,6 +63,8 @@ function Side({ modal, setModalState }: Props) {
   useEffect(() => {
     if (cookies.login) {
       setLogin(true);
+    } else {
+      setLogin(false);
     }
 
     const htmlEle = document?.getElementsByTagName("html").item(0);
