@@ -2,6 +2,7 @@
 
 .container {
   padding-top: 100px;
+  white-space: nowrap;
 
   @include view("middle") {
     padding-top: 75px;
