@@ -67,6 +67,7 @@ export default function PassWordInfo({ setNowAble }: Props) {
         <div>기존 비밀번호</div>
         <input
           type="passWord"
+          autoComplete="on"
           className={cx("input")}
           value={passWord}
           onChange={(e) => setPassWord(e.target.value)}
@@ -75,6 +76,7 @@ export default function PassWordInfo({ setNowAble }: Props) {
         <div>새 비밀번호</div>
         <input
           type="passWord"
+          autoComplete="on"
           className={cx("input")}
           value={newPassWord}
           onChange={(e) => setNewPassWord(e.target.value)}
@@ -83,6 +85,7 @@ export default function PassWordInfo({ setNowAble }: Props) {
         <div>새 비밀번호 확인</div>
         <input
           type="passWord"
+          autoComplete="on"
           className={cx("input")}
           value={confirmPassWord}
           onChange={(e) => setConfirmPassWord(e.target.value)}

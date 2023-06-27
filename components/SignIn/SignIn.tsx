@@ -83,6 +83,7 @@ export default function SignIn() {
             placeholder="비밀번호를 입력하세요"
             value={passWord}
             type="password"
+            autoComplete="on"
             className={cx("input")}
             onChange={(e) => setPassWord(e.target.value.trim())}
           />

@@ -244,6 +244,7 @@ export default function SignUp() {
               placeholder="비밀번호를 입력하세요"
               value={passWord}
               type="password"
+              autoComplete="on"
               onChange={(e) => setPassWord(e.target.value.trim())}
             />
 
@@ -251,6 +252,7 @@ export default function SignUp() {
             <input
               onPaste={handlePaste}
               type="password"
+              autoComplete="on"
               className={cx("input")}
               placeholder="비밀번호를 한번 더 입력하세요"
               value={confirmPass}
