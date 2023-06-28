@@ -15,6 +15,7 @@ export default function Image_Part({ title, content, img_num }: Props) {
   return (
     <div className={cx("image_wrap")}>
       <Image
+        className={cx("image_item")}
         src={`/img/solution/bg${img_num}.png`}
         fill
         alt="바디 이미지"

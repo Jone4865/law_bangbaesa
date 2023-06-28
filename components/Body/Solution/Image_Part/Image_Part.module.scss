@@ -6,6 +6,12 @@
   width: 26vw;
   height: 259px;
   margin: 30px 0;
+
+  & > .image_item  {
+    object-fit: cover;
+    border-radius: 10px;
+  }
+
   @include view("small") {
     width: 388px;
     height: 200px;
