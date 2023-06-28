@@ -67,10 +67,12 @@ export default function SignUp() {
 
   const onDuplicateId = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!duplicateId) {
+    if (!duplicateId && id) {
       if (idRule.test(id)) {
         checkDuplicateIdentity({ variables: { identity: id } });
       }
+    } else {
+      toast.warn("아이디를 입력해주세요", { toastId: 0 });
     }
   };
 
