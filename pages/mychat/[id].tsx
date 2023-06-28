@@ -421,7 +421,7 @@ const Room: NextPage<Props> = ({ id }) => {
               <div ref={prevRef} />
               {datas?.map((v, idx) => (
                 <div key={idx}>
-                  {v?.isUnread && !datas[idx - 1]?.isUnread && (
+                  {v?.isUnread && !datas[idx - 1]?.isUnread && unreadView && (
                     <div tabIndex={0} ref={divRef} className={cx("unread")}>
                       여기까지 읽었습니다.
                     </div>
