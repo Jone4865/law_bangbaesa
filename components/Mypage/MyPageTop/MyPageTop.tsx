@@ -30,13 +30,13 @@ export default function MyPageTop({ detail, data, handleRefetch }: Props) {
     router.pathname !== "/mypage" &&
       toggleFeedbackByUser({
         variables: { receiverIdentity: data?.identity, feedbackKind: kind },
-        onCompleted(_data) {
-          handleRefetch();
-        },
       });
   };
   const [toggleFeedbackByUser] = useMutation(TOGGLE_FEEDBACK_BY_USER, {
     onError: (e) => toast.error(e.message ?? `${e}`),
+    onCompleted: () => {
+      handleRefetch();
+    },
   });
 
   useEffect(() => {}, [data]);

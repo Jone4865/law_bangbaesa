@@ -3,7 +3,7 @@ import styles from "./Mypage.module.scss";
 import className from "classnames/bind";
 
 import MyLevel from "./MyLevel/MyLevel";
-import { useLazyQuery, useMutation } from "@apollo/client";
+import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
 import { FIND_MY_INFO_BY_USER } from "../../src/graphql/generated/query/findMyInfoByUser";
 import { toast } from "react-toastify";
 import { SIGN_OUT_BY_USER } from "../../src/graphql/generated/mutation/signOutByUser";
@@ -31,18 +31,12 @@ export default function Mypage() {
   const [mobileMore, setMobileMore] = useState(false);
   const [nowAble, setNowAble] = useState("my");
   const [data, setData] = useState<Data>();
-  const [refetch, setRefetch] = useState(false);
   const [offerState, setOfferState] = useState<"SELL" | "BUY">("BUY");
   const [totalOffer, setTotalOffer] = useState(0);
+  const [mynickName, setMynickName] = useState("");
 
   const [part, setPart] =
     useState<"mypage" | "home" | "otc" | "user">("mypage");
-
-  const handleRefetch = () => {
-    findUserInfoByUser({
-      variables: { identity: router.query.id },
-    });
-  };
 
   const logoutHandle = () => {
     removeCookies("login");
@@ -57,49 +51,42 @@ export default function Mypage() {
     },
     onCompleted(data) {
       setData(data.findMyInfoByUser);
+      setMynickName(data.findMyInfoByUser.identity);
     },
     fetchPolicy: "no-cache",
   });
 
-  const [findUserInfoByUser] = useLazyQuery(FIND_USER_INFO_BY_USER, {
-    onError: (e) => {
-      toast.error(e.message ?? `${e}`), router.push("/sign-in");
-    },
-    onCompleted(data) {
-      setData(data.findUserInfoByUser);
-    },
-    fetchPolicy: "no-cache",
-  });
+  const { data: findUserInfoByUserQuery, refetch: userRefetch } = useQuery(
+    FIND_USER_INFO_BY_USER,
+    {
+      variables: { identity: router.query.id },
+      skip: router.pathname !== "/user/[id]",
+    }
+  );
+
+  const handleRefetch = () => {
+    userRefetch({
+      identity: router.query.id,
+    });
+  };
+
+  useEffect(() => {
+    findMyInfoByUser();
+  }, []);
+
+  useEffect(() => {
+    if (findUserInfoByUserQuery) {
+      if (findUserInfoByUserQuery.findUserInfoByUser.identity === mynickName) {
+        router.push("/mypage");
+      } else {
+        setData(findUserInfoByUserQuery.findUserInfoByUser);
+      }
+    }
+  }, [findUserInfoByUserQuery, mynickName]);
 
   const [signOutByUser] = useMutation(SIGN_OUT_BY_USER, {
     onError: (e) => toast.error(e.message ?? `${e}`),
   });
-
-  useEffect(() => {
-    if (router.pathname === "/user/[id]") {
-      router.query.id &&
-        findUserInfoByUser({
-          variables: { identity: router.query.id },
-          onCompleted(data) {
-            findMyInfoByUser({
-              onCompleted(myData) {
-                if (
-                  myData.findMyInfoByUser.identity ===
-                  data.findUserInfoByUser.identity
-                ) {
-                  router.push("/mypage");
-                } else {
-                  setData(data.findUserInfoByUser);
-                }
-              },
-            });
-          },
-        });
-      setPart("user");
-    } else {
-      findMyInfoByUser({});
-    }
-  }, [router.query.id, refetch]);
 
   useEffect(() => {}, [nowAble, data]);
 

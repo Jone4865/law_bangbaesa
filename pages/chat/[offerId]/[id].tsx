@@ -116,6 +116,7 @@ const Room: NextPage<Props> = ({ id }) => {
             }).then(({ data }) => {
               setDatas(data.findManyChatMessageByUser.chatMessages);
               divRef.current && divRef.current.focus();
+              inputRef.current && inputRef.current.focus();
             });
           },
         });
@@ -211,7 +212,7 @@ const Room: NextPage<Props> = ({ id }) => {
     if (containerRef.current && scroll) {
       scrollToBottom();
     }
-    if (datas?.length > 10 && inputRef.current) {
+    if (inputRef.current) {
       inputRef.current.focus();
     }
   }, [isMobile, datas]);
@@ -370,7 +371,7 @@ const Room: NextPage<Props> = ({ id }) => {
               <div ref={prevRef} />
               {datas?.map((v, idx) => (
                 <div key={idx}>
-                  {v.isUnread && !datas[idx - 1].isUnread && unreadView && (
+                  {v?.isUnread && !datas[idx - 1]?.isUnread && unreadView && (
                     <div className={cx("unread")}>여기까지 읽었습니다.</div>
                   )}
                   <div

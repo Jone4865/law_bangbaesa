@@ -540,6 +540,7 @@
   background-color: #ff7401;
   justify-content: center;
   align-items: center;
+  color: #fff;
   cursor: pointer;
   @include view("mobile") {
     display: flex;

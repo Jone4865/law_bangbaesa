@@ -124,25 +124,25 @@ export default function OTCTabel({
                     >
                       {v.identity}
                     </div>
+                    {router.pathname !== "/mypage" && (
+                      <div className={cx("thumbs")}>
+                        <div className={cx("thumb_wrap")}>
+                          <Image
+                            src={"/img/otc/thumb.png"}
+                            alt="엄지척"
+                            fill
+                            priority
+                            quality={100}
+                          />
+                        </div>{" "}
+                        {v.positiveCount}
+                      </div>
+                    )}
                     {nowAble !== "my" && (
-                      <>
-                        <div className={cx("thumbs")}>
-                          <div className={cx("thumb_wrap")}>
-                            <Image
-                              src={"/img/otc/thumb.png"}
-                              alt="엄지척"
-                              fill
-                              priority
-                              quality={100}
-                            />
-                          </div>{" "}
-                          {v.positiveCount}
-                        </div>
-                        <div className={cx("log", "mobile_none")}>
-                          최근 접속 :{" "}
-                          {moment(v.connectionDate).format("mm" + "분 전")}
-                        </div>
-                      </>
+                      <div className={cx("log", "mobile_none")}>
+                        최근 접속 :{" "}
+                        {moment(v.connectionDate).format("mm" + "분 전")}
+                      </div>
                     )}
                   </div>
                   <div className={cx("mobile_flex")}>
@@ -165,7 +165,7 @@ export default function OTCTabel({
                       {v.price}
                       <span className={cx("gray_right")}>KRW</span>
                     </div>
-                    {nowAble !== "my" && (
+                    {router.pathname !== "/mypage" && (
                       <div className="flex">
                         {v.reservationStatus && part === "otc" && (
                           <div className={cx("reservation_btn")}>예약중</div>

@@ -170,7 +170,8 @@ export default function SignUp() {
     }
 
     if (
-      allCheck &&
+      serviseCheck &&
+      persnerCheck &&
       duplicateId &&
       passTell &&
       passwordRule.test(passWord) &&

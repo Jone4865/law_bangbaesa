@@ -165,7 +165,7 @@ export default function OTC({
         take: part === "home" ? 4 : take,
         skip,
         offerAction:
-          part === "mypage" && !isChat
+          router.pathname === "/mypage" && !isChat
             ? undefined
             : partKind
             ? partKind
@@ -413,6 +413,7 @@ export default function OTC({
             </div>
           )}
         </div>
+
         <div
           onClick={() => router.push("/create-offer")}
           className={cx("mobile_create")}

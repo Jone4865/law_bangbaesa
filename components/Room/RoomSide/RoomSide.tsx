@@ -50,7 +50,7 @@ export default function RoomSide({ onClickRoomId, setOfferId }: Props) {
     findManyChatRoomByUser({
       variables: {
         take,
-        cursorId: data.length > 0 ? data[data.length - 1].id : null,
+        cursorId: data.length > 0 ? data[data.length - 1]?.id : null,
       },
     });
   }, [nextView]);

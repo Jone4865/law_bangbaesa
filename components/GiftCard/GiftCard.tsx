@@ -11,7 +11,6 @@ export default function GiftCard() {
   const [searchText, setSearchText] = useState("");
 
   const onSubmitHandle = (e: FormEvent<HTMLFormElement>) => {
-    setSearchText("");
     e.preventDefault();
   };
 
