@@ -1,12 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import styles from "./MyRoom.module.scss";
 import className from "classnames/bind";
-import {
-  useApolloClient,
-  useLazyQuery,
-  useMutation,
-  useSubscription,
-} from "@apollo/client";
+import { useLazyQuery, useMutation, useSubscription } from "@apollo/client";
 import { toast } from "react-toastify";
 import { SUBSCRIBE_CHAT_MESSAGE } from "../../src/graphql/generated/subscription/subscribeChatMessage";
 import { GetServerSideProps, NextPage } from "next";
@@ -71,6 +66,7 @@ const Room: NextPage<Props> = ({ id }) => {
   const divRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const unreadRef = useRef<HTMLDivElement>(null);
 
   const [subscriptTexts, setSubscriptTexts] = useState<subscriptText[]>();
 
@@ -243,44 +239,7 @@ const Room: NextPage<Props> = ({ id }) => {
   }, [isMobile, datas]);
 
   useEffect(() => {
-    if (offerId !== 0) {
-      findOneOffer({ variables: { findOneOfferId: offerId } });
-    }
-    findManyChatRoomByUser({
-      variables: { take: 10, offerId: offerId },
-    });
-    findMyInfoByUser();
-    setSubscriptTexts(undefined);
-    findManyChatMessageByUser({
-      variables: { take, chatRoomId: id, cursorId: null, direction: "NEXT" },
-      fetchPolicy: "no-cache",
-    }).then(({ data }) => {
-      setDatas([]);
-      setDatas(data.findManyChatMessageByUser.chatMessages);
-      if (data.findManyChatMessageByUser.chatMessages.length < 8) {
-        findManyChatMessageByUser({
-          variables: {
-            take,
-            chatRoomId: id,
-            cursorId: null,
-            direction: "PREV",
-          },
-          fetchPolicy: "no-cache",
-        }).then(({ data }) => {
-          setDatas((prev) => [
-            ...data.findManyChatMessageByUser.chatMessages,
-            ...prev,
-          ]);
-          if (divRef.current) {
-            divRef.current.focus();
-          }
-        });
-      }
-    });
-  }, [id, offerId]);
-
-  useEffect(() => {
-    if (datas.length > 1 && prevView) {
+    if (datas.length > 1 && prevView && !nextView) {
       findManyChatMessageByUser({
         variables: {
           take,
@@ -303,7 +262,7 @@ const Room: NextPage<Props> = ({ id }) => {
 
   useEffect(() => {
     setSubscriptTexts(undefined);
-    if (datas.length > 1 && nextView) {
+    if (datas.length > 1 && nextView && !prevView) {
       findManyChatMessageByUser({
         variables: {
           take,
@@ -343,6 +302,51 @@ const Room: NextPage<Props> = ({ id }) => {
       };
     }
   }, [scroll]);
+
+  useEffect(() => {
+    if (offerId !== 0) {
+      findOneOffer({ variables: { findOneOfferId: offerId } });
+    }
+    findManyChatRoomByUser({
+      variables: { take: 10, offerId: offerId },
+    });
+    findMyInfoByUser();
+    setSubscriptTexts(undefined);
+    findManyChatMessageByUser({
+      variables: { take, chatRoomId: id, cursorId: null, direction: "NEXT" },
+      fetchPolicy: "no-cache",
+    }).then(({ data }) => {
+      setDatas([]);
+      setDatas(data.findManyChatMessageByUser.chatMessages);
+      if (data.findManyChatMessageByUser.chatMessages.length < 8) {
+        findManyChatMessageByUser({
+          variables: {
+            take,
+            chatRoomId: id,
+            cursorId: null,
+            direction: "PREV",
+          },
+          fetchPolicy: "no-cache",
+        }).then(({ data }) => {
+          setDatas((prev) => [
+            ...data.findManyChatMessageByUser.chatMessages,
+            ...prev,
+          ]);
+          if (unreadRef.current) {
+            unreadRef.current.focus();
+          } else {
+            if (divRef.current) {
+              divRef.current.focus();
+            }
+          }
+        });
+      }
+    });
+  }, [id, offerId]);
+  if (unreadRef.current) {
+    console.log(unreadRef.current);
+  }
+  useEffect(() => {}, [divRef.current, unreadRef.current]);
 
   return (
     <div className={cx("container")}>
@@ -419,10 +423,10 @@ const Room: NextPage<Props> = ({ id }) => {
           <div className={cx("right_wrap")}>
             <div ref={containerRef} className={cx("chat_container")}>
               <div ref={prevRef} />
-              {datas?.map((v, idx) => (
+              {datas?.map((v, idx, array) => (
                 <div key={idx}>
-                  {v?.isUnread && !datas[idx - 1]?.isUnread && unreadView && (
-                    <div tabIndex={0} ref={divRef} className={cx("unread")}>
+                  {v?.isUnread && !array[idx - 1]?.isUnread && (
+                    <div tabIndex={1} ref={unreadRef} className={cx("unread")}>
                       여기까지 읽었습니다.
                     </div>
                   )}
@@ -467,7 +471,7 @@ const Room: NextPage<Props> = ({ id }) => {
                         {v.message}
                       </div>
                     </div>
-                    {!unreadView && <div tabIndex={0} ref={divRef} />}
+                    <div tabIndex={0} ref={divRef} />
                   </div>
                 </div>
               ))}
