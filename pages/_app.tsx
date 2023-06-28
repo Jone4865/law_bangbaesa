@@ -13,12 +13,12 @@ import {
 } from "@apollo/client";
 import { RecoilRoot, useRecoilState } from "recoil";
 import { userTokenState } from "../src/recoil/atoms/userToken";
-import apolloClient from "../src/config/apolloClient";
 import { userTokenTypes } from "../src/recoil/atoms/userToken";
 import Header from "../components/Header/Header";
 import Side from "../components/Side/Side";
 import Footer from "../components/Footer/Footer";
 import { useState } from "react";
+import { useApollo } from "../src/config/apolloClient";
 
 export default function App({
   Component,
@@ -35,11 +35,10 @@ export default function App({
 }
 
 function InnerApp({ Component, pageProps }: AppProps & { router: NextRouter }) {
-  const [tokenInfo, setTokenInfo] =
-    useRecoilState<userTokenTypes>(userTokenState);
   const [modal, setModal] = useState(false);
   const appRouter = useRouter();
   const containerRef = useRef<HTMLDivElement>(null);
+  const apolloClient = useApollo(pageProps);
 
   const setModalState = (modal: boolean) => {
     setModal(modal);
@@ -64,14 +63,7 @@ function InnerApp({ Component, pageProps }: AppProps & { router: NextRouter }) {
 
   return (
     <>
-      <ApolloProvider
-        client={
-          apolloClient(
-            tokenInfo,
-            setTokenInfo
-          ) as ApolloClient<NormalizedCacheObject>
-        }
-      >
+      <ApolloProvider client={apolloClient}>
         <Head>
           <title>방배사</title>
           <meta name="Keywords" content="bangbaesa" />

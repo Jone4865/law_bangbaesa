@@ -9,6 +9,7 @@ import { DELETE_OFFER_BY_USER } from "../../../src/graphql/generated/mutation/de
 import { useInView } from "react-intersection-observer";
 import moment from "moment";
 import Image from "next/image";
+import { useCookies } from "react-cookie";
 
 const cx = className.bind(styles);
 
@@ -55,7 +56,7 @@ export default function OTCTabel({
   onScrollHandle,
 }: Props) {
   const router = useRouter();
-
+  const [cookies] = useCookies(["nickName"]);
   const [nextRef, nextView] = useInView({
     threshold: 1,
   });
@@ -116,15 +117,19 @@ export default function OTCTabel({
                   <div className={cx("seller")}>
                     <div
                       onClick={() =>
-                        part !== "mypage" && router.push(`/user/${v.identity}`)
+                        cookies.nickName !== v.identity &&
+                        router.push(`/user/${v.identity}`)
                       }
                       className={cx(
-                        part !== "mypage" ? "default_id" : "mypage_id"
+                        cookies.nickName !== v.identity
+                          ? "default_id"
+                          : "mypage_id"
                       )}
                     >
                       {v.identity}
                     </div>
-                    {router.pathname !== "/mypage" && (
+                    {(router.pathname === "/user/[id]" ||
+                      nowAble === "like") && (
                       <div className={cx("thumbs")}>
                         <div className={cx("thumb_wrap")}>
                           <Image
@@ -165,7 +170,8 @@ export default function OTCTabel({
                       {v.price}
                       <span className={cx("gray_right")}>KRW</span>
                     </div>
-                    {router.pathname !== "/mypage" && (
+                    {(router.pathname === "/user/[id]" ||
+                      nowAble === "like") && (
                       <div className="flex">
                         {v.reservationStatus && part === "otc" && (
                           <div className={cx("reservation_btn")}>예약중</div>

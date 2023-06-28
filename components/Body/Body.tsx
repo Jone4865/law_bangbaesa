@@ -12,10 +12,14 @@ import className from "classnames/bind";
 import { useRouter } from "next/router";
 import TopImage from "../TopImage/TopImage";
 import Marquee from "../Marquee/Marquee";
+import { useLazyQuery } from "@apollo/client";
+import { FIND_MY_INFO_BY_USER } from "../../src/graphql/generated/query/findMyInfoByUser";
+import { useCookies } from "react-cookie";
 const cx = className.bind(styles);
 
 export default function Body() {
   const router = useRouter();
+  const [cookies, setCookie] = useCookies(["nickName"]);
   const coins = ["USDT", "BTC"];
   const [buyCoinKind, setBuyCoinKind] = useState<"BTC" | "USDT">("USDT");
   const [sellCoinKind, setSellCoinKind] = useState<"BTC" | "USDT">("USDT");
@@ -49,7 +53,18 @@ export default function Body() {
     </>,
   ];
 
+  const [findMyInfoByUser] = useLazyQuery(FIND_MY_INFO_BY_USER, {
+    onError: (_e) => {
+      router.push("/sign-in");
+    },
+    onCompleted(data) {
+      setCookie("nickName", data.findMyInfoByUser.identity);
+    },
+    fetchPolicy: "no-cache",
+  });
+
   useEffect(() => {
+    findMyInfoByUser({});
     if (isMiddle) {
       setMiddle(true);
     } else {

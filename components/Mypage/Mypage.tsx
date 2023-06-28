@@ -45,6 +45,10 @@ export default function Mypage() {
     });
   };
 
+  const [signOutByUser] = useMutation(SIGN_OUT_BY_USER, {
+    onError: (e) => toast.error(e.message ?? `${e}`),
+  });
+
   const [findMyInfoByUser] = useLazyQuery(FIND_MY_INFO_BY_USER, {
     onError: (_e) => {
       router.push("/sign-in");
@@ -71,8 +75,8 @@ export default function Mypage() {
   };
 
   useEffect(() => {
-    findMyInfoByUser();
-  }, []);
+    router.pathname === "/mypage" && findMyInfoByUser();
+  }, [router.pathname]);
 
   useEffect(() => {
     if (findUserInfoByUserQuery) {
@@ -83,10 +87,6 @@ export default function Mypage() {
       }
     }
   }, [findUserInfoByUserQuery, mynickName]);
-
-  const [signOutByUser] = useMutation(SIGN_OUT_BY_USER, {
-    onError: (e) => toast.error(e.message ?? `${e}`),
-  });
 
   useEffect(() => {}, [nowAble, data]);
 
@@ -179,28 +179,27 @@ export default function Mypage() {
               <div
                 className={cx("offer_body", totalOffer === 0 ? "white" : null)}
               >
-                {nowAble === "like" ||
-                  (router.pathname === "/user/[id]" && (
+                {(nowAble === "like" || router.pathname === "/user/[id]") && (
+                  <div
+                    onClick={() =>
+                      setOfferState((prev) =>
+                        prev === "SELL" ? "BUY" : "SELL"
+                      )
+                    }
+                    className={cx("toggle_body")}
+                  >
                     <div
-                      onClick={() =>
-                        setOfferState((prev) =>
-                          prev === "SELL" ? "BUY" : "SELL"
-                        )
-                      }
-                      className={cx("toggle_body")}
+                      className={cx(
+                        "toggle-circle",
+                        offerState === "SELL" && "toggle--checked"
+                      )}
                     >
-                      <div
-                        className={cx(
-                          "toggle-circle",
-                          offerState === "SELL" && "toggle--checked"
-                        )}
-                      >
-                        {offerState === "BUY" ? "구매" : "판매"}
-                      </div>
-                      <div>구매</div>
-                      <div>판매</div>
+                      {offerState === "BUY" ? "구매" : "판매"}
                     </div>
-                  ))}
+                    <div>구매</div>
+                    <div>판매</div>
+                  </div>
+                )}
                 <OTC
                   part={part}
                   nickName={data ? data.identity : ""}

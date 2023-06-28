@@ -218,33 +218,8 @@ const Room: NextPage<Props> = ({ id }) => {
   }, [isMobile, datas]);
 
   useEffect(() => {
-    findMyInfoByUser();
-    findManyChatMessageByUser({
-      variables: { take, chatRoomId: id, cursorId: null, direction: "NEXT" },
-      fetchPolicy: "no-cache",
-    }).then(({ data }) => {
-      setDatas([]);
-      setDatas(data.findManyChatMessageByUser.chatMessages);
-      if (data.findManyChatMessageByUser.chatMessages.length < 8) {
-        findManyChatMessageByUser({
-          variables: {
-            take,
-            chatRoomId: id,
-            cursorId: null,
-            direction: "PREV",
-          },
-        }).then(({ data }) => {
-          setDatas((prev) => [
-            ...data.findManyChatMessageByUser.chatMessages,
-            ...prev,
-          ]);
-        });
-      }
-    });
-  }, [id]);
-
-  useEffect(() => {
-    if (datas.length > 1 && prevView) {
+    if (datas.length > 1 && prevView && !nextView) {
+      setUnreadView(false);
       findManyChatMessageByUser({
         variables: {
           take,
@@ -267,7 +242,7 @@ const Room: NextPage<Props> = ({ id }) => {
 
   useEffect(() => {
     setSubscriptTexts(undefined);
-    if (datas.length > 1 && nextView) {
+    if (datas.length > 1 && nextView && !prevView) {
       findManyChatMessageByUser({
         variables: {
           take,
@@ -307,6 +282,33 @@ const Room: NextPage<Props> = ({ id }) => {
       };
     }
   }, [scroll]);
+
+  useEffect(() => {
+    setDatas([]);
+    setMessage("");
+    setUnreadView(true);
+    findMyInfoByUser();
+    findManyChatMessageByUser({
+      variables: { take, chatRoomId: id, cursorId: null, direction: "NEXT" },
+      fetchPolicy: "no-cache",
+    }).then(({ data }) => {
+      setDatas([]);
+      setDatas(data.findManyChatMessageByUser.chatMessages);
+      if (data.findManyChatMessageByUser.chatMessages.length < 8) {
+        findManyChatMessageByUser({
+          variables: {
+            take,
+            chatRoomId: id,
+            cursorId: null,
+            direction: "PREV",
+          },
+        }).then(({ data }) => {
+          setDatas((_prev) => [...data.findManyChatMessageByUser.chatMessages]);
+        });
+      }
+    });
+    divRef.current && divRef.current.focus();
+  }, [id, divRef.current]);
 
   useEffect(() => {
     findOneOffer({
@@ -369,10 +371,16 @@ const Room: NextPage<Props> = ({ id }) => {
           <div className={cx("right_wrap")}>
             <div ref={containerRef} className={cx("chat_container")}>
               <div ref={prevRef} />
-              {datas?.map((v, idx) => (
+              {datas?.map((v, idx, array) => (
                 <div key={idx}>
-                  {v?.isUnread && !datas[idx - 1]?.isUnread && unreadView && (
-                    <div className={cx("unread")}>여기까지 읽었습니다.</div>
+                  {v?.isUnread && !array[idx - 1]?.isUnread && unreadView && (
+                    <div
+                      tabIndex={0}
+                      ref={(el) => scroll && el?.focus()}
+                      className={cx("unread")}
+                    >
+                      여기까지 읽었습니다.
+                    </div>
                   )}
                   <div
                     className={cx(
@@ -415,7 +423,7 @@ const Room: NextPage<Props> = ({ id }) => {
                         {v.message}
                       </div>
                     </div>
-                    <div tabIndex={0} ref={divRef} />
+                    <div tabIndex={2} ref={divRef} />
                   </div>
                 </div>
               ))}

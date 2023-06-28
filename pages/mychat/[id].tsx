@@ -16,11 +16,14 @@ import { useMediaQuery } from "react-responsive";
 import { FIND_MANY_CHAT_ROOM_BY_USER } from "../../src/graphql/generated/query/findManyChatRoomByUser";
 import Image from "next/image";
 import { FIND_ONE_OFFER } from "../../src/graphql/generated/query/findOneOffer";
+import { initApollo } from "next-with-apollo";
+import { initializeApollo } from "../../src/config/apolloClient";
 
 const cx = className.bind(styles);
 
 type Props = {
   id: number;
+  data: Data[];
 };
 
 type Data = {
@@ -51,7 +54,7 @@ type subscriptText = {
   isUnread: boolean;
 };
 
-const Room: NextPage<Props> = ({ id }) => {
+const Room: NextPage<Props> = ({ id, data }) => {
   const isMobile = useMediaQuery({
     query: "(max-width: 759px)",
   });
@@ -239,6 +242,7 @@ const Room: NextPage<Props> = ({ id }) => {
 
   useEffect(() => {
     if (datas.length > 1 && prevView && !nextView) {
+      setUnreadView(false);
       findManyChatMessageByUser({
         variables: {
           take,
@@ -282,9 +286,6 @@ const Room: NextPage<Props> = ({ id }) => {
   useEffect(() => {
     if (scroll) {
       setSubscriptTexts(undefined);
-      if (datas?.length >= 10) {
-        setUnreadView(false);
-      }
     }
     const scrollElement = containerRef.current;
     if (scrollElement) {
@@ -306,6 +307,8 @@ const Room: NextPage<Props> = ({ id }) => {
 
   useEffect(() => {
     setDatas([]);
+    setMessage("");
+    setUnreadView(true);
     setSubscriptTexts(undefined);
     if (offerId !== 0) {
       findOneOffer({ variables: { findOneOfferId: offerId } });
@@ -315,26 +318,9 @@ const Room: NextPage<Props> = ({ id }) => {
     });
     findMyInfoByUser();
     setSubscriptTexts(undefined);
-    findManyChatMessageByUser({
-      variables: { take, chatRoomId: id, cursorId: null, direction: "NEXT" },
-      fetchPolicy: "no-cache",
-    }).then(({ data }) => {
-      setDatas(data.findManyChatMessageByUser.chatMessages);
-      if (data.findManyChatMessageByUser.chatMessages.length < 8) {
-        findManyChatMessageByUser({
-          variables: {
-            take,
-            chatRoomId: id,
-            cursorId: null,
-            direction: "PREV",
-          },
-          fetchPolicy: "no-cache",
-        }).then(({ data }) => {
-          setDatas((_prev) => [...data.findManyChatMessageByUser.chatMessages]);
-        });
-      }
-    });
-  }, [offerId, id]);
+    setDatas(data);
+    divRef.current && divRef.current.focus();
+  }, [offerId, id, data]);
 
   return (
     <div className={cx("container")}>
@@ -416,7 +402,7 @@ const Room: NextPage<Props> = ({ id }) => {
                   {v?.isUnread && !array[idx - 1]?.isUnread && unreadView && (
                     <div
                       tabIndex={0}
-                      ref={(el) => el?.focus()}
+                      ref={(el) => scroll && el?.focus()}
                       className={cx("unread")}
                     >
                       여기까지 읽었습니다.
@@ -463,7 +449,7 @@ const Room: NextPage<Props> = ({ id }) => {
                         {v.message}
                       </div>
                     </div>
-                    <div tabIndex={0} ref={divRef} />
+                    <div tabIndex={1} ref={divRef} />
                   </div>
                 </div>
               ))}
@@ -497,11 +483,50 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   context
 ) => {
   const id = Number(context.query.id ?? "0");
-  return {
-    props: {
-      id,
-    },
-  };
+  const apolloClient = initializeApollo({ headers: context.req.headers });
+  try {
+    const { data } = await apolloClient.query({
+      query: FIND_MANY_CHAT_MESSAGE_BY_USER,
+      variables: {
+        take: 10,
+        chatRoomId: id,
+        cursorId: null,
+        direction: "PREV",
+      },
+      fetchPolicy: "no-cache",
+    });
+
+    if (data.findManyChatMessageByUser.chatMessages.length < 8) {
+      const { data: newData } = await apolloClient.query({
+        query: FIND_MANY_CHAT_MESSAGE_BY_USER,
+        variables: {
+          take: 10,
+          chatRoomId: id,
+          cursorId: null,
+          direction: "PREV",
+        },
+        fetchPolicy: "no-cache",
+      });
+
+      return {
+        props: {
+          id,
+          data: newData.findManyChatMessageByUser.chatMessages,
+        },
+      };
+    }
+
+    return {
+      props: {
+        id,
+        data: data.findManyChatMessageByUser.chatMessages,
+      },
+    };
+  } catch (error) {
+    return {
+      notFound: true,
+    };
+  }
 };
 
 export default Room;

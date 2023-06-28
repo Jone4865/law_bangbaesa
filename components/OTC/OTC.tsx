@@ -161,7 +161,7 @@ export default function OTC({
     findManyOffer({
       variables: {
         isChat,
-        identity: isChat ? undefined : nickName,
+        identity: router.pathname === "/page" && isChat ? undefined : nickName,
         take: part === "home" ? 4 : take,
         skip,
         offerAction:
