@@ -271,6 +271,9 @@ const Room: NextPage<Props> = ({ id }) => {
             ...data.findManyChatMessageByUser.chatMessages,
             ...prev,
           ]);
+          if (divRef.current) {
+            divRef.current.focus();
+          }
         });
       }
     });
@@ -418,10 +421,11 @@ const Room: NextPage<Props> = ({ id }) => {
               <div ref={prevRef} />
               {datas?.map((v, idx) => (
                 <div key={idx}>
-                  {v?.isUnread && !datas[idx - 1]?.isUnread && unreadView && (
-                    <div className={cx("unread")}>여기까지 읽었습니다.</div>
+                  {v?.isUnread && !datas[idx - 1]?.isUnread && (
+                    <div tabIndex={0} ref={divRef} className={cx("unread")}>
+                      여기까지 읽었습니다.
+                    </div>
                   )}
-                  {/* <div>{v.isUnread && "ㅇㅇ"}</div> */}
                   <div
                     className={cx(
                       v.sender === myNickName
@@ -463,7 +467,7 @@ const Room: NextPage<Props> = ({ id }) => {
                         {v.message}
                       </div>
                     </div>
-                    <div tabIndex={0} ref={divRef} />
+                    {!unreadView && <div tabIndex={0} ref={divRef} />}
                   </div>
                 </div>
               ))}
