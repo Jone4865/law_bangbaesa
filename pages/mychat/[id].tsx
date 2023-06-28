@@ -66,7 +66,6 @@ const Room: NextPage<Props> = ({ id }) => {
   const divRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  const unreadRef = useRef<HTMLDivElement>(null);
 
   const [subscriptTexts, setSubscriptTexts] = useState<subscriptText[]>();
 
@@ -283,7 +282,9 @@ const Room: NextPage<Props> = ({ id }) => {
   useEffect(() => {
     if (scroll) {
       setSubscriptTexts(undefined);
-      setUnreadView(false);
+      if (datas?.length >= 10) {
+        setUnreadView(false);
+      }
     }
     const scrollElement = containerRef.current;
     if (scrollElement) {
@@ -304,6 +305,8 @@ const Room: NextPage<Props> = ({ id }) => {
   }, [scroll]);
 
   useEffect(() => {
+    setDatas([]);
+    setSubscriptTexts(undefined);
     if (offerId !== 0) {
       findOneOffer({ variables: { findOneOfferId: offerId } });
     }
@@ -316,7 +319,6 @@ const Room: NextPage<Props> = ({ id }) => {
       variables: { take, chatRoomId: id, cursorId: null, direction: "NEXT" },
       fetchPolicy: "no-cache",
     }).then(({ data }) => {
-      setDatas([]);
       setDatas(data.findManyChatMessageByUser.chatMessages);
       if (data.findManyChatMessageByUser.chatMessages.length < 8) {
         findManyChatMessageByUser({
@@ -328,25 +330,11 @@ const Room: NextPage<Props> = ({ id }) => {
           },
           fetchPolicy: "no-cache",
         }).then(({ data }) => {
-          setDatas((prev) => [
-            ...data.findManyChatMessageByUser.chatMessages,
-            ...prev,
-          ]);
-          if (unreadRef.current) {
-            unreadRef.current.focus();
-          } else {
-            if (divRef.current) {
-              divRef.current.focus();
-            }
-          }
+          setDatas((_prev) => [...data.findManyChatMessageByUser.chatMessages]);
         });
       }
     });
-  }, [id, offerId]);
-  if (unreadRef.current) {
-    console.log(unreadRef.current);
-  }
-  useEffect(() => {}, [divRef.current, unreadRef.current]);
+  }, [offerId, id]);
 
   return (
     <div className={cx("container")}>
@@ -425,8 +413,12 @@ const Room: NextPage<Props> = ({ id }) => {
               <div ref={prevRef} />
               {datas?.map((v, idx, array) => (
                 <div key={idx}>
-                  {v?.isUnread && !array[idx - 1]?.isUnread && (
-                    <div tabIndex={1} ref={unreadRef} className={cx("unread")}>
+                  {v?.isUnread && !array[idx - 1]?.isUnread && unreadView && (
+                    <div
+                      tabIndex={0}
+                      ref={(el) => el?.focus()}
+                      className={cx("unread")}
+                    >
                       여기까지 읽었습니다.
                     </div>
                   )}
