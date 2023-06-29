@@ -45,6 +45,7 @@ function Side({ modal, setModalState }: Props) {
   const onNavigate = (path: string) => {
     if (path === "") {
       onLogout();
+      setModalState(false);
     } else {
       router.push(path);
       setModalState(false);
@@ -102,15 +103,15 @@ function Side({ modal, setModalState }: Props) {
           <span onClick={() => setModalState(false)}>X</span>
         </h1>
         {
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-around",
-              marginTop: "20px",
-            }}
-          >
-            {bottomBtns.map((v) => (
-              <div>{v.name}</div>
+          <div className={cx("top_btns")}>
+            {bottomBtns.map((v, idx) => (
+              <div
+                key={idx}
+                onClick={() => onNavigate(v.path)}
+                className={cx("top_hover", idx === 1 && "border_left")}
+              >
+                {v.name}
+              </div>
             ))}
           </div>
         }

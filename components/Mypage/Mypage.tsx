@@ -80,8 +80,9 @@ export default function Mypage() {
     if (!cookies.nickName) {
       router.push("/sign-in");
       toast.warn("로그인이 필요한 서비스입니다.", { toastId: 0 });
+    } else {
+      router.pathname === "/mypage" && findMyInfoByUser();
     }
-    router.pathname === "/mypage" && findMyInfoByUser();
   }, [router.pathname]);
 
   useEffect(() => {
