@@ -98,6 +98,7 @@ export default function OTCTabel({
 
   const [findMyInfoByUser] = useLazyQuery(FIND_MY_INFO_BY_USER, {
     onError: (e) => toast.error(e.message ?? `${e}`),
+    fetchPolicy: "no-cache",
   });
 
   const [deleteOfferByUser] = useMutation(DELETE_OFFER_BY_USER, {

@@ -288,11 +288,13 @@ const Room: NextPage<Props> = ({ id, data }) => {
   }, [scroll]);
 
   useEffect(() => {
-    findOneOffer({
-      variables: {
-        findOneOfferId: id,
-      },
-    });
+    if (router.query.offerId) {
+      findOneOffer({
+        variables: {
+          findOneOfferId: +router.query.offerId,
+        },
+      });
+    }
   }, []);
 
   useEffect(() => {

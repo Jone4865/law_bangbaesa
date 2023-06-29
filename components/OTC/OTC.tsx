@@ -42,11 +42,11 @@ type Data = {
 type Props = {
   part: "home" | "otc" | "mypage" | "user";
   nowAble: string;
-  refetch: boolean;
   partKind?: "BUY" | "SELL";
   coinKind?: "BTC" | "TETHER";
   nickName?: string | undefined;
   isChat?: boolean;
+  refetch?: boolean;
   setTotalOffer?: Dispatch<SetStateAction<number>>;
 };
 
@@ -186,20 +186,6 @@ export default function OTC({
   });
 
   useEffect(() => {
-    console.log({
-      isChat,
-      identity: router.pathname === "/mypage" && isChat ? undefined : nickName,
-      take: part === "home" ? 4 : take,
-      skip,
-      offerAction:
-        router.pathname === "/mypage" && !isChat ? undefined : partKind,
-      coinKind:
-        part === "mypage" || part === "user"
-          ? undefined
-          : coinKind === "BTC"
-          ? "BTC"
-          : "USDT",
-    });
     findManyOffer({
       variables: {
         isChat,

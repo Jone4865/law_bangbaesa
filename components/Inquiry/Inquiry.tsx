@@ -14,29 +14,21 @@ import NoticeDetail from "./Notice/NoticeDetail/NoticeDetail";
 
 const cx = className.bind(styles);
 
-type Data = {
-  id: number;
-  title: string;
-  content: string;
-  createdAt: string;
-  hits: number;
-};
-
 export default function Inquiry() {
   const router = useRouter();
   const [cookies] = useCookies(["login"]);
   const [partName, setPartName] = useState("공지사항");
   const [create, setCreate] = useState(false);
-  const [detailData, setDetailData] = useState<Data | undefined>(undefined);
 
   const partArr = ["공지사항", "1:1 문의"];
 
   const onClickHandle = (item: string) => {
     if (item === "공지사항") {
-      setPartName(item);
-      setDetailData(undefined);
+      router.push("/notice");
     } else {
-      cookies.login ? setPartName(item) : router.push("/sign-in");
+      cookies.login
+        ? router.push("/inquiry/my-inquiry")
+        : router.push("/sign-in");
     }
   };
 
@@ -55,10 +47,15 @@ export default function Inquiry() {
   );
 
   useEffect(() => {
-    if (partName === "1:1 문의") {
+    if (router.pathname === "/inquiry/my-inquiry") {
       findManyUserInquiryByUser({ variables: { take: 20, skip: 0 } });
     }
-  }, [partName]);
+    if (router.pathname.includes("/inquiry")) {
+      setPartName("1:1 문의");
+    } else {
+      setPartName("공지사항");
+    }
+  }, [router.pathname, partName]);
 
   return (
     <div className={cx("container")}>
@@ -95,15 +92,10 @@ export default function Inquiry() {
             </div>
           ))}
         </div>
-        {partName === "공지사항" ? (
-          detailData === undefined ? (
-            <Notice setDetailData={setDetailData} />
-          ) : (
-            <NoticeDetail
-              detailData={detailData}
-              setDetailData={setDetailData}
-            />
-          )
+        {router.pathname === "/notice/[id]" ? (
+          <NoticeDetail />
+        ) : partName === "공지사항" ? (
+          <Notice />
         ) : create ? (
           <CreateInquiry setCreate={setCreate} />
         ) : (

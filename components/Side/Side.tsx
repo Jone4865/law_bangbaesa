@@ -34,7 +34,7 @@ function Side({ modal, setModalState }: Props) {
     { name: "홈", path: "/" },
     { name: "OTC", path: "/otc" },
     { name: "상품권", path: "/gift-card" },
-    { name: "고객센터", path: "/inquiry" },
+    { name: "고객센터", path: "/inquiry/notice" },
     { name: "회사소개", path: "/introduction" },
   ];
 

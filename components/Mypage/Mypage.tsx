@@ -237,7 +237,7 @@ export default function Mypage() {
             </div>
             <div className={cx("bottom_right")}>
               <div
-                onClick={() => router.push("/inquiry")}
+                onClick={() => router.push("/inquiry/my-inquiry")}
                 className={cx("inquiry_btn")}
               >
                 <div className={cx("inquiry_img")}>

@@ -14,6 +14,7 @@ import moment from "moment";
 import { FIND_MANY_NOTICE } from "../../../src/graphql/generated/query/findManyNotice";
 import SearchDropDown from "../../DropDown/SearchDropDown/SearchDropDown";
 import Image from "next/image";
+import { useRouter } from "next/router";
 
 const cx = className.bind(styles);
 
@@ -25,11 +26,8 @@ type Data = {
   title: string;
 };
 
-type Props = {
-  setDetailData: Dispatch<SetStateAction<Data | undefined>>;
-};
-
-export default function Notice({ setDetailData }: Props) {
+export default function Notice() {
+  const router = useRouter();
   const [take] = useState(20);
   const [skip, setSkip] = useState(0);
   const [current, setCurrent] = useState(1);
@@ -95,7 +93,7 @@ export default function Notice({ setDetailData }: Props) {
         <div
           key={idx}
           className={cx("map_wrap")}
-          onClick={() => setDetailData(data)}
+          onClick={() => router.push(`/notice/${data.id}`)}
         >
           <div className={cx("number")}>{data.id}</div>
           <div className={cx("middle_title_wrap")}>
