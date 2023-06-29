@@ -181,7 +181,7 @@ export default function OTC({
     onError: (e) => toast.error(e.message ?? `${e}`),
     onCompleted(_v) {
       toast.success("해당 오퍼의 상태를 변경했습니다.");
-      findManyOffer({ variables: { take, skip, nickName } });
+      findManyOffer({ variables: { take, skip, nickName: cookies.nickName } });
     },
   });
 
