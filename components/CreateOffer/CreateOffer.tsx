@@ -67,19 +67,31 @@ export default function CreateOffer() {
   };
 
   const createHandle = () => {
-    createOfferByUser({
-      variables: {
-        coinKind: coin === "비트코인" ? "BTC" : "USDT",
-        offerAction: kind === "판매" ? "SELL" : "BUY",
-        transactionMethod: "DIRECT",
-        cityId: location.id,
-        price: price ? +price : 0,
-        minAmount: min ? +min : 0,
-        maxAmount: max ? +max : 0,
-        responseSpeed: time ? +time : 0,
-        content: text,
-      },
-    });
+    if (price === undefined || price <= 0) {
+      toast.warn("가격을 입력해주세요.", { toastId: 0 });
+    } else if (min === undefined || min <= 0) {
+      toast.warn("최소수량을 입력해주세요."), { toastId: 0 };
+    } else if (max === undefined || max <= 0) {
+      toast.warn("최대수량을 입력해주세요.", { toastId: 0 });
+    } else {
+      if (time && time <= 90) {
+        createOfferByUser({
+          variables: {
+            coinKind: coin === "비트코인" ? "BTC" : "USDT",
+            offerAction: kind === "판매" ? "SELL" : "BUY",
+            transactionMethod: "DIRECT",
+            cityId: location.id,
+            price: price ? +price : 0,
+            minAmount: min ? +min : 0,
+            maxAmount: max ? +max : 0,
+            responseSpeed: time ? +time : 0,
+            content: text,
+          },
+        });
+      } else {
+        toast.warn("응답시간은 1 ~ 90분 사이로 입력해주세요.", { toastId: 0 });
+      }
+    }
   };
 
   const [createOfferByUser] = useMutation(CREATE_OFFER_BY_USER, {
