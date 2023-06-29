@@ -285,6 +285,14 @@ const Room: NextPage<Props> = ({ id, data }) => {
   }, [scroll]);
 
   useEffect(() => {
+    findOneOffer({
+      variables: {
+        findOneOfferId: id,
+      },
+    });
+  }, []);
+
+  useEffect(() => {
     setDatas([]);
     setMessage("");
     setUnreadView(true);
@@ -294,15 +302,8 @@ const Room: NextPage<Props> = ({ id, data }) => {
     setSubscriptTexts(undefined);
     setDatas(data);
     divRef.current && divRef.current.focus();
+    console.log(data, divRef.current);
   }, [id, data]);
-
-  useEffect(() => {
-    findOneOffer({
-      variables: {
-        findOneOfferId: router.query.offerId ? +router.query.offerId : 0,
-      },
-    });
-  }, []);
 
   return (
     <div className={cx("container")}>
@@ -409,10 +410,10 @@ const Room: NextPage<Props> = ({ id, data }) => {
                         {v.message}
                       </div>
                     </div>
-                    <div tabIndex={2} ref={divRef} />
                   </div>
                 </div>
               ))}
+              <div tabIndex={1} ref={divRef} />
               <div ref={nextRef} />
             </div>
             {subscriptTexts && (

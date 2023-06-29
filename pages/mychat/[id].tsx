@@ -449,10 +449,10 @@ const Room: NextPage<Props> = ({ id, data }) => {
                         {v.message}
                       </div>
                     </div>
-                    <div tabIndex={1} ref={divRef} />
                   </div>
                 </div>
               ))}
+              <div tabIndex={1} ref={divRef} />
               <div ref={nextRef} />
             </div>
             {subscriptTexts && (
