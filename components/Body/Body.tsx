@@ -15,6 +15,7 @@ import Marquee from "../Marquee/Marquee";
 import { useLazyQuery } from "@apollo/client";
 import { FIND_MY_INFO_BY_USER } from "../../src/graphql/generated/query/findMyInfoByUser";
 import { useCookies } from "react-cookie";
+import { toast } from "react-toastify";
 const cx = className.bind(styles);
 
 export default function Body() {
@@ -54,8 +55,9 @@ export default function Body() {
   ];
 
   const [findMyInfoByUser] = useLazyQuery(FIND_MY_INFO_BY_USER, {
-    onError: (_e) => {
-      router.push("/sign-in");
+    onError: (e) => {
+      // router.push("/sign-in");
+      toast.warn(e.message);
     },
     onCompleted(data) {
       setCookie("nickName", data.findMyInfoByUser.identity);
@@ -64,7 +66,9 @@ export default function Body() {
   });
 
   useEffect(() => {
-    findMyInfoByUser({});
+    if (cookies.nickName) {
+      findMyInfoByUser({});
+    }
     if (isMiddle) {
       setMiddle(true);
     } else {
