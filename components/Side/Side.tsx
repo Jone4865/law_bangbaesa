@@ -37,6 +37,10 @@ function Side({ modal, setModalState }: Props) {
       path: login ? "/mypage" : "/sign-in",
     },
     {
+      name: "/",
+      path: "",
+    },
+    {
       name: login ? "로그아웃" : "회원가입",
       path: login ? "" : "/sign-up",
     },
@@ -83,7 +87,7 @@ function Side({ modal, setModalState }: Props) {
         htmlEle.style.overflow = "unset";
       }
     }
-  }, [modal, cookies.login]);
+  }, [modal, cookies.login, router.pathname]);
 
   return (
     <div
@@ -102,23 +106,7 @@ function Side({ modal, setModalState }: Props) {
           <span />
           <span onClick={() => setModalState(false)}>X</span>
         </h1>
-        {
-          <div className={cx("top_btns")}>
-            {bottomBtns.map((v, idx) => (
-              <div
-                key={idx}
-                onClick={() => onNavigate(v.path)}
-                className={cx(
-                  "top_hover",
-                  router.pathname === v.path && "color",
-                  idx === 1 && "border_left"
-                )}
-              >
-                {v.name}
-              </div>
-            ))}
-          </div>
-        }
+
         {Btns.map((btn, index) => (
           <div key={index} onClick={() => onNavigate(btn.path)}>
             <div
@@ -131,6 +119,21 @@ function Side({ modal, setModalState }: Props) {
             </div>
           </div>
         ))}
+        {
+          <div className={cx("bottom_btns")}>
+            {bottomBtns.map((v, idx) => (
+              <div
+                key={idx}
+                onClick={() => onNavigate(v.path)}
+                className={cx("bottom_btn")}
+              >
+                <div className={cx(idx !== 1 ? "bottom_hover" : "margin")}>
+                  {v.name}
+                </div>
+              </div>
+            ))}
+          </div>
+        }
       </div>
     </div>
   );
