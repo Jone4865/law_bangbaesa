@@ -16,6 +16,7 @@ import { WebSocketLink } from "@apollo/client/link/ws";
 import { IncomingHttpHeaders } from "http";
 import { useMemo } from "react";
 import { REFRESH_BY_USER } from "../graphql/generated/mutation/refreshByUser";
+import { useRouter } from "next/router";
 
 export const SERVER = process.env.NEXT_PUBLIC_GQL_URL!;
 export const SOCKET = process.env.NEXT_PUBLIC_SOCKET_URL!;
@@ -89,9 +90,9 @@ function createApolloClient(headers: IncomingHttpHeaders | null = null) {
     ({ graphQLErrors, networkError, operation, forward }: any) => {
       const unauthorizedError =
         graphQLErrors &&
-        graphQLErrors.find(
-          (item: any) => item.message === "접근 권한이 없습니다."
-        );
+        graphQLErrors.find((item: any) => {
+          item.message === "접근 권한이 없습니다.";
+        });
 
       if (unauthorizedError) {
         apolloClient?.mutate({ mutation: REFRESH_BY_USER });

@@ -75,7 +75,7 @@ export default function OTCTabel({
       },
     });
   };
-  console.log(data);
+
   const [enterChatRoom] = useMutation(ENTER_CHAT_ROOM, {
     onError: (e) => toast.error(e.message ?? `${e}`),
   });

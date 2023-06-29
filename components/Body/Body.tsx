@@ -54,21 +54,7 @@ export default function Body() {
     </>,
   ];
 
-  const [findMyInfoByUser] = useLazyQuery(FIND_MY_INFO_BY_USER, {
-    onError: (e) => {
-      // router.push("/sign-in");
-      toast.warn(e.message);
-    },
-    onCompleted(data) {
-      setCookie("nickName", data.findMyInfoByUser.identity);
-    },
-    fetchPolicy: "no-cache",
-  });
-
   useEffect(() => {
-    if (cookies.nickName) {
-      findMyInfoByUser({});
-    }
     if (isMiddle) {
       setMiddle(true);
     } else {

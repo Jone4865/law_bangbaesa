@@ -21,6 +21,7 @@ export default function SignIn() {
     "saveId",
     "id",
     "login",
+    "nickName",
   ]);
   const [saveId, setSaveId] = useState(false);
   const [id, setId] = useState<string>("");
@@ -49,10 +50,12 @@ export default function SignIn() {
         setCookie("saveId", true);
         setCookie("id", id);
         setCookie("login", true);
+        setCookie("nickName", id);
         router.replace("/");
       } else {
         removeCookie("id");
         removeCookie("saveId");
+        setCookie("nickName", id);
         setCookie("login", true);
         router.replace("/");
       }
