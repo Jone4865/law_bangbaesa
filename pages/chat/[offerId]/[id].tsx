@@ -244,6 +244,9 @@ const Room: NextPage<Props> = ({ id, data }) => {
   useEffect(() => {
     setSubscriptTexts(undefined);
     if (datas.length > 1 && nextView && !prevView) {
+      if (datas.length > 15) {
+        setUnreadView(false);
+      }
       findManyChatMessageByUser({
         variables: {
           take,
