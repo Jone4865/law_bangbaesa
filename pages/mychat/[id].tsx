@@ -69,7 +69,7 @@ const Room: NextPage<Props> = ({ id, data }) => {
   const divRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-
+  const [next, setNext] = useState(false);
   const [subscriptTexts, setSubscriptTexts] = useState<subscriptText[]>();
 
   const [prevRef, prevView] = useInView({
@@ -241,7 +241,7 @@ const Room: NextPage<Props> = ({ id, data }) => {
   }, [isMobile, datas]);
 
   useEffect(() => {
-    if (datas.length > 1 && prevView && !nextView) {
+    if (datas.length >= 10 && prevView && !nextView) {
       setUnreadView(false);
       findManyChatMessageByUser({
         variables: {
@@ -265,7 +265,8 @@ const Room: NextPage<Props> = ({ id, data }) => {
 
   useEffect(() => {
     setSubscriptTexts(undefined);
-    if (datas.length > 1 && nextView && !prevView) {
+    if (next) {
+      setUnreadView(false);
       findManyChatMessageByUser({
         variables: {
           take,
@@ -503,7 +504,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
           take: 10,
           chatRoomId: id,
           cursorId: null,
-          direction: "PREV",
+          direction: "NEXT",
         },
         fetchPolicy: "no-cache",
       });
