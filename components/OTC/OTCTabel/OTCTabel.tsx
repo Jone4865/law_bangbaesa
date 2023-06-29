@@ -65,11 +65,11 @@ export default function OTCTabel({
     deleteOfferByUser({ variables: { id } });
   };
 
-  const enterChatHandle = (id: number) => {
+  const enterChatHandle = (id: number, identity: string) => {
     enterChatRoom({
       variables: { offerId: +id },
       onCompleted(v) {
-        router.pathname !== "/mypage"
+        cookies.nickName !== identity
           ? router.push(`/chat/${id}/${v.enterChatRoom.id}`)
           : router.push(`/mychat/${v.enterChatRoom.id}`);
       },
@@ -182,7 +182,7 @@ export default function OTCTabel({
                           className={cx(
                             kind === "BUY" ? "chat_orange" : "chat_blue"
                           )}
-                          onClick={() => enterChatHandle(v.id)}
+                          onClick={() => enterChatHandle(v.id, v.identity)}
                         >
                           채팅하기
                         </button>
@@ -218,7 +218,7 @@ export default function OTCTabel({
                           className={cx(
                             kind === "BUY" ? "chat_orange" : "chat_blue"
                           )}
-                          onClick={() => enterChatHandle(v.id)}
+                          onClick={() => enterChatHandle(v.id, v.identity)}
                         >
                           채팅하기
                         </button>
@@ -277,7 +277,7 @@ export default function OTCTabel({
                     </div>
                     <div
                       className={cx("circle_wrap")}
-                      onClick={() => enterChatHandle(v.id)}
+                      onClick={() => enterChatHandle(v.id, v.identity)}
                     >
                       <div className={cx("chat")}>채팅확인</div>
                       <div>
