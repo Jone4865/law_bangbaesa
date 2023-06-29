@@ -492,7 +492,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
         take: 10,
         chatRoomId: id,
         cursorId: null,
-        direction: "PREV",
+        direction: "NEXT",
       },
       fetchPolicy: "no-cache",
     });
@@ -504,7 +504,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
           take: 10,
           chatRoomId: id,
           cursorId: null,
-          direction: "NEXT",
+          direction: "PREV",
         },
         fetchPolicy: "no-cache",
       });
