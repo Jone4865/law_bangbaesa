@@ -33,12 +33,12 @@ function Side({ modal, setModalState }: Props) {
 
   const bottomBtns = [
     {
-      name: login ? "로그아웃" : "로그인",
-      path: login ? "" : "/sign-in",
+      name: login ? "내정보" : "로그인",
+      path: login ? "/mypage" : "/sign-in",
     },
     {
-      name: login ? "내정보" : "회원가입",
-      path: login ? "/mypage" : "/sign-up",
+      name: login ? "로그아웃" : "회원가입",
+      path: login ? "" : "/sign-up",
     },
   ];
 
@@ -108,7 +108,11 @@ function Side({ modal, setModalState }: Props) {
               <div
                 key={idx}
                 onClick={() => onNavigate(v.path)}
-                className={cx("top_hover", idx === 1 && "border_left")}
+                className={cx(
+                  "top_hover",
+                  router.pathname === v.path && "color",
+                  idx === 1 && "border_left"
+                )}
               >
                 {v.name}
               </div>
