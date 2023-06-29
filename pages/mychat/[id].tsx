@@ -241,7 +241,7 @@ const Room: NextPage<Props> = ({ id, data }) => {
   }, [isMobile, datas]);
 
   useEffect(() => {
-    if (datas.length >= 10 && prevView && !nextView) {
+    if (datas.length > 1 && prevView && !nextView) {
       setUnreadView(false);
       findManyChatMessageByUser({
         variables: {
@@ -265,7 +265,7 @@ const Room: NextPage<Props> = ({ id, data }) => {
 
   useEffect(() => {
     setSubscriptTexts(undefined);
-    if (next) {
+    if (datas.length > 1 && nextView && !prevView) {
       setUnreadView(false);
       findManyChatMessageByUser({
         variables: {
@@ -403,7 +403,7 @@ const Room: NextPage<Props> = ({ id, data }) => {
                   {v?.isUnread && !array[idx - 1]?.isUnread && unreadView && (
                     <div
                       tabIndex={0}
-                      ref={(el) => scroll && el?.focus()}
+                      ref={(el) => unreadView && el?.focus()}
                       className={cx("unread")}
                     >
                       여기까지 읽었습니다.
