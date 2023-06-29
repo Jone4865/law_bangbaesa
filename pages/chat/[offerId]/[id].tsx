@@ -305,7 +305,6 @@ const Room: NextPage<Props> = ({ id, data }) => {
     setSubscriptTexts(undefined);
     setDatas(data);
     divRef.current && divRef.current.focus();
-    console.log(data, divRef.current);
   }, [id, data]);
 
   return (
