@@ -19,7 +19,7 @@ type Props = {
 
 function Side({ modal, setModalState }: Props) {
   const router = useRouter();
-  const [cookies, , removeCookies] = useCookies(["login"]);
+  const [cookies, , removeCookies] = useCookies(["login", "nickName"]);
   const [login, setLogin] = useState(false);
 
   const Btns = [
@@ -49,6 +49,7 @@ function Side({ modal, setModalState }: Props) {
 
   const onLogout = () => {
     removeCookies("login");
+    removeCookies("nickName");
     toast.success("로그아웃 되었습니다.");
     signOutByUser();
   };

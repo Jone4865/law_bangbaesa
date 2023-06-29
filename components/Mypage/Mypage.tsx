@@ -27,7 +27,7 @@ type Data = {
 
 export default function Mypage() {
   const router = useRouter();
-  const [, , removeCookies] = useCookies(["login"]);
+  const [, , removeCookies] = useCookies(["login", "nickName"]);
   const [mobileMore, setMobileMore] = useState(false);
   const [nowAble, setNowAble] = useState("my");
   const [data, setData] = useState<Data>();
@@ -40,6 +40,7 @@ export default function Mypage() {
 
   const logoutHandle = () => {
     removeCookies("login");
+    removeCookies("nickName");
     signOutByUser().then(() => {
       window.location.replace("/");
     });

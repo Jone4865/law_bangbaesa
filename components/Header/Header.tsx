@@ -20,7 +20,7 @@ type Props = {
 export default function Header({ setModalState }: Props) {
   const router = useRouter();
   const [scrollY, setScrollY] = useState(false);
-  const [cookies, , removeCookies] = useCookies(["login"]);
+  const [cookies, , removeCookies] = useCookies(["login", "nickName"]);
   const [login, setLogin] = useState(false);
 
   const Btns = [
@@ -37,6 +37,7 @@ export default function Header({ setModalState }: Props) {
 
   const onLogout = () => {
     removeCookies("login");
+    removeCookies("nickName");
     toast.success("로그아웃 되었습니다.");
     signOutByUser();
   };
