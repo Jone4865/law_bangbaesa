@@ -70,6 +70,8 @@ export default function SignUp() {
     if (id) {
       if (idRule.test(id)) {
         checkDuplicateIdentity({ variables: { identity: id } });
+      } else {
+        toast.warn("아이디는 네글자 이상으로 작성해주세요");
       }
     } else {
       toast.warn("아이디를 입력해주세요", { toastId: 0 });

@@ -249,8 +249,8 @@
 }
 
 .btn_img_wrap {
-  width: 34px;
-  height: 34px;
+  min-width: 34px;
+  min-height: 34px;
   border-radius: 100%;
   color: #919191;
   border: solid 1px #dcdcdc;

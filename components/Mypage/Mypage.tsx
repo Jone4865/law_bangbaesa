@@ -27,7 +27,7 @@ type Data = {
 
 export default function Mypage() {
   const router = useRouter();
-  const [, , removeCookies] = useCookies(["login", "nickName"]);
+  const [cookies, , removeCookies] = useCookies(["login", "nickName"]);
   const [mobileMore, setMobileMore] = useState(false);
   const [nowAble, setNowAble] = useState("my");
   const [data, setData] = useState<Data>();
@@ -76,6 +76,10 @@ export default function Mypage() {
   };
 
   useEffect(() => {
+    if (!cookies.nickName) {
+      router.push("/sign-in");
+      toast.warn("로그인이 필요한 서비스입니다.", { toastId: 0 });
+    }
     router.pathname === "/mypage" && findMyInfoByUser();
   }, [router.pathname]);
 
