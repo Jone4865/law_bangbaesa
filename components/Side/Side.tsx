@@ -20,9 +20,18 @@ type Props = {
 function Side({ modal, setModalState }: Props) {
   const router = useRouter();
   const [cookies, , removeCookies] = useCookies(["login", "nickName"]);
+
   const [login, setLogin] = useState(false);
 
   const Btns = [
+    { name: "홈", path: "/" },
+    { name: "OTC", path: "/otc" },
+    { name: "상품권", path: "/gift-card" },
+    { name: "고객센터", path: "/notice" },
+    { name: "회사소개", path: "/introduction" },
+  ];
+
+  const bottomBtns = [
     {
       name: login ? "로그아웃" : "로그인",
       path: login ? "" : "/sign-in",
@@ -31,11 +40,6 @@ function Side({ modal, setModalState }: Props) {
       name: login ? "내정보" : "회원가입",
       path: login ? "/mypage" : "/sign-up",
     },
-    { name: "홈", path: "/" },
-    { name: "OTC", path: "/otc" },
-    { name: "상품권", path: "/gift-card" },
-    { name: "고객센터", path: "/inquiry/notice" },
-    { name: "회사소개", path: "/introduction" },
   ];
 
   const onNavigate = (path: string) => {
@@ -97,6 +101,19 @@ function Side({ modal, setModalState }: Props) {
           <span />
           <span onClick={() => setModalState(false)}>X</span>
         </h1>
+        {
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-around",
+              marginTop: "20px",
+            }}
+          >
+            {bottomBtns.map((v) => (
+              <div>{v.name}</div>
+            ))}
+          </div>
+        }
         {Btns.map((btn, index) => (
           <div key={index} onClick={() => onNavigate(btn.path)}>
             <div
