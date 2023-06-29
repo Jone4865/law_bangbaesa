@@ -129,7 +129,8 @@ export default function OTCTabel({
                       {v.identity}
                     </div>
                     {(router.pathname === "/user/[id]" ||
-                      nowAble === "like") && (
+                      nowAble === "like" ||
+                      router.pathname === "/") && (
                       <div className={cx("thumbs")}>
                         <div className={cx("thumb_wrap")}>
                           <Image
@@ -171,7 +172,8 @@ export default function OTCTabel({
                       <span className={cx("gray_right")}>KRW</span>
                     </div>
                     {(router.pathname === "/user/[id]" ||
-                      nowAble === "like") && (
+                      nowAble === "like" ||
+                      router.pathname === "/") && (
                       <div className="flex">
                         {v.reservationStatus && part === "otc" && (
                           <div className={cx("reservation_btn")}>예약중</div>
