@@ -157,18 +157,18 @@ export default function OTCTabel({
                   </div>
                   <div className={cx("mobile_none")}>
                     <div>
-                      {v.minAmount}
+                      {v.minAmount.toLocaleString()}
                       <span className={cx("gray")}>KRW</span>/
                     </div>
                     <div>
-                      {v.maxAmount}
+                      {v.maxAmount.toLocaleString()}
                       <span className={cx("gray")}>KRW</span>
                     </div>
                   </div>
                   <div className={cx("time")}>{v.responseSpeed}분 미만</div>
                   <div className={cx("btns_wrap")}>
                     <div className={cx("right_price")}>
-                      {v.price}
+                      {v.price.toLocaleString()}
                       <span className={cx("gray_right")}>KRW</span>
                     </div>
                     {(router.pathname === "/user/[id]" ||
@@ -195,16 +195,16 @@ export default function OTCTabel({
                     <div className={cx("mobile_body")}>
                       <div className="flex">
                         <div>
-                          {v.minAmount}
+                          {v.minAmount.toLocaleString()}
                           <span className={cx("gray")}>KRW</span>/
                         </div>
                         <div>
-                          {v.maxAmount}
+                          {v.maxAmount.toLocaleString()}
                           <span className={cx("gray")}>KRW</span>
                         </div>
                       </div>
                       <div className={cx("right_price")}>
-                        {v.price}
+                        {v.price.toLocaleString()}
                         <span className={cx("gray_right")}>KRW</span>
                       </div>
                     </div>
