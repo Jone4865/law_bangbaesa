@@ -42,7 +42,7 @@ export default function Mypage() {
     removeCookies("login");
     removeCookies("nickName");
     signOutByUser().then(() => {
-      window.location.replace("/");
+      router.replace("/");
     });
   };
 

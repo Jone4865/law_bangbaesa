@@ -11,6 +11,7 @@ import TopImage from "../TopImage/TopImage";
 import Image from "next/image";
 import Marquee from "../Marquee/Marquee";
 import { UPDATE_OFFER_STATUS_BY_USER } from "../../src/graphql/generated/mutation/updateOfferStatusByUser";
+import { useCookies } from "react-cookie";
 
 const cx = className.bind(styles);
 
@@ -64,6 +65,7 @@ export default function OTC({
   const [data, setData] = useState<Data[]>([]);
   const [kind, setKind] = useState<"sell" | "buy">("buy");
   const [coin, setCoin] = useState("USDT");
+  const [cookies] = useCookies(["nickName"]);
 
   const handlePagination = (e: number) => {
     setSkip((e - 1) * take);
@@ -113,6 +115,15 @@ export default function OTC({
       } else {
         toast.warn("예약중인 오퍼가 아닙니다.");
       }
+    }
+  };
+
+  const onClickCreate = () => {
+    if (cookies.nickName) {
+      router.push("/create-offer");
+    } else {
+      router.push("sign-in");
+      toast.warn("로그인이 필요한 서비스입니다.");
     }
   };
 
@@ -343,7 +354,7 @@ export default function OTC({
                           "non_mobile",
                           kind === "buy" ? "create_orange" : "create_blue"
                         )}
-                        onClick={() => router.push("/create-offer")}
+                        onClick={onClickCreate}
                       >
                         <div>오퍼 만들기</div>
                         <div className={cx("arrow_img")}>

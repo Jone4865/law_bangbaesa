@@ -46,7 +46,7 @@ export default function Header({ setModalState }: Props) {
     onError: (e) => toast.error(e.message ?? `${e}`),
     onCompleted(_data) {
       setLogin(false);
-      router.push("/");
+      window.location.replace("/");
     },
   });
 

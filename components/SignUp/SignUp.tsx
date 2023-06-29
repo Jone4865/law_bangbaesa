@@ -67,7 +67,7 @@ export default function SignUp() {
 
   const onDuplicateId = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!duplicateId && id) {
+    if (id) {
       if (idRule.test(id)) {
         checkDuplicateIdentity({ variables: { identity: id } });
       }

@@ -57,7 +57,7 @@ function Side({ modal, setModalState }: Props) {
   const [signOutByUser] = useMutation(SIGN_OUT_BY_USER, {
     onCompleted(_data) {
       setLogin(false);
-      router.push("/");
+      router.replace("/");
     },
   });
 

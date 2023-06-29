@@ -80,7 +80,7 @@ export default function Notice({ setDetailData }: Props) {
               value={searchText}
               onChange={(e) => setSearchText(e.target.value)}
             />
-            <div className={cx("btn")}>검색</div>
+            <button className={cx("btn")}>검색</button>
           </div>
         </form>
       </div>
