@@ -6,10 +6,12 @@ import className from "classnames/bind";
 import IdCard from "./IdCard/IdCard";
 import DriverLicense from "./DriverLicense/DriverLicense";
 import PassPort from "./PassPort/PassPort";
+import { useRouter } from "next/router";
 
 const cx = className.bind(styles);
 
 export default function Level3() {
+  const router = useRouter();
   const [kind, setKind] =
     useState<"주민등록증" | "운전면허증" | "여권">("주민등록증");
 
@@ -21,7 +23,7 @@ export default function Level3() {
   return (
     <div className={cx("container")}>
       <div className={cx("wrap")}>
-        <CertificationStateBar />
+        <CertificationStateBar path={router.pathname} />
         <div className={cx("title")}>신분증 종류</div>
         <IDDropDown setKind={setKind} />
         {kind === "주민등록증" && <IdCard />}

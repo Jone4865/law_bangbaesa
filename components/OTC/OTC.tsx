@@ -12,6 +12,7 @@ import Image from "next/image";
 import Marquee from "../Marquee/Marquee";
 import { UPDATE_OFFER_STATUS_BY_USER } from "../../src/graphql/generated/mutation/updateOfferStatusByUser";
 import { useCookies } from "react-cookie";
+import { FIND_MY_INFO_BY_USER } from "../../src/graphql/generated/query/findMyInfoByUser";
 
 const cx = className.bind(styles);
 
@@ -41,6 +42,7 @@ type Data = {
 type Props = {
   part: "home" | "otc" | "mypage" | "user";
   nowAble: string;
+  refetch: boolean;
   partKind?: "BUY" | "SELL";
   coinKind?: "BTC" | "TETHER";
   nickName?: string | undefined;
@@ -52,6 +54,7 @@ export default function OTC({
   nowAble,
   coinKind,
   partKind,
+  refetch,
   part = "otc",
   nickName = undefined,
   isChat = false,
@@ -120,7 +123,17 @@ export default function OTC({
 
   const onClickCreate = () => {
     if (cookies.nickName) {
-      router.push("/create-offer");
+      findMyInfoByUser({
+        onCompleted(data) {
+          const mylevel = data.findMyInfoByUser.level;
+          if (mylevel < 3) {
+            router.push(`certification/level${mylevel + 1}`);
+            toast.warn("다음단계의 인증이 필요합니다");
+          } else {
+            router.push("/create-offer");
+          }
+        },
+      });
     } else {
       router.push("sign-in");
       toast.warn("로그인이 필요한 서비스입니다.");
@@ -151,6 +164,10 @@ export default function OTC({
     }
   };
 
+  const [findMyInfoByUser] = useLazyQuery(FIND_MY_INFO_BY_USER, {
+    onError: (e) => toast.error(e.message ?? `${e}`),
+  });
+
   const [findManyOffer] = useLazyQuery(FIND_MANY_OFFER, {
     onError: (e) => toast.error(e?.message ?? `${e}`),
     onCompleted(data) {
@@ -169,18 +186,29 @@ export default function OTC({
   });
 
   useEffect(() => {
+    console.log({
+      isChat,
+      identity: router.pathname === "/mypage" && isChat ? undefined : nickName,
+      take: part === "home" ? 4 : take,
+      skip,
+      offerAction:
+        router.pathname === "/mypage" && !isChat ? undefined : partKind,
+      coinKind:
+        part === "mypage" || part === "user"
+          ? undefined
+          : coinKind === "BTC"
+          ? "BTC"
+          : "USDT",
+    });
     findManyOffer({
       variables: {
         isChat,
-        identity: router.pathname === "/page" && isChat ? undefined : nickName,
+        identity:
+          router.pathname === "/mypage" && isChat ? undefined : nickName,
         take: part === "home" ? 4 : take,
         skip,
         offerAction:
-          router.pathname === "/mypage" && !isChat
-            ? undefined
-            : partKind
-            ? partKind
-            : "BUY",
+          router.pathname === "/mypage" && !isChat ? undefined : partKind,
         coinKind:
           part === "mypage" || part === "user"
             ? undefined
@@ -189,7 +217,7 @@ export default function OTC({
             : "USDT",
       },
     });
-  }, [coinKind, partKind, isChat, nickName]);
+  }, [coinKind, partKind, isChat, nickName, refetch, data?.length]);
 
   useEffect(() => {
     setTotalOffer && setTotalOffer(totalCount);

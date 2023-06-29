@@ -8,21 +8,26 @@ import Image from "next/image";
 
 const cx = className.bind(styles);
 
-export default function CertificationStateBar() {
+type Props = {
+  path: string;
+};
+
+export default function CertificationStateBar({ path }: Props) {
   const arrs = ["휴대폰 인증", "이메일 인증", "신분증 인증", "주소 인증"];
 
   const [level, setLevel] = useState(1);
 
-  const [findMyInfoByUser] = useLazyQuery(FIND_MY_INFO_BY_USER, {
+  const [findMyInfoByUser, { refetch }] = useLazyQuery(FIND_MY_INFO_BY_USER, {
     onError: (e) => toast.error(e.message ?? `${e}`),
     onCompleted(data) {
       setLevel(data.findMyInfoByUser.level);
     },
+    fetchPolicy: "no-cache",
   });
 
   useEffect(() => {
     findMyInfoByUser();
-  }, []);
+  }, [path]);
 
   return (
     <div className={cx("container")}>

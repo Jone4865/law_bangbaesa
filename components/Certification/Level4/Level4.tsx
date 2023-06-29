@@ -10,7 +10,7 @@ export default function Level4() {
   return (
     <div className={cx("container")}>
       <div className={cx("wrap")}>
-        <CertificationStateBar />
+        <CertificationStateBar path={router.pathname} />
         <div className={cx("title")}>주소인증</div>
         <div>
           <div className={cx("circle_wrap")}>

@@ -9,7 +9,6 @@ export const UPDATE_PASSWORD_BY_USER = gql`
       originPassword: $originPassword
       newPassword: $newPassword
     ) {
-      id
       identity
       createdAt
       level

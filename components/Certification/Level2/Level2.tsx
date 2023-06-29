@@ -14,7 +14,6 @@ export default function Level2() {
   const router = useRouter();
   const [email, setEmail] = useState<string>("");
   const [emailAuthNumber, setEmailAuthNumber] = useState<string>("");
-
   const [mailSend, setMailSend] = useState(false);
 
   const emailRegEx =
@@ -62,13 +61,16 @@ export default function Level2() {
     }
   );
 
-  const [confirmEmailAuthNumber] = useMutation(CONFIRM_EMAIL_AUTH_NUMBER, {
-    onError: (e) => toast.error(e.message ?? `${e}`),
-    onCompleted(_data) {
-      toast.success("이메일 인증이 완료되었습니다.", { toastId: 0 });
-      router.push("/certification/level3");
-    },
-  });
+  const [confirmEmailAuthNumber, { loading: loading2 }] = useMutation(
+    CONFIRM_EMAIL_AUTH_NUMBER,
+    {
+      onError: (e) => toast.error(e.message ?? `${e}`),
+      onCompleted(_data) {
+        toast.success("이메일 인증이 완료되었습니다.", { toastId: 0 });
+        router.push("/certification/level3");
+      },
+    }
+  );
 
   useEffect(() => {
     if (email && emailRegEx.test(email)) {
@@ -86,7 +88,7 @@ export default function Level2() {
   return (
     <div className={cx("container")}>
       <div className={cx("wrap")}>
-        <CertificationStateBar />
+        <CertificationStateBar path={router.pathname} />
         <div>
           <div className={cx("title")}>이메일</div>
           <form onSubmit={onSendMailHandle} className="flex">

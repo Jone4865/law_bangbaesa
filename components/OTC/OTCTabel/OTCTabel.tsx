@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import styles from "./OTCTabel.module.scss";
 import className from "classnames/bind";
 import { useRouter } from "next/router";
-import { useMutation } from "@apollo/client";
+import { useLazyQuery, useMutation } from "@apollo/client";
 import { ENTER_CHAT_ROOM } from "../../../src/graphql/generated/mutation/enterChatRoom";
 import { toast } from "react-toastify";
 import { DELETE_OFFER_BY_USER } from "../../../src/graphql/generated/mutation/deleteOfferByUser";
@@ -10,6 +10,7 @@ import { useInView } from "react-intersection-observer";
 import moment from "moment";
 import Image from "next/image";
 import { useCookies } from "react-cookie";
+import { FIND_MY_INFO_BY_USER } from "../../../src/graphql/generated/query/findMyInfoByUser";
 
 const cx = className.bind(styles);
 
@@ -66,17 +67,36 @@ export default function OTCTabel({
   };
 
   const enterChatHandle = (id: number, identity: string) => {
-    enterChatRoom({
-      variables: { offerId: +id },
-      onCompleted(v) {
-        cookies.nickName !== identity
-          ? router.push(`/chat/${id}/${v.enterChatRoom.id}`)
-          : router.push(`/mychat/${v.enterChatRoom.id}`);
-      },
-    });
+    if (cookies.nickName) {
+      findMyInfoByUser({
+        onCompleted(data) {
+          const myLevel = data.findMyInfoByUser.level;
+          if (myLevel < 3) {
+            router.push(`/certification/level${myLevel + 1}`);
+            toast.warn("다음단계의 인증이 필요합니다");
+          } else {
+            enterChatRoom({
+              variables: { offerId: +id },
+              onCompleted(v) {
+                cookies.nickName !== identity
+                  ? router.push(`/chat/${id}/${v.enterChatRoom.id}`)
+                  : router.push(`/mychat/${v.enterChatRoom.id}`);
+              },
+            });
+          }
+        },
+      });
+    } else {
+      router.push("/sign-in");
+      toast.warn("로그인이 필요한 서비스입니다", { toastId: 0 });
+    }
   };
 
   const [enterChatRoom] = useMutation(ENTER_CHAT_ROOM, {
+    onError: (e) => toast.error(e.message ?? `${e}`),
+  });
+
+  const [findMyInfoByUser] = useLazyQuery(FIND_MY_INFO_BY_USER, {
     onError: (e) => toast.error(e.message ?? `${e}`),
   });
 
@@ -175,10 +195,13 @@ export default function OTCTabel({
                       nowAble === "like" ||
                       router.pathname === "/") && (
                       <div className="flex">
-                        {v.reservationStatus && part === "otc" && (
-                          <div className={cx("reservation_btn")}>예약중</div>
-                        )}
+                        {v.reservationStatus &&
+                          part === "otc" &&
+                          v.transactionStatus !== "COMPLETE" && (
+                            <div className={cx("reservation_btn")}>예약중</div>
+                          )}
                         <button
+                          disabled={v.transactionStatus === "COMPLETE"}
                           className={cx(
                             kind === "BUY" ? "chat_orange" : "chat_blue"
                           )}

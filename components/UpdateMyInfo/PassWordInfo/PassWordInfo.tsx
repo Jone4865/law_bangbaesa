@@ -11,6 +11,7 @@ import { toast } from "react-toastify";
 import { useLazyQuery, useMutation } from "@apollo/client";
 import { VERIFY_ORIGIN_PASSWORD_BY_USER } from "../../../src/graphql/generated/query/verifyOriginPasswordByUser";
 import { UPDATE_PASSWORD_BY_USER } from "../../../src/graphql/generated/mutation/updatePasswordByUser";
+import { useRouter } from "next/router";
 
 const cx = className.bind(styles);
 
@@ -19,6 +20,7 @@ type Props = {
 };
 
 export default function PassWordInfo({ setNowAble }: Props) {
+  const router = useRouter();
   const [passWord, setPassWord] = useState<string>("");
   const [newPassWord, setNewPassWord] = useState<string>("");
   const [confirmPassWord, setConfirmPassWord] = useState<string>();
@@ -92,7 +94,12 @@ export default function PassWordInfo({ setNowAble }: Props) {
           placeholder="새 비밀번호 확인"
         />
         <div className={cx("btn_wrap")}>
-          <div className={cx("btn_left")}>비밀번호 찾기</div>
+          <div
+            className={cx("btn_left")}
+            onClick={() => router.push("/find-password")}
+          >
+            비밀번호 찾기
+          </div>
           <button className={cx("btn_right")} onSubmit={onSubmitHandle}>
             변경하기
           </button>

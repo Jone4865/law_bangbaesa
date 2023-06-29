@@ -67,12 +67,21 @@ export default function CreateOffer() {
   };
 
   const createHandle = () => {
-    if (price === undefined || price <= 0) {
-      toast.warn("가격을 입력해주세요.", { toastId: 0 });
+    if (price === undefined || price < 1000001) {
+      toast.warn(
+        <div>
+          가격은 1 ~ 1,000,000KRW
+          <br />
+          사이로 등록가능합니다
+        </div>,
+        {
+          toastId: 0,
+        }
+      );
     } else if (min === undefined || min <= 0) {
-      toast.warn("최소수량을 입력해주세요."), { toastId: 0 };
+      toast.warn("최소수량을 입력해주세요"), { toastId: 0 };
     } else if (max === undefined || max <= 0) {
-      toast.warn("최대수량을 입력해주세요.", { toastId: 0 });
+      toast.warn("최대수량을 입력해주세요", { toastId: 0 });
     } else {
       if (time && time <= 90) {
         createOfferByUser({

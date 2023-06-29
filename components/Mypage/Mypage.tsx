@@ -34,6 +34,7 @@ export default function Mypage() {
   const [offerState, setOfferState] = useState<"SELL" | "BUY">("BUY");
   const [totalOffer, setTotalOffer] = useState(0);
   const [mynickName, setMynickName] = useState("");
+  const [refetch, setRefetch] = useState(false);
 
   const [part, setPart] =
     useState<"mypage" | "home" | "otc" | "user">("mypage");
@@ -93,7 +94,9 @@ export default function Mypage() {
     }
   }, [findUserInfoByUserQuery, mynickName]);
 
-  useEffect(() => {}, [nowAble, data]);
+  useEffect(() => {
+    setRefetch(!refetch);
+  }, [nowAble, data]);
 
   return (
     <div className={cx("container")}>
@@ -212,6 +215,7 @@ export default function Mypage() {
                   nowAble={nowAble}
                   partKind={offerState}
                   setTotalOffer={setTotalOffer}
+                  refetch={refetch}
                 />
               </div>
             </div>

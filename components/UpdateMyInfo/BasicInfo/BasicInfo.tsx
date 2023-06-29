@@ -116,7 +116,11 @@ export default function BasicInfo({ myInfo, setNowAble }: Props) {
             </div>
             <div className={cx("title")}>이메일 주소</div>
             <div className="flex">
-              <div className={cx("view_text")}>{myInfo?.emailAuth?.email}</div>
+              <div className={cx("view_text")}>
+                {myInfo?.emailAuth?.email
+                  ? myInfo?.emailAuth?.email
+                  : "이메일 인증을 하지 않았습니다"}
+              </div>
               <button className={cx("btn")} onClick={onClickChangeHandle}>
                 변경
               </button>

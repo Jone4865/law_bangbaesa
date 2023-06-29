@@ -190,6 +190,11 @@
   }
 }
 
+.chat_orange:disabled {
+  cursor: default;
+  background-color: #dcdcdc;
+}
+
 .chat_blue {
   outline: none;
   border: none;
