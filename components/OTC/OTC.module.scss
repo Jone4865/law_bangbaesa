@@ -18,6 +18,12 @@
   }
 }
 
+.wrap {
+  :last-child {
+    margin-bottom: 0;
+  }
+}
+
 .left_arrow {
   width: 30px;
   height: 30px;
