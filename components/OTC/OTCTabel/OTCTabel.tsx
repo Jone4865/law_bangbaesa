@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, Dispatch, SetStateAction } from "react";
 import styles from "./OTCTabel.module.scss";
 import className from "classnames/bind";
 import { useRouter } from "next/router";
@@ -43,8 +43,10 @@ type Props = {
   kind: "SELL" | "BUY" | undefined;
   coin: string;
   part: "home" | "otc" | "mypage" | "user";
+  refetch: boolean | undefined;
   updateOfferClickHandle: (key: string, id: number, progress?: boolean) => void;
   onScrollHandle: () => void;
+  setRefetch: Dispatch<SetStateAction<boolean>> | undefined;
 };
 
 export default function OTCTabel({
@@ -53,8 +55,10 @@ export default function OTCTabel({
   data,
   coin,
   kind = "BUY",
+  refetch,
   updateOfferClickHandle,
   onScrollHandle,
+  setRefetch,
 }: Props) {
   const router = useRouter();
   const [cookies] = useCookies(["nickName"]);
@@ -63,7 +67,9 @@ export default function OTCTabel({
   });
 
   const onClickDelete = (id: number) => {
-    deleteOfferByUser({ variables: { id } });
+    deleteOfferByUser({ variables: { deleteOfferByUserId: id } });
+    setRefetch && setRefetch(!refetch);
+    router.reload();
   };
 
   const enterChatHandle = (id: number, identity: string) => {
@@ -114,7 +120,7 @@ export default function OTCTabel({
     onScrollHandle();
     if (data.length >= 10) {
     }
-  }, [nextView]);
+  }, [nextView, refetch]);
 
   return (
     <div className={cx("container")}>
@@ -196,8 +202,7 @@ export default function OTCTabel({
                       nowAble === "like" ||
                       router.pathname === "/") && (
                       <div className="flex">
-                        {v.reservationStatus &&
-                          part === "otc" &&
+                        {v.reservationStatus === "PROGRESS" &&
                           v.transactionStatus !== "COMPLETE" && (
                             <div className={cx("reservation_btn")}>예약중</div>
                           )}
@@ -216,7 +221,7 @@ export default function OTCTabel({
                 </div>
                 {nowAble !== "my" && (
                   <div className={cx("mobile")}>
-                    <div className={cx("mobile_body")}>
+                    <div className={cx("mobile_top_body")}>
                       <div className="flex">
                         <div>
                           {v.minAmount.toLocaleString()}

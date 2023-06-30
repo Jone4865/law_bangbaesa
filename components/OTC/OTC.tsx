@@ -48,6 +48,7 @@ type Props = {
   isChat?: boolean;
   refetch?: boolean;
   setTotalOffer?: Dispatch<SetStateAction<number>>;
+  setRefetch?: Dispatch<SetStateAction<boolean>>;
 };
 
 export default function OTC({
@@ -59,6 +60,7 @@ export default function OTC({
   nickName = undefined,
   isChat = false,
   setTotalOffer,
+  setRefetch,
 }: Props) {
   const btns = ["구매", "판매", "USDT", "BTC"];
   const [take] = useState(10);
@@ -133,6 +135,7 @@ export default function OTC({
             router.push("/create-offer");
           }
         },
+        fetchPolicy: "no-cache",
       });
     } else {
       router.push("sign-in");
@@ -143,6 +146,8 @@ export default function OTC({
   const onClickHandle = (v: any, key: string) => {
     if (key === "kind") {
       setKind(v);
+      setCurrent(1);
+      setSkip(0);
       findManyOffer({
         variables: {
           take,
@@ -153,6 +158,8 @@ export default function OTC({
       });
     } else {
       setCoin(v);
+      setCurrent(1);
+      setSkip(0);
       findManyOffer({
         variables: {
           take,
@@ -181,7 +188,7 @@ export default function OTC({
     onError: (e) => toast.error(e.message ?? `${e}`),
     onCompleted(_v) {
       toast.success("해당 오퍼의 상태를 변경했습니다.");
-      findManyOffer({ variables: { take, skip, nickName: cookies.nickName } });
+      findManyOffer({ variables: { take, skip, identity: cookies.nickName } });
     },
   });
 
@@ -202,6 +209,7 @@ export default function OTC({
             ? "BTC"
             : "USDT",
       },
+      fetchPolicy: "no-cache",
     });
   }, [coinKind, partKind, isChat, nickName, refetch, data?.length]);
 
@@ -219,7 +227,7 @@ export default function OTC({
         },
       });
     }
-  }, [take, skip, totalCount]);
+  }, [take, skip, totalCount, current]);
 
   return (
     <div className={cx(part === "otc" ? "container" : undefined)}>
@@ -394,6 +402,8 @@ export default function OTC({
               nowAble={nowAble}
               updateOfferClickHandle={updateOfferClickHandle}
               onScrollHandle={scrollHandle}
+              refetch={refetch}
+              setRefetch={setRefetch}
             />
           </div>
           {part === "otc" && (
@@ -439,15 +449,14 @@ export default function OTC({
           )}
         </div>
 
-        <div
-          onClick={() => router.push("/create-offer")}
-          className={cx("mobile_create")}
-        >
-          <div>오퍼 만들기</div>
-          <div className={cx("arrow_wrap")}>
-            <Image fill alt="화살표" src={"/img/mypage/arrow.png"} />
+        {part === "otc" && (
+          <div onClick={onClickCreate} className={cx("mobile_create")}>
+            <div>오퍼 만들기</div>
+            <div className={cx("arrow_wrap")}>
+              <Image fill alt="화살표" src={"/img/mypage/arrow.png"} />
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );

@@ -136,7 +136,10 @@
 
 .right_price {
   font-size: 18px;
-  margin-bottom: 10px;
+  margin-bottom: -3px;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
   @include view("very_small") {
     font-size: 16px;
   }
@@ -255,6 +258,11 @@
   @include view("mobile") {
     display: block;
   }
+}
+
+.mobile_top_body {
+  display: flex;
+  flex-direction: column-reverse;
 }
 
 .mobile_body {
