@@ -11,6 +11,7 @@ import moment from "moment";
 import Image from "next/image";
 import { useCookies } from "react-cookie";
 import { FIND_MY_INFO_BY_USER } from "../../../src/graphql/generated/query/findMyInfoByUser";
+import { ApolloQueryResult, OperationVariables } from "apollo-client";
 
 const cx = className.bind(styles);
 
@@ -43,10 +44,8 @@ type Props = {
   kind: "SELL" | "BUY" | undefined;
   coin: string;
   part: "home" | "otc" | "mypage" | "user";
-  refetch: boolean | undefined;
   updateOfferClickHandle: (key: string, id: number, progress?: boolean) => void;
   onScrollHandle: () => void;
-  setRefetch: Dispatch<SetStateAction<boolean>> | undefined;
 };
 
 export default function OTCTabel({
@@ -55,10 +54,8 @@ export default function OTCTabel({
   data,
   coin,
   kind = "BUY",
-  refetch,
   updateOfferClickHandle,
   onScrollHandle,
-  setRefetch,
 }: Props) {
   const router = useRouter();
   const [cookies] = useCookies(["nickName"]);
@@ -89,8 +86,6 @@ export default function OTCTabel({
 
   const onClickDelete = (id: number) => {
     deleteOfferByUser({ variables: { deleteOfferByUserId: id } });
-    setRefetch && setRefetch(!refetch);
-    router.reload();
   };
 
   const enterChatHandle = (id: number, identity: string) => {
@@ -141,7 +136,7 @@ export default function OTCTabel({
     onScrollHandle();
     if (data.length >= 10) {
     }
-  }, [nextView, refetch]);
+  }, [nextView]);
 
   return (
     <div className={cx("container")}>

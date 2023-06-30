@@ -217,7 +217,6 @@ export default function Mypage() {
                   partKind={offerState}
                   setTotalOffer={setTotalOffer}
                   refetch={refetch}
-                  setRefetch={setRefetch}
                 />
               </div>
             </div>

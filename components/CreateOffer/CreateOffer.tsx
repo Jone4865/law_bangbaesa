@@ -129,7 +129,7 @@ export default function CreateOffer() {
   return (
     <div className={cx("container")}>
       <div className={cx("wrap")}>
-        <div className={cx("title")}>USDT 오퍼 만들기</div>
+        <div className={cx("title")}>오퍼 만들기</div>
         <div className={cx("part_wrap")}>
           <div className={cx("sub_title")}>무엇을 하시겠어요?</div>
           <div>

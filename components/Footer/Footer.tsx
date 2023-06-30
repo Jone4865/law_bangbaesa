@@ -31,17 +31,23 @@ export default function Footer() {
               </div>
             </div>
             <div className={cx("top_content")}>
-              <a href="tel:010-4222-5489" className={cx("content_bottom")}>
-                전화 : 010-4222-5489
+              <a href="tel:1833-8603" className={cx("content_bottom")}>
+                전화 : 1833-8603
               </a>
               <span className={cx("content_bottom", "email")}>
                 이메일 : bangbaesa@naver.com
               </span>
               <span
-                onClick={() => router.push("/terms")}
-                className={cx("content_bottom", "terms")}
+                onClick={() => router.push("/terms/1")}
+                className={cx("content_bottom", "terms1")}
               >
                 서비스 이용약관
+              </span>
+              <span
+                onClick={() => router.push("/terms/2")}
+                className={cx("content_bottom", "terms2")}
+              >
+                개인정보 처리방침
               </span>
             </div>
           </div>

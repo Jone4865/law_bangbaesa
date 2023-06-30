@@ -36,7 +36,7 @@ export default function IdCard() {
   const [createIdCard] = useMutation(CREATE_ID_CARD, {
     onError: (e) => toast.error(e.message ?? `${e}`),
     onCompleted(_data) {
-      toast.success("신분증 인증이 완료되었습니다.", { toastId: 0 });
+      toast.success("신분증 인증이 완료되었습니다.");
       router.push("/mypage");
     },
   });

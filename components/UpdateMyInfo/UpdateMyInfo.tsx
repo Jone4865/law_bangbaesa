@@ -56,6 +56,7 @@ export default function UpdateMyInfo() {
       setMyinfo(data.findMyInfoByUser);
       setData(data.findMyInfoByUser);
     },
+    fetchPolicy: "no-cache",
   });
 
   useEffect(() => {

@@ -48,7 +48,6 @@ type Props = {
   isChat?: boolean;
   refetch?: boolean;
   setTotalOffer?: Dispatch<SetStateAction<number>>;
-  setRefetch?: Dispatch<SetStateAction<boolean>>;
 };
 
 export default function OTC({
@@ -60,7 +59,6 @@ export default function OTC({
   nickName = undefined,
   isChat = false,
   setTotalOffer,
-  setRefetch,
 }: Props) {
   const btns = ["구매", "판매", "USDT", "BTC"];
   const [take] = useState(10);
@@ -402,8 +400,6 @@ export default function OTC({
               nowAble={nowAble}
               updateOfferClickHandle={updateOfferClickHandle}
               onScrollHandle={scrollHandle}
-              refetch={refetch}
-              setRefetch={setRefetch}
             />
           </div>
           {part === "otc" && (
