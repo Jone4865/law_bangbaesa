@@ -38,7 +38,7 @@ export default function CertificationStateBar({ path }: Props) {
               <div
                 className={cx(idx + 1 <= level ? "able_level" : "notyet_level")}
               >
-                레벨 {level}
+                레벨 {idx + 1}
               </div>
               <div className={cx("img_wrap")}>
                 <Image
