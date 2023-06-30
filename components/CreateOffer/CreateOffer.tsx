@@ -82,6 +82,13 @@ export default function CreateOffer() {
       toast.warn("최소수량을 입력해주세요"), { toastId: 0 };
     } else if (max === undefined || max <= 0) {
       toast.warn("최대수량을 입력해주세요", { toastId: 0 });
+    } else if (max < min) {
+      toast.warn(
+        <div>
+          최대 거래량을 <br />
+          최소 거래량 보다 크게 설정해주세요
+        </div>
+      );
     } else {
       if (time && time <= 90) {
         createOfferByUser({

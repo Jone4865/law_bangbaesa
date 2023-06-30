@@ -181,7 +181,7 @@ export default function Mypage() {
                       nowAble !== "my" ? "able_btn" : "default_btn"
                     )}
                   >
-                    관심있는 오퍼내역
+                    즐겨찾기
                   </div>
                 </div>
               )}
