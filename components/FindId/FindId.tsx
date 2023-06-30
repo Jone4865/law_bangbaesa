@@ -47,6 +47,7 @@ export default function FindId() {
         { autoClose: false }
       );
     },
+    fetchPolicy: "no-cache",
   });
 
   const [confirmPhoneAuthNumber] = useLazyQuery(CONFIRM_PHONE_AUTH_NUMBER, {

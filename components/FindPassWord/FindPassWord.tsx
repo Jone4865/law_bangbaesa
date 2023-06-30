@@ -54,6 +54,7 @@ export default function FindPassWord() {
         { autoClose: false, toastId: 1 }
       );
     },
+    fetchPolicy: "no-cache",
   });
 
   const [confirmPhoneAuthNumber] = useLazyQuery(CONFIRM_PHONE_AUTH_NUMBER, {

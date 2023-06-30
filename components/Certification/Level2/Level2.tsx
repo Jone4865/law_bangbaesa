@@ -58,6 +58,7 @@ export default function Level2() {
         );
         setMailSend(true);
       },
+      fetchPolicy: "no-cache",
     }
   );
 
