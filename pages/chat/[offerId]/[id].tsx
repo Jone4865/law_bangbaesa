@@ -201,7 +201,7 @@ const Room: NextPage<Props> = ({ id, data }) => {
       }
     },
     fetchPolicy: "no-cache",
-    onError: (e) => toast.error(e.message ?? `${e}`),
+    onError: (e) => toast.error(e.message !== "접근 권한이 없습니다" ?? `${e}`),
   });
 
   useEffect(() => {
