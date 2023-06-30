@@ -11,7 +11,6 @@ import moment from "moment";
 import Image from "next/image";
 import { useCookies } from "react-cookie";
 import { FIND_MY_INFO_BY_USER } from "../../../src/graphql/generated/query/findMyInfoByUser";
-import { ApolloQueryResult, OperationVariables } from "apollo-client";
 
 const cx = className.bind(styles);
 
@@ -46,6 +45,7 @@ type Props = {
   part: "home" | "otc" | "mypage" | "user";
   updateOfferClickHandle: (key: string, id: number, progress?: boolean) => void;
   onScrollHandle: () => void;
+  deletehandle: () => void;
 };
 
 export default function OTCTabel({
@@ -56,6 +56,7 @@ export default function OTCTabel({
   kind = "BUY",
   updateOfferClickHandle,
   onScrollHandle,
+  deletehandle,
 }: Props) {
   const router = useRouter();
   const [cookies] = useCookies(["nickName"]);
@@ -125,8 +126,9 @@ export default function OTCTabel({
 
   const [deleteOfferByUser] = useMutation(DELETE_OFFER_BY_USER, {
     onError: (e) => toast.error(e.message ?? `${e}`),
-    onCompleted(v) {
+    onCompleted(_v) {
       toast.success("해당 오퍼를 삭제했습니다.");
+      deletehandle();
     },
   });
 

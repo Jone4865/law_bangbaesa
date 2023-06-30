@@ -45,7 +45,7 @@
   padding-bottom: 9.5px;
   border-bottom: solid 2px #333;
   margin-bottom: 48.5px;
-  width: 235px;
+  display: inline-block;
   @include view("mobile") {
     font-size: 26px;
     width: 205px;

@@ -169,6 +169,26 @@ export default function OTC({
     }
   };
 
+  const deletehandle = () => {
+    findManyOffer({
+      variables: {
+        isChat,
+        identity:
+          router.pathname === "/mypage" && isChat ? undefined : nickName,
+        take: part === "home" ? 4 : take,
+        skip,
+        offerAction:
+          router.pathname === "/mypage" && !isChat ? undefined : partKind,
+        coinKind:
+          part === "mypage" || part === "user"
+            ? undefined
+            : coinKind === "BTC"
+            ? "BTC"
+            : "USDT",
+      },
+    });
+  };
+
   const [findMyInfoByUser] = useLazyQuery(FIND_MY_INFO_BY_USER, {
     onError: (e) => toast.error(e.message ?? `${e}`),
   });
@@ -400,6 +420,7 @@ export default function OTC({
               nowAble={nowAble}
               updateOfferClickHandle={updateOfferClickHandle}
               onScrollHandle={scrollHandle}
+              deletehandle={deletehandle}
             />
           </div>
           {part === "otc" && (
