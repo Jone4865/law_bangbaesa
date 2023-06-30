@@ -50,11 +50,13 @@ export default function SignIn() {
         setCookie("saveId", true);
         setCookie("id", id);
         setCookie("login", true);
+        removeCookie("nickName");
         setCookie("nickName", id);
         router.replace("/");
       } else {
         removeCookie("id");
         removeCookie("saveId");
+        removeCookie("nickName");
         setCookie("nickName", id);
         setCookie("login", true);
         router.replace("/");

@@ -41,6 +41,7 @@ type OfferData = {
   maxAmount: number;
   responseSpeed: number;
   price: number;
+  transactionStatus: "PROGRESS" | "COMPLETE";
 };
 
 type subscriptText = {
@@ -430,6 +431,7 @@ const Room: NextPage<Props> = ({ id, data }) => {
             )}
             <form onSubmit={onSubmitHandle} className={cx("form_wrap")}>
               <input
+                disabled={offerData?.transactionStatus === "COMPLETE"}
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 className={cx("input")}

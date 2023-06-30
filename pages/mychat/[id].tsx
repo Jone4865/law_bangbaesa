@@ -16,7 +16,6 @@ import { useMediaQuery } from "react-responsive";
 import { FIND_MANY_CHAT_ROOM_BY_USER } from "../../src/graphql/generated/query/findManyChatRoomByUser";
 import Image from "next/image";
 import { FIND_ONE_OFFER } from "../../src/graphql/generated/query/findOneOffer";
-import { initApollo } from "next-with-apollo";
 import { initializeApollo } from "../../src/config/apolloClient";
 
 const cx = className.bind(styles);
@@ -44,6 +43,7 @@ type OfferData = {
   maxAmount: number;
   responseSpeed: number;
   price: number;
+  transactionStatus: "PROGRESS" | "COMPLETE";
 };
 
 type subscriptText = {
@@ -69,7 +69,7 @@ const Room: NextPage<Props> = ({ id, data }) => {
   const divRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  const [next, setNext] = useState(false);
+
   const [subscriptTexts, setSubscriptTexts] = useState<subscriptText[]>();
 
   const [prevRef, prevView] = useInView({
@@ -468,6 +468,7 @@ const Room: NextPage<Props> = ({ id, data }) => {
             )}
             <form onSubmit={onSubmitHandle} className={cx("form_wrap")}>
               <input
+                disabled={offerData?.transactionStatus === "COMPLETE"}
                 ref={inputRef}
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
