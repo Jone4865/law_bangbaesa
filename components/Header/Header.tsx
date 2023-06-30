@@ -57,10 +57,10 @@ export default function Header({ setModalState }: Props) {
 
     (() => {
       window.addEventListener("scroll", () => {
-        setScrollY(window.pageYOffset <= 20 ? false : true);
+        setScrollY(window.pageYOffset <= 2 ? false : true);
       });
     })();
-  }, [cookies.login]);
+  }, [cookies.login, router, scrollY]);
 
   return (
     <header className={cx("header")}>

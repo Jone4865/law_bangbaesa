@@ -87,7 +87,7 @@ function Side({ modal, setModalState }: Props) {
         htmlEle.style.overflow = "unset";
       }
     }
-  }, [modal, cookies.login, router.pathname]);
+  }, [modal, cookies.login, router]);
 
   return (
     <div
