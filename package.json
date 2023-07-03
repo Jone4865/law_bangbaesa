@@ -8,12 +8,12 @@
     "start": "next start",
     "lint": "next lint",
     "schemagenerate": "apollo client:download-schema --endpoint http://localhost:8001/graphql ./src/graphql/generated/schema.graphqls",
-    "codegen": "apollo client:codegen --target typescript --localSchemaFile ./src/graphql/generated/schema.graphqls --outputFlat --includes \"src/graphql/**/*.ts\" --excludes \"src/graphql/generated/**\" --no-addTypename --globalTypesFile \"src/graphql/generated/graphql-global-types.ts\" ./src/graphql/generated"
+    "codegen": "graphql-codegen --require dotenv/config --config codegen.ts dotenv_config_path=.env",
+    "codegen:watch": "graphql-codegen --require dotenv/config --config codegen.ts dotenv_config_path=.env.development --watch"
   },
   "dependencies": {
     "@apollo/client": "^3.7.14",
     "@apollo/react-hooks": "^4.0.0",
-    "@graphql-codegen/cli": "^3.3.1",
     "@next/font": "13.1.1",
     "@types/apollo-upload-client": "^17.0.2",
     "@types/crypto-js": "^4.1.1",
@@ -34,6 +34,7 @@
     "crypto-js": "^4.1.1",
     "eslint": "8.30.0",
     "eslint-config-next": "13.1.1",
+    "generate-schema": "^2.6.0",
     "graphql": "^16.6.0",
     "graphql-transport-ws": "^1.9.0",
     "graphql-ws": "^5.13.1",
@@ -63,6 +64,9 @@
   },
   "devDependencies": {
     "@babel/core": "^7.20.7",
+    "@graphql-codegen/cli": "2.16.5",
+    "@graphql-codegen/client-preset": "1.2.3",
+    "@graphql-codegen/introspection": "2.2.3",
     "@storybook/addon-actions": "^6.5.15",
     "@storybook/addon-essentials": "^6.5.15",
     "@storybook/addon-interactions": "^6.5.15",
