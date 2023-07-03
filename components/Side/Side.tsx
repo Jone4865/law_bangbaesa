@@ -60,7 +60,6 @@ function Side({ modal, setModalState }: Props) {
   const onLogout = () => {
     removeCookies("login");
     removeCookies("nickName");
-    toast.success("로그아웃 되었습니다.");
     signOutByUser();
   };
 
@@ -68,6 +67,7 @@ function Side({ modal, setModalState }: Props) {
     onCompleted(_data) {
       setLogin(false);
       router.replace("/");
+      toast.success("로그아웃 되었습니다.");
     },
   });
 

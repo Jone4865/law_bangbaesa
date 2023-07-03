@@ -47,8 +47,10 @@ export default function Header({ setModalState }: Props) {
     onCompleted(_data) {
       setLogin(false);
       router.replace("/");
+      setLogin(false);
       toast.success("로그아웃 되었습니다.");
     },
+    fetchPolicy: "no-cache",
   });
 
   useEffect(() => {
@@ -61,7 +63,7 @@ export default function Header({ setModalState }: Props) {
         setScrollY(window.pageYOffset <= 2 ? false : true);
       });
     })();
-  }, [cookies.login, router, scrollY]);
+  }, [cookies, router, scrollY]);
 
   return (
     <header className={cx("header")}>

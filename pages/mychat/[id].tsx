@@ -219,6 +219,12 @@ const Room: NextPage<Props> = ({ id, data }) => {
   console.log("?????#3");
 
   useEffect(() => {
+    if (!id) {
+      console.log(`${id} 값 없음`);
+
+      return;
+    }
+
     const subscription = client
       .subscribe({
         query: SUBSCRIBE_CHAT_MESSAGE,
@@ -243,6 +249,7 @@ const Room: NextPage<Props> = ({ id, data }) => {
           }
         },
         error(e) {
+          alert("연결 실패함");
           console.log({ e });
         },
         complete() {
@@ -253,7 +260,7 @@ const Room: NextPage<Props> = ({ id, data }) => {
     return () => {
       subscription.unsubscribe();
     };
-  }, []);
+  }, [id]);
 
   // useSubscription(SUBSCRIBE_CHAT_MESSAGE, {
   //   variables: {
