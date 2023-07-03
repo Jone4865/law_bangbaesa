@@ -1,7 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import styles from "../Room.module.scss";
 import className from "classnames/bind";
-import { useLazyQuery, useMutation, useSubscription } from "@apollo/client";
+import {
+  useApolloClient,
+  useLazyQuery,
+  useMutation,
+  useSubscription,
+} from "@apollo/client";
 import { toast } from "react-toastify";
 import { SUBSCRIBE_CHAT_MESSAGE } from "../../../src/graphql/subscription/subscribeChatMessage";
 import { GetServerSideProps, NextPage } from "next";
@@ -179,23 +184,42 @@ const Room: NextPage<Props> = ({ id, data }) => {
     },
     fetchPolicy: "no-cache",
   });
+  const client = useApolloClient();
+  useEffect(() => {
+    const subscription = client
+      .subscribe({
+        query: SUBSCRIBE_CHAT_MESSAGE,
+        variables: {
+          chatRoomId: id,
+        },
+        fetchPolicy: "no-cache",
+      })
+      .subscribe({
+        start(sub) {
+          console.log("시작:", sub);
+        },
+        next({ data }) {
+          console.log({ data });
+          if (data) {
+            const newData = data.subscribeChatMessage.chatMessage;
+            setDatas((prev) => [...prev, newData]);
+            if (newData.sender !== myNickName && !scroll && datas.length > 10) {
+              setSubscriptTexts((prev) => [prev, newData]);
+            }
+          }
+        },
+        error(e) {
+          console.log({ e });
+        },
+        complete() {
+          console.log("완료");
+        },
+      });
 
-  useSubscription(SUBSCRIBE_CHAT_MESSAGE, {
-    variables: {
-      chatRoomId: id,
-    },
-    onSubscriptionData: ({ subscriptionData }) => {
-      if (subscriptionData.data) {
-        const newData = subscriptionData.data.subscribeChatMessage.chatMessage;
-        setDatas((prev) => [...prev, newData]);
-        if (newData.sender !== myNickName && !scroll && datas.length > 10) {
-          setSubscriptTexts((prev) => [prev, newData]);
-        }
-      }
-    },
-    fetchPolicy: "no-cache",
-    onError: (e) => toast.error(e.message !== "접근 권한이 없습니다" ?? `${e}`),
-  });
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, []);
 
   useEffect(() => {
     if (isMobile) {

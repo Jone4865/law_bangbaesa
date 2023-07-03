@@ -39,7 +39,6 @@ export default function Header({ setModalState }: Props) {
   const onLogout = () => {
     removeCookies("login");
     removeCookies("nickName");
-    toast.success("로그아웃 되었습니다.");
     signOutByUser();
   };
 
@@ -47,7 +46,8 @@ export default function Header({ setModalState }: Props) {
     onError: (e) => toast.error(e.message ?? `${e}`),
     onCompleted(_data) {
       setLogin(false);
-      window.location.replace("/");
+      router.replace("/");
+      toast.success("로그아웃 되었습니다.");
     },
   });
 
