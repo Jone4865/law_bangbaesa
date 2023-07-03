@@ -224,10 +224,7 @@ export default function OTCTabel({
                             <div className={cx("reservation_btn")}>예약중</div>
                           )}
                         <button
-                          disabled={
-                            v.transactionStatus === "COMPLETE" ||
-                            v.identity === cookies.nickName
-                          }
+                          disabled={v.transactionStatus === "COMPLETE"}
                           className={cx(
                             kind === "BUY" ? "chat_orange" : "chat_blue"
                           )}
