@@ -40,6 +40,8 @@ const Room: NextPage<Props> = ({ id, data }) => {
     query: "(max-width: 759px)",
   });
 
+  const [connecting, setIsConnecting] = useState(true);
+  console.log(connecting);
   const router = useRouter();
   const [take, setTake] = useState(10);
   const [datas, setDatas] = useState<any[]>([]);
@@ -209,6 +211,8 @@ const Room: NextPage<Props> = ({ id, data }) => {
       chatRoomId: id,
     },
     onSubscriptionData: ({ subscriptionData }) => {
+      setIsConnecting(false);
+      console.log(id);
       if (subscriptionData.data) {
         const newData = subscriptionData.data.subscribeChatMessage.chatMessage;
         setDatas((prev) => [...prev, newData]);
