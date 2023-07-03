@@ -45,9 +45,9 @@ export default function Header({ setModalState }: Props) {
   const [signOutByUser] = useMutation<SignOutByUserMutation>(SIGN_OUT_BY_USER, {
     onError: (e) => toast.error(e.message ?? `${e}`),
     onCompleted(_data) {
+      setLogin(!login);
       setLogin(false);
       router.replace("/");
-      setLogin(false);
       toast.success("로그아웃 되었습니다.");
     },
     fetchPolicy: "no-cache",
