@@ -53,14 +53,14 @@ export default function SignIn() {
         setCookie("login", true);
         removeCookie("nickName");
         setCookie("nickName", id);
-        router.replace("/");
+        window.location.replace("/");
       } else {
         removeCookie("id");
         removeCookie("saveId");
         removeCookie("nickName");
         setCookie("nickName", id);
         setCookie("login", true);
-        router.replace("/");
+        window.location.replace("/");
       }
     },
   });
