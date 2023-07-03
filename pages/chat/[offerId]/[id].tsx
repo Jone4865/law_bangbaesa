@@ -184,50 +184,23 @@ const Room: NextPage<Props> = ({ id, data }) => {
     },
     fetchPolicy: "no-cache",
   });
-  const client = useApolloClient();
 
-  useEffect(() => {
-    if (!id) {
-      console.log(`${id} 값 없음`);
-
-      return;
-    }
-
-    const subscription = client
-      .subscribe({
-        query: SUBSCRIBE_CHAT_MESSAGE,
-        variables: {
-          chatRoomId: id,
-        },
-        fetchPolicy: "no-cache",
-      })
-      .subscribe({
-        start(sub) {
-          console.log("시작:", sub);
-        },
-        next({ data }) {
-          console.log({ data });
-          if (data) {
-            const newData = data.subscribeChatMessage.chatMessage;
-            setDatas((prev) => [...prev, newData]);
-            if (newData.sender !== myNickName && !scroll && datas.length > 10) {
-              setSubscriptTexts((prev) => [prev, newData]);
-            }
-          }
-        },
-        error(e) {
-          alert("연결 실패함");
-          console.log({ e });
-        },
-        complete() {
-          console.log("완료");
-        },
-      });
-
-    return () => {
-      subscription.unsubscribe();
-    };
-  }, [id]);
+  useSubscription(SUBSCRIBE_CHAT_MESSAGE, {
+    variables: {
+      chatRoomId: id,
+    },
+    onSubscriptionData: ({ subscriptionData }) => {
+      if (subscriptionData.data) {
+        const newData = subscriptionData.data.subscribeChatMessage.chatMessage;
+        setDatas((prev) => [...prev, newData]);
+        if (newData.sender !== myNickName && !scroll && datas.length > 10) {
+          setSubscriptTexts((prev) => [prev, newData]);
+        }
+      }
+    },
+    fetchPolicy: "no-cache",
+    onError: (e) => toast.error(e.message !== "접근 권한이 없습니다" ?? `${e}`),
+  });
 
   useEffect(() => {
     if (isMobile) {
