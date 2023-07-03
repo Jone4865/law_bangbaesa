@@ -4,9 +4,13 @@ import styles from "./FindPassWord.module.scss";
 import className from "classnames/bind";
 import { toast } from "react-toastify";
 import { useLazyQuery } from "@apollo/client";
-import { SEND_PHONE_AUTH_NUMBER } from "../../src/graphql/generated/query/sendPhoneAuthNumber";
-import { CONFIRM_PHONE_AUTH_NUMBER } from "../../src/graphql/generated/query/confirmPhoneAuthNumber";
+import { SEND_PHONE_AUTH_NUMBER } from "../../src/graphql/query/sendPhoneAuthNumber";
+import { CONFIRM_PHONE_AUTH_NUMBER } from "../../src/graphql/query/confirmPhoneAuthNumber";
 import { useCookies } from "react-cookie";
+import {
+  ConfirmPhoneAuthNumberQuery,
+  SendPhoneAuthNumberQuery,
+} from "src/graphql/generated/graphql";
 
 const cx = className.bind(styles);
 
@@ -41,30 +45,36 @@ export default function FindPassWord() {
     toast.dismiss();
   };
 
-  const [sendPhoneAuthNumber] = useLazyQuery(SEND_PHONE_AUTH_NUMBER, {
-    onError: (e) => toast.error(e.message ?? `${e}`),
-    onCompleted(_data) {
-      setViewConfirmTell(true);
-      toast.success(
-        <div>
-          휴대폰 번호로 인증번호를 발송하였습니다.
-          <br />
-          인증코드를 입력해주세요.
-        </div>,
-        { autoClose: false, toastId: 1 }
-      );
-    },
-    fetchPolicy: "no-cache",
-  });
+  const [sendPhoneAuthNumber] = useLazyQuery<SendPhoneAuthNumberQuery>(
+    SEND_PHONE_AUTH_NUMBER,
+    {
+      onError: (e) => toast.error(e.message ?? `${e}`),
+      onCompleted(_data) {
+        setViewConfirmTell(true);
+        toast.success(
+          <div>
+            휴대폰 번호로 인증번호를 발송하였습니다.
+            <br />
+            인증코드를 입력해주세요.
+          </div>,
+          { autoClose: false, toastId: 1 }
+        );
+      },
+      fetchPolicy: "no-cache",
+    }
+  );
 
-  const [confirmPhoneAuthNumber] = useLazyQuery(CONFIRM_PHONE_AUTH_NUMBER, {
-    onError: (e) => toast.error(e.message ?? `${e}`),
-    onCompleted(data) {
-      setCookies("hash", data.confirmPhoneAuthNumber);
-      setCookies("phone", tell);
-      router.push(`/find-pw/${id}`);
-    },
-  });
+  const [confirmPhoneAuthNumber] = useLazyQuery<ConfirmPhoneAuthNumberQuery>(
+    CONFIRM_PHONE_AUTH_NUMBER,
+    {
+      onError: (e) => toast.error(e.message ?? `${e}`),
+      onCompleted(data) {
+        setCookies("hash", data.confirmPhoneAuthNumber);
+        setCookies("phone", tell);
+        router.push(`/find-pw/${id}`);
+      },
+    }
+  );
 
   return (
     <div className={cx("container")}>

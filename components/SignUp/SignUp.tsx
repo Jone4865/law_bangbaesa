@@ -12,11 +12,18 @@ import className from "classnames/bind";
 
 import { toast } from "react-toastify";
 import { useLazyQuery, useMutation } from "@apollo/client";
-import { CHECK_DUPLICATE_IDENTITY } from "../../src/graphql/generated/query/checkDuplicateIdentity";
-import { SEND_PHONE_AUTH_NUMBER } from "../../src/graphql/generated/query/sendPhoneAuthNumber";
-import { CONFIRM_PHONE_AUTH_NUMBER } from "../../src/graphql/generated/query/confirmPhoneAuthNumber";
-import { SIGN_UP_BY_USER } from "../../src/graphql/generated/mutation/signUpByUser";
+import { CHECK_DUPLICATE_IDENTITY } from "../../src/graphql/query/checkDuplicateIdentity";
+import { SEND_PHONE_AUTH_NUMBER } from "../../src/graphql/query/sendPhoneAuthNumber";
+import { CONFIRM_PHONE_AUTH_NUMBER } from "../../src/graphql/query/confirmPhoneAuthNumber";
+import { SIGN_UP_BY_USER } from "../../src/graphql/mutation/signUpByUser";
 import PolicyModal from "./PolicyModal/PolicyModal";
+import {
+  CheckDuplicateIdentityQuery,
+  ConfirmPhoneAuthNumberQuery,
+  LoginKind,
+  SendPhoneAuthNumberQuery,
+  SignUpByUserMutation,
+} from "src/graphql/generated/graphql";
 
 const cx = className.bind(styles);
 
@@ -102,8 +109,8 @@ export default function SignUp() {
         identity: id,
         password: passWord,
         phone: tell,
-        hash: hash,
-        loginKind: "EMAIL",
+        hash: hash ? hash : "",
+        loginKind: LoginKind.Email,
       },
     });
     toast.dismiss();
@@ -119,39 +126,48 @@ export default function SignUp() {
     setPolicy(key);
   };
 
-  const [checkDuplicateIdentity] = useLazyQuery(CHECK_DUPLICATE_IDENTITY, {
-    onError: (e) => toast.error(e.message ?? `${e}`),
-    onCompleted(_data) {
-      setDuplicateId(true);
-      toast.success("사용할 수 있는 아이디입니다.");
-    },
-  });
+  const [checkDuplicateIdentity] = useLazyQuery<CheckDuplicateIdentityQuery>(
+    CHECK_DUPLICATE_IDENTITY,
+    {
+      onError: (e) => toast.error(e.message ?? `${e}`),
+      onCompleted(_data) {
+        setDuplicateId(true);
+        toast.success("사용할 수 있는 아이디입니다.");
+      },
+    }
+  );
 
-  const [sendPhoneAuthNumber] = useLazyQuery(SEND_PHONE_AUTH_NUMBER, {
-    onError: (e) => toast.error(e.message ?? `${e}`),
-    onCompleted(_data) {
-      toast.success(
-        <div>
-          휴대폰 번호로 인증번호를 발송하였습니다.
-          <br /> 인증코드를 입력해주세요.
-        </div>,
-        { autoClose: false, toastId: 0 }
-      );
-      setViewConfirmTell(true);
-    },
-    fetchPolicy: "no-cache",
-  });
+  const [sendPhoneAuthNumber] = useLazyQuery<SendPhoneAuthNumberQuery>(
+    SEND_PHONE_AUTH_NUMBER,
+    {
+      onError: (e) => toast.error(e.message ?? `${e}`),
+      onCompleted(_data) {
+        toast.success(
+          <div>
+            휴대폰 번호로 인증번호를 발송하였습니다.
+            <br /> 인증코드를 입력해주세요.
+          </div>,
+          { autoClose: false, toastId: 0 }
+        );
+        setViewConfirmTell(true);
+      },
+      fetchPolicy: "no-cache",
+    }
+  );
 
-  const [confirmPhoneAuthNumber] = useLazyQuery(CONFIRM_PHONE_AUTH_NUMBER, {
-    onError: (e) => toast.error(e.message ?? `${e}`),
-    onCompleted(data) {
-      setPassTell(true);
-      setHash(data.confirmPhoneAuthNumber);
-      toast.success("휴대폰 인증이 완료되었습니다.");
-    },
-  });
+  const [confirmPhoneAuthNumber] = useLazyQuery<ConfirmPhoneAuthNumberQuery>(
+    CONFIRM_PHONE_AUTH_NUMBER,
+    {
+      onError: (e) => toast.error(e.message ?? `${e}`),
+      onCompleted(data) {
+        setPassTell(true);
+        setHash(data.confirmPhoneAuthNumber);
+        toast.success("휴대폰 인증이 완료되었습니다.");
+      },
+    }
+  );
 
-  const [signUpByUser] = useMutation(SIGN_UP_BY_USER, {
+  const [signUpByUser] = useMutation<SignUpByUserMutation>(SIGN_UP_BY_USER, {
     onError: (e) => toast.error(e.message ?? `${e}`),
     onCompleted(_data) {
       setPassTell(true);

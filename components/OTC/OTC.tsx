@@ -5,45 +5,28 @@ import className from "classnames/bind";
 import Pagination from "react-js-pagination";
 import OTCTabel from "./OTCTabel/OTCTabel";
 import { useLazyQuery, useMutation } from "@apollo/client";
-import { FIND_MANY_OFFER } from "../../src/graphql/generated/query/findManyOffer";
+import { FIND_MANY_OFFER } from "../../src/graphql/query/findManyOffer";
 import { toast } from "react-toastify";
 import TopImage from "../TopImage/TopImage";
 import Image from "next/image";
 import Marquee from "../Marquee/Marquee";
-import { UPDATE_OFFER_STATUS_BY_USER } from "../../src/graphql/generated/mutation/updateOfferStatusByUser";
+import { UPDATE_OFFER_STATUS_BY_USER } from "../../src/graphql/mutation/updateOfferStatusByUser";
 import { useCookies } from "react-cookie";
-import { FIND_MY_INFO_BY_USER } from "../../src/graphql/generated/query/findMyInfoByUser";
+import { FIND_MY_INFO_BY_USER } from "../../src/graphql/query/findMyInfoByUser";
+import {
+  CoinKind,
+  FindManyOfferQuery,
+  FindMyInfoByUserQuery,
+  OfferAction,
+} from "src/graphql/generated/graphql";
 
 const cx = className.bind(styles);
-
-type Data = {
-  id: number;
-  coinKind: "BITCOIN" | "TETHER";
-  offerAction: "BUY" | "SELL";
-  transactionMethod: "DIRECT";
-  price: number;
-  minAmount: number;
-  maxAmount: number;
-  responseSpeed: number;
-  content: string;
-  createdAt: string;
-  reservationStatus: "NONE" | "PROGRESS";
-  transactionStatus: "PROGRESS" | "COMPLETE";
-  city: {
-    id: number;
-    name: string;
-  };
-  identity: string;
-  positiveCount: number;
-  connectionDate: string;
-  isNewChatMessage: boolean;
-};
 
 type Props = {
   part: "home" | "otc" | "mypage" | "user";
   nowAble: string;
-  partKind?: "BUY" | "SELL";
-  coinKind?: "BTC" | "TETHER";
+  partKind?: OfferAction;
+  coinKind?: CoinKind;
   nickName?: string | undefined;
   isChat?: boolean;
   refetch?: boolean;
@@ -65,9 +48,11 @@ export default function OTC({
   const [skip, setSkip] = useState(0);
   const [current, setCurrent] = useState(1);
   const [totalCount, setTotalCount] = useState(1);
-  const [data, setData] = useState<Data[]>([]);
+  const [data, setData] = useState<
+    FindManyOfferQuery["findManyOffer"]["offers"]
+  >([]);
   const [kind, setKind] = useState<"sell" | "buy">("buy");
-  const [coin, setCoin] = useState("USDT");
+  const [coin, setCoin] = useState<CoinKind>(CoinKind.Btc);
   const [cookies] = useCookies(["nickName"]);
 
   const handlePagination = (e: number) => {
@@ -87,13 +72,8 @@ export default function OTC({
             ? undefined
             : partKind
             ? partKind
-            : "BUY",
-        coinKind:
-          part === "mypage" || part === "user"
-            ? undefined
-            : coinKind === "BTC"
-            ? "BTC"
-            : "USDT",
+            : OfferAction.Buy,
+        coinKind: part === "mypage" || part === "user" ? undefined : coinKind,
       },
       onCompleted(onData) {
         if (onData.findManyOffer.totalCount > data.length) {
@@ -150,8 +130,12 @@ export default function OTC({
         variables: {
           take,
           skip,
-          offerAction: partKind ? partKind : v !== "sell" ? "BUY" : "SELL",
-          coinKind: coin === "BTC" ? "BTC" : "USDT",
+          offerAction: partKind
+            ? partKind
+            : v !== "sell"
+            ? OfferAction.Buy
+            : OfferAction.Sell,
+          coinKind: coin,
         },
       });
     } else {
@@ -162,8 +146,12 @@ export default function OTC({
         variables: {
           take,
           skip,
-          offerAction: partKind ? partKind : kind === "buy" ? "BUY" : "SELL",
-          coinKind: v === "BTC" ? "BTC" : "USDT",
+          offerAction: partKind
+            ? partKind
+            : kind === "buy"
+            ? OfferAction.Buy
+            : OfferAction.Sell,
+          coinKind: v === "BTC" ? CoinKind.Btc : CoinKind.Usdt,
         },
       });
     }
@@ -179,19 +167,17 @@ export default function OTC({
         skip,
         offerAction:
           router.pathname === "/mypage" && !isChat ? undefined : partKind,
-        coinKind:
-          part === "mypage" || part === "user"
-            ? undefined
-            : coinKind === "BTC"
-            ? "BTC"
-            : "USDT",
+        coinKind: part === "mypage" || part === "user" ? undefined : coinKind,
       },
     });
   };
 
-  const [findMyInfoByUser] = useLazyQuery(FIND_MY_INFO_BY_USER, {
-    onError: (e) => toast.error(e.message ?? `${e}`),
-  });
+  const [findMyInfoByUser] = useLazyQuery<FindMyInfoByUserQuery>(
+    FIND_MY_INFO_BY_USER,
+    {
+      onError: (e) => toast.error(e.message ?? `${e}`),
+    }
+  );
 
   const [findManyOffer] = useLazyQuery(FIND_MANY_OFFER, {
     onError: (e) => toast.error(e?.message ?? `${e}`),
@@ -220,12 +206,7 @@ export default function OTC({
         skip,
         offerAction:
           router.pathname === "/mypage" && !isChat ? undefined : partKind,
-        coinKind:
-          part === "mypage" || part === "user"
-            ? undefined
-            : coinKind === "BTC"
-            ? "BTC"
-            : "USDT",
+        coinKind: part === "mypage" || part === "user" ? undefined : coinKind,
       },
       fetchPolicy: "no-cache",
     });
@@ -240,8 +221,8 @@ export default function OTC({
           identity: undefined,
           take,
           skip,
-          offerAction: kind === "buy" ? "BUY" : "SELL",
-          coinKind: coin === "BTC" ? "BTC" : "USDT",
+          offerAction: kind === "buy" ? OfferAction.Buy : OfferAction.Sell,
+          coinKind: coin === "BTC" ? CoinKind.Btc : CoinKind.Usdt,
         },
       });
     }

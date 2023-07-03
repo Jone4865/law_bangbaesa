@@ -1,26 +1,26 @@
+import react, { useEffect } from "react";
 import Image from "next/image";
 import styles from "./MyPageTop.module.scss";
 import className from "classnames/bind";
 import { useRouter } from "next/router";
 import { useMutation } from "@apollo/client";
-import { TOGGLE_FEEDBACK_BY_USER } from "../../../src/graphql/generated/mutation/toggleFeedbackByUser";
+import { TOGGLE_FEEDBACK_BY_USER } from "../../../src/graphql/mutation/toggleFeedbackByUser";
 import { toast } from "react-toastify";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import {
+  FindMyInfoByUserQuery,
+  FindUserInfoByUserQuery,
+  ToggleFeedbackByUserMutation,
+} from "src/graphql/generated/graphql";
 
 const cx = className.bind(styles);
 
 type Props = {
-  data: Data | undefined;
+  data:
+    | undefined
+    | FindMyInfoByUserQuery["findMyInfoByUser"]
+    | FindUserInfoByUserQuery["findUserInfoByUser"];
   handleRefetch: () => void;
   detail?: boolean;
-};
-
-type Data = {
-  connectionDate: string;
-  identity: string;
-  level: number;
-  negativeFeedbackCount: number;
-  positiveFeedbackCount: number;
 };
 
 export default function MyPageTop({ detail, data, handleRefetch }: Props) {
@@ -32,12 +32,15 @@ export default function MyPageTop({ detail, data, handleRefetch }: Props) {
         variables: { receiverIdentity: data?.identity, feedbackKind: kind },
       });
   };
-  const [toggleFeedbackByUser] = useMutation(TOGGLE_FEEDBACK_BY_USER, {
-    onError: (e) => toast.error(e.message ?? `${e}`),
-    onCompleted: () => {
-      handleRefetch();
-    },
-  });
+  const [toggleFeedbackByUser] = useMutation<ToggleFeedbackByUserMutation>(
+    TOGGLE_FEEDBACK_BY_USER,
+    {
+      onError: (e) => toast.error(e.message ?? `${e}`),
+      onCompleted: () => {
+        handleRefetch();
+      },
+    }
+  );
 
   useEffect(() => {}, [data]);
 

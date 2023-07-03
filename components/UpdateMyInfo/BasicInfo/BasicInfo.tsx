@@ -6,34 +6,12 @@ import { toast } from "react-toastify";
 import IdCard from "./IdCard/IdCard";
 import PassPort from "./PassPort/PassPort";
 import DriveCard from "./DriveCard/DriveCard";
+import { FindMyInfoByUserQuery } from "src/graphql/generated/graphql";
 
 const cx = className.bind(styles);
 
-type Info = {
-  identity: string;
-  phone: string;
-  emailAuth: { createdAt: string; email: string; id: number };
-  driverLicense?: {
-    name: string;
-    birth: string;
-    area: string;
-    licenseNumber: string;
-    serialNumber: string;
-  };
-  idCard?: {
-    name: string;
-    registrationNumber: number;
-    issueDate: string;
-  };
-  passport?: {
-    passportNumber: number;
-    issueDate: string;
-    expirationDate: string;
-  };
-};
-
 type Props = {
-  myInfo: Info | undefined;
+  myInfo: FindMyInfoByUserQuery["findMyInfoByUser"] | undefined;
   setNowAble: Dispatch<SetStateAction<string>>;
 };
 

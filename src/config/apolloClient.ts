@@ -15,7 +15,7 @@ import { SubscriptionClient } from "subscriptions-transport-ws";
 import { WebSocketLink } from "@apollo/client/link/ws";
 import { IncomingHttpHeaders } from "http";
 import { useMemo } from "react";
-import { REFRESH_BY_USER } from "../graphql/generated/mutation/refreshByUser";
+import { REFRESH_BY_USER } from "../graphql/mutation/refreshByUser";
 import { useRouter } from "next/router";
 
 export const SERVER = process.env.NEXT_PUBLIC_GQL_URL!;

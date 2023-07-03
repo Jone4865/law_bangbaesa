@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import router from "next/router";
 import styles from "./MyLevel.module.scss";
 import className from "classnames/bind";
 import Image from "next/image";

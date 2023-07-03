@@ -5,7 +5,8 @@ import ImageUpload from "../../../ImageUpload/ImageUpload";
 import { useMutation } from "@apollo/client";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
-import { CREATE_DRIVER_LICENSE } from "../../../../src/graphql/generated/mutation/createDriverLicense";
+import { CREATE_DRIVER_LICENSE } from "../../../../src/graphql/mutation/createDriverLicense";
+import { CreateDriverLicenseMutation } from "src/graphql/generated/graphql";
 
 const cx = className.bind(styles);
 
@@ -40,13 +41,16 @@ export default function DriverLicense() {
     }
   };
 
-  const [createDriverLicense] = useMutation(CREATE_DRIVER_LICENSE, {
-    onError: (e) => toast.error(e.message ?? `${e}`),
-    onCompleted(_data) {
-      toast.success("신분증 인증이 완료되었습니다.");
-      router.push("/mypage");
-    },
-  });
+  const [createDriverLicense] = useMutation<CreateDriverLicenseMutation>(
+    CREATE_DRIVER_LICENSE,
+    {
+      onError: (e) => toast.error(e.message ?? `${e}`),
+      onCompleted(_data) {
+        toast.success("신분증 인증이 완료되었습니다.");
+        router.push("/mypage");
+      },
+    }
+  );
 
   return (
     <div className={cx("container")}>

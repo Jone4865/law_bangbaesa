@@ -3,55 +3,36 @@ import styles from "./MyRoom.module.scss";
 import className from "classnames/bind";
 import { useLazyQuery, useMutation, useSubscription } from "@apollo/client";
 import { toast } from "react-toastify";
-import { SUBSCRIBE_CHAT_MESSAGE } from "../../src/graphql/generated/subscription/subscribeChatMessage";
+
 import { GetServerSideProps, NextPage } from "next";
-import { FIND_MANY_CHAT_MESSAGE_BY_USER } from "../../src/graphql/generated/query/findManyChatMessageByUser";
 import RoomSide from "../../components/Room/RoomSide/RoomSide";
-import { FIND_MY_INFO_BY_USER } from "../../src/graphql/generated/query/findMyInfoByUser";
 import { useInView } from "react-intersection-observer";
-import { CREATE_CHAT_MESSAGE } from "../../src/graphql/generated/mutation/createChatMessage";
-import { UPDATE_CHECKED_CURRUNT_CHAT_MESSAGE_BY_USER } from "../../src/graphql/generated/mutation/updateCheckedCurrentChatMessageByUser";
 import { useRouter } from "next/router";
 import { useMediaQuery } from "react-responsive";
-import { FIND_MANY_CHAT_ROOM_BY_USER } from "../../src/graphql/generated/query/findManyChatRoomByUser";
 import Image from "next/image";
-import { FIND_ONE_OFFER } from "../../src/graphql/generated/query/findOneOffer";
 import { initializeApollo } from "../../src/config/apolloClient";
+import { FIND_MANY_CHAT_MESSAGE_BY_USER } from "src/graphql/query/findManyChatMessageByUser";
+import { FIND_MY_INFO_BY_USER } from "src/graphql/query/findMyInfoByUser";
+import { CREATE_CHAT_MESSAGE } from "src/graphql/mutation/createChatMessage";
+import { UPDATE_CHECKED_CURRUNT_CHAT_MESSAGE_BY_USER } from "src/graphql/mutation/updateCheckedCurrentChatMessageByUser";
+import { FIND_MANY_CHAT_ROOM_BY_USER } from "src/graphql/query/findManyChatRoomByUser";
+import { FIND_ONE_OFFER } from "src/graphql/query/findOneOffer";
+import { SUBSCRIBE_CHAT_MESSAGE } from "src/graphql/subscription/subscribeChatMessage";
+import {
+  ChatMessageDirection,
+  CreateChatMessageMutation,
+  FindManyChatMessageByUserQuery,
+  FindManyChatRoomByUserQuery,
+  FindMyInfoByUserQuery,
+  FindOneOfferQuery,
+  UpdateCheckedCurrentChatMessageByUserMutation,
+} from "src/graphql/generated/graphql";
 
 const cx = className.bind(styles);
 
 type Props = {
   id: number;
-  data: Data[];
-};
-
-type Data = {
-  id: number;
-  createdAt: string;
-  message: string;
-  sender: string;
-  isUnread: boolean;
-};
-
-type OfferData = {
-  offerAction: string;
-  identity: string;
-  city: {
-    name: string;
-  };
-  minAmount: number;
-  maxAmount: number;
-  responseSpeed: number;
-  price: number;
-  transactionStatus: "PROGRESS" | "COMPLETE";
-};
-
-type subscriptText = {
-  id: number;
-  createdAt: string;
-  message: string;
-  sender: string;
-  isUnread: boolean;
+  data: any;
 };
 
 const Room: NextPage<Props> = ({ id, data }) => {
@@ -61,16 +42,17 @@ const Room: NextPage<Props> = ({ id, data }) => {
 
   const router = useRouter();
   const [take, setTake] = useState(10);
-  const [datas, setDatas] = useState<Data[] | subscriptText[]>([]);
-  const [offerData, setOfferData] = useState<OfferData>();
+  const [datas, setDatas] = useState<any[]>([]);
+  const [offerData, setOfferData] =
+    useState<FindOneOfferQuery["findOneOffer"]>();
   const [myNickName, setMyNickName] = useState("");
-  const [offerId, setOfferId] = useState(0);
+  const [offerId, setOfferId] = useState<number | undefined>(0);
   const [unreadView, setUnreadView] = useState(true);
   const divRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const [subscriptTexts, setSubscriptTexts] = useState<subscriptText[]>();
+  const [subscriptTexts, setSubscriptTexts] = useState<any[]>();
 
   const [prevRef, prevView] = useInView({
     threshold: 1,
@@ -114,7 +96,9 @@ const Room: NextPage<Props> = ({ id, data }) => {
             chatRoomId: id,
             chatMessageId: subscriptTexts
               ? subscriptTexts[subscriptTexts?.length - 1]?.id
-              : data.createChatMessage.chatMessage.id,
+              : data
+              ? data.createChatMessage.chatMessage.id
+              : 0,
           },
           fetchPolicy: "no-cache",
           onCompleted: () => {
@@ -122,12 +106,12 @@ const Room: NextPage<Props> = ({ id, data }) => {
               variables: {
                 take: 10,
                 chatRoomId: +id,
-                direction: "PREV",
+                direction: ChatMessageDirection.Prev,
                 cursorId: null,
               },
               fetchPolicy: "no-cache",
             }).then(({ data }) => {
-              setDatas(data.findManyChatMessageByUser.chatMessages);
+              setDatas(data ? data.findManyChatMessageByUser.chatMessages : []);
               divRef.current && divRef.current.focus();
             });
           },
@@ -151,12 +135,12 @@ const Room: NextPage<Props> = ({ id, data }) => {
           variables: {
             take,
             chatRoomId: +id,
-            direction: "PREV",
+            direction: ChatMessageDirection.Prev,
             cursorId: null,
           },
           fetchPolicy: "no-cache",
         }).then(({ data }) => {
-          setDatas(data.findManyChatMessageByUser.chatMessages);
+          setDatas(data ? data.findManyChatMessageByUser.chatMessages : []);
           setSubscriptTexts(undefined);
           divRef.current && divRef.current.focus();
         });
@@ -164,44 +148,55 @@ const Room: NextPage<Props> = ({ id, data }) => {
     });
   };
 
-  const [findManyChatMessageByUser] = useLazyQuery(
-    FIND_MANY_CHAT_MESSAGE_BY_USER,
+  const [findManyChatMessageByUser] =
+    useLazyQuery<FindManyChatMessageByUserQuery>(
+      FIND_MANY_CHAT_MESSAGE_BY_USER,
+      {
+        onError: (e) => toast.error(e.message ?? `${e}`),
+        fetchPolicy: "no-cache",
+      }
+    );
+
+  const [findMyInfoByUser] = useLazyQuery<FindMyInfoByUserQuery>(
+    FIND_MY_INFO_BY_USER,
+    {
+      onError: (e) => toast.error(e.message ?? `${e}`),
+      onCompleted: (data) => {
+        setMyNickName(data.findMyInfoByUser.identity);
+      },
+      fetchPolicy: "no-cache",
+    }
+  );
+
+  const [createChatMessage] = useMutation<CreateChatMessageMutation>(
+    CREATE_CHAT_MESSAGE,
     {
       onError: (e) => toast.error(e.message ?? `${e}`),
       fetchPolicy: "no-cache",
     }
   );
 
-  const [findMyInfoByUser] = useLazyQuery(FIND_MY_INFO_BY_USER, {
-    onError: (e) => toast.error(e.message ?? `${e}`),
-    onCompleted: (data) => {
-      setMyNickName(data.findMyInfoByUser.identity);
-    },
-    fetchPolicy: "no-cache",
-  });
+  const [updateCheckedCurrentChatMessageByUser] =
+    useMutation<UpdateCheckedCurrentChatMessageByUserMutation>(
+      UPDATE_CHECKED_CURRUNT_CHAT_MESSAGE_BY_USER,
+      {
+        onError: (e) => toast.error(e.message ?? `${e}`),
+        fetchPolicy: "no-cache",
+      }
+    );
 
-  const [createChatMessage] = useMutation(CREATE_CHAT_MESSAGE, {
-    onError: (e) => toast.error(e.message ?? `${e}`),
-    fetchPolicy: "no-cache",
-  });
-
-  const [updateCheckedCurrentChatMessageByUser] = useMutation(
-    UPDATE_CHECKED_CURRUNT_CHAT_MESSAGE_BY_USER,
+  const [findManyChatRoomByUser] = useLazyQuery<FindManyChatRoomByUserQuery>(
+    FIND_MANY_CHAT_ROOM_BY_USER,
     {
       onError: (e) => toast.error(e.message ?? `${e}`),
+      onCompleted(data) {
+        setPeopleCount(data.findManyChatRoomByUser.totalCount);
+      },
       fetchPolicy: "no-cache",
     }
   );
 
-  const [findManyChatRoomByUser] = useLazyQuery(FIND_MANY_CHAT_ROOM_BY_USER, {
-    onError: (e) => toast.error(e.message ?? `${e}`),
-    onCompleted(data) {
-      setPeopleCount(data.findManyChatRoomByUser.totalCount);
-    },
-    fetchPolicy: "no-cache",
-  });
-
-  const [findOneOffer] = useLazyQuery(FIND_ONE_OFFER, {
+  const [findOneOffer] = useLazyQuery<FindOneOfferQuery>(FIND_ONE_OFFER, {
     onError: (e) => toast.error(e.message ?? `${e}`),
     onCompleted(data) {
       setOfferData(data.findOneOffer);
@@ -214,10 +209,12 @@ const Room: NextPage<Props> = ({ id, data }) => {
       chatRoomId: id,
     },
     onSubscriptionData: ({ subscriptionData }) => {
-      setDatas((prev) => [...prev, newData]);
-      const newData = subscriptionData.data.subscribeChatMessage.chatMessage;
-      if (newData.sender !== myNickName && !scroll && datas.length > 10) {
-        setSubscriptTexts((prev) => [prev, newData]);
+      if (subscriptionData.data) {
+        const newData = subscriptionData.data.subscribeChatMessage.chatMessage;
+        setDatas((prev) => [...prev, newData]);
+        if (newData.sender !== myNickName && !scroll && datas.length > 10) {
+          setSubscriptTexts((prev) => [prev, newData]);
+        }
       }
     },
     fetchPolicy: "no-cache",
@@ -248,16 +245,17 @@ const Room: NextPage<Props> = ({ id, data }) => {
           take,
           chatRoomId: id,
           cursorId: datas[0]?.id,
-          direction: "PREV",
+          direction: ChatMessageDirection.Prev,
         },
         fetchPolicy: "no-cache",
       }).then(({ data }) => {
-        setDatas((prev) => [
-          ...data.findManyChatMessageByUser.chatMessages,
-          ...prev,
-        ]);
+        setDatas((prev) =>
+          data ? [...data.findManyChatMessageByUser.chatMessages, ...prev] : []
+        );
         containerRef.current?.scrollTo({
-          top: data.findManyChatMessageByUser.chatMessages?.length * 64,
+          top: data
+            ? data.findManyChatMessageByUser.chatMessages?.length * 64
+            : 0,
         });
       });
     }
@@ -274,14 +272,13 @@ const Room: NextPage<Props> = ({ id, data }) => {
           take,
           chatRoomId: id,
           cursorId: datas[datas?.length - 1]?.id,
-          direction: "NEXT",
+          direction: ChatMessageDirection.Next,
         },
         fetchPolicy: "no-cache",
       }).then(({ data }) => {
-        setDatas((prev) => [
-          ...prev,
-          ...data.findManyChatMessageByUser.chatMessages,
-        ]);
+        setDatas((prev) =>
+          data ? [...prev, ...data.findManyChatMessageByUser.chatMessages] : []
+        );
       });
     }
   }, [nextView]);
@@ -314,7 +311,7 @@ const Room: NextPage<Props> = ({ id, data }) => {
     setUnreadView(true);
     setSubscriptTexts(undefined);
     if (offerId !== 0) {
-      findOneOffer({ variables: { findOneOfferId: offerId } });
+      findOneOffer({ variables: { findOneOfferId: offerId ? offerId : 0 } });
     }
     findManyChatRoomByUser({
       variables: { take: 10, offerId: offerId },
@@ -495,7 +492,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
         take: 10,
         chatRoomId: id,
         cursorId: null,
-        direction: "NEXT",
+        direction: ChatMessageDirection.Next,
       },
       fetchPolicy: "no-cache",
     });
@@ -507,7 +504,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
           take: 10,
           chatRoomId: id,
           cursorId: null,
-          direction: "PREV",
+          direction: ChatMessageDirection.Prev,
         },
         fetchPolicy: "no-cache",
       });

@@ -1,30 +1,17 @@
-import React, {
-  useState,
-  FormEvent,
-  useEffect,
-  Dispatch,
-  SetStateAction,
-} from "react";
+import React, { useState, FormEvent, useEffect } from "react";
 import styles from "./Notice.module.scss";
 import className from "classnames/bind";
 import { useLazyQuery } from "@apollo/client";
 import { toast } from "react-toastify";
 import Pagination from "react-js-pagination";
 import moment from "moment";
-import { FIND_MANY_NOTICE } from "../../../src/graphql/generated/query/findManyNotice";
+import { FIND_MANY_NOTICE } from "../../../src/graphql/query/findManyNotice";
 import SearchDropDown from "../../DropDown/SearchDropDown/SearchDropDown";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { FindManyNoticeQuery } from "src/graphql/generated/graphql";
 
 const cx = className.bind(styles);
-
-type Data = {
-  id: number;
-  content: string;
-  createdAt: string;
-  hits: number;
-  title: string;
-};
 
 export default function Notice() {
   const router = useRouter();
@@ -33,7 +20,9 @@ export default function Notice() {
   const [current, setCurrent] = useState(1);
   const [totalCount, setTotalCount] = useState(1);
   const [searchText, setSearchText] = useState("");
-  const [data, setData] = useState<Data[]>([]);
+  const [data, setData] = useState<
+    FindManyNoticeQuery["findManyNotice"]["notices"]
+  >([]);
   const [kind, setKind] = useState<"title" | "content">("title");
 
   const handlePagination = (e: number) => {
@@ -49,7 +38,7 @@ export default function Notice() {
     setSearchText("");
   };
 
-  const [findManyNotice] = useLazyQuery(FIND_MANY_NOTICE, {
+  const [findManyNotice] = useLazyQuery<FindManyNoticeQuery>(FIND_MANY_NOTICE, {
     onError: (e) => toast.error(e.message ?? `${e}`),
     onCompleted(data) {
       setTotalCount(data.findManyNotice.totalCount);

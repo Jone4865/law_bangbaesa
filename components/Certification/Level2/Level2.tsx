@@ -3,10 +3,14 @@ import CertificationStateBar from "../CertificationStateBar/CertificationStateBa
 import styles from "./Level2.module.scss";
 import className from "classnames/bind";
 import { useLazyQuery, useMutation } from "@apollo/client";
-import { SEND_MAIL_AUTH_NUMBER } from "../../../src/graphql/generated/query/sendMailAuthNumber";
+import { SEND_MAIL_AUTH_NUMBER } from "../../../src/graphql/query/sendMailAuthNumber";
 import { toast } from "react-toastify";
-import { CONFIRM_EMAIL_AUTH_NUMBER } from "../../../src/graphql/generated/mutation/confirmEmailAuthNumber";
+import { CONFIRM_EMAIL_AUTH_NUMBER } from "../../../src/graphql/mutation/confirmEmailAuthNumber";
 import { useRouter } from "next/router";
+import {
+  ConfirmPhoneAuthNumberQuery,
+  SendMailAuthNumberQueryVariables,
+} from "src/graphql/generated/graphql";
 
 const cx = className.bind(styles);
 
@@ -44,9 +48,8 @@ export default function Level2() {
     }
   };
 
-  const [sendMailAuthNumber, { loading }] = useLazyQuery(
-    SEND_MAIL_AUTH_NUMBER,
-    {
+  const [sendMailAuthNumber, { loading }] =
+    useLazyQuery<SendMailAuthNumberQueryVariables>(SEND_MAIL_AUTH_NUMBER, {
       onError: (e) => toast.error(e.message ?? `${e}`),
       onCompleted(_data) {
         toast.success(
@@ -59,10 +62,9 @@ export default function Level2() {
         setMailSend(true);
       },
       fetchPolicy: "no-cache",
-    }
-  );
+    });
 
-  const [confirmEmailAuthNumber, { loading: loading2 }] = useMutation(
+  const [confirmEmailAuthNumber] = useMutation<ConfirmPhoneAuthNumberQuery>(
     CONFIRM_EMAIL_AUTH_NUMBER,
     {
       onError: (e) => toast.error(e.message ?? `${e}`),

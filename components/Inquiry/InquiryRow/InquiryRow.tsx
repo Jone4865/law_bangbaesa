@@ -3,10 +3,11 @@ import styles from "./InquiryRow.module.scss";
 import className from "classnames/bind";
 import Pagination from "react-js-pagination";
 import { useLazyQuery } from "@apollo/client";
-import { FIND_MANY_USER_INQUIRY_BY_USER } from "../../../src/graphql/generated/query/findManyUserInquiryByUser";
+import { FIND_MANY_USER_INQUIRY_BY_USER } from "../../../src/graphql/query/findManyUserInquiryByUser";
 import { toast } from "react-toastify";
 import moment from "moment";
 import Image from "next/image";
+import { FindManyUserInquiryByUserQuery } from "src/graphql/generated/graphql";
 
 const cx = className.bind(styles);
 
@@ -15,39 +16,33 @@ type Props = {
   setCreate: Dispatch<SetStateAction<boolean>>;
 };
 
-type Data = {
-  id: string;
-  content: string;
-  title: string;
-  createdAt: string;
-  repliedAt: string | null;
-  reply: string | null;
-};
-
 export default function InquiryRow({ create, setCreate }: Props) {
   const [take] = useState(20);
   const [skip, setSkip] = useState(0);
   const [current, setCurrent] = useState(1);
   const [totalCount, setTotalCount] = useState(0);
-  const [data, setData] = useState<Data[]>([]);
-  const [detailId, setDetailId] = useState<string | undefined>(undefined);
+  const [data, setData] = useState<
+    FindManyUserInquiryByUserQuery["findManyUserInquiryByUser"]["userInquiries"]
+  >([]);
+  const [detailId, setDetailId] = useState<number | undefined>(undefined);
 
   const handlePagination = (e: number) => {
     setSkip((e - 1) * take);
     setCurrent(e);
   };
 
-  const [findManyUserInquiryByUser] = useLazyQuery(
-    FIND_MANY_USER_INQUIRY_BY_USER,
-    {
-      onError: (e) => toast.error(e.message ?? `${e}`),
-      onCompleted(data) {
-        setTotalCount(data.findManyUserInquiryByUser.totalCount);
-        setData(data.findManyUserInquiryByUser.userInquiries);
-      },
-      fetchPolicy: "no-cache",
-    }
-  );
+  const [findManyUserInquiryByUser] =
+    useLazyQuery<FindManyUserInquiryByUserQuery>(
+      FIND_MANY_USER_INQUIRY_BY_USER,
+      {
+        onError: (e) => toast.error(e.message ?? `${e}`),
+        onCompleted(data) {
+          setTotalCount(data.findManyUserInquiryByUser.totalCount);
+          setData(data.findManyUserInquiryByUser.userInquiries);
+        },
+        fetchPolicy: "no-cache",
+      }
+    );
 
   useEffect(() => {
     findManyUserInquiryByUser({ variables: { take, skip } });

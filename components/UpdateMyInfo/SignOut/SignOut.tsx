@@ -4,8 +4,9 @@ import className from "classnames/bind";
 import { toast } from "react-toastify";
 import { useMutation } from "@apollo/client";
 import { useCookies } from "react-cookie";
-import { WITHDRAWA_USER } from "../../../src/graphql/generated/mutation/withdrawalUser";
+import { WITHDRAWA_USER } from "../../../src/graphql/mutation/withdrawalUser";
 import { useRouter } from "next/router";
+import { WithdrawalUserMutation } from "src/graphql/generated/graphql";
 
 const cx = className.bind(styles);
 
@@ -38,7 +39,7 @@ export default function SignOut() {
     withdrawalUser();
   };
 
-  const [withdrawalUser] = useMutation(WITHDRAWA_USER, {
+  const [withdrawalUser] = useMutation<WithdrawalUserMutation>(WITHDRAWA_USER, {
     onError: (e) => toast.error(e.message ?? `${e}`),
     onCompleted(_data) {
       removeCookies("login");

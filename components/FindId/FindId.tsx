@@ -4,9 +4,14 @@ import styles from "./FindId.module.scss";
 import className from "classnames/bind";
 import { toast } from "react-toastify";
 import { useLazyQuery } from "@apollo/client";
-import { SEND_PHONE_AUTH_NUMBER } from "../../src/graphql/generated/query/sendPhoneAuthNumber";
-import { CONFIRM_PHONE_AUTH_NUMBER } from "../../src/graphql/generated/query/confirmPhoneAuthNumber";
-import { FIND_IDENTITY } from "../../src/graphql/generated/query/findIdentity";
+import { SEND_PHONE_AUTH_NUMBER } from "../../src/graphql/query/sendPhoneAuthNumber";
+import { CONFIRM_PHONE_AUTH_NUMBER } from "../../src/graphql/query/confirmPhoneAuthNumber";
+import { FIND_IDENTITY } from "../../src/graphql/query/findIdentity";
+import {
+  ConfirmPhoneAuthNumberQuery,
+  FindIdentityQuery,
+  SendPhoneAuthNumberQuery,
+} from "src/graphql/generated/graphql";
 
 const cx = className.bind(styles);
 
@@ -34,32 +39,38 @@ export default function FindId() {
     toast.dismiss();
   };
 
-  const [sendPhoneAuthNumber] = useLazyQuery(SEND_PHONE_AUTH_NUMBER, {
-    onError: (e) => toast.error(e.message ?? `${e}`),
-    onCompleted(_data) {
-      setMoreVisible(true);
-      toast.success(
-        <div>
-          휴대폰 번호로 인증번호를 발송하였습니다.
-          <br />
-          인증코드를 입력해주세요.
-        </div>,
-        { autoClose: false }
-      );
-    },
-    fetchPolicy: "no-cache",
-  });
+  const [sendPhoneAuthNumber] = useLazyQuery<SendPhoneAuthNumberQuery>(
+    SEND_PHONE_AUTH_NUMBER,
+    {
+      onError: (e) => toast.error(e.message ?? `${e}`),
+      onCompleted(_data) {
+        setMoreVisible(true);
+        toast.success(
+          <div>
+            휴대폰 번호로 인증번호를 발송하였습니다.
+            <br />
+            인증코드를 입력해주세요.
+          </div>,
+          { autoClose: false }
+        );
+      },
+      fetchPolicy: "no-cache",
+    }
+  );
 
-  const [confirmPhoneAuthNumber] = useLazyQuery(CONFIRM_PHONE_AUTH_NUMBER, {
-    onError: (e) => toast.error(e.message ?? `${e}`),
-    onCompleted(data) {
-      findIdentity({
-        variables: { phone: tell, hash: data.confirmPhoneAuthNumber },
-      });
-    },
-  });
+  const [confirmPhoneAuthNumber] = useLazyQuery<ConfirmPhoneAuthNumberQuery>(
+    CONFIRM_PHONE_AUTH_NUMBER,
+    {
+      onError: (e) => toast.error(e.message ?? `${e}`),
+      onCompleted(data) {
+        findIdentity({
+          variables: { phone: tell, hash: data.confirmPhoneAuthNumber },
+        });
+      },
+    }
+  );
 
-  const [findIdentity] = useLazyQuery(FIND_IDENTITY, {
+  const [findIdentity] = useLazyQuery<FindIdentityQuery>(FIND_IDENTITY, {
     onError: (e) => toast.error(e.message ?? `${e}`),
     onCompleted(data) {
       router.push(`/find-id/${data.findIdentity}`);

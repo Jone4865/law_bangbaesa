@@ -4,34 +4,36 @@ import className from "classnames/bind";
 
 import MyLevel from "./MyLevel/MyLevel";
 import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
-import { FIND_MY_INFO_BY_USER } from "../../src/graphql/generated/query/findMyInfoByUser";
+import { FIND_MY_INFO_BY_USER } from "../../src/graphql/query/findMyInfoByUser";
 import { toast } from "react-toastify";
-import { SIGN_OUT_BY_USER } from "../../src/graphql/generated/mutation/signOutByUser";
+import { SIGN_OUT_BY_USER } from "../../src/graphql/mutation/signOutByUser";
 import { useRouter } from "next/router";
 import { useCookies } from "react-cookie";
 import Image from "next/image";
 import MyPageTop from "./MyPageTop/MyPageTop";
 import OTC from "../OTC/OTC";
-import { FIND_USER_INFO_BY_USER } from "../../src/graphql/generated/query/findUserInfoByUser";
+import { FIND_USER_INFO_BY_USER } from "../../src/graphql/query/findUserInfoByUser";
 import SideStatus from "./SideStatus/SideStatus";
+import {
+  FindMyInfoByUserQuery,
+  FindUserInfoByUserQuery,
+  OfferAction,
+  SignOutByUserMutation,
+} from "src/graphql/generated/graphql";
 
 const cx = className.bind(styles);
-
-type Data = {
-  connectionDate: string;
-  identity: string;
-  level: number;
-  negativeFeedbackCount: number;
-  positiveFeedbackCount: number;
-};
 
 export default function Mypage() {
   const router = useRouter();
   const [cookies, , removeCookies] = useCookies(["login", "nickName"]);
   const [mobileMore, setMobileMore] = useState(false);
   const [nowAble, setNowAble] = useState("my");
-  const [data, setData] = useState<Data>();
-  const [offerState, setOfferState] = useState<"SELL" | "BUY">("BUY");
+  const [data, setData] =
+    useState<
+      | FindMyInfoByUserQuery["findMyInfoByUser"]
+      | FindUserInfoByUserQuery["findUserInfoByUser"]
+    >();
+  const [offerState, setOfferState] = useState<OfferAction>(OfferAction.Buy);
   const [totalOffer, setTotalOffer] = useState(0);
   const [mynickName, setMynickName] = useState("");
   const [refetch, setRefetch] = useState(false);
@@ -47,28 +49,29 @@ export default function Mypage() {
     });
   };
 
-  const [signOutByUser] = useMutation(SIGN_OUT_BY_USER, {
+  const [signOutByUser] = useMutation<SignOutByUserMutation>(SIGN_OUT_BY_USER, {
     onError: (e) => toast.error(e.message ?? `${e}`),
   });
 
-  const [findMyInfoByUser] = useLazyQuery(FIND_MY_INFO_BY_USER, {
-    onError: (_e) => {
-      router.push("/sign-in");
-    },
-    onCompleted(data) {
-      setData(data.findMyInfoByUser);
-      setMynickName(data.findMyInfoByUser.identity);
-    },
-    fetchPolicy: "no-cache",
-  });
-
-  const { data: findUserInfoByUserQuery, refetch: userRefetch } = useQuery(
-    FIND_USER_INFO_BY_USER,
+  const [findMyInfoByUser] = useLazyQuery<FindMyInfoByUserQuery>(
+    FIND_MY_INFO_BY_USER,
     {
-      variables: { identity: router.query.id },
-      skip: router.pathname !== "/user/[id]",
+      onError: (_e) => {
+        router.push("/sign-in");
+      },
+      onCompleted(data) {
+        setData(data.findMyInfoByUser);
+        setMynickName(data.findMyInfoByUser.identity);
+      },
+      fetchPolicy: "no-cache",
     }
   );
+
+  const { data: findUserInfoByUserQuery, refetch: userRefetch } =
+    useQuery<FindUserInfoByUserQuery>(FIND_USER_INFO_BY_USER, {
+      variables: { identity: router.query.id },
+      skip: router.pathname !== "/user/[id]",
+    });
 
   const handleRefetch = () => {
     userRefetch({
@@ -192,7 +195,9 @@ export default function Mypage() {
                   <div
                     onClick={() =>
                       setOfferState((prev) =>
-                        prev === "SELL" ? "BUY" : "SELL"
+                        prev === OfferAction.Sell
+                          ? OfferAction.Buy
+                          : OfferAction.Sell
                       )
                     }
                     className={cx("toggle_body")}

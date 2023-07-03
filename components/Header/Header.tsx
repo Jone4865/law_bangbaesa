@@ -9,7 +9,8 @@ import Image from "next/image";
 import { toast } from "react-toastify";
 
 import { useMutation } from "@apollo/client";
-import { SIGN_OUT_BY_USER } from "../../src/graphql/generated/mutation/signOutByUser";
+import { SIGN_OUT_BY_USER } from "../../src/graphql/mutation/signOutByUser";
+import { SignOutByUserMutation } from "src/graphql/generated/graphql";
 
 const cx = className.bind(styles);
 
@@ -42,7 +43,7 @@ export default function Header({ setModalState }: Props) {
     signOutByUser();
   };
 
-  const [signOutByUser] = useMutation(SIGN_OUT_BY_USER, {
+  const [signOutByUser] = useMutation<SignOutByUserMutation>(SIGN_OUT_BY_USER, {
     onError: (e) => toast.error(e.message ?? `${e}`),
     onCompleted(_data) {
       setLogin(false);

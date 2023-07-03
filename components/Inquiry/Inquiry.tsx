@@ -5,12 +5,13 @@ import Notice from "./Notice/Notice";
 import InquiryRow from "./InquiryRow/InquiryRow";
 import CreateInquiry from "./CreateInquiry/CreateInquiry";
 import { useLazyQuery } from "@apollo/client";
-import { FIND_MANY_USER_INQUIRY_BY_USER } from "../../src/graphql/generated/query/findManyUserInquiryByUser";
+import { FIND_MANY_USER_INQUIRY_BY_USER } from "../../src/graphql/query/findManyUserInquiryByUser";
 import { toast } from "react-toastify";
 import { useCookies } from "react-cookie";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import NoticeDetail from "./Notice/NoticeDetail/NoticeDetail";
+import { FindManyUserInquiryByUserQuery } from "src/graphql/generated/graphql";
 
 const cx = className.bind(styles);
 
@@ -32,19 +33,20 @@ export default function Inquiry() {
     }
   };
 
-  const [findManyUserInquiryByUser] = useLazyQuery(
-    FIND_MANY_USER_INQUIRY_BY_USER,
-    {
-      onError: (e) => toast.error(e.message ?? `${e}`),
-      onCompleted(data) {
-        if (data.findManyUserInquiryByUser.totalCount === 0) {
-          setCreate(true);
-        } else {
-          setCreate(false);
-        }
-      },
-    }
-  );
+  const [findManyUserInquiryByUser] =
+    useLazyQuery<FindManyUserInquiryByUserQuery>(
+      FIND_MANY_USER_INQUIRY_BY_USER,
+      {
+        onError: (e) => toast.error(e.message ?? `${e}`),
+        onCompleted(data) {
+          if (data.findManyUserInquiryByUser.totalCount === 0) {
+            setCreate(true);
+          } else {
+            setCreate(false);
+          }
+        },
+      }
+    );
 
   useEffect(() => {
     if (router.pathname === "/inquiry/my-inquiry") {

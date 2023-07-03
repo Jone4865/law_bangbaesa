@@ -9,7 +9,8 @@ import styles from "./SignIn.module.scss";
 import { toast } from "react-toastify";
 
 import { useLazyQuery } from "@apollo/client";
-import { SIGN_IN_BY_SUER } from "../../src/graphql/generated/query/signInByUser";
+import { SIGN_IN_BY_SUER } from "../../src/graphql/query/signInByUser";
+import { SignInByUserQuery } from "src/graphql/generated/graphql";
 
 const cx = className.bind(styles);
 
@@ -43,7 +44,7 @@ export default function SignIn() {
     }
   };
 
-  const [signInByUser] = useLazyQuery(SIGN_IN_BY_SUER, {
+  const [signInByUser] = useLazyQuery<SignInByUserQuery>(SIGN_IN_BY_SUER, {
     onError: (e) => toast.error(e.message ?? `${e}`),
     onCompleted(_data) {
       if (saveId) {

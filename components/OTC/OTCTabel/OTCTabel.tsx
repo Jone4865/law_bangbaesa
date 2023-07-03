@@ -1,45 +1,28 @@
-import { useState, useEffect, Dispatch, SetStateAction } from "react";
+import { useEffect } from "react";
 import styles from "./OTCTabel.module.scss";
 import className from "classnames/bind";
 import { useRouter } from "next/router";
 import { useLazyQuery, useMutation } from "@apollo/client";
-import { ENTER_CHAT_ROOM } from "../../../src/graphql/generated/mutation/enterChatRoom";
+import { ENTER_CHAT_ROOM } from "../../../src/graphql/mutation/enterChatRoom";
 import { toast } from "react-toastify";
-import { DELETE_OFFER_BY_USER } from "../../../src/graphql/generated/mutation/deleteOfferByUser";
+import { DELETE_OFFER_BY_USER } from "../../../src/graphql/mutation/deleteOfferByUser";
 import { useInView } from "react-intersection-observer";
 import moment from "moment";
 import Image from "next/image";
 import { useCookies } from "react-cookie";
-import { FIND_MY_INFO_BY_USER } from "../../../src/graphql/generated/query/findMyInfoByUser";
+import { FIND_MY_INFO_BY_USER } from "../../../src/graphql/query/findMyInfoByUser";
+import {
+  DeleteOfferByUserMutation,
+  EnterChatRoomMutation,
+  FindManyOfferQuery,
+  FindMyInfoByUserQuery,
+} from "src/graphql/generated/graphql";
 
 const cx = className.bind(styles);
 
-type Data = {
-  id: number;
-  coinKind: "BITCOIN" | "TETHER";
-  offerAction: "BUY" | "SELL";
-  transactionMethod: "DIRECT";
-  price: number;
-  minAmount: number;
-  maxAmount: number;
-  responseSpeed: number;
-  content: string;
-  createdAt: string;
-  reservationStatus: "NONE" | "PROGRESS";
-  transactionStatus: "PROGRESS" | "COMPLETE";
-  city: {
-    id: number;
-    name: string;
-  };
-  identity: string;
-  positiveCount: number;
-  connectionDate: string;
-  isNewChatMessage: boolean;
-};
-
 type Props = {
   nowAble: string;
-  data: Data[];
+  data: FindManyOfferQuery["findManyOffer"]["offers"];
   kind: "SELL" | "BUY" | undefined;
   coin: string;
   part: "home" | "otc" | "mypage" | "user";
@@ -115,22 +98,28 @@ export default function OTCTabel({
     }
   };
 
-  const [enterChatRoom] = useMutation(ENTER_CHAT_ROOM, {
+  const [enterChatRoom] = useMutation<EnterChatRoomMutation>(ENTER_CHAT_ROOM, {
     onError: (e) => toast.error(e.message ?? `${e}`),
   });
 
-  const [findMyInfoByUser] = useLazyQuery(FIND_MY_INFO_BY_USER, {
-    onError: (e) => toast.error(e.message ?? `${e}`),
-    fetchPolicy: "no-cache",
-  });
+  const [findMyInfoByUser] = useLazyQuery<FindMyInfoByUserQuery>(
+    FIND_MY_INFO_BY_USER,
+    {
+      onError: (e) => toast.error(e.message ?? `${e}`),
+      fetchPolicy: "no-cache",
+    }
+  );
 
-  const [deleteOfferByUser] = useMutation(DELETE_OFFER_BY_USER, {
-    onError: (e) => toast.error(e.message ?? `${e}`),
-    onCompleted(_v) {
-      toast.success("해당 오퍼를 삭제했습니다.");
-      deletehandle();
-    },
-  });
+  const [deleteOfferByUser] = useMutation<DeleteOfferByUserMutation>(
+    DELETE_OFFER_BY_USER,
+    {
+      onError: (e) => toast.error(e.message ?? `${e}`),
+      onCompleted(_v) {
+        toast.success("해당 오퍼를 삭제했습니다.");
+        deletehandle();
+      },
+    }
+  );
 
   useEffect(() => {}, [data, coin, kind, nowAble]);
 

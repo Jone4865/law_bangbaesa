@@ -1,17 +1,15 @@
-import {
-  useState,
-  useEffect,
-  FormEvent,
-  Dispatch,
-  SetStateAction,
-} from "react";
+import { useState, FormEvent, Dispatch, SetStateAction } from "react";
 import styles from "./PassWordInfo.module.scss";
 import className from "classnames/bind";
 import { toast } from "react-toastify";
 import { useLazyQuery, useMutation } from "@apollo/client";
-import { VERIFY_ORIGIN_PASSWORD_BY_USER } from "../../../src/graphql/generated/query/verifyOriginPasswordByUser";
-import { UPDATE_PASSWORD_BY_USER } from "../../../src/graphql/generated/mutation/updatePasswordByUser";
+import { VERIFY_ORIGIN_PASSWORD_BY_USER } from "../../../src/graphql/query/verifyOriginPasswordByUser";
+import { UPDATE_PASSWORD_BY_USER } from "../../../src/graphql/mutation/updatePasswordByUser";
 import { useRouter } from "next/router";
+import {
+  UpdatePasswordByUserMutation,
+  VerifyOriginPasswordByUserQuery,
+} from "src/graphql/generated/graphql";
 
 const cx = className.bind(styles);
 
@@ -43,25 +41,29 @@ export default function PassWordInfo({ setNowAble }: Props) {
     }
   };
 
-  const [verifyOriginPasswordByUser] = useLazyQuery(
-    VERIFY_ORIGIN_PASSWORD_BY_USER,
+  const [verifyOriginPasswordByUser] =
+    useLazyQuery<VerifyOriginPasswordByUserQuery>(
+      VERIFY_ORIGIN_PASSWORD_BY_USER,
+      {
+        onError: (e) => toast.error(e.message ?? `${e}`),
+        onCompleted(_data) {
+          updatePasswordByUser({
+            variables: { originPassword: passWord, newPassword: newPassWord },
+          });
+        },
+      }
+    );
+
+  const [updatePasswordByUser] = useMutation<UpdatePasswordByUserMutation>(
+    UPDATE_PASSWORD_BY_USER,
     {
       onError: (e) => toast.error(e.message ?? `${e}`),
       onCompleted(_data) {
-        updatePasswordByUser({
-          variables: { originPassword: passWord, newPassword: newPassWord },
-        });
+        toast.success("변경을 완료했습니다.");
+        setNowAble("내정보");
       },
     }
   );
-
-  const [updatePasswordByUser] = useMutation(UPDATE_PASSWORD_BY_USER, {
-    onError: (e) => toast.error(e.message ?? `${e}`),
-    onCompleted(_data) {
-      toast.success("변경을 완료했습니다.");
-      setNowAble("내정보");
-    },
-  });
 
   return (
     <div className={cx("container")}>

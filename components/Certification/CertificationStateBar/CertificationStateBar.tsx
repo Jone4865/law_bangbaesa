@@ -1,10 +1,11 @@
 import { useLazyQuery } from "@apollo/client";
 import styles from "./CertificationStateBar.module.scss";
 import className from "classnames/bind";
-import { FIND_MY_INFO_BY_USER } from "../../../src/graphql/generated/query/findMyInfoByUser";
+import { FIND_MY_INFO_BY_USER } from "../../../src/graphql/query/findMyInfoByUser";
 import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { FindMyInfoByUserQuery } from "src/graphql/generated/graphql";
 
 const cx = className.bind(styles);
 
@@ -17,13 +18,16 @@ export default function CertificationStateBar({ path }: Props) {
 
   const [level, setLevel] = useState(1);
 
-  const [findMyInfoByUser, { refetch }] = useLazyQuery(FIND_MY_INFO_BY_USER, {
-    onError: (e) => toast.error(e.message ?? `${e}`),
-    onCompleted(data) {
-      setLevel(data.findMyInfoByUser.level);
-    },
-    fetchPolicy: "no-cache",
-  });
+  const [findMyInfoByUser] = useLazyQuery<FindMyInfoByUserQuery>(
+    FIND_MY_INFO_BY_USER,
+    {
+      onError: (e) => toast.error(e.message ?? `${e}`),
+      onCompleted(data) {
+        setLevel(data.findMyInfoByUser.level);
+      },
+      fetchPolicy: "no-cache",
+    }
+  );
 
   useEffect(() => {
     findMyInfoByUser();

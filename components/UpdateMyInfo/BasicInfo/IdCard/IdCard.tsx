@@ -1,33 +1,11 @@
+import { FindMyInfoByUserQuery } from "src/graphql/generated/graphql";
 import styles from "./IdCard.module.scss";
 import className from "classnames/bind";
 
 const cx = className.bind(styles);
 
-type Myinfo = {
-  identity: string;
-  phone: string;
-  emailAuth: { createdAt: string; email: string; id: number };
-  driverLicense?: {
-    name: string;
-    birth: string;
-    area: string;
-    licenseNumber: string;
-    serialNumber: string;
-  };
-  idCard?: {
-    name: string;
-    registrationNumber: number;
-    issueDate: string;
-  };
-  passport?: {
-    passportNumber: number;
-    issueDate: string;
-    expirationDate: string;
-  };
-};
-
 type Props = {
-  myInfo: Myinfo | undefined;
+  myInfo: FindMyInfoByUserQuery["findMyInfoByUser"] | undefined;
   kind: string;
   onClickChangeHandle: () => void;
 };

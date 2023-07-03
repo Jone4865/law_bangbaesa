@@ -7,57 +7,28 @@ import BasicInfo from "./BasicInfo/BasicInfo";
 import PassWordInfo from "./PassWordInfo/PassWordInfo";
 import SignOut from "./SignOut/SignOut";
 import { useLazyQuery } from "@apollo/client";
-import { FIND_MY_INFO_BY_USER } from "../../src/graphql/generated/query/findMyInfoByUser";
+import { FIND_MY_INFO_BY_USER } from "../../src/graphql/query/findMyInfoByUser";
 import MyPageTop from "../Mypage/MyPageTop/MyPageTop";
+import { FindMyInfoByUserQuery } from "src/graphql/generated/graphql";
 
 const cx = className.bind(styles);
-
-type info = {
-  identity: string;
-  phone: string;
-  emailAuth: { createdAt: string; email: string; id: number };
-  level: number;
-  driverLicense?: {
-    name: string;
-    birth: string;
-    area: string;
-    licenseNumber: string;
-    serialNumber: string;
-  };
-  idCard?: {
-    name: string;
-    registrationNumber: number;
-    issueDate: string;
-  };
-  passport?: {
-    passportNumber: number;
-    issueDate: string;
-    expirationDate: string;
-  };
-};
-
-type Data = {
-  connectionDate: string;
-  identity: string;
-  level: number;
-  negativeFeedbackCount: number;
-  positiveFeedbackCount: number;
-};
 
 export default function UpdateMyInfo() {
   const ableArr = ["내정보", "비밀번호 변경", "회원탈퇴"];
   const [nowAble, setNowAble] = useState("내정보");
-  const [myInfo, setMyinfo] = useState<info>();
-  const [data, setData] = useState<Data>();
+  const [myInfo, setMyinfo] =
+    useState<FindMyInfoByUserQuery["findMyInfoByUser"]>();
 
-  const [findMyInfoByUser] = useLazyQuery(FIND_MY_INFO_BY_USER, {
-    onError: (e) => toast.error(e.message ?? `${e}`),
-    onCompleted(data) {
-      setMyinfo(data.findMyInfoByUser);
-      setData(data.findMyInfoByUser);
-    },
-    fetchPolicy: "no-cache",
-  });
+  const [findMyInfoByUser] = useLazyQuery<FindMyInfoByUserQuery>(
+    FIND_MY_INFO_BY_USER,
+    {
+      onError: (e) => toast.error(e.message ?? `${e}`),
+      onCompleted(data) {
+        setMyinfo(data.findMyInfoByUser);
+      },
+      fetchPolicy: "no-cache",
+    }
+  );
 
   useEffect(() => {
     findMyInfoByUser();
@@ -66,7 +37,7 @@ export default function UpdateMyInfo() {
   return (
     <div className={cx("container")}>
       <div className={cx("wrap")}>
-        <MyPageTop data={data} handleRefetch={() => ""} />
+        <MyPageTop data={myInfo} handleRefetch={() => ""} />
         <div className={cx("body")}>
           {ableArr.map((arr) => (
             <div

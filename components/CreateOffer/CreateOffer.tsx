@@ -3,17 +3,16 @@ import styles from "./CreateOffer.module.scss";
 import className from "classnames/bind";
 import { useRouter } from "next/router";
 import { useLazyQuery, useMutation } from "@apollo/client";
-import { CREATE_OFFER_BY_USER } from "../../src/graphql/generated/mutation/createOfferByUser";
+import { CREATE_OFFER_BY_USER } from "../../src/graphql/mutation/createOfferByUser";
 import { toast } from "react-toastify";
 import Image from "next/image";
-import { FIND_MANY_CITY } from "../../src/graphql/generated/query/findManyCity";
+import { FIND_MANY_CITY } from "../../src/graphql/query/findManyCity";
+import {
+  CreateOfferByUserMutation,
+  FindManyCityQuery,
+} from "src/graphql/generated/graphql";
 
 const cx = className.bind(styles);
-
-type City = {
-  id: number;
-  name: string;
-};
 
 export default function CreateOffer() {
   const router = useRouter();
@@ -25,7 +24,7 @@ export default function CreateOffer() {
   const [max, setMax] = useState<number>();
   const [time, setTime] = useState<number>();
   const [text, setText] = useState("");
-  const [city, setCity] = useState<City[]>();
+  const [city, setCity] = useState<FindManyCityQuery["findManyCity"]>();
 
   const coinArr = ["비트코인", "테더"];
   const kindArr = ["판매", "구매"];
@@ -110,15 +109,18 @@ export default function CreateOffer() {
     }
   };
 
-  const [createOfferByUser] = useMutation(CREATE_OFFER_BY_USER, {
-    onError: (e) => toast.error(e.message ?? `${e}`),
-    onCompleted(_data) {
-      toast.success("오퍼를 생성했습니다.");
-      router.back();
-    },
-  });
+  const [createOfferByUser] = useMutation<CreateOfferByUserMutation>(
+    CREATE_OFFER_BY_USER,
+    {
+      onError: (e) => toast.error(e.message ?? `${e}`),
+      onCompleted(_data) {
+        toast.success("오퍼를 생성했습니다.");
+        router.back();
+      },
+    }
+  );
 
-  const [findManyCity] = useLazyQuery(FIND_MANY_CITY, {
+  const [findManyCity] = useLazyQuery<FindManyCityQuery>(FIND_MANY_CITY, {
     onError: (e) => toast.error(e.message ?? `${e}`),
     onCompleted(data) {
       setCity(data.findManyCity);

@@ -5,8 +5,9 @@ import { toast } from "react-toastify";
 import Link from "next/link";
 import { useCookies } from "react-cookie";
 import { useLazyQuery } from "@apollo/client";
-import { FIND_PASSWORD } from "../../src/graphql/generated/query/findPassword";
+import { FIND_PASSWORD } from "../../src/graphql/query/findPassword";
 import { useRouter } from "next/router";
+import { FindPasswordQuery } from "src/graphql/generated/graphql";
 
 const cx = className.bind(styles);
 
@@ -50,7 +51,7 @@ export default function ChangePassWord() {
     }
   };
 
-  const [findPassword] = useLazyQuery(FIND_PASSWORD, {
+  const [findPassword] = useLazyQuery<FindPasswordQuery>(FIND_PASSWORD, {
     onError: (e) => toast.error(e.message ?? `${e}`),
     onCompleted(_data) {
       toast.success(

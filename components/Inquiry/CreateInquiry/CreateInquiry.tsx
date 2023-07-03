@@ -4,7 +4,8 @@ import className from "classnames/bind";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useMutation } from "@apollo/client";
-import { CREATE_USER_INQUIRY_BY_USER } from "../../../src/graphql/generated/mutation/createUserInquiryByUser";
+import { CREATE_USER_INQUIRY_BY_USER } from "../../../src/graphql/mutation/createUserInquiryByUser";
+import { CreateUserInquiryByUserMutation } from "src/graphql/generated/graphql";
 
 const cx = className.bind(styles);
 
@@ -26,13 +27,14 @@ export default function CreateInquiry({ setCreate }: Props) {
     }
   };
 
-  const [createUserInquiryByUser] = useMutation(CREATE_USER_INQUIRY_BY_USER, {
-    onError: (e) => toast.error(e.message ?? `${e}`),
-    onCompleted(_data) {
-      toast.success("문의가 접수되었습니다.");
-      setCreate(false);
-    },
-  });
+  const [createUserInquiryByUser] =
+    useMutation<CreateUserInquiryByUserMutation>(CREATE_USER_INQUIRY_BY_USER, {
+      onError: (e) => toast.error(e.message ?? `${e}`),
+      onCompleted(_data) {
+        toast.success("문의가 접수되었습니다.");
+        setCreate(false);
+      },
+    });
 
   return (
     <div className={cx("container")}>

@@ -12,15 +12,16 @@ import className from "classnames/bind";
 import { useRouter } from "next/router";
 import TopImage from "../TopImage/TopImage";
 import Marquee from "../Marquee/Marquee";
+import { CoinKind, OfferAction } from "src/graphql/generated/graphql";
 
 const cx = className.bind(styles);
 
 export default function Body() {
   const router = useRouter();
   const coins = ["USDT", "BTC"];
-  const [buyCoinKind, setBuyCoinKind] = useState<"BTC" | "USDT">("USDT");
-  const [sellCoinKind, setSellCoinKind] = useState<"BTC" | "USDT">("USDT");
-  const [kind, setKind] = useState<"BUY" | "SELL">("BUY");
+  const [buyCoinKind, setBuyCoinKind] = useState<CoinKind>(CoinKind.Usdt);
+  const [sellCoinKind, setSellCoinKind] = useState<CoinKind>(CoinKind.Usdt);
+  const [kind, setKind] = useState<OfferAction>(OfferAction.Buy);
   const [middle, setMiddle] = useState(false);
   const isMiddle = useMediaQuery({
     query: "(min-width: 1300px) and (max-width: 10000px)",
@@ -79,13 +80,13 @@ export default function Body() {
               <div className={cx("only_pc")}>구매</div>
               <div className={cx("non_pc")}>
                 <div
-                  onClick={() => setKind("BUY")}
+                  onClick={() => setKind(OfferAction.Buy)}
                   className={cx(kind === "BUY" ? "able_buy" : "default")}
                 >
                   구매
                 </div>
                 <div
-                  onClick={() => setKind("SELL")}
+                  onClick={() => setKind(OfferAction.Sell)}
                   className={cx(kind === "SELL" ? "able_sell" : "default")}
                 >
                   판매
@@ -94,7 +95,9 @@ export default function Body() {
               <div
                 className={cx("coin_btns")}
                 onClick={() =>
-                  setBuyCoinKind((prev) => (prev === "BTC" ? "USDT" : "BTC"))
+                  setBuyCoinKind((prev) =>
+                    prev === "BTC" ? CoinKind.Usdt : CoinKind.Btc
+                  )
                 }
               >
                 <div
@@ -114,7 +117,7 @@ export default function Body() {
             <OTC
               partKind={kind}
               part="home"
-              coinKind={buyCoinKind === "USDT" ? "TETHER" : "BTC"}
+              coinKind={buyCoinKind}
               nowAble=""
             />
           </div>
@@ -125,7 +128,9 @@ export default function Body() {
               <div
                 className={cx("coin_btns")}
                 onClick={() =>
-                  setSellCoinKind((prev) => (prev === "BTC" ? "USDT" : "BTC"))
+                  setSellCoinKind((prev) =>
+                    prev === CoinKind.Btc ? CoinKind.Usdt : CoinKind.Btc
+                  )
                 }
               >
                 <div
@@ -143,9 +148,9 @@ export default function Body() {
               </div>
             </div>
             <OTC
-              partKind={"SELL"}
+              partKind={OfferAction.Sell}
               part="home"
-              coinKind={sellCoinKind === "USDT" ? "TETHER" : "BTC"}
+              coinKind={sellCoinKind}
               nowAble=""
             />
           </div>

@@ -2,26 +2,20 @@ import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import styles from "./NoticeDetail.module.scss";
 import className from "classnames/bind";
 import moment from "moment";
-import { FIND_ONE_NOTICE } from "../../../../src/graphql/generated/query/findOneNotice";
+import { FIND_ONE_NOTICE } from "../../../../src/graphql/query/findOneNotice";
 import { toast } from "react-toastify";
 import { useLazyQuery } from "@apollo/client";
 import { useRouter } from "next/router";
+import { FindOneNoticeQuery } from "src/graphql/generated/graphql";
 
 const cx = className.bind(styles);
 
-type Data = {
-  id: number;
-  title: string;
-  content: string;
-  createdAt: string;
-  hits: number;
-};
-
 export default function NoticeDetail() {
   const router = useRouter();
-  const [detailData, setDetailData] = useState<Data>();
+  const [detailData, setDetailData] =
+    useState<FindOneNoticeQuery["findOneNotice"]>();
 
-  const [findOneNotice] = useLazyQuery(FIND_ONE_NOTICE, {
+  const [findOneNotice] = useLazyQuery<FindOneNoticeQuery>(FIND_ONE_NOTICE, {
     onError: (e) => toast.error(e.message ?? `${e}`),
     onCompleted(data) {
       setDetailData(data.findOneNotice);

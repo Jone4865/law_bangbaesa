@@ -5,31 +5,24 @@ import styles from "./Marquee.module.scss";
 import className from "classnames/bind";
 import Image from "next/image";
 import { useLazyQuery } from "@apollo/client";
-import { FIND_MANY_MARKER_PRICE } from "../../src/graphql/generated/query/findManyMarketPrice";
+import { FIND_MANY_MARKER_PRICE } from "../../src/graphql/query/findManyMarketPrice";
 import { toast } from "react-toastify";
+import { FindManyMarketPriceQuery } from "src/graphql/generated/graphql";
 const cx = className.bind(styles);
 
-type Data = {
-  code: string;
-  timestamp: string;
-  openPrice: number;
-  highPrice: number;
-  lowPrice: number;
-  closePrice: number;
-  tradeTime: number;
-  changePrice: number;
-  changeRate: number;
-};
-
 export default function Marquee() {
-  const [data, setData] = useState<Data[]>();
+  const [data, setData] =
+    useState<FindManyMarketPriceQuery["findManyMarketPrice"]["binance"]>();
 
-  const [findManyMarketPrice] = useLazyQuery(FIND_MANY_MARKER_PRICE, {
-    onError: (e) => toast.error(e.message ?? `${e}`),
-    onCompleted(data) {
-      setData(data.findManyMarketPrice.binance);
-    },
-  });
+  const [findManyMarketPrice] = useLazyQuery<FindManyMarketPriceQuery>(
+    FIND_MANY_MARKER_PRICE,
+    {
+      onError: (e) => toast.error(e.message ?? `${e}`),
+      onCompleted(data) {
+        setData(data.findManyMarketPrice.binance);
+      },
+    }
+  );
 
   useEffect(() => {
     findManyMarketPrice();

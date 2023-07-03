@@ -3,9 +3,10 @@ import styles from "./IdCard.module.scss";
 import className from "classnames/bind";
 import ImageUpload from "../../../ImageUpload/ImageUpload";
 import { useMutation } from "@apollo/client";
-import { CREATE_ID_CARD } from "../../../../src/graphql/generated/mutation/createIdCard";
+import { CREATE_ID_CARD } from "../../../../src/graphql/mutation/createIdCard";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
+import { CreateIdCardMutation } from "src/graphql/generated/graphql";
 
 const cx = className.bind(styles);
 
@@ -33,7 +34,7 @@ export default function IdCard() {
     }
   };
 
-  const [createIdCard] = useMutation(CREATE_ID_CARD, {
+  const [createIdCard] = useMutation<CreateIdCardMutation>(CREATE_ID_CARD, {
     onError: (e) => toast.error(e.message ?? `${e}`),
     onCompleted(_data) {
       toast.success("신분증 인증이 완료되었습니다.");

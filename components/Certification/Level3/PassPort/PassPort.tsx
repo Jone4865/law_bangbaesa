@@ -5,7 +5,8 @@ import ImageUpload from "../../../ImageUpload/ImageUpload";
 import { useMutation } from "@apollo/client";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
-import { CREATE_PASSPORT } from "../../../../src/graphql/generated/mutation/createPassport";
+import { CREATE_PASSPORT } from "../../../../src/graphql/mutation/createPassport";
+import { CreatePassportMutation } from "src/graphql/generated/graphql";
 
 const cx = className.bind(styles);
 
@@ -37,13 +38,16 @@ export default function PassPort() {
     }
   };
 
-  const [createPassport] = useMutation(CREATE_PASSPORT, {
-    onError: (e) => toast.error(e.message ?? `${e}`),
-    onCompleted(_data) {
-      toast.success("신분증 인증이 완료되었습니다.");
-      router.push("/mypage");
-    },
-  });
+  const [createPassport] = useMutation<CreatePassportMutation>(
+    CREATE_PASSPORT,
+    {
+      onError: (e) => toast.error(e.message ?? `${e}`),
+      onCompleted(_data) {
+        toast.success("신분증 인증이 완료되었습니다.");
+        router.push("/mypage");
+      },
+    }
+  );
 
   return (
     <div className={cx("container")}>
