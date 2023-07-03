@@ -42,6 +42,7 @@ const Room: NextPage<Props> = ({ id, data }) => {
 
   const [connecting, setIsConnecting] = useState(true);
   console.log(connecting);
+  console.log(id);
   const router = useRouter();
   const [take, setTake] = useState(10);
   const [datas, setDatas] = useState<any[]>([]);
@@ -212,7 +213,6 @@ const Room: NextPage<Props> = ({ id, data }) => {
     },
     onSubscriptionData: ({ subscriptionData }) => {
       setIsConnecting(false);
-      console.log(id);
       if (subscriptionData.data) {
         const newData = subscriptionData.data.subscribeChatMessage.chatMessage;
         setDatas((prev) => [...prev, newData]);
