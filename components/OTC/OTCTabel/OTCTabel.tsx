@@ -16,7 +16,10 @@ import {
   EnterChatRoomMutation,
   FindManyOfferQuery,
   FindMyInfoByUserQuery,
+  ReservationStatus,
+  TransactionStatus,
 } from "src/graphql/generated/graphql";
+import { textSpanContainsPosition } from "typescript";
 
 const cx = className.bind(styles);
 
@@ -208,12 +211,15 @@ export default function OTCTabel({
                       nowAble === "like" ||
                       router.pathname === "/") && (
                       <div className={cx("right_btns")}>
-                        {v.reservationStatus === "PROGRESS" && (
-                          <div className={cx("reservation_btn")}>예약중</div>
-                        )}
+                        {v.reservationStatus === ReservationStatus.Progress &&
+                          v.transactionStatus ===
+                            TransactionStatus.Progress && (
+                            <div className={cx("reservation_btn")}>예약중</div>
+                          )}
                         <button
                           disabled={
-                            v.transactionStatus === "COMPLETE" ||
+                            v.transactionStatus ===
+                              TransactionStatus.Complete ||
                             v.identity === cookies.nickName
                           }
                           className={cx(
@@ -251,10 +257,17 @@ export default function OTCTabel({
                         최근 접속 : {convertConnectionDate(v.connectionDate)}
                       </div>
                       <div className={cx("right_btns")}>
-                        {v.reservationStatus && (
-                          <div className={cx("reservation_btn")}>예약중</div>
-                        )}
+                        {v.reservationStatus === ReservationStatus.Progress &&
+                          v.transactionStatus ===
+                            TransactionStatus.Progress && (
+                            <div className={cx("reservation_btn")}>예약중</div>
+                          )}
                         <button
+                          disabled={
+                            v.transactionStatus ===
+                              TransactionStatus.Complete ||
+                            v.identity === cookies.nickName
+                          }
                           className={cx(
                             kind === "BUY" ? "chat_orange" : "chat_blue"
                           )}
@@ -287,10 +300,19 @@ export default function OTCTabel({
                       <div className={cx("mobile_body")}>
                         <div />
                         <div className={cx("right_btns")}>
-                          {v.reservationStatus && (
-                            <div className={cx("reservation_btn")}>예약중</div>
-                          )}
+                          {v.reservationStatus === ReservationStatus.Progress &&
+                            v.transactionStatus !==
+                              TransactionStatus.Complete && (
+                              <div className={cx("reservation_btn")}>
+                                예약중
+                              </div>
+                            )}
                           <button
+                            disabled={
+                              v.transactionStatus ===
+                                TransactionStatus.Complete ||
+                              v.identity === cookies.nickName
+                            }
                             className={cx(
                               kind === "BUY" ? "chat_orange" : "chat_blue"
                             )}
