@@ -7,6 +7,7 @@ import IdCard from "./IdCard/IdCard";
 import PassPort from "./PassPort/PassPort";
 import DriveCard from "./DriveCard/DriveCard";
 import { FindMyInfoByUserQuery } from "src/graphql/generated/graphql";
+import { useRouter } from "next/router";
 
 const cx = className.bind(styles);
 
@@ -16,6 +17,8 @@ type Props = {
 };
 
 export default function BasicInfo({ myInfo, setNowAble }: Props) {
+  const router = useRouter();
+
   const [kind, setKind] =
     useState<"주민등록증" | "여권" | "운전면허증">("주민등록증");
 
@@ -99,8 +102,19 @@ export default function BasicInfo({ myInfo, setNowAble }: Props) {
                   ? myInfo?.emailAuth?.email
                   : "이메일 인증을 하지 않았습니다"}
               </div>
-              <button className={cx("btn")} onClick={onClickChangeHandle}>
-                변경
+              <button
+                className={cx("btn")}
+                onClick={() =>
+                  myInfo?.emailAuth?.email
+                    ? onClickChangeHandle
+                    : router.push(
+                        `/certification/level${
+                          myInfo?.level ? myInfo?.level + 1 : 2
+                        }`
+                      )
+                }
+              >
+                {myInfo?.emailAuth?.email ? "변경" : "인증"}
               </button>
             </div>
           </div>

@@ -19,10 +19,10 @@ export default function CreateOffer() {
   const [coin, setCoin] = useState("비트코인");
   const [kind, setKind] = useState("판매");
   const [location, setLocation] = useState({ id: 1, name: "서울시" });
-  const [price, setPrice] = useState<number>();
-  const [min, setMin] = useState<number>();
-  const [max, setMax] = useState<number>();
-  const [time, setTime] = useState<number>();
+  const [price, setPrice] = useState<number | undefined>(undefined);
+  const [min, setMin] = useState<number | undefined>(undefined);
+  const [max, setMax] = useState<number | undefined>(undefined);
+  const [time, setTime] = useState<number | undefined>(undefined);
   const [text, setText] = useState("");
   const [city, setCity] = useState<FindManyCityQuery["findManyCity"]>();
 
@@ -32,9 +32,7 @@ export default function CreateOffer() {
   const handleIncrement = (key: "price" | "time") => {
     if (key === "price") {
       let newValue = price !== undefined ? parseInt(price.toString()) + 1 : 1;
-      if (newValue <= 90) {
-        setPrice(+newValue.toString());
-      }
+      setPrice(+newValue.toString());
     } else {
       let newValue = time !== undefined ? parseInt(time.toString()) + 1 : 1;
       if (newValue <= 90) {
@@ -59,7 +57,7 @@ export default function CreateOffer() {
 
   const handleChange = (key: string, v: string) => {
     if (key === "time") {
-      setTime(isNaN(+v) ? 0 : +v);
+      setTime(isNaN(+v) ? 0 : +v.replace(".", ""));
     } else {
       setPrice(isNaN(+v) ? 0 : +v);
     }
@@ -78,9 +76,9 @@ export default function CreateOffer() {
         }
       );
     } else if (min === undefined || min <= 0) {
-      toast.warn("최소수량을 입력해주세요"), { toastId: 0 };
+      toast.warn("최소거래량을 입력해주세요"), { toastId: 0 };
     } else if (max === undefined || max <= 0) {
-      toast.warn("최대수량을 입력해주세요", { toastId: 0 });
+      toast.warn("최대거래량을 입력해주세요", { toastId: 0 });
     } else if (max < min) {
       toast.warn(
         <div>
@@ -129,11 +127,18 @@ export default function CreateOffer() {
 
   useEffect(() => {
     findManyCity({});
+  }, []);
 
-    if (Number.isNaN(price)) {
-      setPrice(0);
+  useEffect(() => {
+    if (price && price > 1000000) {
+      toast.warn("가격은 1,000,000원 까지 입력가능합니다", { toastId: 0 });
+      setPrice(1000000);
     }
-  }, [price]);
+    if (time && time > 90) {
+      toast.warn("응답 속도는 90분까지 입력가능합니다");
+      setTime(90);
+    }
+  }, [price, time]);
 
   return (
     <div className={cx("container")}>
@@ -220,12 +225,8 @@ export default function CreateOffer() {
             <input
               className={cx("input")}
               placeholder="입력하세요.."
-              value={
-                price && price <= 0
-                  ? ""
-                  : price && price.toString().replace(/(^0+)/, "")
-              }
-              onChange={(e) => handleChange("price", e.target.value)}
+              value={price ? price.toLocaleString() : ""}
+              onChange={(e) => setPrice(+e.target.value.replace(/,/g, ""))}
             />
             <div>KRW</div>
             <div
@@ -262,33 +263,19 @@ export default function CreateOffer() {
             <div className={cx("middle_inputs")}>
               <div>최소</div>
               <input
-                type="number"
-                value={
-                  min && min <= 0
-                    ? ""
-                    : min && min.toString().replace(/(^0+)/, "")
-                }
+                value={min ? min.toLocaleString() : ""}
                 placeholder="입력하세요.."
-                onChange={(e) =>
-                  setMin(isNaN(+e.target.value) ? 0 : +e.target.value)
-                }
+                onChange={(e) => setMin(+e.target.value.replace(/,/g, ""))}
               />
               <div>KRW</div>
             </div>
             <div className={cx("middle_inputs")}>
               <div>최대</div>
               <input
-                type="number"
                 className={cx("input")}
                 placeholder="입력하세요.."
-                value={
-                  max && max <= 0
-                    ? ""
-                    : max && max.toString().replace(/(^0+)/, "")
-                }
-                onChange={(e) =>
-                  setMax(isNaN(+e.target.value) ? 0 : +e.target.value)
-                }
+                value={max ? max.toLocaleString() : ""}
+                onChange={(e) => setMax(+e.target.value.replace(/,/g, ""))}
               />
               <div>KRW</div>
             </div>

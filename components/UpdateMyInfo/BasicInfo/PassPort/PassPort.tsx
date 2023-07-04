@@ -1,6 +1,7 @@
 import { FindMyInfoByUserQuery } from "src/graphql/generated/graphql";
 import styles from "./PassPort.module.scss";
 import className from "classnames/bind";
+import { useRouter } from "next/router";
 
 const cx = className.bind(styles);
 
@@ -11,6 +12,7 @@ type Props = {
 };
 
 export default function PassPort({ kind, myInfo, onClickChangeHandle }: Props) {
+  const router = useRouter();
   const regex = /^(\d{2})(\d{2})/;
 
   const create = myInfo?.passport?.issueDate;
@@ -36,8 +38,19 @@ export default function PassPort({ kind, myInfo, onClickChangeHandle }: Props) {
         <div className={cx("title")}>종류</div>
         <div className="flex">
           <div className={cx("view_text")}>{kind}</div>
-          <button className={cx("btn")} onClick={onClickChangeHandle}>
-            변경
+          <button
+            className={cx("btn")}
+            onClick={() =>
+              myInfo?.emailAuth?.email
+                ? onClickChangeHandle
+                : router.push(
+                    `/certification/level${
+                      myInfo?.level ? myInfo?.level + 1 : 2
+                    }`
+                  )
+            }
+          >
+            {myInfo?.emailAuth?.email ? "변경" : "인증"}
           </button>
         </div>
         <div className={cx("title")}>여권번호</div>

@@ -10,6 +10,7 @@
 
 .map_container {
   margin-bottom: 18px;
+  position: relative;
 }
 
 .top {
@@ -399,4 +400,52 @@
   display: flex;
   width: 100%;
   margin-top: 20px;
+}
+
+.delete_container {
+  position: absolute;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  height: 100%;
+  top: 0;
+  align-items: center;
+  flex-direction: column;
+  background-color: #33333387;
+  z-index: 2;
+  border-radius: 5px;
+}
+
+.delete_wrap {
+  width: 80%;
+  height: 100px;
+  background-color: #fff;
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+}
+
+.delete_btns {
+  display: flex;
+}
+
+.delete {
+  padding: 5px;
+  color: red;
+  border: solid 1px #dcdcdc;
+  cursor: pointer;
+}
+
+.cancle {
+  padding: 5px;
+  border: solid 1px #dcdcdc;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.answer {
+  margin-bottom: 10px;
 }

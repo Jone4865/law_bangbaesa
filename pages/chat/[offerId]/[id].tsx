@@ -26,6 +26,7 @@ import {
   FindManyChatMessageByUserQuery,
   FindMyInfoByUserQuery,
   FindOneOfferQuery,
+  OfferAction,
   UpdateCheckedCurrentChatMessageByUserMutation,
 } from "src/graphql/generated/graphql";
 
@@ -337,7 +338,7 @@ const Room: NextPage<Props> = ({ id, data }) => {
         {infoVisible && (
           <div className={cx("offer_wrap")}>
             <div className={cx("kind")}>
-              {offerData?.offerAction === "SELL" ? "판매" : "구매"}
+              {offerData?.offerAction === OfferAction.Sell ? "판매" : "구매"}
             </div>
             <div className={cx("nickname")}>{offerData?.identity}</div>
             <div className={cx("location")}>{offerData?.city.name} / 직접</div>

@@ -45,6 +45,7 @@ export default function Inquiry() {
             setCreate(false);
           }
         },
+        fetchPolicy: "no-cache",
       }
     );
 

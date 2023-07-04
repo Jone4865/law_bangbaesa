@@ -52,7 +52,7 @@ export default function OTC({
     FindManyOfferQuery["findManyOffer"]["offers"]
   >([]);
   const [kind, setKind] = useState<"sell" | "buy">("buy");
-  const [coin, setCoin] = useState<CoinKind>(CoinKind.Btc);
+  const [coin, setCoin] = useState<CoinKind>(CoinKind.Usdt);
   const [cookies] = useCookies(["nickName"]);
 
   const handlePagination = (e: number) => {

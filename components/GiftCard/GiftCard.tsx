@@ -9,9 +9,11 @@ const cx = className.bind(styles);
 
 export default function GiftCard() {
   const [searchText, setSearchText] = useState("");
+  const [newText, setNewText] = useState("");
 
   const onSubmitHandle = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setNewText(searchText);
   };
 
   return (
@@ -42,7 +44,7 @@ export default function GiftCard() {
             </div>
           </form>
           <div className={cx("part_title")}>백화점 상품권</div>
-          <GetGiftCard searchText={searchText} />
+          <GetGiftCard searchText={newText} />
         </div>
       </div>
     </div>

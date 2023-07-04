@@ -44,13 +44,16 @@ export default function Mypage() {
   const logoutHandle = () => {
     removeCookies("login");
     removeCookies("nickName");
-    signOutByUser().then(() => {
-      router.replace("/");
-    });
+    signOutByUser();
   };
 
   const [signOutByUser] = useMutation<SignOutByUserMutation>(SIGN_OUT_BY_USER, {
     onError: (e) => toast.error(e.message ?? `${e}`),
+    onCompleted(_data) {
+      router.replace("/");
+      toast.success("로그아웃 되었습니다.");
+    },
+    fetchPolicy: "no-cache",
   });
 
   const [findMyInfoByUser] = useLazyQuery<FindMyInfoByUserQuery>(

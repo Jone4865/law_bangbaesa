@@ -1,6 +1,7 @@
 import { FindMyInfoByUserQuery } from "src/graphql/generated/graphql";
 import styles from "./IdCard.module.scss";
 import className from "classnames/bind";
+import { useRouter } from "next/router";
 
 const cx = className.bind(styles);
 
@@ -11,6 +12,7 @@ type Props = {
 };
 
 export default function IdCard({ kind, myInfo, onClickChangeHandle }: Props) {
+  const router = useRouter();
   const input = myInfo?.idCard?.registrationNumber.toString();
   const regex = /^(\d{5})(\d)(\d+)/;
 
@@ -38,8 +40,19 @@ export default function IdCard({ kind, myInfo, onClickChangeHandle }: Props) {
         <div className={cx("title")}>종류</div>
         <div className="flex">
           <div className={cx("view_text")}>{kind}</div>
-          <button className={cx("btn")} onClick={onClickChangeHandle}>
-            변경
+          <button
+            className={cx("btn")}
+            onClick={() =>
+              myInfo?.emailAuth?.email
+                ? onClickChangeHandle
+                : router.push(
+                    `/certification/level${
+                      myInfo?.level ? myInfo?.level + 1 : 2
+                    }`
+                  )
+            }
+          >
+            {myInfo?.emailAuth?.email ? "변경" : "인증"}
           </button>
         </div>
         <div className={cx("title")}>이름</div>

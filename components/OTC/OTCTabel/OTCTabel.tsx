@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import styles from "./OTCTabel.module.scss";
 import className from "classnames/bind";
 import { useRouter } from "next/router";
@@ -19,7 +19,6 @@ import {
   ReservationStatus,
   TransactionStatus,
 } from "src/graphql/generated/graphql";
-import { textSpanContainsPosition } from "typescript";
 
 const cx = className.bind(styles);
 
@@ -46,6 +45,7 @@ export default function OTCTabel({
 }: Props) {
   const router = useRouter();
   const [cookies] = useCookies(["nickName"]);
+  const [deleteId, setDeleteId] = useState<number | undefined>(undefined);
   const [nextRef, nextView] = useInView({
     threshold: 1,
   });
@@ -71,8 +71,12 @@ export default function OTCTabel({
     return `${dayDiff}일 전`;
   };
 
-  const onClickDelete = (id: number) => {
-    deleteOfferByUser({ variables: { deleteOfferByUserId: id } });
+  const onClickDeleteAnswer = (id: number) => {
+    setDeleteId(id);
+  };
+
+  const onClickDelete = () => {
+    deleteOfferByUser({ variables: { deleteOfferByUserId: deleteId } });
   };
 
   const enterChatHandle = (id: number, identity: string) => {
@@ -140,7 +144,9 @@ export default function OTCTabel({
             part === "otc" ? "top" : part === "home" ? "home_top" : "none"
           )}
         >
-          <div className={cx("seller")}>판매자</div>
+          <div className={cx("seller")}>
+            {kind === "BUY" ? "구매자" : "판매자"}
+          </div>
           <div>거래수단</div>
           <div>Min/Max</div>
           <div>평균 응답 속도</div>
@@ -218,9 +224,8 @@ export default function OTCTabel({
                           )}
                         <button
                           disabled={
-                            v.transactionStatus ===
-                              TransactionStatus.Complete ||
-                            v.identity === cookies.nickName
+                            v.identity === cookies.nickName ||
+                            v.reservationStatus === ReservationStatus.Progress
                           }
                           className={cx(
                             kind === "BUY" ? "chat_orange" : "chat_blue"
@@ -264,9 +269,8 @@ export default function OTCTabel({
                           )}
                         <button
                           disabled={
-                            v.transactionStatus ===
-                              TransactionStatus.Complete ||
-                            v.identity === cookies.nickName
+                            v.identity === cookies.nickName ||
+                            v.reservationStatus === ReservationStatus.Progress
                           }
                           className={cx(
                             kind === "BUY" ? "chat_orange" : "chat_blue"
@@ -326,6 +330,24 @@ export default function OTCTabel({
                   </div>
                 )}
               </div>
+              {v.id === deleteId && (
+                <div className={cx("delete_container")}>
+                  <div className={cx("delete_wrap")}>
+                    <div className={cx("answer")}>삭제하시겠습니까?</div>
+                    <div className={cx("delete_btns")}>
+                      <div className={cx("delete")} onClick={onClickDelete}>
+                        삭제하기
+                      </div>
+                      <div
+                        className={cx("cancle")}
+                        onClick={() => setDeleteId(undefined)}
+                      >
+                        취소
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
               {nowAble === "my" && router.pathname === "/mypage" && (
                 <>
                   <div className={cx("my_offer_wrap")}>
@@ -385,7 +407,7 @@ export default function OTCTabel({
                     </div>
                     <div
                       className={cx("red")}
-                      onClick={() => onClickDelete(v.id)}
+                      onClick={() => onClickDeleteAnswer(v.id)}
                     >
                       삭제
                     </div>
