@@ -2,6 +2,7 @@ import Image from "next/image";
 import styles from "./SideStatus.module.scss";
 import className from "classnames/bind";
 import { Dispatch, SetStateAction } from "react";
+import { useRouter } from "next/router";
 
 const cx = className.bind(styles);
 
@@ -13,11 +14,14 @@ type Props = {
 
 export default function SideStatus({ level, mobile, setMobileMore }: Props) {
   const arr = ["휴대폰 인증", "이메일 인증", "신분증 인증", "주소지 인증"];
+  const router = useRouter();
   return (
     <div className={cx(!mobile ? "container" : "mobile_container")}>
       <div className={cx("mobile")}>
         <div />
-        <div>나의 인증상태</div>
+        <div>
+          {router.pathname === "/mypage" ? "나의 인증상태" : "인증상태"}
+        </div>
         <div
           onClick={() => setMobileMore && setMobileMore(false)}
           className={cx("close_wrap")}

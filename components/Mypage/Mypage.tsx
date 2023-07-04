@@ -188,6 +188,17 @@ export default function Mypage() {
                   </div>
                 </div>
               )}
+              {router.pathname === "/user/[id]" && (
+                <div>
+                  <div
+                    onClick={() => setMobileMore(true)}
+                    className={cx("user_more_btn")}
+                  >
+                    {data?.identity} 님의 인증상태
+                  </div>
+                  <div className={cx("user_title")}>오퍼내역</div>
+                </div>
+              )}
               <div
                 className={cx("offer_body", totalOffer === 0 ? "white" : null)}
               >

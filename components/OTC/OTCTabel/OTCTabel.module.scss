@@ -136,7 +136,6 @@
 
 .right_price {
   font-size: 18px;
-  margin-bottom: -3px;
   width: 100%;
   display: flex;
   justify-content: flex-end;
@@ -263,6 +262,7 @@
 .mobile_top_body {
   display: flex;
   flex-direction: column-reverse;
+  position: relative;
 }
 
 .mobile_body {
@@ -371,4 +371,33 @@
   width: 63.6px;
   height: 63.6px;
   margin-bottom: 20px;
+}
+
+.right_btns {
+  display: flex;
+  margin-top: 10px;
+}
+
+.mobile_top {
+  display: flex;
+  width: 100%;
+}
+
+.my_mobile {
+  display: none;
+  @include view("mobile") {
+    display: block;
+  }
+}
+
+.my_mobile_top_body {
+  display: flex;
+  flex-direction: column-reverse;
+  position: relative;
+}
+
+.my_mobile_top {
+  display: flex;
+  width: 100%;
+  margin-top: 20px;
 }

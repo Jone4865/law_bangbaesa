@@ -180,7 +180,7 @@ export default function OTCTabel({
                     )}
                     {nowAble !== "my" && (
                       <div className={cx("log", "mobile_none")}>
-                        {convertConnectionDate(v.connectionDate)}
+                        최근 접속 : {convertConnectionDate(v.connectionDate)}
                       </div>
                     )}
                   </div>
@@ -207,11 +207,10 @@ export default function OTCTabel({
                     {(router.pathname === "/user/[id]" ||
                       nowAble === "like" ||
                       router.pathname === "/") && (
-                      <div className="flex">
-                        {v.reservationStatus === "PROGRESS" &&
-                          v.transactionStatus !== "COMPLETE" && (
-                            <div className={cx("reservation_btn")}>예약중</div>
-                          )}
+                      <div className={cx("right_btns")}>
+                        {v.reservationStatus === "PROGRESS" && (
+                          <div className={cx("reservation_btn")}>예약중</div>
+                        )}
                         <button
                           disabled={
                             v.transactionStatus === "COMPLETE" ||
@@ -228,10 +227,11 @@ export default function OTCTabel({
                     )}
                   </div>
                 </div>
-                {nowAble !== "my" && (
+
+                {nowAble !== "my" ? (
                   <div className={cx("mobile")}>
                     <div className={cx("mobile_top_body")}>
-                      <div className="flex">
+                      <div className={cx("mobile_top")}>
                         <div>
                           {v.minAmount.toLocaleString()}
                           <span className={cx("gray")}>KRW</span>/
@@ -241,15 +241,17 @@ export default function OTCTabel({
                           <span className={cx("gray")}>KRW</span>
                         </div>
                       </div>
-                      <div className={cx("right_price")}>
-                        {v.price.toLocaleString()}
-                        <span className={cx("gray_right")}>KRW</span>
-                      </div>
+                    </div>
+                    <div className={cx("right_price")}>
+                      {v.price.toLocaleString()}
+                      <span className={cx("gray_right")}>KRW</span>
                     </div>
                     <div className={cx("mobile_body")}>
-                      <div className={cx("log")}>최근 접속</div>
-                      <div className="flex">
-                        {v.reservationStatus && part === "otc" && (
+                      <div className={cx("log")}>
+                        최근 접속 : {convertConnectionDate(v.connectionDate)}
+                      </div>
+                      <div className={cx("right_btns")}>
+                        {v.reservationStatus && (
                           <div className={cx("reservation_btn")}>예약중</div>
                         )}
                         <button
@@ -262,6 +264,43 @@ export default function OTCTabel({
                         </button>
                       </div>
                     </div>
+                  </div>
+                ) : (
+                  <div className={cx("my_mobile")}>
+                    <div className={cx("my_mobile_top_body")}>
+                      <div className={cx("my_mobile_top")}>
+                        <div>
+                          {v.minAmount.toLocaleString()}
+                          <span className={cx("gray")}>KRW</span>/
+                        </div>
+                        <div>
+                          {v.maxAmount.toLocaleString()}
+                          <span className={cx("gray")}>KRW</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className={cx("right_price")}>
+                      {v.price.toLocaleString()}
+                      <span className={cx("gray_right")}>KRW</span>
+                    </div>
+                    {router.pathname === "/user/[id]" && (
+                      <div className={cx("mobile_body")}>
+                        <div />
+                        <div className={cx("right_btns")}>
+                          {v.reservationStatus && (
+                            <div className={cx("reservation_btn")}>예약중</div>
+                          )}
+                          <button
+                            className={cx(
+                              kind === "BUY" ? "chat_orange" : "chat_blue"
+                            )}
+                            onClick={() => enterChatHandle(v.id, v.identity)}
+                          >
+                            채팅하기
+                          </button>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
