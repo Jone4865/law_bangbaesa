@@ -56,6 +56,8 @@ export default function Header({ setModalState }: Props) {
   useEffect(() => {
     if (cookies.login) {
       setLogin(true);
+    } else {
+      setLogin(false);
     }
 
     (() => {
@@ -63,7 +65,7 @@ export default function Header({ setModalState }: Props) {
         setScrollY(window.pageYOffset <= 2 ? false : true);
       });
     })();
-  }, [cookies, router, scrollY]);
+  }, [cookies, router, scrollY, router.pathname]);
 
   return (
     <header className={cx("header")}>

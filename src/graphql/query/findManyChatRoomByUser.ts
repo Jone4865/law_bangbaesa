@@ -1,8 +1,12 @@
 import { gql } from "../generated";
 
 export const FIND_MANY_CHAT_ROOM_BY_USER = gql(/* GraphQL */ `
-  query findManyChatRoomByUser($take: Int!) {
-    findManyChatRoomByUser(take: $take) {
+  query FindManyChatRoomByUser($take: Int!, $cursorId: Int, $offerId: Int) {
+    findManyChatRoomByUser(
+      take: $take
+      cursorId: $cursorId
+      offerId: $offerId
+    ) {
       totalCount
       chatRooms {
         id

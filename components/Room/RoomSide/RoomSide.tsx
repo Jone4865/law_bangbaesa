@@ -13,10 +13,9 @@ const cx = className.bind(styles);
 
 type Props = {
   onClickRoomId: (id: number) => void;
-  setOfferId: React.Dispatch<React.SetStateAction<number | undefined>>;
 };
 
-export default function RoomSide({ onClickRoomId, setOfferId }: Props) {
+export default function RoomSide({ onClickRoomId }: Props) {
   const router = useRouter();
   const [data, setData] = useState<
     FindManyChatRoomByUserQuery["findManyChatRoomByUser"]["chatRooms"]
@@ -33,11 +32,6 @@ export default function RoomSide({ onClickRoomId, setOfferId }: Props) {
       onError: (e) => toast.error(e.message ?? `${e}`),
       onCompleted(data) {
         setData(data.findManyChatRoomByUser.chatRooms);
-        setOfferId(
-          data.findManyChatRoomByUser.chatRooms.find(
-            (v: any) => router.query.id && v.id === +router.query.id
-          )?.offerId
-        );
       },
       fetchPolicy: "no-cache",
     }
@@ -47,10 +41,11 @@ export default function RoomSide({ onClickRoomId, setOfferId }: Props) {
     findManyChatRoomByUser({
       variables: {
         take,
-        cursorId: data.length > 0 ? data[data.length - 1]?.id : null,
+        cursorId: data.length > 0 ? data[data.length - 1]?.id : undefined,
+        offerId: 14,
       },
     });
-  }, [nextView]);
+  }, [nextView, router.pathname]);
 
   return (
     <div className={cx("container")}>

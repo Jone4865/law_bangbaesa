@@ -93,14 +93,14 @@ export default function OTCTabel({
               onCompleted(v) {
                 cookies.nickName !== identity
                   ? router.push(`/chat/${id}/${v.enterChatRoom.id}`)
-                  : router.push(`/mychat/${v.enterChatRoom.id}`);
+                  : router.push(`/mychat/${id}/${v.enterChatRoom.id}`);
               },
             });
           }
         },
       });
     } else {
-      router.push("/sign-in");
+      router.replace("/sign-in");
       toast.warn("로그인이 필요한 서비스입니다", { toastId: 0 });
     }
   };

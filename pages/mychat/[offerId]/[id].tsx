@@ -11,12 +11,12 @@ import {
 import { toast } from "react-toastify";
 
 import { GetServerSideProps, NextPage } from "next";
-import RoomSide from "../../components/Room/RoomSide/RoomSide";
+import RoomSide from "../../../components/Room/RoomSide/RoomSide";
 import { useInView } from "react-intersection-observer";
 import { useRouter } from "next/router";
 import { useMediaQuery } from "react-responsive";
 import Image from "next/image";
-import { initializeApollo } from "../../src/config/apolloClient";
+import { initializeApollo } from "../../../src/config/apolloClient";
 import { FIND_MANY_CHAT_MESSAGE_BY_USER } from "src/graphql/query/findManyChatMessageByUser";
 import { FIND_MY_INFO_BY_USER } from "src/graphql/query/findMyInfoByUser";
 import { CREATE_CHAT_MESSAGE } from "src/graphql/mutation/createChatMessage";
@@ -88,7 +88,7 @@ const Room: NextPage<Props> = ({ id, data }) => {
   };
 
   const onClickRoomId = (id: number) => {
-    router.replace(`/mychat/${id}`);
+    router.replace(`/mychat/${router.query.offerId}/${id}`);
   };
 
   const onSubmitHandle = (e: React.FormEvent<HTMLFormElement>) => {
@@ -317,17 +317,18 @@ const Room: NextPage<Props> = ({ id, data }) => {
     setMessage("");
     setUnreadView(true);
     setSubscriptTexts(undefined);
-    if (offerId !== 0) {
-      findOneOffer({ variables: { findOneOfferId: offerId ? offerId : 0 } });
+    if (router.query.offerId) {
+      findOneOffer({ variables: { findOneOfferId: +router.query.offerId } });
     }
+
     findManyChatRoomByUser({
-      variables: { take: 10, offerId: offerId },
+      variables: { take: 10, offerId },
     });
     findMyInfoByUser();
     setSubscriptTexts(undefined);
     setDatas(data);
     divRef.current && divRef.current.focus();
-  }, [offerId, id, data]);
+  }, [id, data]);
 
   return (
     <div className={cx("container")}>
@@ -398,9 +399,7 @@ const Room: NextPage<Props> = ({ id, data }) => {
           </div>
         )}
         <div className={cx("bottom_wrap")}>
-          {peopleVisible && (
-            <RoomSide setOfferId={setOfferId} onClickRoomId={onClickRoomId} />
-          )}
+          {peopleVisible && <RoomSide onClickRoomId={onClickRoomId} />}
           <div className={cx("right_wrap")}>
             <div ref={containerRef} className={cx("chat_container")}>
               <div ref={prevRef} />
