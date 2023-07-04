@@ -36,7 +36,7 @@ type Props = {
 export default function OTC({
   nowAble,
   coinKind,
-  partKind,
+  partKind = OfferAction.Buy,
   refetch,
   part = "otc",
   nickName = undefined,
@@ -197,22 +197,6 @@ export default function OTC({
   });
 
   useEffect(() => {
-    findManyOffer({
-      variables: {
-        isChat,
-        identity:
-          router.pathname === "/mypage" && isChat ? undefined : nickName,
-        take: part === "home" ? 4 : take,
-        skip,
-        offerAction:
-          router.pathname === "/mypage" && !isChat ? undefined : partKind,
-        coinKind: part === "mypage" || part === "user" ? undefined : coinKind,
-      },
-      fetchPolicy: "no-cache",
-    });
-  }, [coinKind, partKind, isChat, nickName, refetch, data?.length]);
-
-  useEffect(() => {
     setTotalOffer && setTotalOffer(totalCount);
     if (router.pathname === "/otc") {
       findManyOffer({
@@ -227,6 +211,24 @@ export default function OTC({
       });
     }
   }, [take, skip, totalCount, current]);
+
+  useEffect(() => {
+    if (router.pathname !== "/otc") {
+      findManyOffer({
+        variables: {
+          isChat,
+          identity:
+            router.pathname === "/mypage" && isChat ? undefined : nickName,
+          take: part === "home" ? 4 : take,
+          skip,
+          offerAction:
+            router.pathname === "/mypage" && !isChat ? undefined : partKind,
+          coinKind: part === "mypage" || part === "user" ? undefined : coinKind,
+        },
+        fetchPolicy: "no-cache",
+      });
+    }
+  }, [coinKind, partKind, isChat, nickName, refetch, data?.length]);
 
   return (
     <div className={cx(part === "otc" ? "container" : undefined)}>
