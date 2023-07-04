@@ -113,7 +113,11 @@ function Side({ modal, setModalState }: Props) {
             <div
               className={cx(
                 "side_hover",
-                router.pathname === btn.path && "color"
+                router.pathname === btn.path && "color",
+                btn.name === "고객센터" &&
+                  (router.pathname.includes(btn.path) ||
+                    router.pathname.includes("/inquiry")) &&
+                  "color"
               )}
             >
               <span>{btn.name}</span>
