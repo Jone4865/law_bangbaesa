@@ -47,6 +47,8 @@ export default function RoomSide({ onClickRoomId }: Props) {
     });
   }, [nextView, router.pathname]);
 
+  useEffect(() => {}, [data]);
+
   return (
     <div className={cx("container")}>
       {data.map((v) => (
