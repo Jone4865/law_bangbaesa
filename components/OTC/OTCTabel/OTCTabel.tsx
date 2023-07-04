@@ -138,8 +138,8 @@ export default function OTCTabel({
   }, [data, coin, kind, nowAble]);
 
   useEffect(() => {
-    onScrollHandle();
     if (data?.length >= 10) {
+      onScrollHandle();
     }
   }, [nextView]);
 

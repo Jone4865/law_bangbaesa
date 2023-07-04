@@ -68,7 +68,7 @@ export default function OTC({
         take: data?.length + 10,
         skip: data?.length,
         offerAction:
-          part === "mypage" && !isChat
+          router.pathname === "/mypage" && !isChat
             ? undefined
             : partKind
             ? partKind
