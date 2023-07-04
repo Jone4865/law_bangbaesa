@@ -103,7 +103,7 @@ export default function Mypage() {
 
   useEffect(() => {
     setRefetch(!refetch);
-  }, [nowAble, data]);
+  }, [nowAble, data, totalOffer]);
 
   return (
     <div className={cx("container")}>

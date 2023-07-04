@@ -46,6 +46,7 @@ export default function OTCTabel({
   const router = useRouter();
   const [cookies] = useCookies(["nickName"]);
   const [deleteId, setDeleteId] = useState<number | undefined>(undefined);
+  const [onData, setOnData] = useState(false);
   const [nextRef, nextView] = useInView({
     threshold: 1,
   });
@@ -128,11 +129,17 @@ export default function OTCTabel({
     }
   );
 
-  useEffect(() => {}, [data, coin, kind, nowAble]);
+  useEffect(() => {
+    if (data?.length === 0) {
+      setOnData(false);
+    } else {
+      setOnData(true);
+    }
+  }, [data, coin, kind, nowAble]);
 
   useEffect(() => {
     onScrollHandle();
-    if (data.length >= 10) {
+    if (data?.length >= 10) {
     }
   }, [nextView]);
 
@@ -152,7 +159,7 @@ export default function OTCTabel({
           <div>평균 응답 속도</div>
           <div className={cx("price")}>{coin}당 가격</div>
         </div>
-        {data.length !== 0 ? (
+        {onData ? (
           data?.map((v, idx) => (
             <div key={v.id} className={cx("map_container")}>
               <div className={cx("map_wrap")} key={idx}>
