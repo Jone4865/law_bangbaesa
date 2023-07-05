@@ -242,7 +242,7 @@ const Room: NextPage<Props> = ({ id, data }) => {
       setInfoVisible(true);
       setPeopleVisible(true);
     }
-    if (containerRef.current && scroll) {
+    if (containerRef.current) {
       scrollToBottom();
     }
     if (inputRef.current) {
