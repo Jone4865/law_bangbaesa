@@ -80,6 +80,7 @@ export default function OTC({
           setData((prev) => [...prev, ...onData.findManyOffer.offers]);
         }
       },
+      fetchPolicy: "no-cache",
     });
   };
 

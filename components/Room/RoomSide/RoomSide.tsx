@@ -38,16 +38,28 @@ export default function RoomSide({ onClickRoomId }: Props) {
   );
 
   useEffect(() => {
-    findManyChatRoomByUser({
-      variables: {
-        take,
-        cursorId: data.length > 0 ? data[data.length - 1]?.id : undefined,
-        offerId: 14,
-      },
-    });
-  }, [nextView, router.pathname]);
+    if (router.query.offerId) {
+      findManyChatRoomByUser({
+        variables: {
+          take,
+          cursorId: data.length > 0 ? data[data.length - 1]?.id : undefined,
+          offerId: +router.query.offerId,
+        },
+      });
+    }
+  }, [router.pathname]);
 
-  useEffect(() => {}, [data]);
+  useEffect(() => {
+    if (data.length >= 10 && router.query.offerId) {
+      findManyChatRoomByUser({
+        variables: {
+          take,
+          cursorId: data.length > 0 ? data[data.length - 1]?.id : undefined,
+          offerId: +router.query.offerId,
+        },
+      });
+    }
+  }, [nextView]);
 
   return (
     <div className={cx("container")}>

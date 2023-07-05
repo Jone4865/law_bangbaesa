@@ -191,12 +191,18 @@ const Room: NextPage<Props> = ({ id, data }) => {
       chatRoomId: id,
     },
     onSubscriptionData: ({ subscriptionData }) => {
-      if (subscriptionData.data) {
+      if (subscriptionData.data && router.query.id) {
         const newData = subscriptionData.data.subscribeChatMessage.chatMessage;
         setDatas((prev) => [...prev, newData]);
         if (newData.sender !== myNickName && !scroll && datas.length > 10) {
           setSubscriptTexts((prev) => [prev, newData]);
         }
+        updateCheckedCurrentChatMessageByUser({
+          variables: {
+            chatRoomId: +router.query.id,
+            chatMessageId: newData.id,
+          },
+        });
       }
     },
     fetchPolicy: "no-cache",
