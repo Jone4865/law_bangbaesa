@@ -11,7 +11,7 @@ const cx = className.bind(styles);
 export default function MarketPrice() {
   const [binanceData, setBinanceData] =
     useState<FindManyMarketPriceQuery["findManyMarketPrice"]["binance"]>();
-  const [kimchi, setKimchiData] =
+  const [kimchiData, setKimchiData] =
     useState<FindManyMarketPriceQuery["findManyMarketPrice"]["kimchi"]>();
   const [upbitData, setUpbitData] =
     useState<FindManyMarketPriceQuery["findManyMarketPrice"]["upbit"]>();
@@ -34,7 +34,28 @@ export default function MarketPrice() {
 
   return (
     <div className={cx("container")}>
-      <div className={cx("wrap")}></div>
+      <div style={{ paddingTop: "200px" }}>
+        <div className="flex">
+          {binanceData?.map((v, idx) => (
+            <div key={idx}>{v.code}</div>
+          ))}
+        </div>
+        <div className="flex">
+          {upbitData?.map((v, idx) => (
+            <div key={idx}>{v.code}</div>
+          ))}
+        </div>
+        <div className="flex">
+          {binanceData?.map((v, idx) => (
+            <div key={idx}>{v.code}</div>
+          ))}
+        </div>
+        <div className="flex">
+          {kimchiData?.map((v, idx) => (
+            <div key={idx}>{v.code}</div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }

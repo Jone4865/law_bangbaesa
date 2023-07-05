@@ -18,7 +18,11 @@ const cx = className.bind(styles);
 
 export default function Body() {
   const router = useRouter();
-  const coins = ["USDT", "BTC"];
+  const coins = [
+    { name: "USDT", code: CoinKind.Usdt },
+    { name: "BTC", code: CoinKind.Btc },
+    { name: "ETH", code: CoinKind.Eth },
+  ];
   const [buyCoinKind, setBuyCoinKind] = useState<CoinKind>(CoinKind.Usdt);
   const [sellCoinKind, setSellCoinKind] = useState<CoinKind>(CoinKind.Usdt);
   const [kind, setKind] = useState<OfferAction>(OfferAction.Buy);
@@ -54,8 +58,10 @@ export default function Body() {
   useEffect(() => {
     if (isMiddle) {
       setMiddle(true);
+      setKind(OfferAction.Buy);
     } else {
       setMiddle(false);
+      setKind(OfferAction.Buy);
     }
   }, [isMiddle]);
 
@@ -68,51 +74,48 @@ export default function Body() {
 
       <div className={cx("OTC_top")}>
         <div className={cx("OTC_top_wrap")}>
-          <div />
           <span>OTC</span>
-          <div onClick={() => router.push("/otc")}>전체보기</div>
         </div>
       </div>
       <div className={cx("OTC_container")}>
         <div className={cx("OTC_body")}>
           <div className={cx("OTC_wrap")}>
             <div className={cx("OTC_title")}>
-              <div className={cx("only_pc")}>구매</div>
+              <div className={cx("only_pc")}>팝니다</div>
               <div className={cx("non_pc")}>
                 <div
                   onClick={() => setKind(OfferAction.Buy)}
                   className={cx(kind === "BUY" ? "able_buy" : "default")}
                 >
-                  구매
+                  팝니다
                 </div>
                 <div
                   onClick={() => setKind(OfferAction.Sell)}
                   className={cx(kind === "SELL" ? "able_sell" : "default")}
                 >
-                  판매
+                  삽니다
                 </div>
               </div>
-              <div
-                className={cx("coin_btns")}
-                onClick={() =>
-                  setBuyCoinKind((prev) =>
-                    prev === "BTC" ? CoinKind.Usdt : CoinKind.Btc
-                  )
-                }
-              >
-                <div
-                  className={cx(
-                    "toggle-circle",
-                    buyCoinKind === "BTC" && "toggle--checked",
-                    kind === "BUY" ? "orange" : "blue"
-                  )}
-                >
-                  {buyCoinKind !== "BTC" ? "USDT" : "BTC"}
-                </div>
+              <div className={cx("toggle_wrap")}>
                 {coins.map((v, idx) => (
-                  <div key={idx}>{v}</div>
+                  <div
+                    className={cx(
+                      buyCoinKind === v.code
+                        ? `toggle--${idx + 1}`
+                        : "toggle_default",
+                      buyCoinKind === v.code && "pc_orange",
+                      kind === OfferAction.Sell &&
+                        buyCoinKind === v.code &&
+                        "mobile_blue"
+                    )}
+                    onClick={() => setBuyCoinKind(v.code)}
+                    key={idx}
+                  >
+                    {v.name}
+                  </div>
                 ))}
               </div>
+              <div className={cx("more_coin")}>다른 코인 보기</div>
             </div>
             <OTC
               partKind={kind}
@@ -121,31 +124,26 @@ export default function Body() {
               nowAble=""
             />
           </div>
-
           <div className={cx("only_pc")}>
             <div className={cx("only_pc_body")}>
-              <div>판매</div>
-              <div
-                className={cx("coin_btns")}
-                onClick={() =>
-                  setSellCoinKind((prev) =>
-                    prev === CoinKind.Btc ? CoinKind.Usdt : CoinKind.Btc
-                  )
-                }
-              >
-                <div
-                  className={cx(
-                    "blue",
-                    "toggle-circle",
-                    sellCoinKind === "BTC" && "toggle--checked"
-                  )}
-                >
-                  {sellCoinKind !== "BTC" ? "USDT" : "BTC"}
-                </div>
+              <div>삽니다</div>
+              <div className={cx("toggle_wrap")}>
                 {coins.map((v, idx) => (
-                  <div key={idx}>{v}</div>
+                  <div
+                    className={cx(
+                      sellCoinKind === v.code
+                        ? `toggle--${idx + 1}`
+                        : "toggle_default",
+                      sellCoinKind === v.code && "pc_blue"
+                    )}
+                    onClick={() => setSellCoinKind(v.code)}
+                    key={idx}
+                  >
+                    {v.name}
+                  </div>
                 ))}
               </div>
+              <div className={cx("more_coin")}>다른 코인 보기</div>
             </div>
             <OTC
               partKind={OfferAction.Sell}

@@ -38,7 +38,7 @@ export default function OTCTabel({
   part = "otc",
   data,
   coin,
-  kind = "BUY",
+  kind,
   updateOfferClickHandle,
   onScrollHandle,
   deletehandle,
@@ -421,7 +421,7 @@ export default function OTCTabel({
                   </div>
                 </>
               )}
-              {router.pathname !== "/" && router.pathname !== "/otc" && (
+              {router.pathname !== "/" && !router.pathname.includes("/otc") && (
                 <div ref={nextRef} />
               )}
             </div>

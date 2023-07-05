@@ -44,12 +44,11 @@
 
 .OTC_top_wrap {
   display: flex;
-  justify-content: space-between;
   max-width: 1600px;
   width: 100%;
   padding: 0 20px;
-  align-items: flex-end;
-  white-space: nowrap;
+  justify-content: center;
+  align-items: center;
   div {
     font-size: 14px;
     color: #777;
@@ -138,7 +137,6 @@
 .only_pc_body {
   width: 100%;
   display: flex;
-  justify-content: center;
   align-items: center;
   font-size: 30px;
   margin-bottom: 30px;
@@ -188,44 +186,109 @@
 .OTC_title {
   width: 100%;
   display: flex;
-  justify-content: space-between;
   align-items: center;
   font-size: 30px;
   margin-bottom: 30px;
   @include view("pc") {
-    justify-content: center;
   }
   @include view("mobile") {
     margin-bottom: 20px;
   }
 }
 
-.toggle-circle {
-  position: absolute;
-  top: 1px;
-  left: 1px;
-  width: 50%;
-  height: 100%;
+.toggle_wrap {
+  width: 300px;
+  height: 50px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  background-color: #ebebeb;
   border-radius: 12px;
+  color: #777;
+  font-size: 18px;
 
-  color: #fff;
-  transition: 0.5s;
+  @include view("mobile") {
+    font-size: 16px;
+    height: 38px;
+    width: 250px;
+  }
+  @include view("pc") {
+    margin: 0 30px;
+  }
+}
+
+.toggle_default {
   display: flex;
   justify-content: center;
   align-items: center;
+  border-radius: 12px;
+  cursor: pointer;
 }
 
-.toggle--checked {
-  left: 50%;
+.toggle--1 {
   transition: 0.5s;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 12px;
 }
 
-.orange {
+.toggle--2 {
+  left: 100px;
+  transition: 0.5s;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 12px;
+}
+
+.toggle--3 {
+  left: 200px;
+  transition: 0.5s;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 12px;
+}
+
+.pc_orange {
   background-color: #ff7401;
 }
 
-.blue {
+.pc_blue {
   background-color: #3561c7;
+}
+
+.mobile_orange {
+  @include view("middle") {
+    background-color: #ff7401;
+  }
+  @include view("small") {
+    background-color: #ff7401;
+  }
+  @include view("very_small") {
+    background-color: #ff7401;
+  }
+  @include view("mobile") {
+    background-color: #ff7401;
+  }
+}
+
+.mobile_blue {
+  @include view("middle") {
+    background-color: #3561c7;
+  }
+  @include view("small") {
+    background-color: #3561c7;
+  }
+  @include view("very_small") {
+    background-color: #3561c7;
+  }
+  @include view("mobile") {
+    background-color: #3561c7;
+  }
 }
 
 .giftcard_container {
@@ -277,4 +340,11 @@
   @include view("mobile") {
     display: block;
   }
+}
+
+.more_coin {
+  margin: auto 0 auto auto;
+  cursor: pointer;
+  color: blue;
+  text-decoration: underline;
 }

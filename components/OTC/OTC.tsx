@@ -36,7 +36,7 @@ type Props = {
 export default function OTC({
   nowAble,
   coinKind,
-  partKind = OfferAction.Buy,
+  partKind,
   refetch,
   part = "otc",
   nickName = undefined,
@@ -124,21 +124,9 @@ export default function OTC({
 
   const onClickHandle = (v: any, key: string) => {
     if (key === "kind") {
+      router.push(v === "buy" ? "/otc/buy" : "/otc/sell");
       setKind(v);
-      setCurrent(1);
-      setSkip(0);
-      findManyOffer({
-        variables: {
-          take,
-          skip,
-          offerAction: partKind
-            ? partKind
-            : v !== "sell"
-            ? OfferAction.Buy
-            : OfferAction.Sell,
-          coinKind: coin,
-        },
-      });
+      setCoin(CoinKind.Usdt);
     } else {
       setCoin(v);
       setCurrent(1);
@@ -199,7 +187,7 @@ export default function OTC({
 
   useEffect(() => {
     setTotalOffer && setTotalOffer(totalCount);
-    if (router.pathname === "/otc") {
+    if (router.pathname.includes("/otc")) {
       findManyOffer({
         variables: {
           isChat: false,
@@ -230,6 +218,8 @@ export default function OTC({
       });
     }
   }, [coinKind, partKind, isChat, nickName, refetch, data?.length]);
+
+  useEffect(() => {}, [kind]);
 
   return (
     <div className={cx(part === "otc" ? "container" : undefined)}>
@@ -399,7 +389,13 @@ export default function OTC({
             <OTCTabel
               part={part}
               data={data ? data : []}
-              kind={partKind ? partKind : kind === "buy" ? "BUY" : "SELL"}
+              kind={
+                partKind
+                  ? partKind
+                  : kind === "buy"
+                  ? OfferAction.Buy
+                  : OfferAction.Sell
+              }
               coin={coin}
               nowAble={nowAble}
               updateOfferClickHandle={updateOfferClickHandle}
