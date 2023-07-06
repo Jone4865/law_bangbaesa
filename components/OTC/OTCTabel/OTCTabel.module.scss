@@ -402,7 +402,7 @@
   margin-top: 20px;
 }
 
-.delete_container {
+.more_container {
   position: absolute;
   width: 100%;
   display: flex;
@@ -416,7 +416,7 @@
   border-radius: 5px;
 }
 
-.delete_wrap {
+.more_wrap {
   width: 80%;
   height: 100px;
   background-color: #fff;
@@ -428,13 +428,12 @@
   border-radius: 5px;
 }
 
-.delete_btns {
+.more_btns {
   display: flex;
 }
 
-.delete {
+.more {
   padding: 5px;
-  color: red;
   border: solid 1px #dcdcdc;
   cursor: pointer;
 }
@@ -448,4 +447,12 @@
 
 .answer {
   margin-bottom: 10px;
+}
+
+.blue {
+  color: #3561c7;
+}
+
+.red {
+  color: #ff6d6d;
 }

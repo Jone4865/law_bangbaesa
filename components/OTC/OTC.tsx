@@ -10,7 +10,6 @@ import { toast } from "react-toastify";
 import TopImage from "../TopImage/TopImage";
 import Image from "next/image";
 import Marquee from "../Marquee/Marquee";
-import { UPDATE_OFFER_STATUS_BY_USER } from "../../src/graphql/mutation/updateOfferStatusByUser";
 import { useCookies } from "react-cookie";
 import { FIND_MY_INFO_BY_USER } from "../../src/graphql/query/findMyInfoByUser";
 import {
@@ -18,7 +17,10 @@ import {
   FindManyOfferQuery,
   FindMyInfoByUserQuery,
   OfferAction,
+  ReservationStatus,
 } from "src/graphql/generated/graphql";
+import { UPDATE_RESERVATION_STATUS_BY_USER } from "../../src/graphql/mutation/updateReservationStatusByUser";
+import { UPDATE_TRANSACTION_STATUS_BY_USER } from "src/graphql/mutation/updateTransactionStatusByUser";
 
 const cx = className.bind(styles);
 
@@ -54,6 +56,7 @@ export default function OTC({
   const [kind, setKind] = useState<"sell" | "buy">("buy");
   const [coin, setCoin] = useState<CoinKind>(CoinKind.Usdt);
   const [cookies] = useCookies(["nickName"]);
+  const [offerId, setOfferId] = useState<number | undefined>(undefined);
 
   const handlePagination = (e: number) => {
     setSkip((e - 1) * take);
@@ -85,20 +88,22 @@ export default function OTC({
   };
 
   const updateOfferClickHandle = (
-    key: string,
+    key: "reservation" | "complete",
     id: number,
-    progress?: boolean
+    reservationState: ReservationStatus
   ) => {
-    if (key === "progress") {
-      updateOfferStatusByUser({ variables: { updateOfferStatusByUserId: id } });
-    } else {
-      if (progress && progress) {
-        updateOfferStatusByUser({
-          variables: { updateOfferStatusByUserId: id },
-        });
+    if (key === "complete") {
+      if (reservationState === ReservationStatus.None) {
+        toast.warn("예약중으로 우선 변경해주세요", { toastId: 1 });
       } else {
-        toast.warn("예약중인 오퍼가 아닙니다.");
+        updateTransactionStatusByUser({
+          variables: { updateTransactionStatusByUserId: id },
+        });
       }
+    } else {
+      updateReservationStatusByUser({
+        variables: { updateReservationStatusByUserId: id },
+      });
     }
   };
 
@@ -177,13 +182,33 @@ export default function OTC({
     fetchPolicy: "no-cache",
   });
 
-  const [updateOfferStatusByUser] = useMutation(UPDATE_OFFER_STATUS_BY_USER, {
-    onError: (e) => toast.error(e.message ?? `${e}`),
-    onCompleted(_v) {
-      toast.success("해당 오퍼의 상태를 변경했습니다.");
-      findManyOffer({ variables: { take, skip, identity: cookies.nickName } });
-    },
-  });
+  const [updateReservationStatusByUser] = useMutation(
+    UPDATE_RESERVATION_STATUS_BY_USER,
+    {
+      onError: (e) => toast.error(e.message ?? `${e}`),
+      onCompleted(_v) {
+        toast.success("해당 오퍼의 상태를 변경했습니다.", { toastId: 0 });
+        findManyOffer({
+          variables: { take, skip, identity: cookies.nickName },
+        });
+        setOfferId(undefined);
+      },
+    }
+  );
+
+  const [updateTransactionStatusByUser] = useMutation(
+    UPDATE_TRANSACTION_STATUS_BY_USER,
+    {
+      onError: (e) => toast.error(e.message ?? `${e}`),
+      onCompleted(_v) {
+        toast.success("해당 오퍼의 상태를 변경했습니다.", { toastId: 0 });
+        findManyOffer({
+          variables: { take, skip, identity: cookies.nickName },
+        });
+        setOfferId(undefined);
+      },
+    }
+  );
 
   useEffect(() => {
     setTotalOffer && setTotalOffer(totalCount);
@@ -385,6 +410,7 @@ export default function OTC({
               </>
             )}
             <OTCTabel
+              offerId={offerId}
               part={part}
               data={data ? data : []}
               kind={
@@ -399,6 +425,7 @@ export default function OTC({
               updateOfferClickHandle={updateOfferClickHandle}
               onScrollHandle={scrollHandle}
               deletehandle={deletehandle}
+              setOfferId={setOfferId}
             />
           </div>
           {part === "otc" && (

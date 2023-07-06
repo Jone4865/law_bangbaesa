@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import styles from "./OTCTabel.module.scss";
 import className from "classnames/bind";
 import { useRouter } from "next/router";
@@ -23,17 +23,24 @@ import {
 const cx = className.bind(styles);
 
 type Props = {
+  offerId: number | undefined;
   nowAble: string;
   data: FindManyOfferQuery["findManyOffer"]["offers"];
   kind: "SELL" | "BUY" | undefined;
   coin: string;
   part: "home" | "otc" | "mypage" | "user";
-  updateOfferClickHandle: (key: string, id: number, progress?: boolean) => void;
+  updateOfferClickHandle: (
+    key: "reservation" | "complete",
+    id: number,
+    reservationState: ReservationStatus
+  ) => void;
   onScrollHandle: () => void;
   deletehandle: () => void;
+  setOfferId: Dispatch<SetStateAction<number | undefined>>;
 };
 
 export default function OTCTabel({
+  offerId,
   nowAble = "like",
   part = "otc",
   data,
@@ -42,11 +49,14 @@ export default function OTCTabel({
   updateOfferClickHandle,
   onScrollHandle,
   deletehandle,
+  setOfferId,
 }: Props) {
   const router = useRouter();
   const [cookies] = useCookies(["nickName"]);
-  const [deleteId, setDeleteId] = useState<number | undefined>(undefined);
+
   const [onData, setOnData] = useState(false);
+  const [moreKind, setMoreKind] =
+    useState<"delete" | "reservation" | "complete" | undefined>(undefined);
   const [nextRef, nextView] = useInView({
     threshold: 1,
   });
@@ -72,12 +82,24 @@ export default function OTCTabel({
     return `${dayDiff}일 전`;
   };
 
-  const onClickDeleteAnswer = (id: number) => {
-    setDeleteId(id);
+  const onClickMore = (
+    id: number,
+    kind: "delete" | "reservation" | "complete"
+  ) => {
+    setOfferId(id);
+    setMoreKind(kind);
   };
 
-  const onClickDelete = () => {
-    deleteOfferByUser({ variables: { deleteOfferByUserId: deleteId } });
+  const onClickMoreAction = (reservationStatus: ReservationStatus) => {
+    if (moreKind === "delete") {
+      deleteOfferByUser({ variables: { deleteOfferByUserId: offerId } });
+    } else {
+      updateOfferClickHandle(
+        moreKind === "complete" ? "complete" : "reservation",
+        offerId ? offerId : 0,
+        reservationStatus
+      );
+    }
   };
 
   const enterChatHandle = (id: number, identity: string) => {
@@ -337,17 +359,31 @@ export default function OTCTabel({
                   </div>
                 )}
               </div>
-              {v.id === deleteId && (
-                <div className={cx("delete_container")}>
-                  <div className={cx("delete_wrap")}>
-                    <div className={cx("answer")}>삭제하시겠습니까?</div>
-                    <div className={cx("delete_btns")}>
-                      <div className={cx("delete")} onClick={onClickDelete}>
-                        삭제하기
+              {v.id === offerId && (
+                <div className={cx("more_container")}>
+                  <div className={cx("more_wrap")}>
+                    <div className={cx("answer")}>
+                      {moreKind === "complete"
+                        ? "거래완료로 변경하시겠습니까?"
+                        : moreKind === "delete"
+                        ? "삭제하시겠습니까?"
+                        : v.reservationStatus === ReservationStatus.None
+                        ? "예약중으로 변경하시겠습니까?"
+                        : "판매상태로 변경하시겠습니까?"}
+                    </div>
+                    <div className={cx("more_btns")}>
+                      <div
+                        className={cx(
+                          "more",
+                          moreKind !== "delete" ? "blue" : "red"
+                        )}
+                        onClick={() => onClickMoreAction(v.reservationStatus)}
+                      >
+                        {moreKind !== "delete" ? "변경" : "삭제"}
                       </div>
                       <div
                         className={cx("cancle")}
-                        onClick={() => setDeleteId(undefined)}
+                        onClick={() => setOfferId(undefined)}
                       >
                         취소
                       </div>
@@ -359,14 +395,8 @@ export default function OTCTabel({
                 <>
                   <div className={cx("my_offer_wrap")}>
                     <div
-                      onClick={() =>
-                        v.reservationStatus === "NONE" &&
-                        updateOfferClickHandle("progress", v.id)
-                      }
-                      className={cx(
-                        "border",
-                        v.reservationStatus === "NONE" && "pointer"
-                      )}
+                      onClick={() => onClickMore(v.id, "reservation")}
+                      className={cx("border", "pointer")}
                     >
                       {v.reservationStatus === "NONE" ? (
                         <span>
@@ -384,18 +414,8 @@ export default function OTCTabel({
                       )}
                     </div>
                     <div
-                      onClick={() =>
-                        v.transactionStatus === "PROGRESS" &&
-                        updateOfferClickHandle(
-                          "transaction",
-                          v.id,
-                          v.reservationStatus === "NONE" ? false : true
-                        )
-                      }
-                      className={cx(
-                        "border",
-                        v.transactionStatus === "PROGRESS" && "pointer"
-                      )}
+                      onClick={() => onClickMore(v.id, "complete")}
+                      className={cx("border", "pointer")}
                     >
                       {v.transactionStatus === "PROGRESS" ? (
                         "거래완료"
@@ -414,7 +434,7 @@ export default function OTCTabel({
                     </div>
                     <div
                       className={cx("red")}
-                      onClick={() => onClickDeleteAnswer(v.id)}
+                      onClick={() => onClickMore(v.id, "delete")}
                     >
                       삭제
                     </div>

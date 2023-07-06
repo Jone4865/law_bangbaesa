@@ -1,0 +1,1353 @@
+"""
+Direct the client to resolve this field locally, either from the cache or local resolvers.
+"""
+directive @client(
+  """
+  When true, the client will never use the cache for this value. See
+  https://www.apollographql.com/docs/react/essentials/local-state/#forcing-resolvers-with-clientalways-true
+  """
+  always: Boolean
+) on FIELD | FRAGMENT_DEFINITION | INLINE_FRAGMENT
+
+"""
+Export this locally resolved field as a variable to be used in the remainder of this query. See
+https://www.apollographql.com/docs/react/essentials/local-state/#using-client-fields-as-variables
+"""
+directive @export(
+  """The variable name to export this field as."""
+  as: String!
+) on FIELD
+
+"""
+Specify a custom store key for this result. See
+https://www.apollographql.com/docs/react/advanced/caching/#the-connection-directive
+"""
+directive @connection(
+  """Specify the store key."""
+  key: String!
+
+  """
+  An array of query argument names to include in the generated custom store key.
+  """
+  filter: [String!]
+) on FIELD
+
+"""회원"""
+type UserModel {
+  """아이디"""
+  identity: String!
+
+  """생성일"""
+  createdAt: Date!
+
+  """레벨"""
+  level: Int!
+
+  """접속일"""
+  connectionDate: Date
+
+  """휴대폰"""
+  phone: String
+}
+
+"""관리자"""
+type AdminModel {
+  """이메일"""
+  email: String!
+
+  """생성일"""
+  createdAt: Date!
+
+  """권한명"""
+  role: Role!
+}
+
+"""권한명"""
+enum Role {
+  """회원"""
+  USER
+
+  """관리자"""
+  ADMIN
+}
+
+"""오퍼"""
+type OfferModel {
+  """ID"""
+  id: Int!
+
+  """암호화폐 종류"""
+  coinKind: CoinKind!
+
+  """오퍼액션"""
+  offerAction: OfferAction!
+
+  """거래방법"""
+  transactionMethod: TransactionMethod!
+
+  """가격"""
+  price: Int!
+
+  """최소 거래량"""
+  minAmount: Int!
+
+  """최대 거래량"""
+  maxAmount: Int!
+
+  """평균 응답 속도"""
+  responseSpeed: Int!
+
+  """오퍼 조건"""
+  content: String!
+
+  """생성일"""
+  createdAt: Date!
+
+  """예약상태"""
+  reservationStatus: ReservationStatus!
+
+  """거래상태"""
+  transactionStatus: TransactionStatus!
+}
+
+"""암호화폐 종류"""
+enum CoinKind {
+  """테더"""
+  USDT
+
+  """비트코인"""
+  BTC
+
+  """이더리움"""
+  ETH
+
+  """비트코인 캐시"""
+  BCH
+
+  """체인링크"""
+  LINK
+
+  """폴카닷"""
+  DOT
+
+  """리플"""
+  XRP
+
+  """에이다"""
+  ADA
+
+  """스텔라루멘"""
+  XLM
+
+  """트론"""
+  TRX
+}
+
+"""오퍼액션"""
+enum OfferAction {
+  """판매"""
+  SELL
+
+  """구매"""
+  BUY
+}
+
+"""거래방법"""
+enum TransactionMethod {
+  """직접"""
+  DIRECT
+}
+
+"""예약상태"""
+enum ReservationStatus {
+  """기본값"""
+  NONE
+
+  """진행중"""
+  PROGRESS
+}
+
+"""거래상태"""
+enum TransactionStatus {
+  """진행중"""
+  PROGRESS
+
+  """완료"""
+  COMPLETE
+}
+
+"""이메일 인증"""
+type EmailAuthModel {
+  """ID"""
+  id: Int!
+
+  """이메일"""
+  email: String!
+
+  """생성일"""
+  createdAt: Date!
+}
+
+"""주민등록증"""
+type IdCardModel {
+  """ID"""
+  id: Int!
+
+  """이름"""
+  name: String!
+
+  """주민등록번호"""
+  registrationNumber: String!
+
+  """발급일"""
+  issueDate: String!
+}
+
+"""운전면허증"""
+type DriverLicenseModel {
+  """ID"""
+  id: Int!
+
+  """이름"""
+  name: String!
+
+  """생년월일"""
+  birth: String!
+
+  """지역코드 또는 지역번호"""
+  area: String!
+
+  """면허번호"""
+  licenseNumber: String!
+
+  """일련번호"""
+  serialNumber: String!
+}
+
+"""여권"""
+type PassportModel {
+  """ID"""
+  id: Int!
+
+  """이름"""
+  name: String!
+
+  """여권번호"""
+  passportNumber: String!
+
+  """발급일"""
+  issueDate: String!
+
+  """만료일"""
+  expirationDate: String!
+
+  """생년월일"""
+  birth: String!
+}
+
+"""지역"""
+type CityModel {
+  """ID"""
+  id: Int!
+
+  """지역명"""
+  name: String!
+}
+
+"""공지사항"""
+type NoticeModel {
+  """ID"""
+  id: Int!
+
+  """제목"""
+  title: String!
+
+  """내용"""
+  content: String!
+
+  """생성일"""
+  createdAt: Date!
+
+  """조회수"""
+  hits: Int!
+}
+
+"""1:1문의"""
+type UserInquiryModel {
+  """ID"""
+  id: Int!
+
+  """제목"""
+  title: String!
+
+  """내용"""
+  content: String!
+
+  """답변"""
+  reply: String
+
+  """답변일"""
+  repliedAt: Date
+
+  """생성일"""
+  createdAt: Date!
+}
+
+"""약관"""
+type PolicyModel {
+  """ID"""
+  id: Int!
+
+  """약관 종류"""
+  policyKind: PolicyKind!
+
+  """제목"""
+  title: String!
+
+  """내용"""
+  content: String!
+
+  """생성일"""
+  createdAt: Date!
+
+  """수정일"""
+  updatedAt: Date!
+}
+
+"""약관 종류"""
+enum PolicyKind {
+  """이용약관"""
+  TERMS_AND_CONDITIONS
+
+  """개인정보처리방침"""
+  PERSONAL_INFORMATION_PROCESSING_POLICY
+}
+
+"""채팅방"""
+type ChatRoomModel {
+  """ID"""
+  id: Int!
+
+  """생성일"""
+  createdAt: Date!
+}
+
+"""채팅 메세지"""
+type ChatMessageModel {
+  """ID"""
+  id: Int!
+
+  """메세지"""
+  message: String!
+
+  """생성일"""
+  createdAt: Date!
+
+  """보낸 회원 Identity"""
+  sender: String!
+}
+
+"""확인한 최근 채팅 메세지"""
+type CheckedCurrentChatMessageModel {
+  """ID"""
+  id: Int!
+
+  """생성일"""
+  createdAt: Date!
+}
+
+"""피드백"""
+type FeedbackModel {
+  """ID"""
+  id: Int!
+
+  """피드백 종류"""
+  feedbackKind: FeedbackKind!
+
+  """생성일"""
+  createdAt: Date!
+}
+
+"""피드백 종류"""
+enum FeedbackKind {
+  """긍정"""
+  POSITIVE
+
+  """부정"""
+  NEGATIVE
+}
+
+"""마켓 시세"""
+type MarketPriceModel {
+  """코인 코드"""
+  code: String!
+
+  """타임스탬프"""
+  timestamp: String!
+
+  """시가"""
+  openPrice: Float!
+
+  """고가"""
+  highPrice: Float!
+
+  """저가"""
+  lowPrice: Float!
+
+  """종가"""
+  closePrice: Float!
+
+  """해당 캔들에서 마지막 틱이 저장된 시각"""
+  tradeTime: Float!
+
+  """전일 종가 대비 변화 금액"""
+  changePrice: Float!
+
+  """전일 종가 대비 변화량"""
+  changeRate: Float!
+}
+
+"""국가번호"""
+type CountryCodeModel {
+  """ID"""
+  id: Int!
+
+  """국가번호"""
+  code: String!
+
+  """나라이름"""
+  country: String!
+}
+
+"""인증 토큰 output"""
+type TokenOutput {
+  """Access Token"""
+  accessToken: String!
+
+  """Refresh Token"""
+  refreshToken: String!
+}
+
+"""OTP QR코드 생성 output"""
+type CreateOtpQrOutput {
+  """URL"""
+  url: String!
+
+  """OTP Secret"""
+  otpSecret: String!
+}
+
+"""1:1 문의 목록 조회 (회원) output"""
+type FindManyUserInquiryByUserOutput {
+  """총 개수"""
+  totalCount: Int!
+
+  """문의 목록"""
+  userInquiries: [UserInquiryModel!]!
+}
+
+"""1:1 문의 목록 조회 (관리자) output - 1:1 문의"""
+type UserInquiryInFindManyUserInquiryByAdminOutput {
+  """ID"""
+  id: Int!
+
+  """제목"""
+  title: String!
+
+  """내용"""
+  content: String!
+
+  """답변"""
+  reply: String
+
+  """답변일"""
+  repliedAt: Date
+
+  """생성일"""
+  createdAt: Date!
+
+  """답변한 관리자"""
+  admin: AdminModel
+}
+
+"""1:1 문의 목록 조회 (관리자) output"""
+type FindManyUserInquiryByAdminOutput {
+  """총 개수"""
+  totalCount: Int!
+
+  """문의 목록"""
+  userInquiries: [UserInquiryInFindManyUserInquiryByAdminOutput!]!
+}
+
+"""회원 목록 조회 output"""
+type FindManyUserOutput {
+  """총 개수"""
+  totalCount: Int!
+
+  """회원 목록"""
+  users: [UserModel!]!
+}
+
+"""내정보 조회"""
+type FindMyInfoOutput {
+  """아이디"""
+  identity: String!
+
+  """생성일"""
+  createdAt: Date!
+
+  """레벨"""
+  level: Int!
+
+  """접속일"""
+  connectionDate: Date
+
+  """휴대폰"""
+  phone: String
+
+  """이메일 인증"""
+  emailAuth: EmailAuthModel
+
+  """주민등록증 인증"""
+  idCard: IdCardModel
+
+  """운전면허증 인증"""
+  driverLicense: DriverLicenseModel
+
+  """여권 인증"""
+  passport: PassportModel
+
+  """긍정적 피드백 개수"""
+  positiveFeedbackCount: Int!
+
+  """부정적 피드백 개수"""
+  negativeFeedbackCount: Int!
+}
+
+"""회원 정보 조회 (회원)"""
+type FindUserInfoByUserOutput {
+  """아이디"""
+  identity: String!
+
+  """레벨"""
+  level: Int!
+
+  """접속일"""
+  connectionDate: Date
+
+  """긍정적 피드백 개수"""
+  positiveFeedbackCount: Int!
+
+  """부정적 피드백 개수"""
+  negativeFeedbackCount: Int!
+}
+
+"""약관 목록 조회 output"""
+type FindManyPolicyOutput {
+  """총 개수"""
+  totalCount: Int!
+
+  """약관 목록"""
+  policies: [PolicyModel!]!
+}
+
+"""오퍼 - 오퍼 목록 조회 (회원) output"""
+type OfferByFindManyOfferOutput {
+  """ID"""
+  id: Int!
+
+  """암호화폐 종류"""
+  coinKind: CoinKind!
+
+  """오퍼액션"""
+  offerAction: OfferAction!
+
+  """거래방법"""
+  transactionMethod: TransactionMethod!
+
+  """가격"""
+  price: Int!
+
+  """최소 거래량"""
+  minAmount: Int!
+
+  """최대 거래량"""
+  maxAmount: Int!
+
+  """평균 응답 속도"""
+  responseSpeed: Int!
+
+  """오퍼 조건"""
+  content: String!
+
+  """생성일"""
+  createdAt: Date!
+
+  """예약상태"""
+  reservationStatus: ReservationStatus!
+
+  """거래상태"""
+  transactionStatus: TransactionStatus!
+
+  """지역"""
+  city: CityModel!
+
+  """아이디"""
+  identity: String!
+
+  """긍정 피드백 수"""
+  positiveCount: Int!
+
+  """새 채팅 메세지 여부"""
+  isNewChatMessage: Boolean!
+
+  """접속일"""
+  connectionDate: Date
+}
+
+"""오퍼 목록 조회 (회원) output"""
+type FindManyOfferOutput {
+  """총 개수"""
+  totalCount: Int!
+
+  """오퍼 목록"""
+  offers: [OfferByFindManyOfferOutput!]!
+}
+
+"""오퍼 상세 조회 (회원, 비회원) output"""
+type FindOneOfferOutput {
+  """ID"""
+  id: Int!
+
+  """암호화폐 종류"""
+  coinKind: CoinKind!
+
+  """오퍼액션"""
+  offerAction: OfferAction!
+
+  """거래방법"""
+  transactionMethod: TransactionMethod!
+
+  """가격"""
+  price: Int!
+
+  """최소 거래량"""
+  minAmount: Int!
+
+  """최대 거래량"""
+  maxAmount: Int!
+
+  """평균 응답 속도"""
+  responseSpeed: Int!
+
+  """오퍼 조건"""
+  content: String!
+
+  """생성일"""
+  createdAt: Date!
+
+  """예약상태"""
+  reservationStatus: ReservationStatus!
+
+  """거래상태"""
+  transactionStatus: TransactionStatus!
+
+  """지역"""
+  city: CityModel!
+
+  """아이디"""
+  identity: String!
+
+  """새 채팅 메세지 여부"""
+  isNewChatMessage: Boolean
+}
+
+"""공지사항 목록 조회 output"""
+type FindManyNoticeOutput {
+  """총 개수"""
+  totalCount: Int!
+
+  """공지사항 목록"""
+  notices: [NoticeModel!]!
+}
+
+"""채팅방 목록 - 참가한 채팅방 목록 조회 (회원) output"""
+type ChatRoomsByFindManyChatRoomByUserOutput {
+  """ID"""
+  id: Int!
+
+  """생성일"""
+  createdAt: Date!
+
+  """상대방 아이디"""
+  otherIdentity: String!
+
+  """오퍼 ID"""
+  offerId: Int!
+
+  """새 채팅 메세지 여부"""
+  isNewChatMessage: Boolean!
+
+  """안읽은 메세지 여부"""
+  isUnread: Boolean!
+}
+
+"""참가한 채팅방 목록 조회 (회원) output"""
+type FindManyChatRoomByUserOutput {
+  """총 개수"""
+  totalCount: Int!
+
+  """채팅방 목록"""
+  chatRooms: [ChatRoomsByFindManyChatRoomByUserOutput!]!
+}
+
+"""채팅 메세지 목록 - 채팅 메세지 목록 조회 (회원) output"""
+type ChatMessagesByFindManyChatMessageByUserOutput {
+  """ID"""
+  id: Int!
+
+  """메세지"""
+  message: String!
+
+  """생성일"""
+  createdAt: Date!
+
+  """보낸 회원 Identity"""
+  sender: String!
+
+  """읽음 여부"""
+  isUnread: Boolean!
+}
+
+"""채팅 메세지 목록 조회 (회원) output"""
+type FindManyChatMessageByUserOutput {
+  """총 개수"""
+  totalCount: Int!
+
+  """채팅 메세지 목록"""
+  chatMessages: [ChatMessagesByFindManyChatMessageByUserOutput!]!
+
+  """마지막 메세지 여부"""
+  isEnd: Boolean!
+}
+
+"""채팅 메세지 구독/발행 (회원) output"""
+type SubscribeChatMessageOutput {
+  """채팅 메세지"""
+  chatMessage: ChatMessageModel!
+
+  """총 개수"""
+  totalCount: Int!
+}
+
+"""대시보드 그래프 조회 (관리자) output"""
+type ObjectByFindDashboardByAdminOutput {
+  """수"""
+  count: Int!
+
+  """날짜"""
+  date: Date!
+}
+
+"""대시보드 그래프 조회 (관리자) output"""
+type FindDashboardByAdminOutput {
+  """회원"""
+  users: [ObjectByFindDashboardByAdminOutput!]!
+
+  """1:1문의"""
+  userInquiries: [ObjectByFindDashboardByAdminOutput!]!
+
+  """오퍼 생성"""
+  offers: [ObjectByFindDashboardByAdminOutput!]!
+}
+
+"""마켓 시세 목록 조회 output"""
+type FindManyMarketPriceOutput {
+  """업비트 시세 목록"""
+  upbit: [MarketPriceModel!]!
+
+  """바이낸스 시세 목록"""
+  binance: [MarketPriceModel!]!
+
+  """김치 시세 목록"""
+  kimchi: [MarketPriceModel!]!
+}
+
+"""Date custom scalar type"""
+scalar Date
+
+type Query {
+  """내정보 조회 (회원)"""
+  findMyInfoByUser: FindMyInfoOutput!
+
+  """회원 정보 조회 (회원)"""
+  findUserInfoByUser(
+    """아이디"""
+    identity: String!
+  ): FindUserInfoByUserOutput!
+
+  """회원 목록 조회 (관리자)"""
+  findManyUser(
+    """가져올 개수"""
+    take: Int!
+
+    """커서 ID"""
+    cursorId: Int
+  ): FindManyUserOutput!
+
+  """휴대폰 인증번호 발송 (180초)"""
+  sendPhoneAuthNumber(
+    """휴대전화"""
+    phone: String!
+  ): Boolean!
+
+  """휴대폰 인증번호 잔여시간 확인"""
+  checkRemainTimePhoneAuthNumber(
+    """휴대전화"""
+    phone: String!
+  ): Int!
+
+  """휴대폰 인증번호 확인"""
+  confirmPhoneAuthNumber(
+    """휴대전화"""
+    phone: String!
+
+    """인증번호"""
+    authNumber: String!
+
+    """아이디"""
+    identity: String
+  ): String!
+
+  """아이디 중복검사"""
+  checkDuplicateIdentity(
+    """아이디"""
+    identity: String!
+  ): Boolean!
+
+  """로그인 (회원)"""
+  signInByUser(
+    """아이디"""
+    identity: String!
+
+    """비밀번호"""
+    password: String!
+  ): TokenOutput!
+
+  """기존 비밀번호 유효성 검사 (회원)"""
+  verifyOriginPasswordByUser(
+    """비밀번호"""
+    password: String!
+  ): Boolean!
+
+  """아이디 찾기"""
+  findIdentity(
+    """해시값"""
+    hash: String!
+
+    """휴대전화"""
+    phone: String!
+  ): String!
+
+  """비밀번호 찾기"""
+  findPassword(
+    """아이디"""
+    identity: String!
+
+    """해시값"""
+    hash: String!
+
+    """휴대전화"""
+    phone: String!
+
+    """새 비밀번호"""
+    newPassword: String!
+  ): String!
+
+  """로그인 (관리자)"""
+  signInByAdmin(
+    """이메일"""
+    email: String!
+
+    """비밀번호"""
+    password: String!
+
+    """OTP 인증번호"""
+    code: String!
+  ): TokenOutput!
+
+  """내정보 조회 (관리자)"""
+  findMyInfoByAdmin: AdminModel!
+
+  """문의 상세 조회 (회원)"""
+  findOneUserInquiryByUser(
+    """문의 ID"""
+    id: Float!
+  ): UserInquiryModel!
+
+  """문의 목록 조회 (회원)"""
+  findManyUserInquiryByUser(
+    """가져올 개수"""
+    take: Int!
+
+    """넘길 개수"""
+    skip: Int!
+  ): FindManyUserInquiryByUserOutput!
+
+  """문의 목록 조회 (관리자)"""
+  findManyUserInquiryByAdmin(
+    """가져올 개수"""
+    take: Int!
+
+    """커서 ID"""
+    cursorId: Int
+
+    """검색어(회원명 또는 문의내용)"""
+    searchText: String!
+  ): FindManyUserInquiryByAdminOutput!
+
+  """약관 목록 조회"""
+  findManyPolicy(
+    """가져올 개수"""
+    take: Int!
+
+    """커서 ID"""
+    cursorId: Int
+  ): FindManyPolicyOutput!
+
+  """약관 상세 조회"""
+  findOnePolicy(
+    """약관 ID"""
+    id: Int
+
+    """약관 종류"""
+    policyKind: PolicyKind
+  ): Boolean!
+
+  """이메일 인증번호 발송 (회원)"""
+  sendMailAuthNumber(
+    """이메일"""
+    email: String!
+  ): Boolean!
+
+  """오퍼 목록 조회 (회원, 비회원)"""
+  findManyOffer(
+    """가져올 개수"""
+    take: Int!
+
+    """넘길 개수"""
+    skip: Int!
+
+    """암호화폐 종류"""
+    coinKind: CoinKind
+
+    """오퍼액션"""
+    offerAction: OfferAction
+
+    """아이디"""
+    identity: String
+
+    """채팅중인 오퍼만 조회"""
+    isChat: Boolean
+  ): FindManyOfferOutput!
+
+  """오퍼 상세 조회 (회원, 비회원)"""
+  findOneOffer(
+    """오퍼 ID"""
+    id: Int!
+  ): FindOneOfferOutput!
+
+  """공지사항 목록 조회"""
+  findManyNotice(
+    """가져올 개수"""
+    take: Int!
+
+    """넘길 개수"""
+    skip: Int!
+
+    """검색어"""
+    searchText: String!
+
+    """검색 종류"""
+    searchKind: NoticeSearchKind
+  ): FindManyNoticeOutput!
+
+  """공지사항 상세 조회"""
+  findOneNotice(
+    """ID"""
+    id: Int!
+  ): NoticeModel!
+
+  """참가한 채팅방 목록 조회 (회원)"""
+  findManyChatRoomByUser(
+    """가져올 개수"""
+    take: Int!
+
+    """커서 ID"""
+    cursorId: Int
+
+    """오퍼 ID"""
+    offerId: Int
+  ): FindManyChatRoomByUserOutput!
+
+  """채팅 메세지 목록 조회 (회원)"""
+  findManyChatMessageByUser(
+    """가져올 개수"""
+    take: Int!
+
+    """커서 ID"""
+    cursorId: Int
+
+    """채팅방 ID"""
+    chatRoomId: Int!
+
+    """채팅 메세지 방향"""
+    direction: ChatMessageDirection! = PREV
+  ): FindManyChatMessageByUserOutput!
+
+  """대시보드 그래프 조회 (관리자)"""
+  findDashboardByAdmin: FindDashboardByAdminOutput!
+
+  """마켓 시세 목록 조회"""
+  findManyMarketPrice: FindManyMarketPriceOutput!
+
+  """도시 목록 조회"""
+  findManyCity: [CityModel!]!
+
+  """국가번호 목록 조회"""
+  findManyCountryCode: [CountryCodeModel!]!
+}
+
+"""검색 종류"""
+enum NoticeSearchKind {
+  """제목"""
+  title
+
+  """내용"""
+  content
+}
+
+"""채팅 메세지 방향"""
+enum ChatMessageDirection {
+  """이전"""
+  PREV
+
+  """다음"""
+  NEXT
+}
+
+type Mutation {
+  """휴대폰 번호 변경"""
+  updatePhoneNumberByUser(
+    """해시값"""
+    hash: String!
+
+    """휴대전화"""
+    phone: String!
+  ): UserModel!
+
+  """회원가입 (회원)"""
+  signUpByUser(
+    """로그인 종류"""
+    loginKind: LoginKind! = EMAIL
+
+    """아이디"""
+    identity: String!
+
+    """비밀번호"""
+    password: String!
+
+    """휴대전화"""
+    phone: String!
+
+    """해시값"""
+    hash: String!
+  ): UserModel!
+
+  """로그아웃 (회원)"""
+  signOutByUser: Boolean!
+
+  """Token 재발급 (회원)"""
+  refreshByUser: TokenOutput!
+
+  """비밀번호 변경 (회원)"""
+  updatePasswordByUser(
+    """기존 비밀번호"""
+    originPassword: String!
+
+    """새 비밀번호"""
+    newPassword: String!
+  ): UserModel!
+
+  """회원가입 (관리자)"""
+  signUpByAdmin(
+    """이메일"""
+    email: String!
+
+    """비밀번호"""
+    password: String!
+
+    """OTP 키"""
+    otpSecret: String!
+  ): AdminModel!
+
+  """로그아웃 (관리자)"""
+  signOutByAdmin: Boolean!
+
+  """Token 재발급 (관리자)"""
+  refreshByAdmin: TokenOutput!
+
+  """OTP QR코드 생성"""
+  createOtpQr(
+    """이메일"""
+    email: String!
+  ): CreateOtpQrOutput!
+
+  """문의 생성 (회원)"""
+  createUserInquiryByUser(
+    """제목"""
+    title: String!
+
+    """내용"""
+    content: String!
+  ): UserInquiryModel!
+
+  """1:1 문의 답변 작성 (관리자)"""
+  replyUserInquiryByAdmin(
+    """1:1 문의 ID"""
+    id: Int!
+
+    """답변"""
+    reply: String!
+  ): UserInquiryModel!
+
+  """1:1 문의 수정 (회원)"""
+  updateUserInquiry(
+    """1:1 문의 ID"""
+    id: Int!
+
+    """제목"""
+    title: String!
+
+    """내용"""
+    content: String!
+  ): Boolean!
+
+  """1:1 문의 삭제 (회원)"""
+  deleteUserInquiry(
+    """1:1 문의 ID"""
+    id: Int!
+  ): Boolean!
+
+  """약관 수정 (관리자)"""
+  updatePolicy(
+    """약관 ID"""
+    id: Int!
+
+    """약관 종류"""
+    policyKind: PolicyKind
+
+    """제목"""
+    title: String
+
+    """내용"""
+    content: String
+  ): Boolean!
+
+  """약관 첨부파일 업로드 (관리자)"""
+  uploadPolicyFile(
+    """약관 첨부파일"""
+    file: Upload!
+  ): String!
+
+  """이메일 인증번호 확인 (회원)"""
+  confirmEmailAuthNumber(
+    """이메일"""
+    email: String!
+
+    """인증번호"""
+    authNumber: String!
+  ): EmailAuthModel!
+
+  """주민등록증 인증 (회원)"""
+  createIdCard(
+    """이름"""
+    name: String!
+
+    """주민등록번호"""
+    registrationNumber: String!
+
+    """발급일"""
+    issueDate: String!
+  ): IdCardModel!
+
+  """운전면허증 인증 (회원)"""
+  createDriverLicense(
+    """이름"""
+    name: String!
+
+    """생년월일"""
+    birth: String!
+
+    """지역코드 또는 지역명"""
+    area: String!
+
+    """운전면허 번호"""
+    licenseNumber: String!
+
+    """암호일련번호"""
+    serialNumber: String!
+  ): DriverLicenseModel!
+
+  """여권 인증 (회원)"""
+  createPassport(
+    """이름"""
+    name: String!
+
+    """여권번호"""
+    passportNumber: String!
+
+    """발급일"""
+    issueDate: String!
+
+    """기간만료일"""
+    expirationDate: String!
+
+    """생년월일"""
+    birth: String!
+  ): PassportModel!
+
+  """회원탈퇴"""
+  withdrawalUser: Boolean!
+
+  """오퍼 생성 (회원)"""
+  createOfferByUser(
+    """암호화폐 종류"""
+    coinKind: CoinKind!
+
+    """오퍼액션"""
+    offerAction: OfferAction!
+
+    """거래방법"""
+    transactionMethod: TransactionMethod!
+
+    """지역 ID"""
+    cityId: Int!
+
+    """가격"""
+    price: Int!
+
+    """최소 거래량"""
+    minAmount: Int!
+
+    """최대 거래량"""
+    maxAmount: Int!
+
+    """평균 응답 속도"""
+    responseSpeed: Int!
+
+    """오퍼 조건"""
+    content: String!
+  ): OfferModel!
+
+  """오퍼 예약상태 변경 (회원)"""
+  updateReservationStatusByUser(
+    """오퍼 ID"""
+    id: Int!
+  ): OfferModel!
+
+  """오퍼 거래상태 변경 (회원)"""
+  updateTransactionStatusByUser(
+    """오퍼 ID"""
+    id: Int!
+  ): OfferModel!
+
+  """오퍼 삭제 (회원)"""
+  deleteOfferByUser(
+    """오퍼 ID"""
+    id: Int!
+  ): OfferModel!
+
+  """공지사항 생성 (관리자)"""
+  createNotice(
+    """제목"""
+    title: String!
+
+    """내용"""
+    content: String!
+  ): NoticeModel!
+
+  """공지사항 수정 (관리자)"""
+  updateNotice(
+    """공지사항 ID"""
+    id: Int!
+
+    """제목"""
+    title: String!
+
+    """내용"""
+    content: String!
+  ): FindManyNoticeOutput!
+
+  """공지사항 삭제 (관리자)"""
+  deleteNotice(
+    """공지사항 ID"""
+    id: Int!
+  ): NoticeModel!
+
+  """채팅방 참가 (회원)"""
+  enterChatRoom(
+    """오퍼 ID"""
+    offerId: Int!
+  ): ChatRoomModel!
+
+  """채팅 메세지 발송 (회원)"""
+  createChatMessage(
+    """채팅방 ID"""
+    chatRoomId: Int!
+
+    """메세지"""
+    message: String!
+  ): SubscribeChatMessageOutput!
+
+  """확인한 최근 메세지 업데이트 (회원)"""
+  updateCheckedCurrentChatMessageByUser(
+    """채팅방 ID"""
+    chatRoomId: Int!
+
+    """채팅 메세지 ID"""
+    chatMessageId: Int!
+  ): CheckedCurrentChatMessageModel!
+
+  """피드백 토글 (회원)"""
+  toggleFeedbackByUser(
+    """피드백 종류"""
+    feedbackKind: FeedbackKind!
+
+    """받는 회원 아이디"""
+    receiverIdentity: String!
+  ): FeedbackModel!
+}
+
+"""로그인 종류"""
+enum LoginKind {
+  """이메일"""
+  EMAIL
+
+  """카카오"""
+  KAKAO
+}
+
+"""The `Upload` scalar type represents a file upload."""
+scalar Upload
+
+type Subscription {
+  """1:1문의 개수 구독 (관리자)"""
+  subscribeCountOfUserInquiry: Int!
+
+  """채팅 메세지 구독 (회원)"""
+  subscribeChatMessage(
+    """채팅방 ID"""
+    chatRoomId: Int!
+  ): SubscribeChatMessageOutput!
+}

@@ -7,16 +7,12 @@ import {
 } from "@apollo/client";
 import { onError } from "@apollo/client/link/error";
 import { createUploadLink } from "apollo-upload-client";
-import { createClient } from "graphql-ws";
 import { getMainDefinition } from "@apollo/client/utilities";
-import { userTokenTypes } from "../recoil/atoms/userToken";
-import { SetterOrUpdater } from "recoil";
 import { SubscriptionClient } from "subscriptions-transport-ws";
 import { WebSocketLink } from "@apollo/client/link/ws";
 import { IncomingHttpHeaders } from "http";
 import { useMemo } from "react";
 import { REFRESH_BY_USER } from "../graphql/mutation/refreshByUser";
-import { useRouter } from "next/router";
 
 export const SERVER = process.env.NEXT_PUBLIC_GQL_URL!;
 export const SOCKET = process.env.NEXT_PUBLIC_SOCKET_URL!;

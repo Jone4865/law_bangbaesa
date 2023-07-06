@@ -6,14 +6,8 @@ import "../public/fonts/style.css";
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import Head from "next/head";
-import {
-  ApolloProvider,
-  ApolloClient,
-  NormalizedCacheObject,
-} from "@apollo/client";
-import { RecoilRoot, useRecoilState } from "recoil";
-import { userTokenState } from "../src/recoil/atoms/userToken";
-import { userTokenTypes } from "../src/recoil/atoms/userToken";
+import { ApolloProvider } from "@apollo/client";
+import { RecoilRoot } from "recoil";
 import Header from "../components/Header/Header";
 import Side from "../components/Side/Side";
 import Footer from "../components/Footer/Footer";
