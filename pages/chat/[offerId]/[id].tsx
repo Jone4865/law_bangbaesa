@@ -346,7 +346,12 @@ const Room: NextPage<Props> = ({ id, data }) => {
             <div className={cx("kind")}>
               {offerData?.offerAction === OfferAction.Sell ? "판매" : "구매"}
             </div>
-            <div className={cx("nickname")}>{offerData?.identity}</div>
+            <div
+              className={cx("nickname")}
+              onClick={() => router.push(`/user/${offerData?.identity}`)}
+            >
+              {offerData?.identity}
+            </div>
             <div className={cx("location")}>{offerData?.city.name} / 직접</div>
             <div className={cx("min_and_max")}>
               {offerData?.minAmount?.toLocaleString()}{" "}

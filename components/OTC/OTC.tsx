@@ -199,10 +199,10 @@ export default function OTC({
         },
       });
     }
-  }, [take, skip, totalCount, current]);
+  }, [take, skip, totalCount, current, kind]);
 
   useEffect(() => {
-    if (router.pathname !== "/otc") {
+    if (!router.pathname.includes("/otc")) {
       findManyOffer({
         variables: {
           isChat,
@@ -217,9 +217,7 @@ export default function OTC({
         fetchPolicy: "no-cache",
       });
     }
-  }, [coinKind, partKind, isChat, nickName, refetch, data?.length]);
-
-  useEffect(() => {}, [kind]);
+  }, [coinKind, partKind, isChat, nickName, refetch, data?.length, kind]);
 
   return (
     <div className={cx(part === "otc" ? "container" : undefined)}>

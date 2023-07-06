@@ -229,6 +229,7 @@
 }
 
 .nickname {
+  cursor: pointer;
   @include view("mobile") {
     order: 0;
     width: 33.3%;

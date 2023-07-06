@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./DriverLicense.module.scss";
 import className from "classnames/bind";
 import ImageUpload from "../../../ImageUpload/ImageUpload";
@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 import { CREATE_DRIVER_LICENSE } from "../../../../src/graphql/mutation/createDriverLicense";
 import { CreateDriverLicenseMutation } from "src/graphql/generated/graphql";
+import { constants, publicEncrypt } from "crypto";
 
 const cx = className.bind(styles);
 
@@ -25,15 +26,30 @@ export default function DriverLicense() {
     );
   };
 
+  function rsaEncryptionWithPublicKey(text: string) {
+    const publicKey = process.env.NEXT_PUBLIC_BACK_SECRET_KEY;
+    const pemPublicKey = `-----BEGIN PUBLIC KEY-----\n${publicKey}\n-----END PUBLIC KEY-----`;
+
+    const result = publicEncrypt(
+      {
+        key: pemPublicKey,
+        padding: constants.RSA_PKCS1_PADDING,
+      },
+      Buffer.from(text)
+    ).toString("base64");
+
+    return result;
+  }
+
   const onClickHandle = () => {
     if (files?.length === 3) {
       createDriverLicense({
         variables: {
-          name,
-          birth: birthDay,
-          area: code,
-          licenseNumber,
-          serialNumber: number,
+          name: rsaEncryptionWithPublicKey(name),
+          birth: rsaEncryptionWithPublicKey(birthDay),
+          area: rsaEncryptionWithPublicKey(code),
+          licenseNumber: rsaEncryptionWithPublicKey(licenseNumber),
+          serialNumber: rsaEncryptionWithPublicKey(number),
         },
       });
     } else {
@@ -41,16 +57,25 @@ export default function DriverLicense() {
     }
   };
 
-  const [createDriverLicense] = useMutation<CreateDriverLicenseMutation>(
-    CREATE_DRIVER_LICENSE,
-    {
+  const [createDriverLicense, { loading }] =
+    useMutation<CreateDriverLicenseMutation>(CREATE_DRIVER_LICENSE, {
       onError: (e) => toast.error(e.message ?? `${e}`),
       onCompleted(_data) {
         toast.success("신분증 인증이 완료되었습니다.");
         router.push("/mypage");
       },
-    }
-  );
+    });
+
+  useEffect(() => {
+    toast.warn(
+      <div>
+        신분증을 확인중입니다.
+        <br />
+        잠시만 기다려주세요.
+      </div>,
+      { toastId: 0 }
+    );
+  }, [loading]);
 
   return (
     <div className={cx("container")}>
