@@ -1,7 +1,13 @@
 @import "/public/scss/style.scss";
 
+.carousel_wrap {
+  position: relative;
+  height: 470px;
+}
+
 .container {
   padding-top: 100px;
+  position: relative;
   @include view("middle") {
     padding-top: 75px;
   }
@@ -197,10 +203,10 @@
 }
 
 .toggle_wrap {
-  width: 300px;
+  width: 240px;
   height: 50px;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   background-color: #ebebeb;
   border-radius: 12px;
   color: #777;
@@ -343,8 +349,9 @@
 }
 
 .more_coin {
-  margin: auto 0 auto auto;
+  margin: auto 0 0 auto;
   cursor: pointer;
   color: blue;
   text-decoration: underline;
+  font-size: 15px;
 }

@@ -121,18 +121,24 @@ a {
 .custom-prev-arrow {
   z-index: 1;
   position: absolute;
-  left: 0;
+  left: 15px;
+  cursor: pointer;
+  color: black;
+  font-size: 25px;
 }
 
 .custom-next-arrow {
   z-index: 1;
   position: absolute;
-  right: 0;
+  font-size: 25px;
+  right: 15px;
   color: black;
+  cursor: pointer;
 }
 
 .slick-dots {
   position: absolute;
+  bottom: 20px !important;
 }
 
 .slick-slider .slick-track,

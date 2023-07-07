@@ -34,23 +34,18 @@ export default function MarketPrice() {
 
   return (
     <div className={cx("container")}>
-      <div style={{ paddingTop: "200px" }}>
-        <div className="flex">
-          {binanceData?.map((v, idx) => (
-            <div key={idx}>{v.code}</div>
-          ))}
-        </div>
-        <div className="flex">
+      <div style={{ display: "flex" }}>
+        <div>
           {upbitData?.map((v, idx) => (
             <div key={idx}>{v.code}</div>
           ))}
         </div>
-        <div className="flex">
+        <div>
           {binanceData?.map((v, idx) => (
             <div key={idx}>{v.code}</div>
           ))}
         </div>
-        <div className="flex">
+        <div>
           {kimchiData?.map((v, idx) => (
             <div key={idx}>{v.code}</div>
           ))}

@@ -13,6 +13,8 @@ import { useRouter } from "next/router";
 import TopImage from "../TopImage/TopImage";
 import Marquee from "../Marquee/Marquee";
 import { CoinKind, OfferAction } from "src/graphql/generated/graphql";
+import CarouselPart from "components/CarouselPart/CarouselPart";
+import MarketPrice from "components/MarketPrice/MarketPrice";
 
 const cx = className.bind(styles);
 
@@ -21,7 +23,7 @@ export default function Body() {
   const coins = [
     { name: "USDT", code: CoinKind.Usdt },
     { name: "BTC", code: CoinKind.Btc },
-    { name: "ETH", code: CoinKind.Eth },
+    // { name: "ETH", code: CoinKind.Eth },
   ];
   const [buyCoinKind, setBuyCoinKind] = useState<CoinKind>(CoinKind.Usdt);
   const [sellCoinKind, setSellCoinKind] = useState<CoinKind>(CoinKind.Usdt);
@@ -67,7 +69,9 @@ export default function Body() {
 
   return (
     <div className={cx("container")}>
-      {/* <CarouselPart /> */}
+      {/* <div className={cx("carousel_wrap")}>
+        <CarouselPart />
+      </div> */}
       <TopImage imageName={"1"} />
       <Marquee />
       {/* <MarketPrice /> */}

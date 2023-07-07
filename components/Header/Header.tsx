@@ -91,7 +91,9 @@ export default function Header({ setModalState }: Props) {
                 key={btn.name}
                 className={cx(
                   "header_hover",
-                  router.pathname === btn.path && "orange",
+                  btn.path !== "/"
+                    ? router.pathname.includes(btn.path) && "orange"
+                    : router.pathname === btn.path && "orange",
                   btn.name === "고객센터" &&
                     (router.pathname.includes(btn.path) ||
                       router.pathname.includes("/inquiry")) &&
