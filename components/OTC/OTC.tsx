@@ -129,7 +129,7 @@ export default function OTC({
 
   const onClickHandle = (v: any, key: string) => {
     if (key === "kind") {
-      router.push(v === "buy" ? "/otc/buy" : "/otc/sell");
+      router.push(v === "buy" ? "/p2p/buy" : "/p2p/sell");
       setKind(v);
       setCoin(CoinKind.Usdt);
     } else {
@@ -212,7 +212,7 @@ export default function OTC({
 
   useEffect(() => {
     setTotalOffer && setTotalOffer(totalCount);
-    if (router.pathname.includes("/otc")) {
+    if (router.pathname.includes("/p2p")) {
       findManyOffer({
         variables: {
           isChat: false,
@@ -227,7 +227,7 @@ export default function OTC({
   }, [take, skip, totalCount, current, kind]);
 
   useEffect(() => {
-    if (!router.pathname.includes("/otc")) {
+    if (!router.pathname.includes("/p2p")) {
       findManyOffer({
         variables: {
           isChat,
@@ -252,72 +252,6 @@ export default function OTC({
         </>
       )}
       <div className={cx("wrap")}>
-        <div className={cx(part === "otc" ? "middle_wrap" : "none")}>
-          <div className={cx("middle_top")}>
-            <div>
-              <div className={cx("middle_title")}>OTC Market</div>
-              <div className={cx("img_wrap")}>
-                <Image
-                  alt="otc 이미지"
-                  src={"/img/otc/1.png"}
-                  fill
-                  priority
-                  quality={100}
-                />
-              </div>
-            </div>
-            <div className={cx("content_wrap", "padding")}>
-              <div>Over The Counter</div>
-              <div className={cx("content_top")}>
-                OTC(Over-The-Counter) 마켓은 일반적으로
-                <br className={cx("mobile_br")} /> 중앙 집중식 거래소와 달리
-                <br className={cx("pc_br")} /> 주식, 채권, 암호화폐 및 기타
-                <br className={cx("mobile_br")} />
-                금융자산을 거래하는 분산형 거래 플랫폼입니다.
-              </div>
-              <div className={cx("content_bottom")}>
-                OTC 마켓은 중앙화 방식의 주문 대신에 탈중앙화 방식인
-                <br className={cx("mobile_br")} /> 개인간 직접거래를
-                <br className={cx("pc_br")} /> 허용하며, 판매자 및 구매자들이
-                서로
-                <br className={cx("mobile_br")} /> 직거래를 체결할 수 있도록
-                돕습니다.
-                <br className={cx("mobile_br")} />
-                <br className={cx("pc_br")} /> 이는 일반적으로 대량 거래, 대기업
-                및 기관 투자자,
-                <br /> 또는 특정 자산에 대한 액세스를 원하는 사람들에게
-                <br className={cx("mobile_br")} /> 인기가 있습니다.
-              </div>
-            </div>
-          </div>
-          <div className={cx("middle_bottom")}>
-            <div className={cx("content_wrap", "align_right")}>
-              <div>방배사는,</div>
-              <div className={cx("content_top")}>
-                투자자가 대량 거래를 신속하게 체결할 수 있는
-                <br className={cx("mobile_br")} /> 플랫폼을 제공합니다.
-                <br className={cx("pc_br")} /> 이는 주식 시장에 큰 영향을
-                <br className={cx("mobile_br")} /> 줄 수 있는 거래를 조용히
-                처리하거나,
-                <br className={cx("pc_br")} /> 큰 규모의 주식이나
-                <br className={cx("mobile_br")} /> 암호화폐를 구매 또는 판매할
-                때 특히 유용합니다.
-              </div>
-              <div className={cx("content_bottom")}>
-                방배사에서 개인간 맞춤화 된 계약을 맺어보세요.
-              </div>
-            </div>
-            <div className={cx("img_wrap")}>
-              <Image
-                alt="otc 이미지"
-                src={"/img/otc/2.png"}
-                fill
-                priority
-                quality={100}
-              />
-            </div>
-          </div>
-        </div>
         {part === "otc" && (
           <div style={{ border: "solid 1px #dcdcdc" }}>
             <Marquee />
@@ -330,7 +264,7 @@ export default function OTC({
             {part === "otc" && (
               <>
                 <div className={cx("bottom_title")}>
-                  {!partKind && "OTC Offer"}
+                  {!partKind && "P2P Offer"}
                 </div>
                 <div className={cx("bottom_body")}>
                   {part === "otc" && (

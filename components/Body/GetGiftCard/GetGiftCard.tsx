@@ -58,7 +58,14 @@ export default function GetGiftCard({ searchText }: Props) {
           .replaceAll("%)", "");
 
         return {
-          name,
+          name: name.includes("롯데스폐셜카드")
+            ? name.replace("롯데스폐셜카드", "롯데스페셜카드")
+            : name.includes("롯데호텔10만원면세점 불가")
+            ? name.replace(
+                "롯데호텔10만원면세점 불가",
+                "롯데호텔 (10만원권) 면세점 불가"
+              )
+            : name,
           originPrice: buyPrice / (1 - originBuyPercent / 100),
           buyPercent: originBuyPercent + 0.5,
           sellPercent: sellPercent + 0.5,
@@ -91,13 +98,18 @@ export default function GetGiftCard({ searchText }: Props) {
           <div className={cx("sell_price")}>판매가</div>
         </div>
         <div className={cx("map_container")}>
-          {newData?.map((v) => (
-            <div className={cx("map_wrap")} key={v.name}>
-              <div className={cx("map_type")}>
-                {v.name.trim() === "롯데호텔10만원면세점 불가"
-                  ? "롯데호텔 (10만원권) 면세점 불가"
-                  : v.name.trim()}
-              </div>
+          {newData?.map((v, idx, arr) => (
+            <div
+              className={cx(
+                "map_wrap",
+                idx !== 0 &&
+                  v.name.split("(")[0].trim() !==
+                    arr[idx - 1]?.name.split("(")[0].trim() &&
+                  "border_top"
+              )}
+              key={v.name}
+            >
+              <div className={cx("map_type")}>{v.name}</div>
               <div className={cx("map_origin_price")}>
                 <span className={cx("mobile")}>액면가 :</span>
                 {v.originPrice.toLocaleString()}원

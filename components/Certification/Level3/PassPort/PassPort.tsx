@@ -13,6 +13,8 @@ const cx = className.bind(styles);
 
 export default function PassPort() {
   const router = useRouter();
+  const [name, setName] = useState("");
+  const [birth, setBirth] = useState("");
   const [number, setNumber] = useState("");
   const [createDate, setCreatDate] = useState("");
   const [endDate, setEndDate] = useState("");
@@ -46,6 +48,8 @@ export default function PassPort() {
           passportNumber: rsaEncryptionWithPublicKey(number),
           issueDate: rsaEncryptionWithPublicKey(createDate),
           expirationDate: rsaEncryptionWithPublicKey(endDate),
+          name: rsaEncryptionWithPublicKey(name),
+          birth: rsaEncryptionWithPublicKey(birth),
         },
       });
     } else {
@@ -65,14 +69,16 @@ export default function PassPort() {
   );
 
   useEffect(() => {
-    toast.warn(
-      <div>
-        신분증을 확인중입니다.
-        <br />
-        잠시만 기다려주세요.
-      </div>,
-      { toastId: 0 }
-    );
+    if (loading) {
+      toast.warn(
+        <div>
+          신분증을 확인중입니다.
+          <br />
+          잠시만 기다려주세요.
+        </div>,
+        { toastId: 0 }
+      );
+    }
   }, [loading]);
 
   return (
@@ -95,6 +101,20 @@ export default function PassPort() {
           />
         </div>
       </div>
+      <div className={cx("title")}>이름</div>
+      <input
+        className={cx("input")}
+        placeholder="m12341234"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+      />
+      <div className={cx("title")}>생년월일</div>
+      <input
+        className={cx("input")}
+        placeholder="m12341234"
+        value={birth}
+        onChange={(e) => setBirth(e.target.value)}
+      />
       <div className={cx("title")}>여권번호</div>
       <input
         className={cx("input")}

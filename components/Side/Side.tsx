@@ -26,7 +26,7 @@ function Side({ modal, setModalState }: Props) {
 
   const Btns = [
     { name: "홈", path: "/" },
-    { name: "OTC", path: "/otc/buy" },
+    { name: "P2P", path: "/p2p/buy" },
     { name: "상품권", path: "/gift-card" },
     { name: "고객센터", path: "/notice" },
     { name: "회사소개", path: "/introduction" },

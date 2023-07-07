@@ -900,8 +900,8 @@ export type QueryFindManyUserArgs = {
 
 
 export type QueryFindManyUserInquiryByAdminArgs = {
-  cursorId?: InputMaybe<Scalars['Int']>;
   searchText: Scalars['String'];
+  skip: Scalars['Int'];
   take: Scalars['Int'];
 };
 

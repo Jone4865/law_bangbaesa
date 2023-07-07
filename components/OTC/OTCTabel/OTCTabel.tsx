@@ -441,7 +441,7 @@ export default function OTCTabel({
                   </div>
                 </>
               )}
-              {router.pathname !== "/" && !router.pathname.includes("/otc") && (
+              {router.pathname !== "/" && !router.pathname.includes("/p2p") && (
                 <div ref={nextRef} />
               )}
             </div>

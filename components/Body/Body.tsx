@@ -74,7 +74,7 @@ export default function Body() {
 
       <div className={cx("OTC_top")}>
         <div className={cx("OTC_top_wrap")}>
-          <span>OTC</span>
+          <span>P2P</span>
         </div>
       </div>
       <div className={cx("OTC_container")}>
