@@ -45,7 +45,7 @@ export default function OTC({
   isChat = false,
   setTotalOffer,
 }: Props) {
-  const btns = ["구매", "판매", "USDT", "BTC"];
+  const btns = ["팝니다", "삽니다", "USDT", "BTC"];
   const [take] = useState(10);
   const [skip, setSkip] = useState(0);
   const [current, setCurrent] = useState(1);
@@ -276,12 +276,12 @@ export default function OTC({
                               key={btn}
                               onClick={() =>
                                 onClickHandle(
-                                  btn === "구매" ? "buy" : "sell",
+                                  btn === "팝니다" ? "buy" : "sell",
                                   "kind"
                                 )
                               }
                               className={cx(
-                                btn === "구매"
+                                btn === "팝니다"
                                   ? kind === "buy"
                                     ? `able_buy`
                                     : "default_kind"
