@@ -14,7 +14,7 @@ type Props = {
 };
 
 export default function CertificationStateBar({ path }: Props) {
-  const arrs = ["휴대폰 인증", "이메일 인증", "신분증 인증", "주소 인증"];
+  const arrs = ["휴대폰 인증", "이메일 인증", "신분증 인증"];
 
   const [level, setLevel] = useState(1);
 
@@ -64,7 +64,7 @@ export default function CertificationStateBar({ path }: Props) {
                 )}
               </div>
             </div>
-            {idx !== 3 && <div className={cx("line")} />}
+            {idx !== 2 && <div className={cx("line")} />}
           </div>
         ))}
       </div>

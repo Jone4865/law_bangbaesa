@@ -3,36 +3,21 @@ import { gql } from "../generated";
 export const FIND_MANY_MARKER_PRICE = gql(/* GraphQL */ `
   query findManyMarketPrice {
     findManyMarketPrice {
-      binance {
+      upbitMarkets {
         code
         timestamp
-        openPrice
-        highPrice
-        lowPrice
-        closePrice
-        tradeTime
-        changePrice
-        changeRate
+        krwPrice
+        usdPrice
       }
-      kimchi {
+      binanceMarkets {
         code
         timestamp
-        openPrice
-        highPrice
-        lowPrice
-        closePrice
-        tradeTime
-        changePrice
-        changeRate
+        krwPrice
+        usdPrice
       }
-      upbit {
+      kimchiMarkets {
         code
         timestamp
-        openPrice
-        highPrice
-        lowPrice
-        closePrice
-        tradeTime
         changePrice
         changeRate
       }

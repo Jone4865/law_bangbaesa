@@ -83,24 +83,6 @@ export default function PassPort() {
 
   return (
     <div className={cx("container")}>
-      <div className={cx("image_wrap")}>
-        <div className={cx("image")}>
-          <div className={cx("title")}>전면</div>
-          <ImageUpload
-            onUpload={handleUpload}
-            kind={"front"}
-            defaultImageUrl="/img/level3/pass_port/front.png"
-          />
-        </div>
-        <div className={cx("image")}>
-          <div className={cx("title")}>셀카</div>
-          <ImageUpload
-            onUpload={handleUpload}
-            kind={"selfie"}
-            defaultImageUrl="/img/level3/pass_port/selfie.png"
-          />
-        </div>
-      </div>
       <div className={cx("title")}>이름</div>
       <input
         className={cx("input")}
@@ -139,6 +121,24 @@ export default function PassPort() {
       <button className={cx("btn")} onClick={onClickHandle}>
         신분증 인증
       </button>
+      <div className={cx("image_wrap")}>
+        <div className={cx("image")}>
+          <div className={cx("title")}>전면</div>
+          <ImageUpload
+            onUpload={handleUpload}
+            kind={"front"}
+            defaultImageUrl="/img/level3/pass_port/front.png"
+          />
+        </div>
+        <div className={cx("image")}>
+          <div className={cx("title")}>셀카</div>
+          <ImageUpload
+            onUpload={handleUpload}
+            kind={"selfie"}
+            defaultImageUrl="/img/level3/pass_port/selfie.png"
+          />
+        </div>
+      </div>
     </div>
   );
 }

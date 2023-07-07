@@ -81,32 +81,6 @@ export default function DriverLicense() {
 
   return (
     <div className={cx("container")}>
-      <div className={cx("image_wrap")}>
-        <div className={cx("image")}>
-          <div className={cx("title")}>전면</div>
-          <ImageUpload
-            onUpload={handleUpload}
-            kind={"front"}
-            defaultImageUrl="/img/level3/drive_card/front.png"
-          />
-        </div>
-        <div className={cx("image")}>
-          <div className={cx("title")}>후면</div>
-          <ImageUpload
-            onUpload={handleUpload}
-            kind={"back"}
-            defaultImageUrl="/img/level3/drive_card/back.png"
-          />
-        </div>
-        <div className={cx("image")}>
-          <div className={cx("title")}>셀카</div>
-          <ImageUpload
-            onUpload={handleUpload}
-            kind={"selfie"}
-            defaultImageUrl="/img/level3/drive_card/selfie.png"
-          />
-        </div>
-      </div>
       <div className={cx("title")}>이름</div>
       <input
         className={cx("input")}
@@ -145,6 +119,32 @@ export default function DriverLicense() {
       <button className={cx("btn")} onClick={onClickHandle}>
         신분증 인증
       </button>
+      <div className={cx("image_wrap")}>
+        <div className={cx("image")}>
+          <div className={cx("title")}>전면</div>
+          <ImageUpload
+            onUpload={handleUpload}
+            kind={"front"}
+            defaultImageUrl="/img/level3/drive_card/front.png"
+          />
+        </div>
+        <div className={cx("image")}>
+          <div className={cx("title")}>후면</div>
+          <ImageUpload
+            onUpload={handleUpload}
+            kind={"back"}
+            defaultImageUrl="/img/level3/drive_card/back.png"
+          />
+        </div>
+        <div className={cx("image")}>
+          <div className={cx("title")}>셀카</div>
+          <ImageUpload
+            onUpload={handleUpload}
+            kind={"selfie"}
+            defaultImageUrl="/img/level3/drive_card/selfie.png"
+          />
+        </div>
+      </div>
     </div>
   );
 }

@@ -10,7 +10,7 @@ type Props = {
 };
 
 export default function MyLevel({ level }: Props) {
-  const titleArr = ["전화번호", "이메일주소", "신분증", "주소"];
+  const titleArr = ["전화번호", "이메일주소", "신분증"];
   const contentArr = [
     <div key={1}></div>,
     <div key={2} className={cx("content")}>

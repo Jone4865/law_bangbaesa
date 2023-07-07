@@ -80,6 +80,30 @@ export default function IdCard() {
 
   return (
     <div className={cx("container")}>
+      <div className={cx("title")}>이름</div>
+      <input
+        className={cx("input")}
+        placeholder="홍길동"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+      />
+      <div className={cx("title")}>주민등록번호</div>
+      <input
+        className={cx("input")}
+        placeholder="9011121234566"
+        value={number}
+        onChange={(e) => setNumber(e.target.value)}
+      />
+      <div className={cx("title")}>발급일</div>
+      <input
+        className={cx("input")}
+        placeholder="20000303"
+        value={date}
+        onChange={(e) => setDate(e.target.value)}
+      />
+      <button className={cx("btn")} onClick={onClickHandle}>
+        신분증 인증
+      </button>
       <div className={cx("image_wrap")}>
         <div className={cx("image")}>
           <div className={cx("title")}>전면</div>
@@ -106,30 +130,6 @@ export default function IdCard() {
           />
         </div>
       </div>
-      <div className={cx("title")}>이름</div>
-      <input
-        className={cx("input")}
-        placeholder="홍길동"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-      />
-      <div className={cx("title")}>주민등록번호</div>
-      <input
-        className={cx("input")}
-        placeholder="9011121234566"
-        value={number}
-        onChange={(e) => setNumber(e.target.value)}
-      />
-      <div className={cx("title")}>발급일</div>
-      <input
-        className={cx("input")}
-        placeholder="20000303"
-        value={date}
-        onChange={(e) => setDate(e.target.value)}
-      />
-      <button className={cx("btn")} onClick={onClickHandle}>
-        신분증 인증
-      </button>
     </div>
   );
 }

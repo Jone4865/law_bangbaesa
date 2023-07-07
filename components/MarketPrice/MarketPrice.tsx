@@ -10,20 +10,24 @@ const cx = className.bind(styles);
 
 export default function MarketPrice() {
   const [binanceData, setBinanceData] =
-    useState<FindManyMarketPriceQuery["findManyMarketPrice"]["binance"]>();
+    useState<
+      FindManyMarketPriceQuery["findManyMarketPrice"]["binanceMarkets"]
+    >();
   const [kimchiData, setKimchiData] =
-    useState<FindManyMarketPriceQuery["findManyMarketPrice"]["kimchi"]>();
+    useState<
+      FindManyMarketPriceQuery["findManyMarketPrice"]["kimchiMarkets"]
+    >();
   const [upbitData, setUpbitData] =
-    useState<FindManyMarketPriceQuery["findManyMarketPrice"]["upbit"]>();
+    useState<FindManyMarketPriceQuery["findManyMarketPrice"]["upbitMarkets"]>();
 
   const [findManyMarketPrice] = useLazyQuery<FindManyMarketPriceQuery>(
     FIND_MANY_MARKER_PRICE,
     {
       onError: (e) => toast.error(e.message ?? `${e}`),
       onCompleted(data) {
-        setBinanceData(data.findManyMarketPrice.binance);
-        setKimchiData(data.findManyMarketPrice.kimchi);
-        setUpbitData(data.findManyMarketPrice.upbit);
+        setBinanceData(data.findManyMarketPrice.binanceMarkets);
+        setKimchiData(data.findManyMarketPrice.kimchiMarkets);
+        setUpbitData(data.findManyMarketPrice.upbitMarkets);
       },
     }
   );

@@ -12,14 +12,16 @@ const cx = className.bind(styles);
 
 export default function Marquee() {
   const [data, setData] =
-    useState<FindManyMarketPriceQuery["findManyMarketPrice"]["binance"]>();
+    useState<
+      FindManyMarketPriceQuery["findManyMarketPrice"]["binanceMarkets"]
+    >();
 
   const [findManyMarketPrice] = useLazyQuery<FindManyMarketPriceQuery>(
     FIND_MANY_MARKER_PRICE,
     {
       onError: (e) => toast.error(e.message ?? `${e}`),
       onCompleted(data) {
-        setData(data.findManyMarketPrice.binance);
+        setData(data.findManyMarketPrice.binanceMarkets);
       },
     }
   );
@@ -45,21 +47,25 @@ export default function Marquee() {
               </div>
               <div>1 {v.code + " = "}</div>
               <div className={cx("price")}>
-                {v.closePrice.toLocaleString()} KRW
+                {v.krwPrice.toLocaleString()} KRW /
               </div>
-              <div className={cx("bottom")}>
+              <div className={cx("price")}>
+                {" $ "}
+                {v.usdPrice.toLocaleString()}
+              </div>
+              {/* <div className={cx("bottom")}>
                 (
                 <div className={cx("arrow_wrap")}>
-                  {v?.changeRate !== 0 && (
+                  {v?.krwPrice !== 0 && (
                     <div
                       className={cx(
-                        v?.changeRate > 0 ? "up_icon_wrap" : "down_icon_wrap"
+                        v?.krwPrice > 0 ? "up_icon_wrap" : "down_icon_wrap"
                       )}
                     >
                       <Image
                         alt="업다운 이미지"
                         src={`/img/marquee/${
-                          v?.changeRate > 0 ? "up" : "down"
+                          v?.krwPrice > 0 ? "up" : "down"
                         }.png`}
                         fill
                         priority
@@ -69,20 +75,20 @@ export default function Marquee() {
                   )}
                   <span
                     className={cx(
-                      v?.changeRate !== 0
-                        ? v?.changeRate > 0
+                      v?.krwPrice !== 0
+                        ? v?.krwPrice > 0
                           ? "orange"
                           : "blue"
                         : null
                     )}
                   >
-                    {v?.changeRate === 0
+                    {v?.krwPrice === 0
                       ? "-"
-                      : v?.changeRate?.toString().replace("-", "")}
+                      : v?.krwPrice?.toString().replace("-", "")}
                   </span>
                 </div>
                 )
-              </div>
+              </div> */}
             </div>
           ))}
       </FastMarquee>

@@ -282,26 +282,29 @@
 
 .middle_inputs {
   display: flex;
-  width: calc(50% - 10px);
   align-items: center;
-  justify-content: center;
-  padding: 15px 20px;
-  border-radius: 10px;
-  border: solid 1px #dcdcdc;
-  font-size: 18px;
-  white-space: nowrap;
   input {
-    height: 100%;
-    border: none;
-    outline: none;
-    padding-left: 20px;
-  }
-  @include view("mobile") {
-    font-size: 16px;
+    height: 50px;
+    border-radius: 12px;
+    border: solid 1px #dcdcdc;
+    padding: 15px 20px;
+    margin-right: 7px;
   }
 }
 
 .space {
   display: flex;
   justify-content: space-between;
+}
+
+.essential {
+  color: red;
+  font-size: 15px;
+}
+
+.essential_comment {
+  font-size: 13px;
+  color: red;
+  text-align: center;
+  margin-left: 20px;
 }

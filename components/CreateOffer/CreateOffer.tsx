@@ -67,7 +67,7 @@ export default function CreateOffer() {
     if (price === undefined || price > 1000001) {
       toast.warn(
         <div>
-          가격은 1 ~ 1,000,000KRW
+          가격은 1 ~ 99,999,999KRW
           <br />
           사이로 등록가능합니다
         </div>,
@@ -130,9 +130,9 @@ export default function CreateOffer() {
   }, []);
 
   useEffect(() => {
-    if (price && price > 1000000) {
-      toast.warn("가격은 1,000,000원 까지 입력가능합니다", { toastId: 0 });
-      setPrice(1000000);
+    if (price && price > 99999999) {
+      toast.warn("가격은 99,999,999원 까지 입력가능합니다", { toastId: 0 });
+      setPrice(99999999);
     }
     if (time && time > 90) {
       toast.warn("응답 속도는 90분까지 입력가능합니다");
@@ -169,7 +169,9 @@ export default function CreateOffer() {
           </div>
         </div>
         <div className={cx("part_wrap")}>
-          <div className={cx("sub_title")}>암호화폐를 선택하세요</div>
+          <div className={cx("sub_title")}>
+            암호화폐를 선택하세요 <span className={cx("essential")}>*</span>
+          </div>
           <div className={cx("top_btns")}>
             {coinArr.map((v, idx) => (
               <div
@@ -192,7 +194,9 @@ export default function CreateOffer() {
           </div>
         </div>
         <div className={cx("part_wrap")}>
-          <div className={cx("sub_title")}>거래수단</div>
+          <div className={cx("sub_title")}>
+            거래수단 <span className={cx("essential")}>*</span>
+          </div>
           <div className={cx("align")}>
             <input
               className={cx("check")}
@@ -204,7 +208,9 @@ export default function CreateOffer() {
           </div>
         </div>
         <div className={cx("part_wrap")}>
-          <div className={cx("sub_title")}>지역</div>
+          <div className={cx("sub_title")}>
+            지역 <span className={cx("essential")}>*</span>
+          </div>
           <div className={cx("location_wrap")}>
             {city?.map((v) => (
               <div key={v.id} style={{ display: "flex" }}>
@@ -220,7 +226,12 @@ export default function CreateOffer() {
           </div>
         </div>
         <div className={cx("part_wrap")}>
-          <div className={cx("sub_title")}>가격</div>
+          <div className={cx("sub_title")}>
+            가격 <span className={cx("essential")}>*</span>
+            <span className={cx("essential_comment")}>
+              * 가격은 1 ~ 99,999,999원 까지 입력 가능합니다.
+            </span>
+          </div>
           <div className={cx("price_part_wrap")}>
             <input
               className={cx("input")}
@@ -258,31 +269,51 @@ export default function CreateOffer() {
           </div>
         </div>
         <div className={cx("part_wrap")}>
-          <div className={cx("sub_title")}>거래량</div>
+          <div className={cx("sub_title")}>
+            거래량 <span className={cx("essential")}>*</span>
+          </div>
           <div className={cx("space")}>
-            <div className={cx("middle_inputs")}>
-              <div>최소</div>
-              <input
-                value={min ? min.toLocaleString() : ""}
-                placeholder="입력하세요.."
-                onChange={(e) => setMin(+e.target.value.replace(/,/g, ""))}
-              />
-              <div>KRW</div>
+            <div>
+              <div>
+                최소
+                <span className={cx("essential_comment")}>
+                  * 최소금액은 1원 이상 입력 해야합니다.
+                </span>
+              </div>
+              <div className={cx("middle_inputs")}>
+                <input
+                  value={min ? min.toLocaleString() : ""}
+                  placeholder="입력하세요.."
+                  onChange={(e) => setMin(+e.target.value.replace(/,/g, ""))}
+                />
+                <div>KRW</div>
+              </div>
             </div>
-            <div className={cx("middle_inputs")}>
-              <div>최대</div>
-              <input
-                className={cx("input")}
-                placeholder="입력하세요.."
-                value={max ? max.toLocaleString() : ""}
-                onChange={(e) => setMax(+e.target.value.replace(/,/g, ""))}
-              />
-              <div>KRW</div>
+            <div>
+              <div>
+                최대
+                <span className={cx("essential_comment")}>
+                  * 최대금액은 최소금액 보다 커야 합니다.
+                </span>
+              </div>
+              <div className={cx("middle_inputs")}>
+                <input
+                  placeholder="입력하세요.."
+                  value={max ? max.toLocaleString() : ""}
+                  onChange={(e) => setMax(+e.target.value.replace(/,/g, ""))}
+                />
+                <div>KRW</div>
+              </div>
             </div>
           </div>
         </div>
         <div className={cx("part_wrap")}>
-          <div className={cx("sub_title")}>평균 응답 속도</div>
+          <div className={cx("sub_title")}>
+            평균 응답 속도 <span className={cx("essential")}>*</span>{" "}
+            <span className={cx("essential_comment")}>
+              * 1~90분 까지 입력가능합니다.
+            </span>
+          </div>
           <div className={cx("price_part_wrap")}>
             <input
               className={cx("input")}
@@ -321,7 +352,9 @@ export default function CreateOffer() {
             </div>
           </div>
         </div>
-        <div className={cx("sub_title")}>오퍼 조건</div>
+        <div className={cx("sub_title")}>
+          오퍼 조건 <span className={cx("essential")}>(선택)</span>
+        </div>
         <textarea
           className={cx("text_area")}
           placeholder="여기에 조건을 입력하세요..."
