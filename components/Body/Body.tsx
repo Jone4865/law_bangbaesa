@@ -115,7 +115,12 @@ export default function Body() {
                   </div>
                 ))}
               </div>
-              <div className={cx("more_coin")}>다른 코인 보기</div>
+              <div
+                className={cx("more_coin")}
+                onClick={() => router.push("/p2p/buy")}
+              >
+                다른 코인 보기
+              </div>
             </div>
             <OTC
               partKind={kind}
@@ -143,7 +148,12 @@ export default function Body() {
                   </div>
                 ))}
               </div>
-              <div className={cx("more_coin")}>다른 코인 보기</div>
+              <div
+                className={cx("more_coin")}
+                onClick={() => router.push("/p2p/sell")}
+              >
+                다른 코인 보기
+              </div>
             </div>
             <OTC
               partKind={OfferAction.Sell}
