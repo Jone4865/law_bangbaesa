@@ -113,7 +113,7 @@ export default function OTC({
         onCompleted(data) {
           const mylevel = data.findMyInfoByUser.level;
           if (mylevel < 3) {
-            router.push(`certification/level${mylevel + 1}`);
+            router.push(`/certification/level${mylevel + 1}`);
             toast.warn("다음단계의 인증이 필요합니다");
           } else {
             router.push("/create-offer");

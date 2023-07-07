@@ -67,14 +67,16 @@ export default function DriverLicense() {
     });
 
   useEffect(() => {
-    toast.warn(
-      <div>
-        신분증을 확인중입니다.
-        <br />
-        잠시만 기다려주세요.
-      </div>,
-      { toastId: 0 }
-    );
+    if (loading) {
+      toast.warn(
+        <div>
+          신분증을 확인중입니다.
+          <br />
+          잠시만 기다려주세요.
+        </div>,
+        { toastId: 0 }
+      );
+    }
   }, [loading]);
 
   return (
