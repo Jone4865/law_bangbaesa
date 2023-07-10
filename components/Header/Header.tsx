@@ -48,7 +48,7 @@ export default function Header({ setModalState }: Props) {
       setLogin(!login);
       setLogin(false);
       router.replace("/");
-      toast.success("로그아웃 되었습니다.");
+      toast.success("로그아웃 되었습니다.", { toastId: 0 });
     },
     fetchPolicy: "no-cache",
   });

@@ -51,7 +51,7 @@ export default function Mypage() {
     onError: (e) => toast.error(e.message ?? `${e}`),
     onCompleted(_data) {
       router.replace("/");
-      toast.success("로그아웃 되었습니다.");
+      toast.success("로그아웃 되었습니다.", { toastId: 0 });
     },
     fetchPolicy: "no-cache",
   });
