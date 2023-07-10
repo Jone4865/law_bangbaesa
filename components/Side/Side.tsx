@@ -25,11 +25,11 @@ function Side({ modal, setModalState }: Props) {
   const [login, setLogin] = useState(false);
 
   const Btns = [
-    { name: "홈", path: "/" },
-    { name: "P2P", path: "/p2p/buy" },
-    { name: "상품권", path: "/gift-card" },
-    { name: "고객센터", path: "/notice" },
-    { name: "회사소개", path: "/introduction" },
+    { name: "홈", path: "/", index: "/" },
+    { name: "P2P", path: "/p2p/buy", index: "/p2p" },
+    { name: "상품권", path: "/gift-card", index: "/gift-card" },
+    { name: "고객센터", path: "/notice", index: "/notice" },
+    { name: "회사소개", path: "/introduction", index: "/introduction" },
   ];
 
   const bottomBtns = [
@@ -114,10 +114,10 @@ function Side({ modal, setModalState }: Props) {
               className={cx(
                 "side_hover",
                 btn.path !== "/"
-                  ? router.pathname.includes(btn.path) && "orange"
+                  ? router.pathname.includes(btn.index) && "orange"
                   : router.pathname === btn.path && "orange",
                 btn.name === "고객센터" &&
-                  (router.pathname.includes(btn.path) ||
+                  (router.pathname.includes(btn.index) ||
                     router.pathname.includes("/inquiry")) &&
                   "orange"
               )}
