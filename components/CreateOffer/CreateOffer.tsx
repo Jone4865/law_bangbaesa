@@ -17,7 +17,7 @@ const cx = className.bind(styles);
 
 export default function CreateOffer() {
   const router = useRouter();
-  const [coin, setCoin] = useState<CoinKind[0]>("Btc");
+  const [coin, setCoin] = useState<CoinKind[0]>(CoinKind.Btc);
   const [kind, setKind] = useState("판매");
   const [location, setLocation] = useState({ id: 1, name: "서울시" });
   const [price, setPrice] = useState<number | undefined>(undefined);

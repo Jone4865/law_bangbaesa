@@ -246,11 +246,6 @@ export default function OTCTabel({
                       nowAble === "like" ||
                       router.pathname === "/") && (
                       <div className={cx("right_btns")}>
-                        {v.reservationStatus === ReservationStatus.Progress &&
-                          v.transactionStatus ===
-                            TransactionStatus.Progress && (
-                            <div className={cx("reservation_btn")}>예약중</div>
-                          )}
                         <button
                           disabled={
                             v.identity === cookies.nickName ||
@@ -261,7 +256,11 @@ export default function OTCTabel({
                           )}
                           onClick={() => enterChatHandle(v.id, v.identity)}
                         >
-                          채팅하기
+                          {v.reservationStatus === ReservationStatus.Progress
+                            ? v.transactionStatus === TransactionStatus.Progress
+                              ? "예약중"
+                              : "거래완료"
+                            : "채팅하기"}
                         </button>
                       </div>
                     )}
@@ -291,11 +290,6 @@ export default function OTCTabel({
                         최근 접속 : {convertConnectionDate(v.connectionDate)}
                       </div>
                       <div className={cx("right_btns")}>
-                        {v.reservationStatus === ReservationStatus.Progress &&
-                          v.transactionStatus ===
-                            TransactionStatus.Progress && (
-                            <div className={cx("reservation_btn")}>예약중</div>
-                          )}
                         <button
                           disabled={
                             v.identity === cookies.nickName ||
@@ -306,7 +300,11 @@ export default function OTCTabel({
                           )}
                           onClick={() => enterChatHandle(v.id, v.identity)}
                         >
-                          채팅하기
+                          {v.reservationStatus === ReservationStatus.Progress
+                            ? v.transactionStatus === TransactionStatus.Progress
+                              ? "예약중"
+                              : "거래완료"
+                            : "채팅하기"}
                         </button>
                       </div>
                     </div>
