@@ -222,7 +222,7 @@ export default function Mypage() {
                         offerState === "SELL" && "toggle--checked"
                       )}
                     >
-                      {offerState === "BUY" ? "구매" : "판매"}
+                      {offerState === OfferAction.Buy ? "구매" : "판매"}
                     </div>
                     <div>구매</div>
                     <div>판매</div>

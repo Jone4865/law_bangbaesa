@@ -342,7 +342,16 @@
   display: flex;
   justify-content: space-between;
   margin-bottom: 30px;
+  @include view("very_small") {
+    flex-direction: column;
+    row-gap: 20px;
+  }
+  @include view("small") {
+    flex-direction: column;
+    row-gap: 20px;
+  }
   @include view("mobile") {
+    flex-direction: column;
     margin-bottom: 20px;
     width: 100%;
   }
@@ -388,58 +397,50 @@
 }
 
 .coin_btns {
-  position: relative;
-  margin-left: 20px;
-  width: 214px;
-  height: 50px;
-  font-size: 18px;
-  color: #777;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  display: flex;
   background-color: #ebebeb;
+  width: 214px;
   align-items: center;
-  justify-content: center;
-  text-align: center;
   border-radius: 12px;
-  position: relative;
-  cursor: pointer;
-
+  height: 50px;
   @include view("mobile") {
-    font-size: 16px;
-    width: 172px;
-    height: 38px;
+    width: 100%;
+    margin-top: 10px;
   }
 }
 
-.able_orange {
-  width: 100%;
+.able_buy_btn {
   height: 100%;
-  background-color: #ff7401;
-  border-radius: 12px;
-  color: #fff;
   display: flex;
   justify-content: center;
+  // width: 25%;
+  width: 50%;
   align-items: center;
-}
-
-.able_blue {
-  width: 100%;
-  height: 100%;
   background-color: #3561c7;
   border-radius: 12px;
   color: #fff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
-.default_coin {
-  width: 100%;
+.able_sell_btn {
   height: 100%;
   display: flex;
   justify-content: center;
+  // width: 25%;
+  width: 50%;
   align-items: center;
-  cursor: pointer;
+  color: #fff;
+  background-color: #ff7401;
+  border-radius: 12px;
+}
+
+.default_btn {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  // width: 25%;
+  width: 50%;
+  align-items: center;
+  color: #777;
 }
 
 .create_orange {
@@ -499,6 +500,12 @@
 }
 
 .non_mobile {
+  @include view("very_small") {
+    width: 100%;
+  }
+  @include view("small") {
+    width: 100%;
+  }
   @include view("mobile") {
     display: none;
   }

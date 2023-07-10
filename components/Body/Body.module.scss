@@ -78,30 +78,6 @@
   }
 }
 
-.coin_btns {
-  position: relative;
-  margin-left: 20px;
-  width: 214px;
-  height: 50px;
-  font-size: 18px;
-  color: #777;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  background-color: #ebebeb;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  border-radius: 12px;
-  position: relative;
-  cursor: pointer;
-
-  @include view("mobile") {
-    font-size: 16px;
-    width: 172px;
-    height: 38px;
-  }
-}
-
 .able_coin {
   width: 100%;
   height: 100%;
@@ -175,7 +151,7 @@
   margin-right: 30px;
   @include view("mobile") {
     font-size: 20px;
-    margin-right: 20px;
+    margin-right: 13px;
   }
 }
 
@@ -185,7 +161,7 @@
   margin-right: 30px;
   @include view("mobile") {
     font-size: 20px;
-    margin-right: 20px;
+    margin-right: 13px;
   }
 }
 
@@ -199,64 +175,65 @@
   }
   @include view("mobile") {
     margin-bottom: 20px;
+    flex-direction: column;
+    align-items: flex-start;
   }
 }
 
-.toggle_wrap {
-  width: 240px;
+.coin_btns {
+  margin-left: 20px;
+  width: 200px;
   height: 50px;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  background-color: #ebebeb;
-  border-radius: 12px;
-  color: #777;
   font-size: 18px;
+  color: #777;
+  display: flex;
+  background-color: #ebebeb;
+  align-items: center;
+  text-align: center;
+  border-radius: 12px;
+  position: relative;
+  cursor: pointer;
 
   @include view("mobile") {
     font-size: 16px;
-    height: 38px;
     width: 250px;
+    height: 38px;
+    align-items: flex-start;
+    margin: 20px auto 0 0;
   }
-  @include view("pc") {
-    margin: 0 30px;
-  }
 }
 
-.toggle_default {
+.able_sell_btn {
+  background-color: #ff7401;
+  height: 100%;
+  // width: 25%;
+  width: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 12px;
-  cursor: pointer;
-}
-
-.toggle--1 {
-  transition: 0.5s;
   color: #fff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   border-radius: 12px;
 }
 
-.toggle--2 {
-  left: 100px;
-  transition: 0.5s;
-  color: #fff;
+.able_buy_btn {
+  background-color: #3561c7;
+  height: 100%;
+  // width: 25%;
+  width: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
+  color: #fff;
   border-radius: 12px;
 }
 
-.toggle--3 {
-  left: 200px;
-  transition: 0.5s;
-  color: #fff;
+.default_btn {
+  // width: 25%;
+  width: 50%;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 12px;
 }
 
 .pc_orange {
@@ -354,4 +331,8 @@
   color: blue;
   text-decoration: underline;
   font-size: 15px;
+  @include view("mobile") {
+    font-size: 12px;
+    margin: auto 0 0 auto;
+  }
 }

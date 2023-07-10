@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import Image from "next/image";
 import { FIND_MANY_CITY } from "../../src/graphql/query/findManyCity";
 import {
+  CoinKind,
   CreateOfferByUserMutation,
   FindManyCityQuery,
 } from "src/graphql/generated/graphql";
@@ -16,7 +17,7 @@ const cx = className.bind(styles);
 
 export default function CreateOffer() {
   const router = useRouter();
-  const [coin, setCoin] = useState("비트코인");
+  const [coin, setCoin] = useState<CoinKind[0]>("Btc");
   const [kind, setKind] = useState("판매");
   const [location, setLocation] = useState({ id: 1, name: "서울시" });
   const [price, setPrice] = useState<number | undefined>(undefined);
@@ -26,7 +27,12 @@ export default function CreateOffer() {
   const [text, setText] = useState("");
   const [city, setCity] = useState<FindManyCityQuery["findManyCity"]>();
 
-  const coinArr = ["비트코인", "테더"];
+  const coinArr = [
+    { name: "비트코인", coinKind: CoinKind.Btc },
+    { name: "테더", coinKind: CoinKind.Usdt },
+    // { name: "이더리움", coinKind: CoinKind.Eth },
+    // { name: "트론", coinKind: CoinKind.Trx },
+  ];
   const kindArr = ["판매", "구매"];
 
   const handleIncrement = (key: "price" | "time") => {
@@ -90,7 +96,7 @@ export default function CreateOffer() {
       if (time && time <= 90) {
         createOfferByUser({
           variables: {
-            coinKind: coin === "비트코인" ? "BTC" : "USDT",
+            coinKind: coin,
             offerAction: kind === "판매" ? "SELL" : "BUY",
             transactionMethod: "DIRECT",
             cityId: location.id,
@@ -157,10 +163,11 @@ export default function CreateOffer() {
                 />
                 <div>
                   <div>
-                    {coin} {v}
+                    {coinArr.find((v) => v.coinKind === coin)?.name} {v}
                   </div>
                   <div className={cx("sub_text")}>
-                    {coin} {kindArr.filter((arr) => arr !== v)} 페이지에 오퍼가
+                    {coinArr.find((v) => v.coinKind === coin)?.name}{" "}
+                    {kindArr.filter((arr) => arr !== v)} 페이지에 오퍼가
                     게시됩니다
                   </div>
                 </div>
@@ -170,46 +177,34 @@ export default function CreateOffer() {
         </div>
         <div className={cx("part_wrap")}>
           <div className={cx("sub_title")}>
-            암호화폐를 선택하세요 <span className={cx("essential")}>*</span>
+            암호화폐를 선택하세요
+            {/* <span className={cx("essential")}>*</span> */}
           </div>
           <div className={cx("top_btns")}>
-            {coinArr.map((v, idx) => (
+            {coinArr.map((v) => (
               <div
-                key={v}
-                className={cx("top_btn", v === coin && "able_top_btn")}
-                onClick={() => setCoin(v)}
+                key={v.coinKind}
+                className={cx("top_btn", v.coinKind === coin && "able_top_btn")}
+                onClick={() => setCoin(v.coinKind)}
               >
                 <div className={cx("img_wrap")}>
                   <Image
                     alt="코인 이미지"
-                    src={`/img/otc/${idx === 0 ? "btc" : "usdt"}.png`}
+                    src={`/img/marquee/${v.coinKind.toLowerCase()}.png`}
                     fill
                     priority
                     quality={100}
                   />
                 </div>
-                <div>{v}</div>
+                <div>{v.name}</div>
               </div>
             ))}
           </div>
         </div>
         <div className={cx("part_wrap")}>
           <div className={cx("sub_title")}>
-            거래수단 <span className={cx("essential")}>*</span>
-          </div>
-          <div className={cx("align")}>
-            <input
-              className={cx("check")}
-              checked
-              onChange={() => ""}
-              type="checkbox"
-            />
-            <div>직접</div>
-          </div>
-        </div>
-        <div className={cx("part_wrap")}>
-          <div className={cx("sub_title")}>
-            지역 <span className={cx("essential")}>*</span>
+            지역
+            {/* <span className={cx("essential")}>*</span> */}
           </div>
           <div className={cx("location_wrap")}>
             {city?.map((v) => (
@@ -227,10 +222,11 @@ export default function CreateOffer() {
         </div>
         <div className={cx("part_wrap")}>
           <div className={cx("sub_title")}>
-            가격 <span className={cx("essential")}>*</span>
+            가격
+            {/* <span className={cx("essential")}>*</span>
             <span className={cx("essential_comment")}>
               * 가격은 1 ~ 99,999,999원 까지 입력 가능합니다.
-            </span>
+            </span> */}
           </div>
           <div className={cx("price_part_wrap")}>
             <input
@@ -270,15 +266,16 @@ export default function CreateOffer() {
         </div>
         <div className={cx("part_wrap")}>
           <div className={cx("sub_title")}>
-            거래량 <span className={cx("essential")}>*</span>
+            거래량
+            {/* <span className={cx("essential")}>*</span> */}
           </div>
           <div className={cx("space")}>
             <div>
               <div>
                 최소
-                <span className={cx("essential_comment")}>
+                {/* <span className={cx("essential_comment")}>
                   * 최소금액은 1원 이상 입력 해야합니다.
-                </span>
+                </span> */}
               </div>
               <div className={cx("middle_inputs")}>
                 <input
@@ -292,9 +289,9 @@ export default function CreateOffer() {
             <div>
               <div>
                 최대
-                <span className={cx("essential_comment")}>
+                {/* <span className={cx("essential_comment")}>
                   * 최대금액은 최소금액 보다 커야 합니다.
-                </span>
+                </span> */}
               </div>
               <div className={cx("middle_inputs")}>
                 <input
@@ -309,10 +306,11 @@ export default function CreateOffer() {
         </div>
         <div className={cx("part_wrap")}>
           <div className={cx("sub_title")}>
-            평균 응답 속도 <span className={cx("essential")}>*</span>{" "}
+            평균 응답 속도
+            {/* <span className={cx("essential")}>*</span>{" "}
             <span className={cx("essential_comment")}>
               * 1~90분 까지 입력가능합니다.
-            </span>
+            </span> */}
           </div>
           <div className={cx("price_part_wrap")}>
             <input
@@ -353,7 +351,8 @@ export default function CreateOffer() {
           </div>
         </div>
         <div className={cx("sub_title")}>
-          오퍼 조건 <span className={cx("essential")}>(선택)</span>
+          오퍼 조건
+          {/* <span className={cx("essential")}>(선택)</span> */}
         </div>
         <textarea
           className={cx("text_area")}

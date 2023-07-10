@@ -24,6 +24,7 @@ export default function Body() {
     { name: "USDT", code: CoinKind.Usdt },
     { name: "BTC", code: CoinKind.Btc },
     // { name: "ETH", code: CoinKind.Eth },
+    // { name: "TRX", code: CoinKind.Trx },
   ];
   const [buyCoinKind, setBuyCoinKind] = useState<CoinKind>(CoinKind.Usdt);
   const [sellCoinKind, setSellCoinKind] = useState<CoinKind>(CoinKind.Usdt);
@@ -100,22 +101,22 @@ export default function Body() {
                   삽니다
                 </div>
               </div>
-              <div className={cx("toggle_wrap")}>
+              <div className={cx("coin_btns")}>
                 {coins.map((v, idx) => (
                   <div
                     className={cx(
                       buyCoinKind === v.code
-                        ? `toggle--${idx + 1}`
-                        : "toggle_default",
-                      buyCoinKind === v.code && "pc_orange",
-                      kind === OfferAction.Sell &&
-                        buyCoinKind === v.code &&
-                        "mobile_blue"
+                        ? isMiddle
+                          ? "able_sell_btn"
+                          : kind !== OfferAction.Buy
+                          ? "able_buy_btn"
+                          : "able_sell_btn"
+                        : "default_btn"
                     )}
                     onClick={() => setBuyCoinKind(v.code)}
                     key={idx}
                   >
-                    {v.name}
+                    {v.code}
                   </div>
                 ))}
               </div>
@@ -136,19 +137,16 @@ export default function Body() {
           <div className={cx("only_pc")}>
             <div className={cx("only_pc_body")}>
               <div>삽니다</div>
-              <div className={cx("toggle_wrap")}>
+              <div className={cx("coin_btns")}>
                 {coins.map((v, idx) => (
                   <div
                     className={cx(
-                      sellCoinKind === v.code
-                        ? `toggle--${idx + 1}`
-                        : "toggle_default",
-                      sellCoinKind === v.code && "pc_blue"
+                      sellCoinKind === v.code ? "able_buy_btn" : "default_btn"
                     )}
                     onClick={() => setSellCoinKind(v.code)}
                     key={idx}
                   >
-                    {v.name}
+                    {v.code}
                   </div>
                 ))}
               </div>

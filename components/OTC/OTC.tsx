@@ -45,7 +45,13 @@ export default function OTC({
   isChat = false,
   setTotalOffer,
 }: Props) {
-  const btns = ["팝니다", "삽니다", "USDT", "BTC"];
+  const offerStateBtns = ["팝니다", "삽니다"];
+  const coinBtns = [
+    { name: "USDT", coinKind: CoinKind.Usdt },
+    { name: "BTC", coinKind: CoinKind.Btc },
+    // { name: "ETH", coinKind: CoinKind.Eth },
+    // { name: "TRX", coinKind: CoinKind.Trx },
+  ];
   const [take] = useState(10);
   const [skip, setSkip] = useState(0);
   const [current, setCurrent] = useState(1);
@@ -145,7 +151,7 @@ export default function OTC({
             : kind === "buy"
             ? OfferAction.Buy
             : OfferAction.Sell,
-          coinKind: v === "BTC" ? CoinKind.Btc : CoinKind.Usdt,
+          coinKind: v,
         },
       });
     }
@@ -220,7 +226,7 @@ export default function OTC({
           take,
           skip,
           offerAction: kind === "buy" ? OfferAction.Buy : OfferAction.Sell,
-          coinKind: coin === "BTC" ? CoinKind.Btc : CoinKind.Usdt,
+          coinKind: coin,
         },
       });
     }
@@ -269,56 +275,48 @@ export default function OTC({
                 <div className={cx("bottom_body")}>
                   {part === "otc" && (
                     <div className="flex">
-                      {btns.map(
-                        (btn, idx) =>
-                          idx < 2 && (
-                            <div
-                              key={btn}
-                              onClick={() =>
-                                onClickHandle(
-                                  btn === "팝니다" ? "buy" : "sell",
-                                  "kind"
-                                )
-                              }
-                              className={cx(
-                                btn === "팝니다"
-                                  ? kind === "buy"
-                                    ? `able_buy`
-                                    : "default_kind"
-                                  : kind === "sell"
-                                  ? "able_sell"
-                                  : "default_kind"
-                              )}
-                            >
-                              {btn}
-                            </div>
-                          )
-                      )}
+                      {offerStateBtns.map((btn, idx) => (
+                        <div
+                          key={btn}
+                          onClick={() =>
+                            onClickHandle(
+                              btn === "팝니다" ? "buy" : "sell",
+                              "kind"
+                            )
+                          }
+                          className={cx(
+                            btn === "팝니다"
+                              ? kind === "buy"
+                                ? `able_buy`
+                                : "default_kind"
+                              : kind === "sell"
+                              ? "able_sell"
+                              : "default_kind"
+                          )}
+                        >
+                          {btn}
+                        </div>
+                      ))}
                     </div>
                   )}
                   {part === "otc" && (
                     <>
-                      <div
-                        className={cx("coin_btns")}
-                        onClick={() =>
-                          onClickHandle(
-                            coin === "USDT" ? "BTC" : "USDT",
-                            "coin"
-                          )
-                        }
-                      >
-                        <div
-                          className={cx(
-                            kind === "buy" ? "orange" : "blue",
-                            "toggle-circle",
-                            coin === "BTC" && "toggle--checked"
-                          )}
-                        >
-                          {coin !== "BTC" ? "USDT" : "BTC"}
-                        </div>
-                        {btns.map(
-                          (btn, idx) => idx > 1 && <div key={btn}>{btn}</div>
-                        )}
+                      <div className={cx("coin_btns")}>
+                        {coinBtns.map((v) => (
+                          <div
+                            className={cx(
+                              coin === v.coinKind
+                                ? kind !== "buy"
+                                  ? "able_buy_btn"
+                                  : "able_sell_btn"
+                                : "default_btn"
+                            )}
+                            key={v.coinKind}
+                            onClick={() => onClickHandle(v.coinKind, "coin")}
+                          >
+                            {v.name}
+                          </div>
+                        ))}
                       </div>
                       <div
                         className={cx(
