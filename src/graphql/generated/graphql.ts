@@ -210,6 +210,14 @@ export type FindDashboardByAdminOutput = {
   users: Array<ObjectByFindDashboardByAdminOutput>;
 };
 
+/** 관리자 목록 조회 (관리자) output */
+export type FindManyAdminOutput = {
+  /** 문의 목록 */
+  admins: Array<AdminModel>;
+  /** 총 개수 */
+  totalCount: Scalars['Int'];
+};
+
 /** 채팅 메세지 목록 조회 (회원) output */
 export type FindManyChatMessageByUserOutput = {
   /** 채팅 메세지 목록 */
@@ -273,7 +281,7 @@ export type FindManyUserOutput = {
   /** 총 개수 */
   totalCount: Scalars['Int'];
   /** 회원 목록 */
-  users: Array<UserModel>;
+  users: Array<UserByFindManyUserOutput>;
 };
 
 /** 내정보 조회 */
@@ -409,12 +417,18 @@ export type Mutation = {
   createOtpQr: CreateOtpQrOutput;
   /** 여권 인증 (회원) */
   createPassport: PassportModel;
+  /** 약관 생성 (관리자) */
+  createPolicy: Scalars['Boolean'];
   /** 문의 생성 (회원) */
   createUserInquiryByUser: UserInquiryModel;
+  /** 관리자 삭제 (관리자) */
+  deleteAdmin: AdminModel;
   /** 공지사항 삭제 (관리자) */
   deleteNotice: NoticeModel;
   /** 오퍼 삭제 (회원) */
   deleteOfferByUser: OfferModel;
+  /** 약관 삭제 (관리자) */
+  deletePolicy: PolicyModel;
   /** 1:1 문의 삭제 (회원) */
   deleteUserInquiry: Scalars['Boolean'];
   /** 채팅방 참가 (회원) */
@@ -519,9 +533,21 @@ export type MutationCreatePassportArgs = {
 };
 
 
+export type MutationCreatePolicyArgs = {
+  content: Scalars['String'];
+  policyKind: PolicyKind;
+  title: Scalars['String'];
+};
+
+
 export type MutationCreateUserInquiryByUserArgs = {
   content: Scalars['String'];
   title: Scalars['String'];
+};
+
+
+export type MutationDeleteAdminArgs = {
+  id: Scalars['Int'];
 };
 
 
@@ -531,6 +557,11 @@ export type MutationDeleteNoticeArgs = {
 
 
 export type MutationDeleteOfferByUserArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type MutationDeletePolicyArgs = {
   id: Scalars['Int'];
 };
 
@@ -798,6 +829,8 @@ export type Query = {
   findDashboardByAdmin: FindDashboardByAdminOutput;
   /** 아이디 찾기 */
   findIdentity: Scalars['String'];
+  /** 관리자 목록 조회 (관리자) */
+  findManyAdmin: FindManyAdminOutput;
   /** 채팅 메세지 목록 조회 (회원) */
   findManyChatMessageByUser: FindManyChatMessageByUserOutput;
   /** 참가한 채팅방 목록 조회 (회원) */
@@ -872,6 +905,13 @@ export type QueryFindIdentityArgs = {
 };
 
 
+export type QueryFindManyAdminArgs = {
+  searchText: Scalars['String'];
+  skip: Scalars['Int'];
+  take: Scalars['Int'];
+};
+
+
 export type QueryFindManyChatMessageByUserArgs = {
   chatRoomId: Scalars['Int'];
   cursorId?: InputMaybe<Scalars['Int']>;
@@ -889,7 +929,7 @@ export type QueryFindManyChatRoomByUserArgs = {
 
 export type QueryFindManyNoticeArgs = {
   searchKind?: InputMaybe<NoticeSearchKind>;
-  searchText: Scalars['String'];
+  searchText?: InputMaybe<Scalars['String']>;
   skip: Scalars['Int'];
   take: Scalars['Int'];
 };
@@ -912,7 +952,8 @@ export type QueryFindManyPolicyArgs = {
 
 
 export type QueryFindManyUserArgs = {
-  cursorId?: InputMaybe<Scalars['Int']>;
+  searchText: Scalars['String'];
+  skip: Scalars['Int'];
   take: Scalars['Int'];
 };
 
@@ -1059,6 +1100,22 @@ export type UpbitMarketModel = {
   timestamp: Scalars['String'];
   /** 달러 가격 */
   usdPrice: Scalars['Float'];
+};
+
+/** 회원 목록 조회 output - 회원 */
+export type UserByFindManyUserOutput = {
+  /** 접속일 */
+  connectionDate?: Maybe<Scalars['Date']>;
+  /** 생성일 */
+  createdAt: Scalars['Date'];
+  /** 이메일 인증 */
+  emailAuth?: Maybe<EmailAuthModel>;
+  /** 아이디 */
+  identity: Scalars['String'];
+  /** 레벨 */
+  level: Scalars['Int'];
+  /** 휴대폰 */
+  phone?: Maybe<Scalars['String']>;
 };
 
 /** 1:1 문의 목록 조회 (관리자) output - 1:1 문의 */
@@ -1331,6 +1388,11 @@ export type FindManyCityQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type FindManyCityQuery = { findManyCity: Array<{ id: number, name: string }> };
 
+export type FindManyCountryCodeQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type FindManyCountryCodeQuery = { findManyCountryCode: Array<{ id: number, code: string, country: string }> };
+
 export type FindManyMarketPriceQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -1488,6 +1550,7 @@ export const FindIdentityDocument = {"kind":"Document","definitions":[{"kind":"O
 export const FindManyChatMessageByUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"findManyChatMessageByUser"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"take"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"chatRoomId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"cursorId"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"direction"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"ChatMessageDirection"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"findManyChatMessageByUser"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"take"},"value":{"kind":"Variable","name":{"kind":"Name","value":"take"}}},{"kind":"Argument","name":{"kind":"Name","value":"chatRoomId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"chatRoomId"}}},{"kind":"Argument","name":{"kind":"Name","value":"cursorId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"cursorId"}}},{"kind":"Argument","name":{"kind":"Name","value":"direction"},"value":{"kind":"Variable","name":{"kind":"Name","value":"direction"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"totalCount"}},{"kind":"Field","name":{"kind":"Name","value":"chatMessages"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"message"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"sender"}},{"kind":"Field","name":{"kind":"Name","value":"isUnread"}}]}},{"kind":"Field","name":{"kind":"Name","value":"isEnd"}}]}}]}}]} as unknown as DocumentNode<FindManyChatMessageByUserQuery, FindManyChatMessageByUserQueryVariables>;
 export const FindManyChatRoomByUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"FindManyChatRoomByUser"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"take"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"cursorId"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"offerId"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"findManyChatRoomByUser"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"take"},"value":{"kind":"Variable","name":{"kind":"Name","value":"take"}}},{"kind":"Argument","name":{"kind":"Name","value":"cursorId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"cursorId"}}},{"kind":"Argument","name":{"kind":"Name","value":"offerId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"offerId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"totalCount"}},{"kind":"Field","name":{"kind":"Name","value":"chatRooms"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"otherIdentity"}},{"kind":"Field","name":{"kind":"Name","value":"offerId"}},{"kind":"Field","name":{"kind":"Name","value":"isNewChatMessage"}},{"kind":"Field","name":{"kind":"Name","value":"isUnread"}}]}}]}}]}}]} as unknown as DocumentNode<FindManyChatRoomByUserQuery, FindManyChatRoomByUserQueryVariables>;
 export const FindManyCityDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"findManyCity"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"findManyCity"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}}]}}]} as unknown as DocumentNode<FindManyCityQuery, FindManyCityQueryVariables>;
+export const FindManyCountryCodeDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"findManyCountryCode"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"findManyCountryCode"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"country"}}]}}]}}]} as unknown as DocumentNode<FindManyCountryCodeQuery, FindManyCountryCodeQueryVariables>;
 export const FindManyMarketPriceDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"findManyMarketPrice"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"findManyMarketPrice"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"upbitMarkets"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"timestamp"}},{"kind":"Field","name":{"kind":"Name","value":"krwPrice"}},{"kind":"Field","name":{"kind":"Name","value":"usdPrice"}}]}},{"kind":"Field","name":{"kind":"Name","value":"binanceMarkets"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"timestamp"}},{"kind":"Field","name":{"kind":"Name","value":"krwPrice"}},{"kind":"Field","name":{"kind":"Name","value":"usdPrice"}}]}},{"kind":"Field","name":{"kind":"Name","value":"kimchiMarkets"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"code"}},{"kind":"Field","name":{"kind":"Name","value":"timestamp"}},{"kind":"Field","name":{"kind":"Name","value":"changePrice"}},{"kind":"Field","name":{"kind":"Name","value":"changeRate"}}]}}]}}]}}]} as unknown as DocumentNode<FindManyMarketPriceQuery, FindManyMarketPriceQueryVariables>;
 export const FindManyNoticeDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"findManyNotice"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"take"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"skip"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"searchText"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"searchKind"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"NoticeSearchKind"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"findManyNotice"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"take"},"value":{"kind":"Variable","name":{"kind":"Name","value":"take"}}},{"kind":"Argument","name":{"kind":"Name","value":"skip"},"value":{"kind":"Variable","name":{"kind":"Name","value":"skip"}}},{"kind":"Argument","name":{"kind":"Name","value":"searchText"},"value":{"kind":"Variable","name":{"kind":"Name","value":"searchText"}}},{"kind":"Argument","name":{"kind":"Name","value":"searchKind"},"value":{"kind":"Variable","name":{"kind":"Name","value":"searchKind"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"totalCount"}},{"kind":"Field","name":{"kind":"Name","value":"notices"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"content"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"hits"}}]}}]}}]}}]} as unknown as DocumentNode<FindManyNoticeQuery, FindManyNoticeQueryVariables>;
 export const FindManyOfferDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"findManyOffer"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"take"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"skip"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Int"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"coinKind"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"CoinKind"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"offerAction"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"OfferAction"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"identity"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"isChat"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Boolean"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"findManyOffer"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"take"},"value":{"kind":"Variable","name":{"kind":"Name","value":"take"}}},{"kind":"Argument","name":{"kind":"Name","value":"skip"},"value":{"kind":"Variable","name":{"kind":"Name","value":"skip"}}},{"kind":"Argument","name":{"kind":"Name","value":"coinKind"},"value":{"kind":"Variable","name":{"kind":"Name","value":"coinKind"}}},{"kind":"Argument","name":{"kind":"Name","value":"offerAction"},"value":{"kind":"Variable","name":{"kind":"Name","value":"offerAction"}}},{"kind":"Argument","name":{"kind":"Name","value":"identity"},"value":{"kind":"Variable","name":{"kind":"Name","value":"identity"}}},{"kind":"Argument","name":{"kind":"Name","value":"isChat"},"value":{"kind":"Variable","name":{"kind":"Name","value":"isChat"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"offers"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"coinKind"}},{"kind":"Field","name":{"kind":"Name","value":"offerAction"}},{"kind":"Field","name":{"kind":"Name","value":"transactionMethod"}},{"kind":"Field","name":{"kind":"Name","value":"price"}},{"kind":"Field","name":{"kind":"Name","value":"minAmount"}},{"kind":"Field","name":{"kind":"Name","value":"maxAmount"}},{"kind":"Field","name":{"kind":"Name","value":"responseSpeed"}},{"kind":"Field","name":{"kind":"Name","value":"content"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"reservationStatus"}},{"kind":"Field","name":{"kind":"Name","value":"transactionStatus"}},{"kind":"Field","name":{"kind":"Name","value":"city"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"identity"}},{"kind":"Field","name":{"kind":"Name","value":"positiveCount"}},{"kind":"Field","name":{"kind":"Name","value":"isNewChatMessage"}},{"kind":"Field","name":{"kind":"Name","value":"connectionDate"}}]}},{"kind":"Field","name":{"kind":"Name","value":"totalCount"}}]}}]}}]} as unknown as DocumentNode<FindManyOfferQuery, FindManyOfferQueryVariables>;
