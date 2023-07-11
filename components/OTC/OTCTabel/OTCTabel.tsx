@@ -438,24 +438,27 @@ export default function OTCTabel({
                           "pointer"
                       )}
                     >
-                      <div className={cx("toggle_wrap")}>
-                        <div
-                          className={cx(
-                            v.reservationStatus === ReservationStatus.None &&
-                              "toggle_open"
-                          )}
-                        >
-                          오픈
+                      {v.transactionStatus !== TransactionStatus.Complete && (
+                        <div className={cx("toggle_wrap")}>
+                          <div
+                            className={cx(
+                              v.reservationStatus === ReservationStatus.None &&
+                                "toggle_open"
+                            )}
+                          >
+                            오픈
+                          </div>
+                          <div
+                            className={cx(
+                              v.reservationStatus ===
+                                ReservationStatus.Progress &&
+                                "toggle_reservation"
+                            )}
+                          >
+                            예약중
+                          </div>
                         </div>
-                        <div
-                          className={cx(
-                            v.reservationStatus ===
-                              ReservationStatus.Progress && "toggle_reservation"
-                          )}
-                        >
-                          예약중
-                        </div>
-                      </div>
+                      )}
                     </div>
                     <div
                       className={cx("circle_wrap")}
