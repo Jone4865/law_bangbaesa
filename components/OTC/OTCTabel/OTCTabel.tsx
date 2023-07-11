@@ -100,7 +100,12 @@ export default function OTCTabel({
       deleteOfferByUser({ variables: { deleteOfferByUserId: offerId } });
     } else {
       if (transactionStatus === TransactionStatus.Complete) {
-        deleteOfferByUser({ variables: { deleteOfferByUserId: offerId } });
+        deleteOfferByUser({
+          variables: { deleteOfferByUserId: offerId },
+          onCompleted(_data) {
+            deletehandle();
+          },
+        });
       }
       updateOfferClickHandle(
         moreKind === "complete" ? "complete" : "reservation",
