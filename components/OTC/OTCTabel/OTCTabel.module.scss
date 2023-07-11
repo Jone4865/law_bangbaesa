@@ -8,6 +8,14 @@
   border: solid 1px #dcdcdc;
 }
 
+.complete_wrap {
+  background-color: rgb(190, 182, 182);
+  border-radius: 5px;
+  padding: 20px;
+  font-size: 16px;
+  border: solid 1px #dcdcdc;
+}
+
 .map_container {
   margin-bottom: 18px;
   position: relative;
@@ -278,7 +286,7 @@
 .my_offer_wrap {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(4, 25%);
+  grid-template-columns: repeat(5, 1fr);
   font-size: 14px;
   color: #333;
   height: 47px;
@@ -289,6 +297,37 @@
     overflow: hidden;
     text-overflow: ellipsis;
   }
+}
+
+.disable {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  font-size: 14px;
+  color: #333;
+  height: 47px;
+  background-color: rgb(190, 182, 182);
+  border: solid 1px #dcdcdc;
+  margin-top: -5px;
+  @include view("mobile") {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+.edit_btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  border-right: solid 1px #dcdcdc;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.edit_btn:disabled {
+  color: gray;
+  cursor: default;
 }
 
 .grin {
@@ -455,4 +494,35 @@
 
 .red {
   color: #ff6d6d;
+}
+
+.toggle_wrap {
+  width: 130px;
+  height: 30px;
+  background-color: #dcdcdc;
+  border-radius: 12px;
+  align-items: center;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  color: #777;
+  div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
+}
+
+.toggle_open {
+  border-radius: 12px 0 0 12px;
+  border: solid 2px #3561c7;
+  background-color: #3561c738;
+  color: #3561c7;
+}
+
+.toggle_reservation {
+  border-radius: 0 12px 12px 0;
+  border: solid 2px #3561c7;
+  background-color: #3561c738;
+  color: #3561c7;
 }

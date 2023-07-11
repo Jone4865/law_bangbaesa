@@ -12,6 +12,7 @@ import {
   CreateOfferByUserMutation,
   FindManyCityQuery,
 } from "src/graphql/generated/graphql";
+import { FIND_ONE_OFFER } from "src/graphql/query/findOneOffer";
 
 const cx = className.bind(styles);
 
@@ -131,9 +132,30 @@ export default function CreateOffer() {
     },
   });
 
+  const [findOneOffer] = useLazyQuery(FIND_ONE_OFFER, {
+    onError: (e) => toast.error(e.message ?? `${e}`),
+    onCompleted(data) {
+      const newData = data.findOneOffer;
+      setPrice(newData.price);
+      setMin(newData.minAmount);
+      setMax(newData.maxAmount);
+      setTime(newData.responseSpeed);
+      setText(newData.content);
+      setCoin(newData.coinKind);
+      setKind(newData.offerAction === "BUY" ? "구매" : "판매");
+      setLocation(newData.city);
+    },
+    fetchPolicy: "no-cache",
+  });
+
   useEffect(() => {
     findManyCity({});
-  }, []);
+    if (router.pathname.includes("edit-offer") && router.query.id) {
+      findOneOffer({
+        variables: { findOneOfferId: +router.query.id },
+      });
+    }
+  }, [router.pathname]);
 
   useEffect(() => {
     if (price && price > 99999999) {
@@ -149,7 +171,11 @@ export default function CreateOffer() {
   return (
     <div className={cx("container")}>
       <div className={cx("wrap")}>
-        <div className={cx("title")}>오퍼 만들기</div>
+        <div className={cx("title")}>
+          {router.pathname.includes("/edit-offer")
+            ? "오퍼 수정하기"
+            : "오퍼 만들기"}
+        </div>
         <div className={cx("part_wrap")}>
           <div className={cx("sub_title")}>무엇을 하시겠어요?</div>
           <div>
@@ -381,7 +407,9 @@ export default function CreateOffer() {
             취소
           </button>
           <button className={cx("create_btn")} onClick={createHandle}>
-            오퍼 만들기
+            {router.pathname.includes("/edit-offer")
+              ? "오퍼 수정하기"
+              : "오퍼 만들기"}
           </button>
         </div>
       </div>

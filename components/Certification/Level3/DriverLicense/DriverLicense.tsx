@@ -116,9 +116,6 @@ export default function DriverLicense() {
         value={number}
         onChange={(e) => setNumber(e.target.value)}
       />
-      <button className={cx("btn")} onClick={onClickHandle}>
-        신분증 인증
-      </button>
       <div className={cx("image_wrap")}>
         <div className={cx("image")}>
           <div className={cx("title")}>전면</div>
@@ -145,6 +142,9 @@ export default function DriverLicense() {
           />
         </div>
       </div>
+      <button className={cx("btn")} onClick={onClickHandle}>
+        신분증 인증
+      </button>
     </div>
   );
 }

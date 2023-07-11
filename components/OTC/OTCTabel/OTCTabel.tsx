@@ -17,6 +17,7 @@ import {
   FindManyOfferQuery,
   FindMyInfoByUserQuery,
   ReservationStatus,
+  TransactionMethod,
   TransactionStatus,
 } from "src/graphql/generated/graphql";
 
@@ -32,7 +33,8 @@ type Props = {
   updateOfferClickHandle: (
     key: "reservation" | "complete",
     id: number,
-    reservationState: ReservationStatus
+    reservationState: ReservationStatus,
+    transactionStatus: TransactionStatus
   ) => void;
   onScrollHandle: () => void;
   deletehandle: () => void;
@@ -90,16 +92,27 @@ export default function OTCTabel({
     setMoreKind(kind);
   };
 
-  const onClickMoreAction = (reservationStatus: ReservationStatus) => {
+  const onClickMoreAction = (
+    reservationStatus: ReservationStatus,
+    transactionStatus: TransactionStatus
+  ) => {
     if (moreKind === "delete") {
       deleteOfferByUser({ variables: { deleteOfferByUserId: offerId } });
     } else {
+      if (transactionStatus === TransactionStatus.Complete) {
+        deleteOfferByUser({ variables: { deleteOfferByUserId: offerId } });
+      }
       updateOfferClickHandle(
         moreKind === "complete" ? "complete" : "reservation",
         offerId ? offerId : 0,
-        reservationStatus
+        reservationStatus,
+        transactionStatus
       );
     }
+  };
+
+  const onClickEditHandle = (offerId: number) => {
+    router.push(`/edit-offer/${offerId}`);
   };
 
   const enterChatHandle = (id: number, identity: string) => {
@@ -184,7 +197,16 @@ export default function OTCTabel({
         {onData ? (
           data?.map((v, idx) => (
             <div key={v.id} className={cx("map_container")}>
-              <div className={cx("map_wrap")} key={idx}>
+              <div
+                className={cx(
+                  v.transactionStatus === TransactionStatus.Complete &&
+                    router.pathname === "/mypage" &&
+                    nowAble === "my"
+                    ? "complete_wrap"
+                    : "map_wrap"
+                )}
+                key={idx}
+              >
                 <div className={cx(part === "otc" ? "body" : "home_body")}>
                   <div className={cx("seller")}>
                     <div
@@ -362,7 +384,9 @@ export default function OTCTabel({
                   <div className={cx("more_wrap")}>
                     <div className={cx("answer")}>
                       {moreKind === "complete"
-                        ? "거래완료로 변경하시겠습니까?"
+                        ? v.transactionStatus === TransactionStatus.Complete
+                          ? "재등록 하시겠습니까?"
+                          : "거래완료로 변경하시겠습니까?"
                         : moreKind === "delete"
                         ? "삭제하시겠습니까?"
                         : v.reservationStatus === ReservationStatus.None
@@ -375,7 +399,12 @@ export default function OTCTabel({
                           "more",
                           moreKind !== "delete" ? "blue" : "red"
                         )}
-                        onClick={() => onClickMoreAction(v.reservationStatus)}
+                        onClick={() =>
+                          onClickMoreAction(
+                            v.reservationStatus,
+                            v.transactionStatus
+                          )
+                        }
                       >
                         {moreKind !== "delete" ? "변경" : "삭제"}
                       </div>
@@ -391,35 +420,42 @@ export default function OTCTabel({
               )}
               {nowAble === "my" && router.pathname === "/mypage" && (
                 <>
-                  <div className={cx("my_offer_wrap")}>
+                  <div
+                    className={cx(
+                      v.transactionStatus === TransactionStatus.Progress
+                        ? "my_offer_wrap"
+                        : "disable"
+                    )}
+                  >
                     <div
-                      onClick={() => onClickMore(v.id, "reservation")}
-                      className={cx("border", "pointer")}
+                      onClick={() =>
+                        v.transactionStatus !== TransactionStatus.Complete &&
+                        onClickMore(v.id, "reservation")
+                      }
+                      className={cx(
+                        "border",
+                        v.transactionStatus !== TransactionStatus.Complete &&
+                          "pointer"
+                      )}
                     >
-                      {v.reservationStatus === "NONE" ? (
-                        <span>
-                          예약중으로 <br className={cx("mobile")} />
-                          변경
-                        </span>
-                      ) : (
-                        <span
+                      <div className={cx("toggle_wrap")}>
+                        <div
                           className={cx(
-                            v.transactionStatus === "PROGRESS" && "grin"
+                            v.reservationStatus === ReservationStatus.None &&
+                              "toggle_open"
                           )}
                         >
-                          {v.transactionStatus === "PROGRESS" ? "예약중" : "-"}
-                        </span>
-                      )}
-                    </div>
-                    <div
-                      onClick={() => onClickMore(v.id, "complete")}
-                      className={cx("border", "pointer")}
-                    >
-                      {v.transactionStatus === "PROGRESS" ? (
-                        "거래완료"
-                      ) : (
-                        <span className={cx("blue")}>거래완료</span>
-                      )}
+                          오픈
+                        </div>
+                        <div
+                          className={cx(
+                            v.reservationStatus ===
+                              ReservationStatus.Progress && "toggle_reservation"
+                          )}
+                        >
+                          예약중
+                        </div>
+                      </div>
                     </div>
                     <div
                       className={cx("circle_wrap")}
@@ -430,6 +466,25 @@ export default function OTCTabel({
                         {v.isNewChatMessage && <div className={cx("circle")} />}
                       </div>
                     </div>
+                    <div
+                      onClick={() => onClickMore(v.id, "complete")}
+                      className={cx("border", "pointer")}
+                    >
+                      {v.transactionStatus === "PROGRESS" ? (
+                        "거래완료"
+                      ) : (
+                        <span className={cx("blue")}>재등록</span>
+                      )}
+                    </div>
+                    <button
+                      disabled={
+                        v.transactionStatus == TransactionStatus.Complete
+                      }
+                      className={cx("edit_btn")}
+                      onClick={() => onClickEditHandle(v.id)}
+                    >
+                      수정
+                    </button>
                     <div
                       className={cx("red")}
                       onClick={() => onClickMore(v.id, "delete")}

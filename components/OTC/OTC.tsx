@@ -18,9 +18,11 @@ import {
   FindMyInfoByUserQuery,
   OfferAction,
   ReservationStatus,
+  TransactionStatus,
 } from "src/graphql/generated/graphql";
 import { UPDATE_RESERVATION_STATUS_BY_USER } from "../../src/graphql/mutation/updateReservationStatusByUser";
 import { UPDATE_TRANSACTION_STATUS_BY_USER } from "src/graphql/mutation/updateTransactionStatusByUser";
+import { CREATE_OFFER_BY_USER } from "src/graphql/mutation/createOfferByUser";
 
 const cx = className.bind(styles);
 
@@ -96,14 +98,25 @@ export default function OTC({
   const updateOfferClickHandle = (
     key: "reservation" | "complete",
     id: number,
-    reservationState: ReservationStatus
+    reservationState: ReservationStatus,
+    transactionStatus: TransactionStatus
   ) => {
     if (key === "complete") {
-      if (reservationState === ReservationStatus.None) {
-        toast.warn("예약중으로 우선 변경해주세요", { toastId: 1 });
-      } else {
+      if (transactionStatus === TransactionStatus.Progress) {
+        if (reservationState === ReservationStatus.None) {
+          updateReservationStatusByUser({
+            variables: { updateReservationStatusByUserId: id },
+          });
+        }
         updateTransactionStatusByUser({
           variables: { updateTransactionStatusByUserId: id },
+        });
+      } else {
+        createOfferByUser({
+          variables: {
+            ...data.filter((v) => v.id === id)[0],
+            cityId: data.filter((v) => v.id === id)[0].city.id,
+          },
         });
       }
     } else {
@@ -178,6 +191,13 @@ export default function OTC({
       onError: (e) => toast.error(e.message ?? `${e}`),
     }
   );
+
+  const [createOfferByUser] = useMutation(CREATE_OFFER_BY_USER, {
+    onError: (e) => toast.error(e.message ?? `${e}`),
+    onCompleted() {
+      toast.success("오퍼를 재등록했습니다.");
+    },
+  });
 
   const [findManyOffer] = useLazyQuery(FIND_MANY_OFFER, {
     onError: (e) => toast.error(e?.message ?? `${e}`),

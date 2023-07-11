@@ -51,7 +51,6 @@ export default function Mypage() {
     onError: (e) => toast.error(e.message ?? `${e}`),
     onCompleted(_data) {
       router.replace("/");
-      toast.success("로그아웃 되었습니다.", { toastId: 0 });
     },
     fetchPolicy: "no-cache",
   });
@@ -145,25 +144,32 @@ export default function Mypage() {
                       >
                         나의 인증상태
                       </div>
-                      <div
+                      <button
                         onClick={() =>
                           router.push(
                             `/certification/level${data ? data?.level + 1 : 1}`
                           )
                         }
                         className={cx("middle_btn")}
+                        disabled={data && data.level >= 3}
                       >
-                        <div>본인인증 하기</div>
-                        <div className={cx("top_img_wrap", "non_mobile")}>
-                          <Image
-                            alt="화살표"
-                            src={"/img/mypage/arrow.png"}
-                            fill
-                            priority
-                            quality={100}
-                          />
-                        </div>
-                      </div>
+                        {data && data.level >= 3 ? (
+                          <div>본인인증이 완료되었습니다.</div>
+                        ) : (
+                          <>
+                            <div>본인인증 하기</div>
+                            <div className={cx("top_img_wrap", "non_mobile")}>
+                              <Image
+                                alt="화살표"
+                                src={"/img/mypage/arrow.png"}
+                                fill
+                                priority
+                                quality={100}
+                              />
+                            </div>
+                          </>
+                        )}
+                      </button>
                     </div>
                   </div>
                 </div>

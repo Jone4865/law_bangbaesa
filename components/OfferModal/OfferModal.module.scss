@@ -1,0 +1,40 @@
+@import "public/scss/style.scss";
+
+.container {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  z-index: 5;
+  background-color: rgba(0, 0, 0, 0.372);
+  top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.wrap {
+  width: 50%;
+  min-width: 400px;
+  height: 80%;
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 15px;
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+}
+
+.body {
+  margin-top: 20px;
+  height: 95%;
+  border-radius: 10px;
+  border: solid 1px #dcdcdc;
+  overflow-y: scroll;
+  padding: 10px;
+}
+
+.btn {
+  cursor: pointer;
+}

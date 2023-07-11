@@ -32,3 +32,30 @@
     margin: 20px 0;
   }
 }
+
+.btns_wrap {
+  display: flex;
+  gap: 15px;
+}
+
+.able_btn {
+  width: 100px;
+  border: solid 1px #ff7401;
+  padding: 10px;
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.default_btn {
+  width: 100px;
+  border: solid 1px #dcdcdc;
+  padding: 10px;
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  color: #777;
+}

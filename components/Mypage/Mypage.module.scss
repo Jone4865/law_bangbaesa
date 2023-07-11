@@ -77,10 +77,18 @@
   align-items: center;
   color: #fff;
   margin-left: 20px;
+  font-size: 18px;
+  border: none;
   cursor: pointer;
   @include view("mobile") {
     width: calc(50% - 6px);
+    font-size: 15px;
   }
+}
+
+.middle_btn:disabled {
+  // background-color: #dcdcdc;
+  cursor: default;
 }
 
 .top_container {

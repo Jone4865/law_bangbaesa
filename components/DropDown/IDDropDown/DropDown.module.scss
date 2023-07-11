@@ -1,13 +1,17 @@
 @import "public/scss/style.scss";
 
 .container {
-  width: 100%;
+  width: 300px;
+  max-width: 300px;
   cursor: pointer;
   position: relative;
+  white-space: nowrap;
+  margin-right: 10px;
+  font-size: 14px;
 }
 
 .btn_wrap {
-  width: 100%;
+  // width: 150px;
   height: 50px;
   border-radius: 10px;
   border: solid 1px #dcdcdc;
@@ -15,6 +19,13 @@
   justify-content: space-between;
   align-items: center;
   padding: 15px 20px;
+}
+
+.text {
+  width: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .btn {
@@ -26,9 +37,8 @@
 
 .menu {
   position: absolute;
-  width: 100%;
   padding: 15px 20px;
-  height: 90px;
+  height: 250px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -36,7 +46,14 @@
   z-index: 2;
   margin-top: -7px;
   border: solid 1px #dcdcdc;
-  border-top: none;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  max-width: 450px;
+}
+
+.menu_body {
+  width: 100%;
+  margin-top: 5px;
 }
 
 .img_wrap {

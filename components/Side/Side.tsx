@@ -67,7 +67,6 @@ function Side({ modal, setModalState }: Props) {
     onCompleted(_data) {
       setLogin(false);
       router.replace("/");
-      toast.success("로그아웃 되었습니다.", { toastId: 0 });
     },
   });
 
@@ -88,7 +87,7 @@ function Side({ modal, setModalState }: Props) {
         htmlEle.style.overflow = "unset";
       }
     }
-  }, [modal, cookies.login, router]);
+  }, [modal, cookies.login, router, login]);
 
   return (
     <div
