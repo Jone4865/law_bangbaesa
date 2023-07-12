@@ -1285,9 +1285,6 @@ type Mutation {
     """약관 ID"""
     id: Int!
 
-    """약관 종류"""
-    policyKind: PolicyKind
-
     """제목"""
     title: String
 

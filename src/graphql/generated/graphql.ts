@@ -636,7 +636,6 @@ export type MutationUpdatePhoneNumberByUserArgs = {
 export type MutationUpdatePolicyArgs = {
   content?: InputMaybe<Scalars['String']>;
   id: Scalars['Int'];
-  policyKind?: InputMaybe<PolicyKind>;
   title?: InputMaybe<Scalars['String']>;
 };
 
