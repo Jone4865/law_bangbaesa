@@ -17,7 +17,6 @@ import {
   FindManyOfferQuery,
   FindMyInfoByUserQuery,
   ReservationStatus,
-  TransactionMethod,
   TransactionStatus,
 } from "src/graphql/generated/graphql";
 

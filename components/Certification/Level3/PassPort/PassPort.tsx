@@ -42,10 +42,10 @@ export default function PassPort() {
   }
 
   const onClickHandle = () => {
-    if (files?.length === 3) {
+    if (files?.length === 2) {
       createPassport({
         variables: {
-          passportNumber: rsaEncryptionWithPublicKey(number),
+          passportNumber: rsaEncryptionWithPublicKey(number.toUpperCase()),
           issueDate: rsaEncryptionWithPublicKey(createDate),
           expirationDate: rsaEncryptionWithPublicKey(endDate),
           name: rsaEncryptionWithPublicKey(name),
@@ -86,35 +86,35 @@ export default function PassPort() {
       <div className={cx("title")}>이름</div>
       <input
         className={cx("input")}
-        placeholder="m12341234"
+        placeholder="홍길동"
         value={name}
         onChange={(e) => setName(e.target.value)}
       />
       <div className={cx("title")}>생년월일</div>
       <input
         className={cx("input")}
-        placeholder="m12341234"
+        placeholder="20100110"
         value={birth}
         onChange={(e) => setBirth(e.target.value)}
       />
       <div className={cx("title")}>여권번호</div>
       <input
         className={cx("input")}
-        placeholder="m12341234"
+        placeholder="M12341234"
         value={number}
         onChange={(e) => setNumber(e.target.value)}
       />
       <div className={cx("title")}>발급일</div>
       <input
         className={cx("input")}
-        placeholder="0523"
+        placeholder="20050203"
         value={createDate}
         onChange={(e) => setCreatDate(e.target.value)}
       />
       <div className={cx("title")}>기간만료일</div>
       <input
         className={cx("input")}
-        placeholder="0523"
+        placeholder="20050203"
         value={endDate}
         onChange={(e) => setEndDate(e.target.value)}
       />

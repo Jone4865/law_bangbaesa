@@ -91,7 +91,7 @@ export default function DriverLicense() {
       <div className={cx("title")}>생년월일</div>
       <input
         className={cx("input")}
-        placeholder="920116"
+        placeholder="19920116"
         value={birthDay}
         onChange={(e) => setBirthDay(e.target.value)}
       />
@@ -112,7 +112,7 @@ export default function DriverLicense() {
       <div className={cx("title")}>암호일련번호</div>
       <input
         className={cx("input")}
-        placeholder="920116"
+        placeholder="kkk111"
         value={number}
         onChange={(e) => setNumber(e.target.value)}
       />
