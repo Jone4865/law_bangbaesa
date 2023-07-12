@@ -20,15 +20,22 @@ import PolicyModal from "./PolicyModal/PolicyModal";
 import {
   CheckDuplicateIdentityQuery,
   ConfirmPhoneAuthNumberQuery,
+  CountryCodeModel,
   LoginKind,
+  PolicyKind,
   SendPhoneAuthNumberQuery,
   SignUpByUserMutation,
 } from "src/graphql/generated/graphql";
+import { FIND_MANY_COUNTRY_CODE } from "src/graphql/query/findManyCountryCode";
+// import DropDown from "components/DropDown/DropDown";
 
 const cx = className.bind(styles);
 
 export default function SignUp() {
   const router = useRouter();
+
+  const [countryCodes, setCountryCodes] = useState<CountryCodeModel[]>([]);
+  const [countryCode, setCountryCode] = useState(82);
 
   const [id, setId] = useState("");
   const [passWord, setPassWord] = useState("");
@@ -48,12 +55,20 @@ export default function SignUp() {
   const [disAbleSubmit, setDisAbleSummit] = useState(true);
 
   const [visible, setVisible] = useState(false);
-  const [policy, setPolicy] = useState<"service" | "personal">("service");
+  const [policy, setPolicy] = useState<PolicyKind>(
+    PolicyKind.TermsAndConditions
+  );
 
   const passwordRule =
     /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,20}$/;
 
   const idRule = /^[a-zA-Z0-9]{4,20}$/;
+
+  const changeCountry = (code: number) => {
+    setCountryCode(code);
+    setTell("");
+    setViewConfirmTell(false);
+  };
 
   const onChangeIdHandle = (e: ChangeEvent<HTMLInputElement>) => {
     setDuplicateId(false);
@@ -95,7 +110,10 @@ export default function SignUp() {
   const onCertificationTellHandle = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     confirmPhoneAuthNumber({
-      variables: { phone: tell, authNumber: certificationTellText },
+      variables: {
+        phone: tell,
+        authNumber: certificationTellText,
+      },
     });
   };
 
@@ -121,10 +139,17 @@ export default function SignUp() {
     toast.warning("붙여넣기가 금지되었습니다.");
   };
 
-  const modalHandle = (key: "service" | "personal") => {
+  const modalHandle = (key: PolicyKind) => {
     setVisible(true);
     setPolicy(key);
   };
+
+  const [findManyCountryCode] = useLazyQuery(FIND_MANY_COUNTRY_CODE, {
+    onError: (e) => toast.error(e.message ?? `${e}`),
+    onCompleted(data) {
+      setCountryCodes(data.findManyCountryCode);
+    },
+  });
 
   const [checkDuplicateIdentity] = useLazyQuery<CheckDuplicateIdentityQuery>(
     CHECK_DUPLICATE_IDENTITY,
@@ -221,6 +246,7 @@ export default function SignUp() {
   ]);
 
   useEffect(() => {
+    findManyCountryCode();
     const htmlEle = document?.getElementsByTagName("html").item(0);
     if (visible) {
       if (htmlEle) {
@@ -284,6 +310,11 @@ export default function SignUp() {
 
           <div className={cx("part_title")}>휴대폰 인증</div>
           <form className={cx("part_wrap")} onSubmit={onSendCertification}>
+            {/* <DropDown
+              type="county"
+              data={countryCodes}
+              onChangeHandel={changeCountry}
+            /> */}
             <input
               className={cx("part_input")}
               placeholder="- 를 빼고 입력하세요"
@@ -340,7 +371,7 @@ export default function SignUp() {
               <div>서비스 이용약관(필수)</div>
               <div
                 className={cx("more_policy")}
-                onClick={() => modalHandle("service")}
+                onClick={() => modalHandle(PolicyKind.TermsAndConditions)}
               >
                 보기
               </div>
@@ -357,7 +388,9 @@ export default function SignUp() {
               <div>개인정보 처리방침(필수)</div>
               <div
                 className={cx("more_policy")}
-                onClick={() => modalHandle("personal")}
+                onClick={() =>
+                  modalHandle(PolicyKind.PersonalInformationProcessingPolicy)
+                }
               >
                 보기
               </div>
