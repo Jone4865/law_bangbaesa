@@ -98,7 +98,7 @@
 }
 
 .map_type {
-  padding: 0 30px;
+  padding: 0 0 0 30px;
   border-right: solid 1px #dcdcdc;
   height: 100%;
   display: flex;
@@ -170,4 +170,7 @@
 
 .border_top {
   border-top: solid 3px black;
+  @include view("mobile") {
+    // border: solid 1px #dcdcdc;
+  }
 }

@@ -41,7 +41,7 @@ export default function GetGiftCard({ searchText }: Props) {
       const originData = bytes.toString(crypto.enc.Utf8).split("| ");
 
       const newData: Data[] = originData?.map((v: string) => {
-        const name = v.split("\t")[1];
+        const name = v.split("\t")[1].trim();
         const buyPrice = +v
           .split("\t")[2]
           .split("(")[0]
