@@ -33,10 +33,7 @@ type Props = {
 };
 
 const Room: NextPage<Props> = ({ id, data }) => {
-  const isMobile = useMediaQuery({
-    query: "(max-width: 759px)",
-  });
-  const router = useRouter();
+  const [first, setFirst] = useState(true);
   const [take] = useState(10);
   const [datas, setDatas] = useState<any[]>([]);
   const [offerData, setOfferData] =
@@ -46,7 +43,9 @@ const Room: NextPage<Props> = ({ id, data }) => {
   const divRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-
+  const [message, setMessage] = useState("");
+  const [infoVisible, setInfoVisible] = useState(true);
+  const [scroll, setScroll] = useState(false);
   const [subscriptTexts, setSubscriptTexts] = useState<any[]>();
 
   const [prevRef, prevView] = useInView({
@@ -55,11 +54,12 @@ const Room: NextPage<Props> = ({ id, data }) => {
   const [nextRef, nextView] = useInView({
     threshold: 1,
   });
-  const [message, setMessage] = useState("");
 
-  const [infoVisible, setInfoVisible] = useState(true);
+  const isMobile = useMediaQuery({
+    query: "(max-width: 759px)",
+  });
 
-  const [scroll, setScroll] = useState(false);
+  const router = useRouter();
 
   const scrollToBottom = () => {
     if (containerRef.current) {
@@ -210,7 +210,7 @@ const Room: NextPage<Props> = ({ id, data }) => {
     } else {
       setInfoVisible(true);
     }
-    if (containerRef.current) {
+    if (containerRef.current && first) {
       scrollToBottom();
     }
     if (inputRef.current) {
@@ -230,6 +230,7 @@ const Room: NextPage<Props> = ({ id, data }) => {
         },
         fetchPolicy: "no-cache",
       }).then(({ data }) => {
+        setFirst(false);
         setDatas((prev) =>
           data ? [...data.findManyChatMessageByUser.chatMessages, ...prev] : []
         );
