@@ -93,7 +93,7 @@ export default function SignUp() {
       if (idRule.test(id)) {
         checkDuplicateIdentity({ variables: { identity: id } });
       } else {
-        toast.warn("아이디는 네 글자 이상으로 작성해주세요");
+        toast.warn("아이디는 4자 이상, 20자 이하로 작성해주세요");
       }
     } else {
       toast.warn("아이디를 입력해주세요", { toastId: 0 });
