@@ -51,6 +51,8 @@
   white-space: nowrap;
   background-color: #f6f6f6;
   border-radius: 0 10px 10px 0px;
+  font-size: 18px;
+  color: #333;
   cursor: pointer;
   @include view("mobile") {
     padding: 15px 20px;
