@@ -1,13 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import styles from "./MyRoom.module.scss";
 import className from "classnames/bind";
-import {
-  NormalizedCacheObject,
-  useApolloClient,
-  useLazyQuery,
-  useMutation,
-  useSubscription,
-} from "@apollo/client";
+import { useLazyQuery, useMutation, useSubscription } from "@apollo/client";
 import { toast } from "react-toastify";
 
 import { GetServerSideProps, NextPage } from "next";
