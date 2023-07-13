@@ -71,7 +71,7 @@ export default function CreateOffer() {
   };
 
   const createHandle = () => {
-    if (price === undefined || price > 1000001) {
+    if (price === undefined || price > 99999999) {
       toast.warn(
         <div>
           가격은 1 ~ 99,999,999KRW
