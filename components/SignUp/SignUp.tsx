@@ -27,7 +27,7 @@ import {
   SignUpByUserMutation,
 } from "src/graphql/generated/graphql";
 import { FIND_MANY_COUNTRY_CODE } from "src/graphql/query/findManyCountryCode";
-// import DropDown from "components/DropDown/DropDown";
+import DropDown from "components/DropDown/DropDown";
 
 const cx = className.bind(styles);
 
@@ -310,11 +310,11 @@ export default function SignUp() {
 
           <div className={cx("part_title")}>휴대폰 인증</div>
           <form className={cx("part_wrap")} onSubmit={onSendCertification}>
-            {/* <DropDown
+            <DropDown
               type="county"
               data={countryCodes}
               onChangeHandel={changeCountry}
-            /> */}
+            />
             <input
               className={cx("part_input")}
               placeholder="- 를 빼고 입력하세요"

@@ -1,13 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import styles from "./MyRoom.module.scss";
 import className from "classnames/bind";
-import {
-  NormalizedCacheObject,
-  useApolloClient,
-  useLazyQuery,
-  useMutation,
-  useSubscription,
-} from "@apollo/client";
+import { useLazyQuery, useMutation, useSubscription } from "@apollo/client";
 import { toast } from "react-toastify";
 
 import { GetServerSideProps, NextPage } from "next";
@@ -33,7 +27,7 @@ import {
   FindOneOfferQuery,
   UpdateCheckedCurrentChatMessageByUserMutation,
 } from "src/graphql/generated/graphql";
-import ApolloClient from "apollo-client";
+import OfferModal from "components/OfferModal/OfferModal";
 
 const cx = className.bind(styles);
 
@@ -55,6 +49,8 @@ const Room: NextPage<Props> = ({ id, data }) => {
   const [myNickName, setMyNickName] = useState("");
   const [offerId, setOfferId] = useState<number | undefined>(0);
   const [unreadView, setUnreadView] = useState(true);
+  const [offerModalVisible, setOfferModalVisible] = useState(false);
+
   const divRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -74,6 +70,14 @@ const Room: NextPage<Props> = ({ id, data }) => {
   const [peopleCount, setPeopleCount] = useState(0);
 
   const [scroll, setScroll] = useState(false);
+
+  const disableScroll = () => {
+    document.body.style.overflow = "hidden";
+  };
+
+  const enableScroll = () => {
+    document.body.style.overflow = "auto";
+  };
 
   const scrollToBottom = () => {
     if (containerRef.current) {
@@ -319,6 +323,14 @@ const Room: NextPage<Props> = ({ id, data }) => {
   }, [scroll]);
 
   useEffect(() => {
+    if (offerModalVisible) {
+      disableScroll();
+    } else {
+      enableScroll();
+    }
+  }, [offerModalVisible]);
+
+  useEffect(() => {
     setDatas([]);
     setMessage("");
     setUnreadView(true);
@@ -338,6 +350,12 @@ const Room: NextPage<Props> = ({ id, data }) => {
 
   return (
     <div className={cx("container")}>
+      {offerModalVisible && (
+        <OfferModal
+          offerData={offerData}
+          setOfferModalVisible={setOfferModalVisible}
+        />
+      )}
       <div className={cx("wrap")}>
         <div className={cx("top_wrap")}>
           <div className={cx("title")}>채팅하기</div>

@@ -90,6 +90,7 @@ export default function BasicInfo({ myInfo, setNowAble }: Props) {
           <div className={cx("full")}>
             <div className={cx("title")}>휴대폰 번호</div>
             <div className="flex">
+              <div className={cx("country_code")}>82</div>
               <div className={cx("view_text")}>{myInfo?.phone}</div>
               <button className={cx("btn")} onClick={onClickChangeHandle}>
                 변경

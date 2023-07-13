@@ -9,18 +9,29 @@ import { CONFIRM_PHONE_AUTH_NUMBER } from "../../src/graphql/query/confirmPhoneA
 import { FIND_IDENTITY } from "../../src/graphql/query/findIdentity";
 import {
   ConfirmPhoneAuthNumberQuery,
+  CountryCodeModel,
   FindIdentityQuery,
   SendPhoneAuthNumberQuery,
 } from "src/graphql/generated/graphql";
+import { FIND_MANY_COUNTRY_CODE } from "src/graphql/query/findManyCountryCode";
+import DropDown from "components/DropDown/DropDown";
 
 const cx = className.bind(styles);
 
 export default function FindId() {
+  const [countryCodes, setCountryCodes] = useState<CountryCodeModel[]>([]);
+  const [countryCode, setCountryCode] = useState(82);
+
   const [moreVisible, setMoreVisible] = useState(false);
   const [tell, setTell] = useState("");
   const [confirmTell, setConfirmTell] = useState("");
 
   const router = useRouter();
+
+  const changeCountry = (code: number) => {
+    setCountryCode(code);
+    setMoreVisible(false);
+  };
 
   const onSendMessage = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -58,13 +69,23 @@ export default function FindId() {
     }
   );
 
+  const [findManyCountryCode] = useLazyQuery(FIND_MANY_COUNTRY_CODE, {
+    onError: (e) => toast.error(e.message ?? `${e}`),
+    onCompleted(data) {
+      setCountryCodes(data.findManyCountryCode);
+    },
+  });
+
   const [confirmPhoneAuthNumber] = useLazyQuery<ConfirmPhoneAuthNumberQuery>(
     CONFIRM_PHONE_AUTH_NUMBER,
     {
       onError: (e) => toast.error(e.message ?? `${e}`),
       onCompleted(data) {
         findIdentity({
-          variables: { phone: tell, hash: data.confirmPhoneAuthNumber },
+          variables: {
+            phone: tell,
+            hash: data.confirmPhoneAuthNumber,
+          },
         });
       },
     }
@@ -77,7 +98,9 @@ export default function FindId() {
     },
   });
 
-  useEffect(() => {}, [tell]);
+  useEffect(() => {
+    findManyCountryCode();
+  }, [tell]);
 
   return (
     <div className={cx("container")}>
@@ -86,6 +109,11 @@ export default function FindId() {
         <div className={cx("text")}>휴대폰 인증</div>
         <form className={cx("body")} onSubmit={onSendMessage}>
           <div className="flex">
+            <DropDown
+              type="county"
+              data={countryCodes}
+              onChangeHandel={changeCountry}
+            />
             <input
               className={cx(!moreVisible ? "input" : "part_input")}
               placeholder="- 를 빼고 입력하세요"
