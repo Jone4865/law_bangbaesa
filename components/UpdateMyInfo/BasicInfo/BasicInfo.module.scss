@@ -95,3 +95,13 @@
     font-size: 18px;
   }
 }
+
+.country_code {
+  width: 130px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 12px;
+  border: solid 1px #dcdcdc;
+  margin-right: 10px;
+}

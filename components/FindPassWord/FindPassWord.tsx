@@ -9,13 +9,20 @@ import { CONFIRM_PHONE_AUTH_NUMBER } from "../../src/graphql/query/confirmPhoneA
 import { useCookies } from "react-cookie";
 import {
   ConfirmPhoneAuthNumberQuery,
+  CountryCodeModel,
   SendPhoneAuthNumberQuery,
 } from "src/graphql/generated/graphql";
+import DropDown from "components/DropDown/DropDown";
+import { FIND_MANY_COUNTRY_CODE } from "src/graphql/query/findManyCountryCode";
 
 const cx = className.bind(styles);
 
 export default function FindPassWord() {
   const router = useRouter();
+
+  const [countryCodes, setCountryCodes] = useState<CountryCodeModel[]>([]);
+  const [countryCode, setCountryCode] = useState(82);
+
   const [_, setCookies] = useCookies(["hash", "phone"]);
   const [id, setId] = useState<string>("");
   const [tell, setTell] = useState<string>("");
@@ -23,6 +30,11 @@ export default function FindPassWord() {
   const [viewConfirmTell, setViewConfirmTell] = useState(false);
 
   const idRule = /^[a-zA-Z0-9]{4,20}$/;
+
+  const changeCountry = (code: number) => {
+    setCountryCode(code);
+    setViewConfirmTell(false);
+  };
 
   const onSendMessage = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -76,6 +88,17 @@ export default function FindPassWord() {
     }
   );
 
+  const [findManyCountryCode] = useLazyQuery(FIND_MANY_COUNTRY_CODE, {
+    onError: (e) => toast.error(e.message ?? `${e}`),
+    onCompleted(data) {
+      setCountryCodes(data.findManyCountryCode);
+    },
+  });
+
+  useEffect(() => {
+    findManyCountryCode();
+  }, []);
+
   return (
     <div className={cx("container")}>
       <div className={cx("wrap")}>
@@ -91,6 +114,11 @@ export default function FindPassWord() {
             />
             <div className={cx("part_title")}>휴대폰 인증</div>
             <div className="flex">
+              <DropDown
+                type="county"
+                data={countryCodes}
+                onChangeHandel={changeCountry}
+              />
               <input
                 className={cx(!viewConfirmTell ? "input" : "part_input")}
                 placeholder="- 를 빼고 입력하세요"

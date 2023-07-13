@@ -24,6 +24,7 @@ import {
   OfferAction,
   UpdateCheckedCurrentChatMessageByUserMutation,
 } from "src/graphql/generated/graphql";
+// import OfferModal from "components/OfferModal/OfferModal";
 
 const cx = className.bind(styles);
 
@@ -40,6 +41,8 @@ const Room: NextPage<Props> = ({ id, data }) => {
     useState<FindOneOfferQuery["findOneOffer"]>();
   const [myNickName, setMyNickName] = useState("");
   const [unreadView, setUnreadView] = useState(true);
+  const [offerModalVisible, setOfferModalVisible] = useState(false);
+
   const divRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -60,6 +63,14 @@ const Room: NextPage<Props> = ({ id, data }) => {
   });
 
   const router = useRouter();
+
+  const disableScroll = () => {
+    document.body.style.overflow = "hidden";
+  };
+
+  const enableScroll = () => {
+    document.body.style.overflow = "auto";
+  };
 
   const scrollToBottom = () => {
     if (containerRef.current) {
@@ -289,6 +300,14 @@ const Room: NextPage<Props> = ({ id, data }) => {
   }, [scroll]);
 
   useEffect(() => {
+    if (offerModalVisible) {
+      disableScroll();
+    } else {
+      enableScroll();
+    }
+  }, [offerModalVisible]);
+
+  useEffect(() => {
     if (router.query.offerId) {
       findOneOffer({
         variables: {
@@ -312,6 +331,12 @@ const Room: NextPage<Props> = ({ id, data }) => {
 
   return (
     <div className={cx("container")}>
+      {/* {offerModalVisible && (
+        <OfferModal
+          offerData={offerData}
+          setOfferModalVisible={setOfferModalVisible}
+        />
+      )} */}
       <div className={cx("wrap")}>
         <div className={cx("top_wrap")}>
           <div className={cx("title")}>채팅하기</div>
@@ -362,6 +387,7 @@ const Room: NextPage<Props> = ({ id, data }) => {
               {offerData?.price?.toLocaleString()}{" "}
               <span className={cx("price_gray")}>KRW</span>
             </div>
+            {/* <button onClick={() => setOfferModalVisible(true)}>오퍼정보</button> */}
           </div>
         )}
         <div className={cx("bottom_wrap")}>

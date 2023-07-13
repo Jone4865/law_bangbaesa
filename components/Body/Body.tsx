@@ -19,6 +19,16 @@ import { toast } from "react-toastify";
 
 const cx = className.bind(styles);
 
+type CarouselData = {
+  id: number;
+  src: string;
+  moveTo: string | undefined;
+  arrowColor: string | undefined;
+  dotsColor: string | undefined;
+  backGroundColor: string | undefined;
+  alt: string;
+};
+
 export default function Body() {
   const router = useRouter();
   const coins = [
@@ -34,6 +44,36 @@ export default function Body() {
   const isMiddle = useMediaQuery({
     query: "(min-width: 1300px) and (max-width: 10000px)",
   });
+
+  const [carouselData, setCarouselData] = useState<CarouselData[]>([
+    {
+      id: 0,
+      moveTo: undefined,
+      src: "1",
+      alt: "1",
+      arrowColor: undefined,
+      dotsColor: undefined,
+      backGroundColor: "#fff",
+    },
+    {
+      id: 1,
+      moveTo: "notice",
+      src: "2",
+      alt: "2",
+      arrowColor: undefined,
+      dotsColor: undefined,
+      backGroundColor: "#fff",
+    },
+    {
+      id: 2,
+      moveTo: undefined,
+      src: "3",
+      alt: "3",
+      arrowColor: "#fff",
+      dotsColor: "#fff",
+      backGroundColor: undefined,
+    },
+  ]);
 
   const titles = [
     <>상품권 시세</>,
@@ -70,12 +110,10 @@ export default function Body() {
 
   return (
     <div className={cx("container")}>
-      {/* <div className={cx("carousel_wrap")}>
-        <CarouselPart />
-      </div> */}
+      <MarketPrice />
+      <CarouselPart carouselData={carouselData} />
       <TopImage imageName={"1"} />
       <Marquee />
-      {/* <MarketPrice /> */}
 
       <div className={cx("OTC_top")}>
         <div className={cx("OTC_top_wrap")}>

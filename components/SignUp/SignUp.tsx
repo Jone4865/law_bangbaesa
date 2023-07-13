@@ -28,7 +28,7 @@ import {
 } from "src/graphql/generated/graphql";
 import { FIND_MANY_COUNTRY_CODE } from "src/graphql/query/findManyCountryCode";
 import Image from "next/image";
-import DropDown from "components/DropDown/IDDropDown/DropDown";
+import DropDown from "components/DropDown/DropDown";
 
 const cx = className.bind(styles);
 
@@ -363,6 +363,7 @@ export default function SignUp() {
                 }}
               />
             </div>
+
             <button className={cx("part_btn")}>
               {viewConfirmTell ? "재전송" : "인증번호 발송"}
             </button>
