@@ -55,6 +55,9 @@
 .nickname {
   font-size: 40px;
   letter-spacing: normal;
+  max-width: 15vw;
+  text-overflow: ellipsis;
+  overflow: hidden;
   @include view("small") {
     font-size: 28px;
   }
@@ -63,6 +66,7 @@
   }
   @include view("mobile") {
     font-size: 30px;
+    max-width: 100%;
   }
 }
 

@@ -1,12 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import styles from "../Room.module.scss";
 import className from "classnames/bind";
-import {
-  useApolloClient,
-  useLazyQuery,
-  useMutation,
-  useSubscription,
-} from "@apollo/client";
+import { useLazyQuery, useMutation, useSubscription } from "@apollo/client";
 import { toast } from "react-toastify";
 import { SUBSCRIBE_CHAT_MESSAGE } from "../../../src/graphql/subscription/subscribeChatMessage";
 import { GetServerSideProps, NextPage } from "next";

@@ -127,12 +127,19 @@ export default function Mypage() {
                 <div className={cx("top_wrap")}>
                   <div className={cx("middle_top")}>
                     <div>
-                      {data?.identity} 님의 보안 인증 레벨은
-                      <span className={cx("level_blue")}>
-                        레벨 {data?.level}
-                      </span>{" "}
-                      입니다
-                      <br />
+                      <div className={cx("middle_top_container")}>
+                        <div className={cx("middle_top_body")}>
+                          <div className={cx("middle_name")}>
+                            {data?.identity}
+                          </div>{" "}
+                          님의 보안 인증 레벨은
+                        </div>
+                        <span className={cx("level_blue")}>
+                          레벨 {data?.level}
+                        </span>{" "}
+                        입니다
+                        <br />
+                      </div>
                       다양한 기능을 이용하기 위해서
                       <br />
                       본인인증을 진행해 주세요

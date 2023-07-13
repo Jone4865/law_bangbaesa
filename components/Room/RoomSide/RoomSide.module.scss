@@ -33,10 +33,15 @@
   @include view("mobile") {
     font-size: 18px;
   }
+  span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }
 
 .img_wrap {
   position: relative;
+  min-width: 53px;
   width: 53px;
   height: 53px;
   margin-right: 10px;
