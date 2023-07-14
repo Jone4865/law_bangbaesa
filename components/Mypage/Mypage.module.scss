@@ -106,7 +106,7 @@
   cursor: pointer;
   @include view("mobile") {
     width: calc(50% - 6px);
-    font-size: 15px;
+    font-size: 18px;
   }
 }
 
