@@ -101,7 +101,7 @@ export default function BasicInfo({ myInfo, setNowAble }: Props) {
                 <div>
                   {myInfo?.emailAuth?.email
                     ? myInfo?.emailAuth?.email
-                    : "이메일 인증을 하지 않았습니다"}
+                    : "이메일 미인증"}
                 </div>
               </div>
               <button

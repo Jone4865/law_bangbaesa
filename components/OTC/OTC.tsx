@@ -295,7 +295,7 @@ export default function OTC({
                 <div className={cx("bottom_body")}>
                   <div>
                     {part === "otc" && (
-                      <div className="flex">
+                      <div className={cx("btns_wrap")}>
                         {offerStateBtns.map((btn, idx) => (
                           <div
                             key={btn}

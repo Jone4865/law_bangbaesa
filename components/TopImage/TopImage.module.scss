@@ -10,7 +10,7 @@
     height: 400px;
   }
   @include view("mobile") {
-    height: 240px;
+    height: 37vw;
   }
 }
 
@@ -41,6 +41,6 @@
   }
   @include view("mobile") {
     width: 100%;
-    height: 240px;
+    height: 37vw;
   }
 }

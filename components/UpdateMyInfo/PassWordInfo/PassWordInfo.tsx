@@ -68,7 +68,7 @@ export default function PassWordInfo({ setNowAble }: Props) {
   return (
     <div className={cx("container")}>
       <form className={cx("form")} onSubmit={onSubmitHandle}>
-        <div>기존 비밀번호</div>
+        <div className={cx("title")}>기존 비밀번호</div>
         <input
           type="passWord"
           autoComplete="on"
@@ -77,7 +77,7 @@ export default function PassWordInfo({ setNowAble }: Props) {
           onChange={(e) => setPassWord(e.target.value)}
           placeholder="기존 비밀번호"
         />
-        <div>새 비밀번호</div>
+        <div className={cx("title")}>새 비밀번호</div>
         <input
           type="passWord"
           autoComplete="on"
@@ -86,7 +86,7 @@ export default function PassWordInfo({ setNowAble }: Props) {
           onChange={(e) => setNewPassWord(e.target.value)}
           placeholder="새 비밀번호"
         />
-        <div>새 비밀번호 확인</div>
+        <div className={cx("title")}>새 비밀번호 확인</div>
         <input
           type="passWord"
           autoComplete="on"
