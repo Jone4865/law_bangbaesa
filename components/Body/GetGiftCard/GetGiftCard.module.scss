@@ -1,8 +1,7 @@
 @import "public/scss/style.scss";
 
 .container {
-  max-width: 1200px;
-  width: 70vw;
+  width: 83vw;
   @include view("very_small") {
     width: 95vw;
   }
@@ -74,7 +73,7 @@
   overflow-y: scroll;
   @include view("mobile") {
     border: none;
-    max-height: 1090px;
+    max-height: none;
   }
 }
 
@@ -170,7 +169,14 @@
 
 .border_top {
   border-top: solid 3px black;
+}
+
+.count {
+  height: 10px;
+}
+
+.none_mobile {
   @include view("mobile") {
-    // border: solid 1px #dcdcdc;
+    display: none;
   }
 }

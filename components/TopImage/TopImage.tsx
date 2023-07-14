@@ -14,7 +14,7 @@ export default function TopImage({ imageName }: Props) {
   const [middle, setMiddle] = useState(true);
 
   const isMiddle = useMediaQuery({
-    query: "(min-width: 1300px) and (max-width: 10000px)",
+    query: "(min-width: 759px) and (max-width: 10000px)",
   });
 
   useEffect(() => {
@@ -34,9 +34,7 @@ export default function TopImage({ imageName }: Props) {
             alt="탑이미지"
             priority
             quality={100}
-            src={`/img/top_image/bg/${
-              middle ? imageName : imageName + "_m"
-            }.png`}
+            src={`/img/top_image/bg/${imageName}.png`}
           />
         </div>
         <div className={cx("img_wrap")}>
@@ -47,7 +45,7 @@ export default function TopImage({ imageName }: Props) {
             quality={100}
             src={`/img/top_image/img/${
               middle ? imageName : imageName + "_m"
-            }.png`}
+            }.png?v=2`}
           />
         </div>
       </div>

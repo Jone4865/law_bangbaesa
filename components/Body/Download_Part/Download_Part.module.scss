@@ -17,7 +17,7 @@
     font-size: 26px;
   }
   @include view("mobile") {
-    font-size: 26px;
+    font-size: 24px;
     letter-spacing: -0.52px;
   }
 }
@@ -63,8 +63,9 @@
   }
   @include view("mobile") {
     max-width: 190px;
-    width: 48vw;
-    height: 55px;
+    width: 43vw;
+    height: 12.3vw;
+    max-height: 55px;
   }
 }
 

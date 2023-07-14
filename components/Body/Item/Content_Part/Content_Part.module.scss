@@ -35,7 +35,7 @@
   @include view("mobile") {
     display: flex;
     flex-direction: column;
-    font-size: 30px;
+    font-size: 28px;
     margin: 10px 0;
   }
 }
@@ -48,6 +48,6 @@
     font-size: 15px;
   }
   @include view("mobile") {
-    font-size: 12px;
+    font-size: 10px;
   }
 }

@@ -34,7 +34,7 @@
   margin: 10px 0 20px 0;
   letter-spacing: -1px;
   @include view("mobile") {
-    font-size: 30px;
+    font-size: 28px;
   }
 }
 
@@ -43,7 +43,7 @@
   color: #666;
   margin-bottom: 70px;
   @include view("mobile") {
-    font-size: 12px;
+    font-size: 10px;
     margin-bottom: 50px;
     display: flex;
     flex-direction: column;
@@ -57,7 +57,7 @@
   font-family: NotoSansCJKKR;
   font-weight: 500;
   @include view("mobile") {
-    font-size: 12px;
+    font-size: 10px;
   }
 }
 
@@ -135,7 +135,7 @@
   cursor: pointer;
   @include view("mobile") {
     height: 45px;
-    font-size: 12px;
+    font-size: 10px;
   }
 }
 
@@ -164,7 +164,7 @@
   font-size: 18px;
   margin-top: 1.5px;
   @include view("mobile") {
-    font-size: 12px;
+    font-size: 10px;
   }
 }
 

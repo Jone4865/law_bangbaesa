@@ -15,6 +15,7 @@ import Marquee from "../Marquee/Marquee";
 import { CoinKind, OfferAction } from "src/graphql/generated/graphql";
 import CarouselPart from "components/CarouselPart/CarouselPart";
 import MarketPrice from "components/MarketPrice/MarketPrice";
+import { toast } from "react-toastify";
 
 const cx = className.bind(styles);
 
@@ -66,6 +67,7 @@ export default function Body() {
       setMiddle(false);
       setKind(OfferAction.Buy);
     }
+    toast.warn("dwadbawkbdkjwadbwakbkdbawkjbdkwakjdbwabkdkjawkbj");
   }, [isMiddle]);
 
   return (
@@ -120,12 +122,12 @@ export default function Body() {
                   </div>
                 ))}
               </div>
-              <div
+              {/* <div
                 className={cx("more_coin")}
                 onClick={() => router.push("/p2p/buy")}
               >
                 다른 코인 보기
-              </div>
+              </div> */}
             </div>
             <OTC
               partKind={kind}
@@ -150,12 +152,12 @@ export default function Body() {
                   </div>
                 ))}
               </div>
-              <div
+              {/* <div
                 className={cx("more_coin")}
                 onClick={() => router.push("/p2p/sell")}
               >
                 다른 코인 보기
-              </div>
+              </div> */}
             </div>
             <OTC
               partKind={OfferAction.Sell}
@@ -179,7 +181,7 @@ export default function Body() {
           >
             전체 보기
           </div>
-          <GetGiftCard searchText="" />
+          <GetGiftCard count={4} searchText="" />
         </div>
       </div>
       <Item

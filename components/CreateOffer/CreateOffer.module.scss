@@ -15,7 +15,7 @@
     padding-top: 100px;
     padding-bottom: 40px;
     background-color: #fff;
-    font-size: 16px;
+    font-size: 14px;
   }
 }
 
@@ -47,7 +47,7 @@
   margin-bottom: 48.5px;
   display: inline-block;
   @include view("mobile") {
-    font-size: 26px;
+    font-size: 24px;
     width: 205px;
     margin-bottom: 30px;
   }
@@ -57,7 +57,7 @@
   margin-bottom: 20px;
   font-size: 20px;
   @include view("mobile") {
-    font-size: 18px;
+    font-size: 16px;
   }
 }
 
@@ -200,7 +200,7 @@
   display: flex;
   line-height: 20px;
   @include view("mobile") {
-    font-size: 12px;
+    font-size: 10px;
   }
 }
 
@@ -276,7 +276,7 @@
   font-size: 18px;
   border-radius: 10px;
   @include view("mobile") {
-    font-size: 16px;
+    font-size: 14px;
   }
 }
 
@@ -295,6 +295,9 @@
 .space {
   display: flex;
   justify-content: space-between;
+  @include view("mobile") {
+    flex-direction: column;
+  }
 }
 
 .essential {

@@ -141,7 +141,7 @@ export default function OTC({
         fetchPolicy: "no-cache",
       });
     } else {
-      router.push("sign-in");
+      router.push("/sign-in");
       toast.warn("로그인이 필요한 서비스입니다.");
     }
   };
@@ -293,32 +293,34 @@ export default function OTC({
                   {!partKind && "P2P Offer"}
                 </div>
                 <div className={cx("bottom_body")}>
-                  {part === "otc" && (
-                    <div className="flex">
-                      {offerStateBtns.map((btn, idx) => (
-                        <div
-                          key={btn}
-                          onClick={() =>
-                            onClickHandle(
-                              btn === "팝니다" ? "buy" : "sell",
-                              "kind"
-                            )
-                          }
-                          className={cx(
-                            btn === "팝니다"
-                              ? kind === "buy"
-                                ? `able_buy`
+                  <div>
+                    {part === "otc" && (
+                      <div className="flex">
+                        {offerStateBtns.map((btn, idx) => (
+                          <div
+                            key={btn}
+                            onClick={() =>
+                              onClickHandle(
+                                btn === "팝니다" ? "buy" : "sell",
+                                "kind"
+                              )
+                            }
+                            className={cx(
+                              btn === "팝니다"
+                                ? kind === "buy"
+                                  ? `able_buy`
+                                  : "default_kind"
+                                : kind === "sell"
+                                ? "able_sell"
                                 : "default_kind"
-                              : kind === "sell"
-                              ? "able_sell"
-                              : "default_kind"
-                          )}
-                        >
-                          {btn}
-                        </div>
-                      ))}
-                    </div>
-                  )}
+                            )}
+                          >
+                            {btn}
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
                   {part === "otc" && (
                     <>
                       <div className={cx("coin_btns")}>
@@ -424,7 +426,12 @@ export default function OTC({
         </div>
 
         {part === "otc" && (
-          <div onClick={onClickCreate} className={cx("mobile_create")}>
+          <div
+            onClick={onClickCreate}
+            className={cx(
+              kind === "buy" ? "mobile_buy_create" : "mobile_sell_create"
+            )}
+          >
             <div>오퍼 만들기</div>
             <div className={cx("arrow_wrap")}>
               <Image fill alt="화살표" src={"/img/mypage/arrow.png"} />
