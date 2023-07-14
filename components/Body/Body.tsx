@@ -67,7 +67,6 @@ export default function Body() {
       setMiddle(false);
       setKind(OfferAction.Buy);
     }
-    toast.warn("dwadbawkbdkjwadbwakbkdbawkjbdkwakjdbwabkdkjawkbj");
   }, [isMiddle]);
 
   return (
@@ -81,7 +80,9 @@ export default function Body() {
 
       <div className={cx("OTC_top")}>
         <div className={cx("OTC_top_wrap")}>
+          <div></div>
           <span>P2P</span>
+          <div onClick={() => router.push("/p2p/buy")}>전체보기</div>
         </div>
       </div>
       <div className={cx("OTC_container")}>
