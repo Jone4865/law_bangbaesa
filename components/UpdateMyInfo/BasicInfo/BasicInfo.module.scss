@@ -54,8 +54,10 @@
   display: flex;
   align-items: center;
   font-size: 18px;
+  white-space: nowrap;
 
   @include view("mobile") {
+    font-size: 16px;
     div {
       // width: 100%;
       max-width: 35vw;
@@ -90,5 +92,6 @@
 .title {
   @include view("mobile") {
     margin: 20px 0;
+    font-size: 18px;
   }
 }

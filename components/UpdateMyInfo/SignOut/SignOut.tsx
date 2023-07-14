@@ -69,7 +69,8 @@ export default function SignOut() {
               className={cx("check")}
             />
             <div className={cx("comment")}>
-              회원탈퇴 안내를 모두 확인하였으며 탈퇴에 동의합니다.
+              회원탈퇴 안내를 모두 확인하였으며
+              <br className={cx("mobile_br")} /> 탈퇴에 동의합니다.
             </div>
           </div>
         </div>

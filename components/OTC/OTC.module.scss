@@ -609,3 +609,12 @@
   width: 31.8px;
   height: 20px;
 }
+
+.btns_wrap {
+  display: flex;
+  div {
+    @include view("mobile") {
+      margin-right: 13px;
+    }
+  }
+}

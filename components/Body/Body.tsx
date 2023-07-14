@@ -80,7 +80,6 @@ export default function Body() {
 
       <div className={cx("OTC_top")}>
         <div className={cx("OTC_top_wrap")}>
-          <div></div>
           <span>P2P</span>
           <div onClick={() => router.push("/p2p/buy")}>전체보기</div>
         </div>
@@ -171,16 +170,18 @@ export default function Body() {
       </div>
       <div className={cx("giftcard_container")}>
         <div className={cx("giftcard_wrap")}>
-          <div className={cx("giftcard_title")}>상품권 시세</div>
+          <div className={cx("giftcard_title")}>
+            <div>상품권 시세</div>
+            <div
+              className={cx("show_more")}
+              onClick={() => router.push("/gift-card")}
+            >
+              전체 보기
+            </div>
+          </div>
           <div className={cx("giftcard_content")}>
             아래의 가격표는 수량, 권종, 상품권의 상태등의 따라
             <br className={cx("mobile")} /> 변경될 수 있습니다.
-          </div>
-          <div
-            className={cx("show_more")}
-            onClick={() => router.push("gift-card")}
-          >
-            전체 보기
           </div>
           <GetGiftCard count={4} searchText="" />
         </div>

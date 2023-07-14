@@ -7,6 +7,7 @@
   color: #333;
   @include view("mobile") {
     height: 60px;
+    font-size: 14px;
   }
 }
 
