@@ -75,8 +75,7 @@
   }
   @include view("mobile") {
     font-size: 18px;
-    max-width: 388px;
-    width: 99vw;
+    width: 100%;
     height: auto;
     padding: 20px;
   }
