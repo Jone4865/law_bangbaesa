@@ -6,12 +6,24 @@
   display: flex;
   justify-content: center;
   align-items: flex-end;
+  @include view("very_small") {
+    height: 400px;
+  }
+  @include view("mobile") {
+    height: 240px;
+  }
 }
 
 .bg_wrap {
   width: 100%;
   height: 601px;
   position: absolute;
+  @include view("very_small") {
+    height: 400px;
+  }
+  @include view("mobile") {
+    display: none;
+  }
 }
 
 .img_wrap {
@@ -20,16 +32,15 @@
   position: absolute;
 
   @include view("small") {
-    width: 390px;
-    height: 560px;
+    width: 1000px;
+    height: 510px;
   }
   @include view("very_small") {
-    width: 390px;
-    height: 560px;
+    width: 730px;
+    height: 400px;
   }
   @include view("mobile") {
-    max-width: 390px;
-    width: 98%;
-    height: 560px;
+    width: 100%;
+    height: 240px;
   }
 }

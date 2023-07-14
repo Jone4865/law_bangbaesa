@@ -129,10 +129,8 @@ export default function Mypage() {
                     <div>
                       <div className={cx("middle_top_container")}>
                         <div className={cx("middle_top_body")}>
-                          <div className={cx("middle_name")}>
-                            {data?.identity}
-                          </div>{" "}
-                          님의 보안 인증 레벨은
+                          <div className={cx("middle_name")}>회원</div> 님의
+                          보안 인증 레벨은
                         </div>
                         <span className={cx("level_blue")}>
                           레벨 {data?.level}
@@ -161,7 +159,7 @@ export default function Mypage() {
                         disabled={data && data.level >= 3}
                       >
                         {data && data.level >= 3 ? (
-                          <div>본인인증이 완료되었습니다.</div>
+                          <div>본인인증 완료</div>
                         ) : (
                           <>
                             <div>본인인증 하기</div>

@@ -95,7 +95,6 @@ function InnerApp({ Component, pageProps }: AppProps & { router: NextRouter }) {
         <ToastContainer
           style={{
             wordBreak: "keep-all",
-            width: "400px",
           }}
           position="top-center"
           autoClose={3000}

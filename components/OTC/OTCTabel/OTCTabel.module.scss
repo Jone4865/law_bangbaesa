@@ -511,6 +511,11 @@
     align-items: center;
     height: 100%;
   }
+  @include view("mobile") {
+    font-size: 10px;
+    width: 80px;
+    height: 25px;
+  }
 }
 
 .toggle_open {

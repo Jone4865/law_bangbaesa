@@ -31,7 +31,7 @@
     flex-direction: row;
     justify-content: flex-start;
     padding: 15px 20px;
-    font-size: 20px;
+    font-size: 18px;
   }
 }
 
@@ -54,6 +54,15 @@
   display: flex;
   align-items: center;
   font-size: 18px;
+
+  @include view("mobile") {
+    div {
+      // width: 100%;
+      max-width: 35vw;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
 }
 
 .btn {

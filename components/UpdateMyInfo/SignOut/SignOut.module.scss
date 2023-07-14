@@ -11,9 +11,7 @@
   }
   @include view("mobile") {
     font-size: 14px;
-    max-width: 388px;
-    // width: 388px;
-    width: 98vw;
+    max-width: 343px;
   }
 }
 
@@ -174,6 +172,10 @@
   @include view("mobile") {
     letter-spacing: -0.28px;
     line-height: 2;
-    margin-top: -5px;
+    margin: -5px auto 0 auto;
+    div {
+      max-width: 388px;
+      width: 90vw;
+    }
   }
 }

@@ -46,7 +46,7 @@
   white-space: nowrap;
   display: flex;
   width: 100%;
-  padding: 20px;
+  padding: 20px 0;
   @include view("mobile") {
     padding: 0;
     flex-direction: column;
@@ -171,6 +171,9 @@
   display: flex;
   cursor: pointer;
   border-bottom: solid 1px #dcdcdc;
+  @include view("mobile") {
+    padding-top: 10px;
+  }
 }
 
 .done {

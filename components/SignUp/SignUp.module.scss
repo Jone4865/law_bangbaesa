@@ -78,6 +78,13 @@
   }
 }
 
+.part_input::placeholder {
+  font-size: 18px;
+  @include view("mobile") {
+    font-size: 16px;
+  }
+}
+
 .part_btn {
   height: 50px;
   border-radius: 10px;
@@ -115,6 +122,13 @@
   @include view("very_small") {
     font-size: 16px;
   }
+  @include view("mobile") {
+    font-size: 16px;
+  }
+}
+
+.input::placeholder {
+  font-size: 18px;
   @include view("mobile") {
     font-size: 16px;
   }
@@ -224,8 +238,12 @@
   display: flex;
   align-items: center;
   margin-top: 30px;
+  font-size: 18px;
   div {
     margin-left: 10px;
+  }
+  @include view("mobile") {
+    font-size: 16px;
   }
 }
 
