@@ -20,11 +20,15 @@ import {
   OfferAction,
   SignOutByUserMutation,
 } from "src/graphql/generated/graphql";
+import { useMediaQuery } from "react-responsive";
 
 const cx = className.bind(styles);
 
 export default function Mypage() {
   const router = useRouter();
+  const isMobile = useMediaQuery({
+    query: "(max-width: 759px)",
+  });
   const [cookies, , removeCookies] = useCookies(["login", "nickName"]);
   const [mobileMore, setMobileMore] = useState(false);
   const [nowAble, setNowAble] = useState("my");
@@ -103,6 +107,17 @@ export default function Mypage() {
   useEffect(() => {
     setRefetch(!refetch);
   }, [nowAble, data, totalOffer]);
+
+  useEffect(() => {
+    if (mobileMore) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+    if (!isMobile) {
+      document.body.style.overflow = "unset";
+    }
+  }, [mobileMore, isMobile]);
 
   return (
     <div className={cx("container")}>

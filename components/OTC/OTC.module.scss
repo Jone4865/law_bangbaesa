@@ -353,6 +353,7 @@
   @include view("mobile") {
     margin-bottom: 20px;
     width: 100%;
+    justify-content: space-between;
   }
 }
 
@@ -364,8 +365,8 @@
   margin-right: 40px;
   @include view("mobile") {
     font-size: 20px;
-    padding: 10px;
-    margin-right: 20px;
+    padding: 10px 0;
+    margin-right: 13px;
   }
 }
 
@@ -377,8 +378,8 @@
   margin-right: 40px;
   @include view("mobile") {
     font-size: 20px;
-    padding: 10px;
-    margin-right: 20px;
+    padding: 10px 0;
+    margin-right: 13px;
   }
 }
 
@@ -390,8 +391,8 @@
 
   @include view("mobile") {
     font-size: 20px;
-    padding: 10px;
-    margin-right: 20px;
+    padding: 10px 0;
+    margin-right: 13px;
   }
 }
 
@@ -403,7 +404,7 @@
   border-radius: 12px;
   height: 50px;
   @include view("mobile") {
-    width: 100%;
+    width: 172px;
     margin-top: 10px;
     height: 38px;
   }
@@ -612,9 +613,4 @@
 
 .btns_wrap {
   display: flex;
-  div {
-    @include view("mobile") {
-      margin-right: 13px;
-    }
-  }
 }
