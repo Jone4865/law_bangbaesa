@@ -169,8 +169,7 @@ a {
 
 .toast_container {
   word-break: keep-all;
-  width: 360px;
-  max-width: 100%;
+  max-width: 70%;
 }
 
 .toast_btn {
