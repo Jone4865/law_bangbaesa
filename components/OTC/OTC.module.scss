@@ -317,7 +317,6 @@
     width: 730px;
   }
   @include view("mobile") {
-    max-width: 388px;
     width: 100%;
     padding: 0 20px;
   }
