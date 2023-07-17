@@ -124,10 +124,9 @@
 .only_pc_body {
   width: 100%;
   display: flex;
-  align-items: center;
   font-size: 30px;
-  margin: 30px 0;
-  justify-content: center;
+  margin: 0 auto 30px 0;
+  justify-content: space-between;
 }
 
 .non_pc {
@@ -176,9 +175,7 @@
   display: flex;
 
   font-size: 30px;
-
-  // margin-bottom: 18px;
-  margin: 0 auto 18px auto;
+  margin: 0 auto 30px auto;
   align-items: flex-start;
   justify-content: space-between;
   @include view("mobile") {
