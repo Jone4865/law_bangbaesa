@@ -110,8 +110,6 @@ export default function Body() {
 
   return (
     <div className={cx("container")}>
-      <MarketPrice />
-      <CarouselPart carouselData={carouselData} />
       <TopImage imageName={"1"} />
       <Marquee />
 
