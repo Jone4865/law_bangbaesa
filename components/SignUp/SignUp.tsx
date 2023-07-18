@@ -27,8 +27,8 @@ import {
   SignUpByUserMutation,
 } from "src/graphql/generated/graphql";
 import { FIND_MANY_COUNTRY_CODE } from "src/graphql/query/findManyCountryCode";
-import Image from "next/image";
 import DropDown from "components/DropDown/DropDown";
+import Image from "next/image";
 
 const cx = className.bind(styles);
 

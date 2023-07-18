@@ -49,6 +49,7 @@ const Room: NextPage<Props> = ({ id, data }) => {
   const [myNickName, setMyNickName] = useState("");
   const [offerId] = useState<number | undefined>(0);
   const [unreadView, setUnreadView] = useState(true);
+  const [offerModalVisible, setOfferModalVisible] = useState(false);
   const [message, setMessage] = useState("");
   const [subscriptTexts, setSubscriptTexts] = useState<any[]>();
 
@@ -350,12 +351,6 @@ const Room: NextPage<Props> = ({ id, data }) => {
 
   return (
     <div className={cx("container")}>
-      {/* {offerModalVisible && (
-        <OfferModal
-          offerData={offerData}
-          setOfferModalVisible={setOfferModalVisible}
-        />
-      )} */}
       <div className={cx("wrap")}>
         <div className={cx("top_wrap")}>
           <div className={cx("title")}>채팅하기</div>
