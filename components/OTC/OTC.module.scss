@@ -187,7 +187,7 @@
     font-size: 16px;
   }
   @include view("mobile") {
-    font-size: 16px;
+    font-size: 14px;
   }
 }
 
@@ -205,7 +205,7 @@
     margin-top: 20px;
   }
   @include view("mobile") {
-    font-size: 16px;
+    font-size: 14px;
     margin-top: 20px;
   }
 }
@@ -317,8 +317,8 @@
     width: 730px;
   }
   @include view("mobile") {
-    max-width: 388px;
-    width: 98vw;
+    width: 100%;
+    padding: 0 20px;
   }
 }
 
@@ -340,7 +340,6 @@
 
 .bottom_body {
   display: flex;
-  justify-content: space-between;
   margin-bottom: 30px;
   @include view("very_small") {
     flex-direction: column;
@@ -351,9 +350,9 @@
     row-gap: 20px;
   }
   @include view("mobile") {
-    flex-direction: column;
     margin-bottom: 20px;
     width: 100%;
+    justify-content: space-between;
   }
 }
 
@@ -365,8 +364,8 @@
   margin-right: 40px;
   @include view("mobile") {
     font-size: 20px;
-    padding: 10px;
-    margin-right: 20px;
+    padding: 10px 0;
+    margin-right: 13px;
   }
 }
 
@@ -378,8 +377,8 @@
   margin-right: 40px;
   @include view("mobile") {
     font-size: 20px;
-    padding: 10px;
-    margin-right: 20px;
+    padding: 10px 0;
+    margin-right: 13px;
   }
 }
 
@@ -391,8 +390,8 @@
 
   @include view("mobile") {
     font-size: 20px;
-    padding: 10px;
-    margin-right: 20px;
+    padding: 10px 0;
+    margin-right: 13px;
   }
 }
 
@@ -404,8 +403,9 @@
   border-radius: 12px;
   height: 50px;
   @include view("mobile") {
-    width: 100%;
+    width: 172px;
     margin-top: 10px;
+    height: 38px;
   }
 }
 
@@ -413,12 +413,16 @@
   height: 100%;
   display: flex;
   justify-content: center;
-  // width: 25%;
   width: 50%;
   align-items: center;
   background-color: #3561c7;
   border-radius: 12px;
   color: #fff;
+  font-size: 18px;
+  @include view("mobile") {
+    font-size: 16px;
+    height: 38px;
+  }
 }
 
 .able_sell_btn {
@@ -431,6 +435,11 @@
   color: #fff;
   background-color: #ff7401;
   border-radius: 12px;
+  font-size: 18px;
+  @include view("mobile") {
+    font-size: 16px;
+    height: 38px;
+  }
 }
 
 .default_btn {
@@ -441,6 +450,10 @@
   width: 50%;
   align-items: center;
   color: #777;
+  font-size: 18px;
+  @include view("mobile") {
+    height: 38px;
+  }
 }
 
 .create_orange {
@@ -454,6 +467,7 @@
   align-items: center;
   font-size: 18px;
   border-radius: 12px;
+  margin: 0 0 0 auto;
 }
 
 .create_blue {
@@ -467,6 +481,7 @@
   align-items: center;
   font-size: 18px;
   border-radius: 12px;
+  margin: 0 0 0 auto;
 }
 
 .arrow_img {
@@ -547,7 +562,7 @@
   background-color: #3561c7;
 }
 
-.mobile_create {
+.mobile_buy_create {
   display: none;
   height: 60px;
   font-size: 18px;
@@ -556,6 +571,31 @@
   align-items: center;
   color: #fff;
   cursor: pointer;
+  position: fixed;
+  bottom: 0;
+  z-index: 2;
+  width: 100%;
+  @include view("mobile") {
+    display: flex;
+  }
+  img {
+    margin-left: 10px;
+  }
+}
+
+.mobile_sell_create {
+  display: none;
+  height: 60px;
+  font-size: 18px;
+  background-color: #3561c7;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  cursor: pointer;
+  position: fixed;
+  bottom: 0;
+  z-index: 2;
+  width: 100%;
   @include view("mobile") {
     display: flex;
   }
@@ -568,4 +608,8 @@
   position: relative;
   width: 31.8px;
   height: 20px;
+}
+
+.btns_wrap {
+  display: flex;
 }

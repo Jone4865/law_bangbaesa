@@ -28,6 +28,7 @@ import {
 } from "src/graphql/generated/graphql";
 import { FIND_MANY_COUNTRY_CODE } from "src/graphql/query/findManyCountryCode";
 import DropDown from "components/DropDown/DropDown";
+import Image from "next/image";
 
 const cx = className.bind(styles);
 
@@ -93,7 +94,7 @@ export default function SignUp() {
       if (idRule.test(id)) {
         checkDuplicateIdentity({ variables: { identity: id } });
       } else {
-        toast.warn("아이디는 네 글자 이상으로 작성해주세요");
+        toast.warn("아이디는 4자 이상, 20자 이하로 작성해주세요");
       }
     } else {
       toast.warn("아이디를 입력해주세요", { toastId: 0 });
@@ -273,57 +274,95 @@ export default function SignUp() {
           <div className={cx("title")}>회원가입</div>
           <div className={cx("part_title")}>아이디</div>
           <form className={cx("part_wrap")} onSubmit={onDuplicateId}>
-            <input
-              className={cx("part_input")}
-              placeholder="아이디를 입력하세요"
-              value={id}
-              onChange={(e) => {
-                onChangeIdHandle(e);
-                toast.dismiss();
-              }}
-            />
+            <div className={cx("warn_wrap")}>
+              {id && !duplicateId && (
+                <div className={cx("warn_text_wrap")}>!</div>
+              )}
+              <input
+                className={cx(
+                  "part_input",
+                  id && !duplicateId && "warn_border"
+                )}
+                placeholder="아이디를 입력하세요"
+                value={id}
+                onChange={(e) => {
+                  onChangeIdHandle(e);
+                  toast.dismiss();
+                }}
+              />
+            </div>
             <button className={cx("part_btn")}>중복검사</button>
           </form>
-
+          {id && !duplicateId && (
+            <div className={cx("warn")}>아이디 중복검사가 필요합니다.</div>
+          )}
           <form onSubmit={onSubmitHandle}>
             <div className={cx("part_title")}>비밀번호</div>
-            <input
-              className={cx("input")}
-              placeholder="비밀번호를 입력하세요"
-              value={passWord}
-              type="password"
-              autoComplete="on"
-              onChange={(e) => setPassWord(e.target.value.trim())}
-            />
-
+            <div className={cx("warn_wrap")}>
+              {passWord && !passwordRule.test(passWord) && (
+                <div className={cx("warn_text_wrap")}>!</div>
+              )}
+              <input
+                className={cx(
+                  "input",
+                  passWord && !passwordRule.test(passWord) && "warn_border"
+                )}
+                placeholder="비밀번호를 입력하세요"
+                value={passWord}
+                type="password"
+                autoComplete="on"
+                onChange={(e) => setPassWord(e.target.value.trim())}
+              />
+            </div>
+            {passWord && !passwordRule.test(passWord) && (
+              <div className={cx("warn")}>
+                비밀번호는 영문, 특수문자(@$!%*#?&), 숫자 포함 8~20자 입력
+                가능합니다.
+              </div>
+            )}
             <div className={cx("part_title")}>비밀번호 확인</div>
-            <input
-              onPaste={handlePaste}
-              type="password"
-              autoComplete="on"
-              className={cx("input")}
-              placeholder="비밀번호를 한번 더 입력하세요"
-              value={confirmPass}
-              onChange={(e) => setConfirmPass(e.target.value.trim())}
-            />
+            <div className={cx("warn_wrap")}>
+              {confirmPass && confirmPass !== passWord && (
+                <div className={cx("warn_text_wrap")}>!</div>
+              )}
+              <input
+                onPaste={handlePaste}
+                type="password"
+                autoComplete="on"
+                className={cx(
+                  "input",
+                  confirmPass && confirmPass !== passWord && "warn_border"
+                )}
+                placeholder="비밀번호를 한번 더 입력하세요"
+                value={confirmPass}
+                onChange={(e) => setConfirmPass(e.target.value.trim())}
+              />
+            </div>
           </form>
-
+          {confirmPass && confirmPass !== passWord && (
+            <div className={cx("warn")}>비밀번호와 일치하지 않습니다.</div>
+          )}
           <div className={cx("part_title")}>휴대폰 인증</div>
           <form className={cx("part_wrap")} onSubmit={onSendCertification}>
-            <DropDown
-              type="county"
-              data={countryCodes}
-              onChangeHandel={changeCountry}
-            />
-            <input
-              className={cx("part_input")}
-              placeholder="- 를 빼고 입력하세요"
-              value={tell}
-              onChange={(e) => {
-                setTell(e.target.value.replace(/\D/g, "").trim());
-                setPassTell(false);
-              }}
-            />
+            <div className={cx("warn_wrap")}>
+              {viewConfirmTell && !passTell && (
+                <div className={cx("warn_text_wrap")}>!</div>
+              )}
+              <DropDown
+                type="county"
+                data={countryCodes}
+                onChangeHandel={changeCountry}
+              />
+              <input
+                className={cx("part_input")}
+                placeholder="- 를 빼고 입력하세요"
+                value={tell}
+                onChange={(e) => {
+                  setTell(e.target.value.replace(/\D/g, "").trim());
+                  setPassTell(false);
+                }}
+              />
+            </div>
             <button className={cx("part_btn")}>
               {viewConfirmTell ? "재전송" : "인증번호 발송"}
             </button>
@@ -335,7 +374,11 @@ export default function SignUp() {
             >
               <input
                 placeholder="숫자를 입력해주세요"
-                className={cx("part_input", "more")}
+                className={cx(
+                  "part_input",
+                  "more",
+                  viewConfirmTell && !passTell && "warn_border"
+                )}
                 value={certificationTellText}
                 onChange={(e) =>
                   setCertificationTellText(
@@ -347,6 +390,9 @@ export default function SignUp() {
                 {passTell ? "인증완료" : "인증"}
               </button>
             </form>
+          )}
+          {viewConfirmTell && !passTell && (
+            <div className={cx("warn")}>휴대폰 인증을 진행해주세요.</div>
           )}
         </div>
         <div className={cx("line")} />

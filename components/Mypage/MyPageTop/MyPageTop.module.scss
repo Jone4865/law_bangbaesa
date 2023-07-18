@@ -38,8 +38,7 @@
   }
   @include view("mobile") {
     flex-direction: column;
-    max-width: 388px;
-    width: 99vw;
+    width: 100%;
     height: 135px;
     align-items: flex-start;
     justify-content: center;
@@ -55,6 +54,9 @@
 .nickname {
   font-size: 40px;
   letter-spacing: normal;
+  max-width: 15vw;
+  text-overflow: ellipsis;
+  overflow: hidden;
   @include view("small") {
     font-size: 28px;
   }
@@ -62,7 +64,8 @@
     font-size: 28px;
   }
   @include view("mobile") {
-    font-size: 30px;
+    font-size: 26px;
+    max-width: 100%;
   }
 }
 
@@ -118,6 +121,7 @@
     width: 100%;
     height: 44px;
     margin-top: 15px;
+    font-size: 16px;
   }
 }
 
@@ -141,8 +145,7 @@
   margin-left: 20px;
   @include view("mobile") {
     margin: 10px 0 20px 0;
-    max-width: 388px;
-    width: 99vw;
+    width: 100%;
   }
 }
 
@@ -159,11 +162,16 @@
   justify-content: center;
   font-size: 24px;
   margin-right: 8px;
+  white-space: nowrap;
   @include view("small") {
     font-size: 18px;
   }
   @include view("very_small") {
     font-size: 18px;
+  }
+  @include view("mobile") {
+    width: 50%;
+    padding: 0 10px;
   }
 }
 
@@ -179,11 +187,16 @@
   flex-direction: column;
   justify-content: center;
   font-size: 24px;
+  white-space: nowrap;
   @include view("small") {
     font-size: 18px;
   }
   @include view("very_small") {
     font-size: 18px;
+  }
+  @include view("mobile") {
+    width: 50%;
+    padding: 0 10px;
   }
 }
 
@@ -203,10 +216,14 @@
   @include view("very_small") {
     font-size: 17px;
   }
+  @include view("mobile") {
+    font-size: 16px;
+  }
 }
 
 .ment_img {
   width: 20.8px;
+  min-width: 20.8px;
   height: 19.9px;
   position: relative;
   display: flex;

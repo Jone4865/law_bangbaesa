@@ -15,6 +15,7 @@ import Marquee from "../Marquee/Marquee";
 import { CoinKind, OfferAction } from "src/graphql/generated/graphql";
 import CarouselPart from "components/CarouselPart/CarouselPart";
 import MarketPrice from "components/MarketPrice/MarketPrice";
+import { toast } from "react-toastify";
 
 const cx = className.bind(styles);
 
@@ -92,9 +93,8 @@ export default function Body() {
       통합마케팅 서비스를 제공합니다.
     </>,
     <>
-      방배사는 기업상품권 판매대행 서비스를 위해
-      <br />
-      다양한 마케팅 솔루션을 보유하고 있습니다.
+      방배사는 기업상품권 판매대행 서비스를 위해 다양한 마케팅 솔루션을 보유하고
+      있습니다.
     </>,
   ];
 
@@ -118,6 +118,7 @@ export default function Body() {
       <div className={cx("OTC_top")}>
         <div className={cx("OTC_top_wrap")}>
           <span>P2P</span>
+          <div onClick={() => router.push("/p2p/buy")}>전체보기</div>
         </div>
       </div>
       <div className={cx("OTC_container")}>
@@ -158,12 +159,12 @@ export default function Body() {
                   </div>
                 ))}
               </div>
-              <div
+              {/* <div
                 className={cx("more_coin")}
                 onClick={() => router.push("/p2p/buy")}
               >
                 다른 코인 보기
-              </div>
+              </div> */}
             </div>
             <OTC
               partKind={kind}
@@ -188,12 +189,12 @@ export default function Body() {
                   </div>
                 ))}
               </div>
-              <div
+              {/* <div
                 className={cx("more_coin")}
                 onClick={() => router.push("/p2p/sell")}
               >
                 다른 코인 보기
-              </div>
+              </div> */}
             </div>
             <OTC
               partKind={OfferAction.Sell}
@@ -206,18 +207,20 @@ export default function Body() {
       </div>
       <div className={cx("giftcard_container")}>
         <div className={cx("giftcard_wrap")}>
-          <div className={cx("giftcard_title")}>상품권 시세</div>
+          <div className={cx("giftcard_title")}>
+            <div>상품권 시세</div>
+            <div
+              className={cx("show_more")}
+              onClick={() => router.push("/gift-card")}
+            >
+              전체 보기
+            </div>
+          </div>
           <div className={cx("giftcard_content")}>
             아래의 가격표는 수량, 권종, 상품권의 상태등의 따라
             <br className={cx("mobile")} /> 변경될 수 있습니다.
           </div>
-          <div
-            className={cx("show_more")}
-            onClick={() => router.push("gift-card")}
-          >
-            전체 보기
-          </div>
-          <GetGiftCard searchText="" />
+          <GetGiftCard count={4} searchText="" />
         </div>
       </div>
       <Item

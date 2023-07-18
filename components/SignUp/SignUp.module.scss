@@ -78,6 +78,13 @@
   }
 }
 
+.part_input::placeholder {
+  font-size: 18px;
+  @include view("mobile") {
+    font-size: 16px;
+  }
+}
+
 .part_btn {
   height: 50px;
   border-radius: 10px;
@@ -115,6 +122,13 @@
   @include view("very_small") {
     font-size: 16px;
   }
+  @include view("mobile") {
+    font-size: 16px;
+  }
+}
+
+.input::placeholder {
+  font-size: 18px;
   @include view("mobile") {
     font-size: 16px;
   }
@@ -224,8 +238,12 @@
   display: flex;
   align-items: center;
   margin-top: 30px;
+  font-size: 18px;
   div {
     margin-left: 10px;
+  }
+  @include view("mobile") {
+    font-size: 16px;
   }
 }
 
@@ -247,4 +265,36 @@
   color: #777;
   border-bottom: solid 1px #777;
   cursor: pointer;
+}
+
+.warn {
+  font-size: 14px;
+  color: rgba(228, 51, 51, 0.637);
+  margin-top: 5px;
+}
+
+.warn_border {
+  border: solid 1px rgba(228, 51, 51, 0.637);
+}
+
+.warn_text_wrap {
+  width: 15px;
+  height: 15px;
+  position: absolute;
+  right: 10px;
+  border: solid 1px rgba(228, 51, 51, 0.637);
+  border-radius: 100%;
+  color: rgba(228, 51, 51, 0.637);
+  font-size: 11px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bolder;
+}
+
+.warn_wrap {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
 }

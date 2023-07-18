@@ -23,7 +23,7 @@
     font-size: 1.5vw;
   }
   @include view("mobile") {
-    font-size: 2.2vw;
+    font-size: 1.8vw;
   }
 }
 
@@ -57,7 +57,7 @@
     font-size: 1.8vw;
   }
   @include view("mobile") {
-    font-size: 2.5vw;
+    font-size: 1.8vw;
   }
 }
 

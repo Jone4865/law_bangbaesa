@@ -30,16 +30,17 @@
   margin: 50px 0 20px;
   @include view("mobile") {
     margin: 20px 0;
+    font-size: 18px;
   }
 }
 
 .btns_wrap {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 15px;
 }
 
 .able_btn {
-  width: 100px;
   border: solid 1px #ff7401;
   padding: 10px;
   border-radius: 12px;
@@ -49,7 +50,6 @@
 }
 
 .default_btn {
-  width: 100px;
   border: solid 1px #dcdcdc;
   padding: 10px;
   border-radius: 12px;

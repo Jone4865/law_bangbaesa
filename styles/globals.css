@@ -83,6 +83,14 @@
   ::-webkit-input-placeholder {
     color: #c7c7c7;
   }
+  ::-webkit-scrollbar-track {
+    display: none;
+    width: 0;
+  }
+  ::-webkit-scrollbar {
+    width: 0;
+  }
+  scrollbar-width: none;
 }
 
 input {
@@ -161,7 +169,7 @@ a {
 
 .toast_container {
   word-break: keep-all;
-  width: 360px;
+  max-width: 70%;
 }
 
 .toast_btn {

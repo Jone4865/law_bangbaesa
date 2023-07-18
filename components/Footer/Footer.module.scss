@@ -17,10 +17,9 @@
 .wrap {
   display: flex;
   margin: auto;
-  height: 225px;
+  padding: 50px 0;
   @include view("mobile") {
-    height: 262px;
-    padding: 50px 0 30px 0;
+    padding: 30px 0;
   }
 }
 
@@ -105,11 +104,16 @@
 }
 
 .bottom_container {
-  height: 174px;
+  padding: 50px 0;
   background-color: #221e1f;
   display: flex;
   justify-content: center;
   color: #888;
+  font-size: 14px;
+  @include view("mobile") {
+    font-size: 12px;
+    padding: 30px 0;
+  }
 }
 
 .bottom_wrap {
@@ -123,7 +127,6 @@
 }
 
 .text_wrap {
-  font-size: 14px;
   font-weight: 100;
   @include view("mobile") {
     display: flex;

@@ -61,5 +61,6 @@
   cursor: pointer;
   @include view("mobile") {
     width: 100%;
+    font-size: 18px;
   }
 }

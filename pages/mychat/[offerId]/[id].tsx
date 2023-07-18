@@ -37,25 +37,27 @@ type Props = {
 };
 
 const Room: NextPage<Props> = ({ id, data }) => {
-  const isMobile = useMediaQuery({
-    query: "(max-width: 759px)",
-  });
-
-  const router = useRouter();
-  const [take, setTake] = useState(10);
+  const [peopleVisible, setPeopleVisible] = useState(true);
+  const [infoVisible, setInfoVisible] = useState(true);
+  const [peopleCount, setPeopleCount] = useState(0);
+  const [scroll, setScroll] = useState(false);
+  const [first, setFirst] = useState(true);
+  const [take] = useState(10);
   const [datas, setDatas] = useState<any[]>([]);
   const [offerData, setOfferData] =
     useState<FindOneOfferQuery["findOneOffer"]>();
   const [myNickName, setMyNickName] = useState("");
-  const [offerId, setOfferId] = useState<number | undefined>(0);
+  const [offerId] = useState<number | undefined>(0);
   const [unreadView, setUnreadView] = useState(true);
   const [offerModalVisible, setOfferModalVisible] = useState(false);
+  const [message, setMessage] = useState("");
+  const [subscriptTexts, setSubscriptTexts] = useState<any[]>();
+
+  const router = useRouter();
 
   const divRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-
-  const [subscriptTexts, setSubscriptTexts] = useState<any[]>();
 
   const [prevRef, prevView] = useInView({
     threshold: 1,
@@ -63,13 +65,10 @@ const Room: NextPage<Props> = ({ id, data }) => {
   const [nextRef, nextView] = useInView({
     threshold: 1,
   });
-  const [message, setMessage] = useState("");
 
-  const [peopleVisible, setPeopleVisible] = useState(true);
-  const [infoVisible, setInfoVisible] = useState(true);
-  const [peopleCount, setPeopleCount] = useState(0);
-
-  const [scroll, setScroll] = useState(false);
+  const isMobile = useMediaQuery({
+    query: "(max-width: 759px)",
+  });
 
   const disableScroll = () => {
     document.body.style.overflow = "hidden";
@@ -246,7 +245,7 @@ const Room: NextPage<Props> = ({ id, data }) => {
       setInfoVisible(true);
       setPeopleVisible(true);
     }
-    if (containerRef.current) {
+    if (containerRef.current && first) {
       scrollToBottom();
     }
     if (inputRef.current) {
@@ -266,6 +265,7 @@ const Room: NextPage<Props> = ({ id, data }) => {
         },
         fetchPolicy: "no-cache",
       }).then(({ data }) => {
+        setFirst(false);
         setDatas((prev) =>
           data ? [...data.findManyChatMessageByUser.chatMessages, ...prev] : []
         );

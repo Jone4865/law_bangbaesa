@@ -20,11 +20,15 @@ import {
   OfferAction,
   SignOutByUserMutation,
 } from "src/graphql/generated/graphql";
+import { useMediaQuery } from "react-responsive";
 
 const cx = className.bind(styles);
 
 export default function Mypage() {
   const router = useRouter();
+  const isMobile = useMediaQuery({
+    query: "(max-width: 759px)",
+  });
   const [cookies, , removeCookies] = useCookies(["login", "nickName"]);
   const [mobileMore, setMobileMore] = useState(false);
   const [nowAble, setNowAble] = useState("my");
@@ -104,6 +108,17 @@ export default function Mypage() {
     setRefetch(!refetch);
   }, [nowAble, data, totalOffer]);
 
+  useEffect(() => {
+    if (mobileMore) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+    if (!isMobile) {
+      document.body.style.overflow = "unset";
+    }
+  }, [mobileMore, isMobile]);
+
   return (
     <div className={cx("container")}>
       {mobileMore && (
@@ -127,12 +142,17 @@ export default function Mypage() {
                 <div className={cx("top_wrap")}>
                   <div className={cx("middle_top")}>
                     <div>
-                      {data?.identity} 님의 보안 인증 레벨은
-                      <span className={cx("level_blue")}>
-                        레벨 {data?.level}
-                      </span>{" "}
-                      입니다
-                      <br />
+                      <div className={cx("middle_top_container")}>
+                        <div className={cx("middle_top_body")}>
+                          <div className={cx("middle_name")}>회원</div> 님의
+                          보안 인증 레벨은
+                        </div>
+                        <span className={cx("level_blue")}>
+                          레벨 {data?.level}
+                        </span>{" "}
+                        입니다
+                        <br />
+                      </div>
                       다양한 기능을 이용하기 위해서
                       <br />
                       본인인증을 진행해 주세요
@@ -154,7 +174,7 @@ export default function Mypage() {
                         disabled={data && data.level >= 3}
                       >
                         {data && data.level >= 3 ? (
-                          <div>본인인증이 완료되었습니다.</div>
+                          <div>본인인증 완료</div>
                         ) : (
                           <>
                             <div>본인인증 하기</div>
