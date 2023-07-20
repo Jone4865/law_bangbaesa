@@ -14,13 +14,13 @@ import {
   SendPhoneAuthNumberQuery,
 } from "src/graphql/generated/graphql";
 import { FIND_MANY_COUNTRY_CODE } from "src/graphql/query/findManyCountryCode";
-import DropDown from "components/DropDown/DropDown";
+import CountryDropDown from "components/DropDown/CountryDropDown/CountryDropDown";
 
 const cx = className.bind(styles);
 
 export default function FindId() {
   const [countryCodes, setCountryCodes] = useState<CountryCodeModel[]>([]);
-  const [countryCode, setCountryCode] = useState(82);
+  const [countryCode, setCountryCode] = useState("82");
 
   const [moreVisible, setMoreVisible] = useState(false);
   const [tell, setTell] = useState("");
@@ -28,7 +28,7 @@ export default function FindId() {
 
   const router = useRouter();
 
-  const changeCountry = (code: number) => {
+  const changeCountry = (code: string) => {
     setCountryCode(code);
     setMoreVisible(false);
   };
@@ -37,7 +37,7 @@ export default function FindId() {
     e.preventDefault();
     e.stopPropagation();
     if (tell !== "") {
-      sendPhoneAuthNumber({ variables: { phone: tell } });
+      sendPhoneAuthNumber({ variables: { phone: tell, countryCode } });
     }
   };
 
@@ -45,7 +45,7 @@ export default function FindId() {
     e.preventDefault();
     e.stopPropagation();
     confirmPhoneAuthNumber({
-      variables: { phone: tell, authNumber: confirmTell },
+      variables: { phone: tell, authNumber: confirmTell, countryCode },
     });
     toast.dismiss();
   };
@@ -85,6 +85,7 @@ export default function FindId() {
           variables: {
             phone: tell,
             hash: data.confirmPhoneAuthNumber,
+            countryCode,
           },
         });
       },
@@ -109,11 +110,12 @@ export default function FindId() {
         <div className={cx("text")}>휴대폰 인증</div>
         <form className={cx("body")} onSubmit={onSendMessage}>
           <div className="flex">
-            <DropDown
-              type="county"
-              data={countryCodes}
-              onChangeHandel={changeCountry}
-            />
+            <div className={cx("dropdown_wrap")}>
+              <CountryDropDown
+                data={countryCodes}
+                onChangeHandel={changeCountry}
+              />
+            </div>
             <input
               className={cx(!moreVisible ? "input" : "part_input")}
               placeholder="- 를 빼고 입력하세요"

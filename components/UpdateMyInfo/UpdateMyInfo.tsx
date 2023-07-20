@@ -26,7 +26,6 @@ export default function UpdateMyInfo() {
       onCompleted(data) {
         setMyinfo(data.findMyInfoByUser);
       },
-      fetchPolicy: "no-cache",
     }
   );
 

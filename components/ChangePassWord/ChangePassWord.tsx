@@ -24,16 +24,15 @@ export default function ChangePassWord() {
   const passwordRule =
     /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,20}$/;
 
-  const [warnPassWord, setWarnPassWord] = useState(false);
-  const [warnConfirmPass, setWarnConfirmPass] = useState(false);
-
   const onSubmitPassWord = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (
-      passWord &&
-      passwordRule.test(passWord) &&
-      passWord === confirmPassWord
-    ) {
+    if (!passWord || !passwordRule.test(passWord)) {
+      toast.warn("비밀번호를 확인해주세요");
+    } else if (!confirmPassWord) {
+      toast.warn("비밀번호를 한번 더 입력해주세요");
+    } else if (passWord !== confirmPassWord) {
+      toast.warn("비밀번호가 일치하지 않습니다");
+    } else {
       findPassword({
         variables: {
           identity: id,
@@ -42,12 +41,6 @@ export default function ChangePassWord() {
           newPassword: passWord,
         },
       });
-    } else {
-      if (!passWord) {
-        setWarnPassWord(true);
-      } else {
-        setWarnConfirmPass(true);
-      }
     }
   };
 
@@ -77,24 +70,14 @@ export default function ChangePassWord() {
   });
 
   useEffect(() => {
-    if (passWord && !passwordRule.test(passWord)) {
-      setWarnPassWord(true);
+    if (!hash || !phone) {
+      setHash(cookies.hash);
+      setPhone(cookies.phone);
     } else {
-      setWarnPassWord(false);
+      removeCookies("hash");
+      removeCookies("phone");
     }
-    if (confirmPassWord && passWord !== confirmPassWord) {
-      setWarnConfirmPass(true);
-    } else {
-      setWarnConfirmPass(false);
-    }
-  }, [passWord, confirmPassWord]);
-
-  useEffect(() => {
-    setHash(cookies.hash);
-    setPhone(cookies.phone);
-    removeCookies("hash");
-    removeCookies("phone");
-  }, []);
+  }, [hash, phone]);
 
   return (
     <div className={cx("container")}>
@@ -107,21 +90,16 @@ export default function ChangePassWord() {
             value={passWord}
             onChange={(e) => setPassWord(e.target.value)}
             placeholder="새 비밀번호를 입력해주세요"
+            type="password"
           />
-          {warnPassWord && (
-            <div>
-              비밀번호는 영문, 특수문자(@$!%*#?&), 숫자 포함 8~20자 입력
-              가능합니다.
-            </div>
-          )}
           <div>새 비밀번호 확인</div>
           <input
             className={cx("input")}
             value={confirmPassWord}
             onChange={(e) => setConfirmPassWord(e.target.value)}
             placeholder="한번 더 입력해주세요"
+            type="password"
           />
-          {warnConfirmPass && <div>비밀번호와 일치하지 않습니다.</div>}
           <button className={cx("btn")}>비밀번호 변경</button>
         </form>
       </div>

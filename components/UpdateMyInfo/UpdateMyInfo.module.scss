@@ -24,9 +24,16 @@
   }
 }
 
+.wrap {
+  @include view("mobile") {
+    width: calc(100vw - 40px);
+  }
+}
+
 .top_wrap {
   display: flex;
   margin-bottom: 70px;
+
   @include view("small") {
     margin-bottom: 30px;
   }

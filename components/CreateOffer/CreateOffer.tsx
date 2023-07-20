@@ -11,30 +11,53 @@ import {
   CoinKind,
   CreateOfferByUserMutation,
   FindManyCityQuery,
+  WalletAddressKind,
 } from "src/graphql/generated/graphql";
 import { FIND_ONE_OFFER } from "src/graphql/query/findOneOffer";
+import { FIND_MY_INFO_BY_USER } from "src/graphql/query/findMyInfoByUser";
+import WalletDropDown from "components/DropDown/WalletDropDown/WalletDropDown";
+import LocationDropDown from "components/DropDown/LocationDropDown/LocationDropDown";
 
 const cx = className.bind(styles);
 
+type Data = {
+  name: string;
+  id: number;
+};
+
 export default function CreateOffer() {
   const router = useRouter();
-  const [coin, setCoin] = useState<CoinKind[0]>(CoinKind.Btc);
-  const [kind, setKind] = useState("판매");
-  const [location, setLocation] = useState({ id: 1, name: "서울시" });
+  const [coin, setCoin] = useState<CoinKind[0]>(CoinKind.Usdt);
+  const [kind, setKind] = useState("구매");
+  const [location, setLocation] = useState<undefined | Data>(undefined);
+  const [detailLocation, setDetailLocation] =
+    useState<undefined | Data | null>(undefined);
   const [price, setPrice] = useState<number | undefined>(undefined);
   const [min, setMin] = useState<number | undefined>(undefined);
   const [max, setMax] = useState<number | undefined>(undefined);
   const [time, setTime] = useState<number | undefined>(undefined);
-  const [text, setText] = useState("");
+  const [text, setText] = useState<string | undefined | null>(undefined);
   const [city, setCity] = useState<FindManyCityQuery["findManyCity"]>();
+  const [saveWallet, setSaveWallet] = useState(false);
+  const [walletAddress, setWalletAddress] = useState<string>("");
+
+  const [walletAddressKind, setWalletAddressKind] = useState(
+    WalletAddressKind.MetaMask
+  );
 
   const coinArr = [
-    { name: "비트코인", coinKind: CoinKind.Btc },
-    { name: "테더", coinKind: CoinKind.Usdt },
-    // { name: "이더리움", coinKind: CoinKind.Eth },
-    // { name: "트론", coinKind: CoinKind.Trx },
+    { name: "USDT", coinKind: CoinKind.Usdt },
+    { name: "BTC", coinKind: CoinKind.Btc },
+    { name: "ETH", coinKind: CoinKind.Eth },
+    { name: "TRX", coinKind: CoinKind.Trx },
   ];
-  const kindArr = ["판매", "구매"];
+
+  const kindArr = ["구매", "판매"];
+
+  const walletArr = [
+    { name: "메타마스크", value: WalletAddressKind.MetaMask },
+    { name: "아임토큰", value: WalletAddressKind.ImToken },
+  ];
 
   const handleIncrement = (key: "price" | "time") => {
     if (key === "price") {
@@ -70,8 +93,32 @@ export default function CreateOffer() {
     }
   };
 
+  const changeLocationHandle = (
+    v:
+      | FindManyCityQuery["findManyCity"][0]
+      | FindManyCityQuery["findManyCity"][0]["districts"][0],
+    detail: boolean
+  ) => {
+    if (!detail) {
+      setLocation(v);
+    } else {
+      setDetailLocation(v);
+    }
+  };
+
+  const changeWallerKindHandle = (nowAble: WalletAddressKind) => {
+    setWalletAddressKind(nowAble);
+  };
+
   const createHandle = () => {
-    if (price === undefined || price > 99999999) {
+    if (!location) {
+      toast.warn("지역을 선택해주세요");
+    } else if (
+      !detailLocation &&
+      city?.filter((v) => v.name === location.name)[0].districts.length !== 0
+    ) {
+      toast.warn("상세지역을 선택해주세요");
+    } else if (price === undefined || price > 99999999) {
       toast.warn(
         <div>
           가격은 1 ~ 99,999,999KRW
@@ -93,6 +140,8 @@ export default function CreateOffer() {
           최소 거래량 보다 크게 설정해주세요
         </div>
       );
+    } else if (!walletAddress) {
+      toast.warn("지갑주소를 입력해주세요");
     } else {
       if (time && time <= 90) {
         createOfferByUser({
@@ -101,11 +150,15 @@ export default function CreateOffer() {
             offerAction: kind === "판매" ? "SELL" : "BUY",
             transactionMethod: "DIRECT",
             cityId: location.id,
-            price: price ? +price : 0,
-            minAmount: min ? +min : 0,
-            maxAmount: max ? +max : 0,
-            responseSpeed: time ? +time : 0,
+            price: +price,
+            minAmount: +min,
+            maxAmount: +max,
+            responseSpeed: +time,
             content: text,
+            walletAddress: saveWallet ? walletAddress : undefined,
+            isUseNextTime: saveWallet,
+            walletAddressKind,
+            districtId: detailLocation?.id,
           },
         });
       } else {
@@ -132,6 +185,16 @@ export default function CreateOffer() {
     },
   });
 
+  const [findMyInfoByUser] = useLazyQuery(FIND_MY_INFO_BY_USER, {
+    onError: (e) => toast.error(e.message ?? `${e}`),
+    onCompleted(data) {
+      if (data.findMyInfoByUser.walletAddress) {
+        setSaveWallet(true);
+        setWalletAddress(data.findMyInfoByUser.walletAddress);
+      }
+    },
+  });
+
   const [findOneOffer] = useLazyQuery(FIND_ONE_OFFER, {
     onError: (e) => toast.error(e.message ?? `${e}`),
     onCompleted(data) {
@@ -144,6 +207,7 @@ export default function CreateOffer() {
       setCoin(newData.coinKind);
       setKind(newData.offerAction === "BUY" ? "구매" : "판매");
       setLocation(newData.city);
+      setDetailLocation(newData.district);
     },
     fetchPolicy: "no-cache",
   });
@@ -155,7 +219,8 @@ export default function CreateOffer() {
         variables: { findOneOfferId: +router.query.id },
       });
     }
-  }, [router.pathname]);
+    findMyInfoByUser();
+  }, [router.pathname, walletAddress]);
 
   useEffect(() => {
     if (price && price > 99999999) {
@@ -166,7 +231,7 @@ export default function CreateOffer() {
       toast.warn("응답 속도는 90분까지 입력가능합니다");
       setTime(90);
     }
-  }, [price, time]);
+  }, [price, time, location]);
 
   return (
     <div className={cx("container")}>
@@ -177,40 +242,38 @@ export default function CreateOffer() {
             : "오퍼 만들기"}
         </div>
         <div className={cx("part_wrap")}>
-          <div className={cx("sub_title")}>무엇을 하시겠어요?</div>
+          <div className={cx("sub_title")}>
+            무엇을 하시겠어요?<span className={cx("essential")}>*</span>
+          </div>
           <div>
-            {kindArr.map((v) => (
-              <div key={v} className={cx("align_coin")}>
-                <input
-                  className={cx("check")}
-                  onChange={() => setKind(v)}
-                  checked={v === kind}
-                  type="checkbox"
-                />
-                <div>
-                  <div>
-                    {coinArr.find((v) => v.coinKind === coin)?.name} {v}
-                  </div>
-                  <div className={cx("sub_text")}>
-                    {coinArr.find((v) => v.coinKind === coin)?.name}{" "}
-                    {kindArr.filter((arr) => arr !== v)} 페이지에 오퍼가
-                    게시됩니다
-                  </div>
+            <div className={cx("kind_btns")}>
+              {kindArr.map((v) => (
+                <div
+                  key={v}
+                  onClick={() => setKind(v)}
+                  className={cx(
+                    v === kind ? "able_kind_btn" : "default_kind_btn"
+                  )}
+                >
+                  {v}
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
         <div className={cx("part_wrap")}>
           <div className={cx("sub_title")}>
             암호화폐를 선택하세요
-            {/* <span className={cx("essential")}>*</span> */}
+            <span className={cx("essential")}>*</span>
           </div>
-          <div className={cx("top_btns")}>
+          <div className={cx("coin_btns")}>
             {coinArr.map((v) => (
               <div
                 key={v.coinKind}
-                className={cx("top_btn", v.coinKind === coin && "able_top_btn")}
+                className={cx(
+                  "coin_btn",
+                  v.coinKind === coin && "able_coin_btn"
+                )}
                 onClick={() => setCoin(v.coinKind)}
               >
                 <div className={cx("img_wrap")}>
@@ -229,30 +292,54 @@ export default function CreateOffer() {
         </div>
         <div className={cx("part_wrap")}>
           <div className={cx("sub_title")}>
-            지역
-            {/* <span className={cx("essential")}>*</span> */}
+            거래수단<span className={cx("essential")}>*</span>
           </div>
-          <div className={cx("location_wrap")}>
-            {city?.map((v) => (
-              <div key={v.id} style={{ display: "flex" }}>
-                <input
-                  className={cx("check")}
-                  onChange={() => setLocation(v)}
-                  checked={location.name === v.name}
-                  type="checkbox"
+          <div>
+            <div className={cx("kind_btns")}>
+              <div className={cx("able_kind_btn")}>직접</div>
+            </div>
+          </div>
+        </div>
+        <div className={cx("part_wrap")}>
+          <div className={cx("sub_title")}>
+            지역
+            <span className={cx("essential")}>*</span>
+          </div>
+          <div className={cx("location_container")}>
+            <div className={cx("location_wrap")}>
+              <div className={cx("location_text")}>시/군/구 선택</div>
+              <LocationDropDown
+                defaultValue={location}
+                detail={false}
+                data={city ? city : []}
+                onChangeHandel={changeLocationHandle}
+              />
+            </div>
+            {location && city?.filter((v) => v.name === location.name) && (
+              <div className={cx("location_detail_wrap")}>
+                <div className={cx("location_text")}>상세지역 선택</div>
+                <LocationDropDown
+                  defaultValue={detailLocation}
+                  detail
+                  data={
+                    city
+                      ? city.filter((v) => v.name === location.name)[0]
+                          .districts
+                      : []
+                  }
+                  onChangeHandel={changeLocationHandle}
                 />
-                <div>{v.name}</div>
               </div>
-            ))}
+            )}
           </div>
         </div>
         <div className={cx("part_wrap")}>
           <div className={cx("sub_title")}>
             가격
-            {/* <span className={cx("essential")}>*</span>
+            <span className={cx("essential")}>*</span>
             <span className={cx("essential_comment")}>
-              * 가격은 1 ~ 99,999,999원 까지 입력 가능합니다.
-            </span> */}
+              (가격은 1 ~ 99,999,999원 까지 입력 가능합니다.)
+            </span>
           </div>
           <div className={cx("price_part_wrap")}>
             <input
@@ -261,7 +348,7 @@ export default function CreateOffer() {
               value={price ? price.toLocaleString() : ""}
               onChange={(e) => setPrice(+e.target.value.replace(/,/g, ""))}
             />
-            <div>KRW</div>
+            <div className={cx("margin_content")}>KRW</div>
             <div
               onClick={() => handleDecrement("price")}
               className={cx("btn_img_wrap")}
@@ -293,15 +380,15 @@ export default function CreateOffer() {
         <div className={cx("part_wrap")}>
           <div className={cx("sub_title")}>
             거래량
-            {/* <span className={cx("essential")}>*</span> */}
+            <span className={cx("essential")}>*</span>
           </div>
           <div className={cx("space")}>
-            <div>
+            <div className={cx("middle_wrap")}>
               <div>
                 최소
-                {/* <span className={cx("essential_comment")}>
-                  * 최소금액은 1원 이상 입력 해야합니다.
-                </span> */}
+                <span className={cx("essential_comment")}>
+                  (최소금액은 1원 이상 입력 해야합니다.)
+                </span>
               </div>
               <div className={cx("middle_inputs")}>
                 <input
@@ -309,15 +396,15 @@ export default function CreateOffer() {
                   placeholder="입력하세요.."
                   onChange={(e) => setMin(+e.target.value.replace(/,/g, ""))}
                 />
-                <div>KRW</div>
+                <div className={cx("price_content")}>KRW</div>
               </div>
             </div>
-            <div>
+            <div className={cx("middle_wrap")}>
               <div>
                 최대
-                {/* <span className={cx("essential_comment")}>
-                  * 최대금액은 최소금액 보다 커야 합니다.
-                </span> */}
+                <span className={cx("essential_comment")}>
+                  (최대금액은 최소금액 보다 커야 합니다.)
+                </span>
               </div>
               <div className={cx("middle_inputs")}>
                 <input
@@ -325,7 +412,7 @@ export default function CreateOffer() {
                   value={max ? max.toLocaleString() : ""}
                   onChange={(e) => setMax(+e.target.value.replace(/,/g, ""))}
                 />
-                <div>KRW</div>
+                <div className={cx("price_content")}>KRW</div>
               </div>
             </div>
           </div>
@@ -333,10 +420,10 @@ export default function CreateOffer() {
         <div className={cx("part_wrap")}>
           <div className={cx("sub_title")}>
             평균 응답 속도
-            {/* <span className={cx("essential")}>*</span>{" "}
+            <span className={cx("essential")}>*</span>
             <span className={cx("essential_comment")}>
-              * 1~90분 까지 입력가능합니다.
-            </span> */}
+              (1~90분 까지 입력가능합니다.)
+            </span>
           </div>
           <div className={cx("price_part_wrap")}>
             <input
@@ -347,7 +434,7 @@ export default function CreateOffer() {
               }
               onChange={(e) => handleChange("time", e.target.value)}
             />
-            <div>분</div>
+            <div className={cx("margin_content")}>분</div>
             <div
               onClick={() => handleDecrement("time")}
               className={cx("btn_img_wrap")}
@@ -376,14 +463,49 @@ export default function CreateOffer() {
             </div>
           </div>
         </div>
-        <div className={cx("sub_title")}>
-          오퍼 조건
-          {/* <span className={cx("essential")}>(선택)</span> */}
+        <div className={cx("wallet_title")}>
+          <div className={cx("sub_title")}>
+            지갑주소 <span className={cx("essential")}>*</span>
+          </div>
+          <div className={cx("wallet_content")}>
+            아직 지갑주소가 없으신가요?
+          </div>
         </div>
+        <div className={cx("wallet_wrap")}>
+          <div className={cx("drop_down_wrap")}>
+            <WalletDropDown
+              defaultValue={
+                walletAddressKind === WalletAddressKind.MetaMask
+                  ? walletArr[0]
+                  : walletArr[1]
+              }
+              data={walletArr}
+              onChangeHandel={changeWallerKindHandle}
+            />
+          </div>
+          <div className={cx("middle_inputs")}>
+            <input
+              value={walletAddress}
+              placeholder="지갑주소를 입력해주세요."
+              className={cx("input")}
+              onChange={(e) => setWalletAddress(e.target.value)}
+            />
+          </div>
+        </div>
+        <div className={cx("save_wallet_wrap")}>
+          <input
+            className={cx("check")}
+            onChange={() => setSaveWallet(!saveWallet)}
+            checked={saveWallet}
+            type="checkbox"
+          />
+          <div>다음에도 이 지갑주소 사용하기</div>
+        </div>
+        <div className={cx("sub_title")}>오퍼 조건</div>
         <textarea
           className={cx("text_area")}
           placeholder="여기에 조건을 입력하세요..."
-          value={text}
+          value={text ? text : ""}
           onChange={(e) => setText(e.target.value)}
         />
         <div className={cx("sub_text")}>

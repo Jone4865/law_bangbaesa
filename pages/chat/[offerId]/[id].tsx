@@ -163,7 +163,6 @@ const Room: NextPage<Props> = ({ id, data }) => {
       onCompleted: (data) => {
         setMyNickName(data.findMyInfoByUser.identity);
       },
-      fetchPolicy: "no-cache",
     }
   );
 

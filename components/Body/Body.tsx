@@ -16,6 +16,7 @@ import { CoinKind, OfferAction } from "src/graphql/generated/graphql";
 import CarouselPart from "components/CarouselPart/CarouselPart";
 import MarketPrice from "components/MarketPrice/MarketPrice";
 import { toast } from "react-toastify";
+import Image from "next/image";
 
 const cx = className.bind(styles);
 
@@ -34,8 +35,8 @@ export default function Body() {
   const coins = [
     { name: "USDT", code: CoinKind.Usdt },
     { name: "BTC", code: CoinKind.Btc },
-    // { name: "ETH", code: CoinKind.Eth },
-    // { name: "TRX", code: CoinKind.Trx },
+    { name: "ETH", code: CoinKind.Eth },
+    { name: "TRX", code: CoinKind.Trx },
   ];
   const [buyCoinKind, setBuyCoinKind] = useState<CoinKind>(CoinKind.Usdt);
   const [sellCoinKind, setSellCoinKind] = useState<CoinKind>(CoinKind.Usdt);
@@ -89,8 +90,8 @@ export default function Body() {
       <p>상태등의 따라 변경될 수 있습니다.</p>
     </>,
     <>
-      방배사는 기업을 대상으로 한 상품권 판매 온라인 광고에 <br /> 최적화된
-      통합마케팅 서비스를 제공합니다.
+      방배사는 기업을 대상으로 한 상품권 판매 온라인 광고에 최적화된 통합마케팅
+      서비스를 제공합니다.
     </>,
     <>
       방배사는 기업상품권 판매대행 서비스를 위해 다양한 마케팅 솔루션을 보유하고
@@ -110,61 +111,59 @@ export default function Body() {
 
   return (
     <div className={cx("container")}>
-      <MarketPrice />
-      <CarouselPart carouselData={carouselData} />
+      {/* <MarketPrice /> */}
+      {/* <CarouselPart carouselData={carouselData} /> */}
       <TopImage imageName={"1"} />
       <Marquee />
 
       <div className={cx("OTC_top")}>
         <div className={cx("OTC_top_wrap")}>
           <span>P2P</span>
-          <div onClick={() => router.push("/p2p/buy")}>전체보기</div>
+          <div onClick={() => router.push("/p2p/buy")}>P2P 더보기 {">"}</div>
         </div>
       </div>
       <div className={cx("OTC_container")}>
         <div className={cx("OTC_body")}>
           <div className={cx("OTC_wrap")}>
             <div className={cx("OTC_title")}>
-              <div className={cx("only_pc")}>팝니다</div>
-              <div className={cx("non_pc")}>
-                <div
-                  onClick={() => setKind(OfferAction.Buy)}
-                  className={cx(kind === "BUY" ? "able_buy" : "default")}
-                >
-                  팝니다
-                </div>
-                <div
-                  onClick={() => setKind(OfferAction.Sell)}
-                  className={cx(kind === "SELL" ? "able_sell" : "default")}
-                >
-                  삽니다
+              <div className={cx("mobile_top_wrap")}>
+                <div className={cx("only_pc")}>팝니다</div>
+                <div className={cx("non_pc")}>
+                  <div
+                    onClick={() => setKind(OfferAction.Buy)}
+                    className={cx(kind === "BUY" ? "able_buy" : "default")}
+                  >
+                    팝니다
+                  </div>
+                  <div
+                    onClick={() => setKind(OfferAction.Sell)}
+                    className={cx(kind === "SELL" ? "able_sell" : "default")}
+                  >
+                    삽니다
+                  </div>
                 </div>
               </div>
               <div className={cx("coin_btns")}>
                 {coins.map((v, idx) => (
                   <div
                     className={cx(
-                      buyCoinKind === v.code
-                        ? isMiddle
-                          ? "able_sell_btn"
-                          : kind !== OfferAction.Buy
-                          ? "able_buy_btn"
-                          : "able_sell_btn"
-                        : "default_btn"
+                      buyCoinKind === v.code && `${v.code.toLowerCase()}`,
+                      "coin_btn"
                     )}
                     onClick={() => setBuyCoinKind(v.code)}
                     key={idx}
                   >
-                    {v.code}
+                    <div className={cx("coin_img_wrap")}>
+                      <Image
+                        alt={`${v.code} 이미지`}
+                        fill
+                        src={`/img/marquee/${v.code.toLowerCase()}.png`}
+                      />
+                    </div>
+                    <div>{v.code}</div>
                   </div>
                 ))}
               </div>
-              {/* <div
-                className={cx("more_coin")}
-                onClick={() => router.push("/p2p/buy")}
-              >
-                다른 코인 보기
-              </div> */}
             </div>
             <OTC
               partKind={kind}
@@ -180,21 +179,23 @@ export default function Body() {
                 {coins.map((v, idx) => (
                   <div
                     className={cx(
-                      sellCoinKind === v.code ? "able_buy_btn" : "default_btn"
+                      sellCoinKind === v.code && `${v.code.toLowerCase()}`,
+                      "coin_btn"
                     )}
                     onClick={() => setSellCoinKind(v.code)}
                     key={idx}
                   >
-                    {v.code}
+                    <div className={cx("coin_img_wrap")}>
+                      <Image
+                        alt={`${v.code} 이미지`}
+                        fill
+                        src={`/img/marquee/${v.code.toLowerCase()}.png`}
+                      />
+                    </div>
+                    <div>{v.code}</div>
                   </div>
                 ))}
               </div>
-              {/* <div
-                className={cx("more_coin")}
-                onClick={() => router.push("/p2p/sell")}
-              >
-                다른 코인 보기
-              </div> */}
             </div>
             <OTC
               partKind={OfferAction.Sell}
@@ -208,17 +209,16 @@ export default function Body() {
       <div className={cx("giftcard_container")}>
         <div className={cx("giftcard_wrap")}>
           <div className={cx("giftcard_title")}>
-            <div>상품권 시세</div>
+            <span>상품권</span>
+          </div>
+          <div className={cx("giftcard_content")}>
+            <div>기업 상품권 판매 IT 서비스 운영대행</div>
             <div
               className={cx("show_more")}
               onClick={() => router.push("/gift-card")}
             >
-              전체 보기
+              상품권 더보기 {">"}
             </div>
-          </div>
-          <div className={cx("giftcard_content")}>
-            아래의 가격표는 수량, 권종, 상품권의 상태등의 따라
-            <br className={cx("mobile")} /> 변경될 수 있습니다.
           </div>
           <GetGiftCard count={4} searchText="" />
         </div>

@@ -102,6 +102,7 @@
   }
   @include view("mobile") {
     font-size: 16px;
+    min-width: 81px;
   }
 }
 
@@ -297,4 +298,12 @@
   width: 100%;
   display: flex;
   align-items: center;
+}
+
+.dropdown_wrap {
+  width: 212px;
+  margin-right: 10px;
+  @include view("mobile") {
+    min-width: 147px;
+  }
 }
