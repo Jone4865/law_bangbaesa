@@ -1,1 +1,134 @@
 @import "public/scss/style.scss";
+
+.container {
+  width: 100%;
+}
+
+.bottom_wrap {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-bottom: solid 1px #dcdcdc;
+  height: 100px;
+  div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+}
+
+.coin_wrap {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-bottom: solid 1px #dcdcdc;
+}
+
+.coin_name_wrap {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+}
+
+.coin_name {
+}
+
+.upbit_coin {
+  height: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.binance_coin {
+  height: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.coin_img {
+  position: relative;
+  width: 15px;
+  height: 15px;
+  margin-right: 5px;
+}
+
+.kimchi_coin {
+  height: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.kimchi {
+  flex-direction: row;
+}
+
+.top {
+  display: flex;
+  margin: 0 auto;
+  width: 80%;
+  justify-content: space-between;
+}
+
+.kimchi_shape_wrap {
+  display: flex;
+}
+
+.kimchi_shape {
+  width: 500px;
+  height: 50px;
+  background-color: green;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.kimchi_right {
+  width: 0;
+  height: 0;
+  border-top: 50px solid green;
+  border-right: 50px solid transparent;
+}
+
+.top_coin_container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 50px;
+}
+
+.top_coin_wrap {
+  display: flex;
+  align-items: center;
+  border: solid 1px #dcdcdc;
+  height: 50px;
+  padding: 20px;
+}
+
+.top_coin_img {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+}
+
+.arrow_wrap {
+  position: relative;
+  width: 20px;
+  height: 15px;
+  display: flex;
+  justify-content: center;
+  margin: 0 3px;
+}
+
+.top_coin_percente {
+  margin-right: 3px;
+}

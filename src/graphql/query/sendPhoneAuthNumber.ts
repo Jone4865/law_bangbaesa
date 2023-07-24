@@ -1,7 +1,7 @@
 import { gql } from "../generated";
 
 export const SEND_PHONE_AUTH_NUMBER = gql(/* GraphQL */ `
-  query sendPhoneAuthNumber($phone: String!) {
-    sendPhoneAuthNumber(phone: $phone)
+  query sendPhoneAuthNumber($countryCode: String!, $phone: String!) {
+    sendPhoneAuthNumber(countryCode: $countryCode, phone: $phone)
   }
 `);

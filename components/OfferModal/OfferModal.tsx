@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import styles from "./OfferModal.module.scss";
 import className from "classnames/bind";
-import { FindOneOfferQuery } from "src/graphql/generated/graphql";
+import { FindOneOfferOutput } from "src/graphql/generated/graphql";
 
 const cx = className.bind(styles);
 
 type Props = {
-  offerData: FindOneOfferQuery["findOneOffer"] | undefined;
+  offerData: FindOneOfferOutput | undefined;
   setOfferModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
