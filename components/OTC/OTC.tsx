@@ -19,6 +19,7 @@ import {
   OfferAction,
   ReservationStatus,
   TransactionStatus,
+  WalletAddressKind,
 } from "src/graphql/generated/graphql";
 import { UPDATE_RESERVATION_STATUS_BY_USER } from "../../src/graphql/mutation/updateReservationStatusByUser";
 import { UPDATE_TRANSACTION_STATUS_BY_USER } from "src/graphql/mutation/updateTransactionStatusByUser";
@@ -99,7 +100,9 @@ export default function OTC({
     key: "reservation" | "complete",
     id: number,
     reservationState: ReservationStatus,
-    transactionStatus: TransactionStatus
+    transactionStatus: TransactionStatus,
+    walletAddress: string,
+    walletAddressKind: WalletAddressKind
   ) => {
     if (key === "complete") {
       if (transactionStatus === TransactionStatus.Progress) {
@@ -112,10 +115,19 @@ export default function OTC({
           variables: { updateTransactionStatusByUserId: id },
         });
       } else {
-        createOfferByUser({
-          variables: {
-            ...data.filter((v) => v.id === id)[0],
-            cityId: data.filter((v) => v.id === id)[0].city.id,
+        findMyInfoByUser({
+          onCompleted(myInfo) {
+            createOfferByUser({
+              variables: {
+                ...data.filter((v) => v.id === id)[0],
+                cityId: data.filter((v) => v.id === id)[0].city.id,
+                isUseNextTime: myInfo.findMyInfoByUser.walletAddress
+                  ? true
+                  : false,
+                walletAddress,
+                walletAddressKind,
+              },
+            });
           },
         });
       }

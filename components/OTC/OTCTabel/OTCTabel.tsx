@@ -18,6 +18,7 @@ import {
   FindMyInfoByUserQuery,
   ReservationStatus,
   TransactionStatus,
+  WalletAddressKind,
 } from "src/graphql/generated/graphql";
 
 const cx = className.bind(styles);
@@ -33,7 +34,9 @@ type Props = {
     key: "reservation" | "complete",
     id: number,
     reservationState: ReservationStatus,
-    transactionStatus: TransactionStatus
+    transactionStatus: TransactionStatus,
+    walletAddress: string,
+    walletAddressKind: WalletAddressKind
   ) => void;
   onScrollHandle: () => void;
   deletehandle: () => void;
@@ -93,7 +96,9 @@ export default function OTCTabel({
 
   const onClickMoreAction = (
     reservationStatus: ReservationStatus,
-    transactionStatus: TransactionStatus
+    transactionStatus: TransactionStatus,
+    walletAddress: string,
+    walletAddressKind: WalletAddressKind
   ) => {
     if (moreKind === "delete") {
       deleteOfferByUser({ variables: { deleteOfferByUserId: offerId } });
@@ -110,7 +115,9 @@ export default function OTCTabel({
         moreKind === "complete" ? "complete" : "reservation",
         offerId ? offerId : 0,
         reservationStatus,
-        transactionStatus
+        transactionStatus,
+        walletAddress,
+        walletAddressKind
       );
     }
   };
@@ -194,9 +201,21 @@ export default function OTCTabel({
             {kind === "BUY" ? "구매자" : "판매자"}
           </div>
           {part === "otc" && <div>거래성사량</div>}
-          <div className={cx("location")}>거래장소</div>
-          <div className={cx(part === "home" && "min_and_max")}>Min/Max</div>
-          {part === "otc" && <div>평균응답속도</div>}
+          <div
+            className={cx(part === "home" ? "location" : "not_home_location")}
+          >
+            거래장소
+          </div>
+          <div
+            className={cx(
+              part === "home" ? "min_and_max" : "not_home_min_and_max"
+            )}
+          >
+            Min/Max
+          </div>
+          {part === "otc" && (
+            <div className={cx("respon_speed")}>평균응답속도</div>
+          )}
           <div className={cx("price")}>가격</div>
         </div>
         {onData ? (
@@ -222,10 +241,10 @@ export default function OTCTabel({
                           fill
                         />
                       </div>
-                      {v.coinKind.toUpperCase()}
+                      <div>{v.coinKind.toUpperCase()}</div>
                     </div>
                   )}
-                  <div className={cx("seller")}>
+                  <div className={cx("seller", part !== "home")}>
                     <div
                       onClick={() =>
                         cookies.nickName !== v.identity &&
@@ -278,7 +297,7 @@ export default function OTCTabel({
                         ? v.district
                           ? "with_district"
                           : "none_district"
-                        : "flex"
+                        : "not_home_district"
                     )}
                   >
                     <div>{v.city?.name + " "}</div>
@@ -296,7 +315,11 @@ export default function OTCTabel({
                       <div className={cx("gray_right")}>KRW</div>
                     </div>
                   </div>
-                  <div className={cx("only_pc")}>
+                  <div
+                    className={cx(
+                      part === "home" ? "only_pc" : "not_home_only_pc"
+                    )}
+                  >
                     <div
                       className={cx(
                         part === "home"
@@ -319,7 +342,7 @@ export default function OTCTabel({
                           최근 접속 : {convertConnectionDate(v.connectionDate)}
                         </div>
                         <div className={cx("stick")} />
-                        <div className={cx("flex")}>
+                        <div className={cx("min_and_max_wrap")}>
                           <div className={cx("none_mobile")}>
                             평균응답속도 :
                           </div>{" "}
@@ -328,7 +351,11 @@ export default function OTCTabel({
                       </div>
                     )}
                   </div>
-                  {part !== "home" && <div>{v.responseSpeed}분 미만</div>}
+                  {part !== "home" && (
+                    <div className={cx("resphone_speed_body")}>
+                      {v.responseSpeed}분 미만
+                    </div>
+                  )}
                   <div className={cx("btns_wrap")}>
                     <div className={cx("right_price")}>
                       {v.price.toLocaleString()}
@@ -382,7 +409,9 @@ export default function OTCTabel({
                         onClick={() =>
                           onClickMoreAction(
                             v.reservationStatus,
-                            v.transactionStatus
+                            v.transactionStatus,
+                            v.walletAddress,
+                            v.walletAddressKind
                           )
                         }
                       >

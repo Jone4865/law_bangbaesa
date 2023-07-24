@@ -24,7 +24,7 @@ import {
   FindManyChatMessageByUserQuery,
   FindManyChatRoomByUserQuery,
   FindMyInfoByUserQuery,
-  FindOneOfferQuery,
+  FindOneOfferOutput,
   UpdateCheckedCurrentChatMessageByUserMutation,
 } from "src/graphql/generated/graphql";
 import OfferModal from "components/OfferModal/OfferModal";
@@ -44,8 +44,7 @@ const Room: NextPage<Props> = ({ id, data }) => {
   const [first, setFirst] = useState(true);
   const [take] = useState(10);
   const [datas, setDatas] = useState<any[]>([]);
-  const [offerData, setOfferData] =
-    useState<FindOneOfferQuery["findOneOffer"]>();
+  const [offerData, setOfferData] = useState<FindOneOfferOutput>();
   const [myNickName, setMyNickName] = useState("");
   const [offerId] = useState<number | undefined>(0);
   const [unreadView, setUnreadView] = useState(true);
@@ -205,10 +204,10 @@ const Room: NextPage<Props> = ({ id, data }) => {
     }
   );
 
-  const [findOneOffer] = useLazyQuery<FindOneOfferQuery>(FIND_ONE_OFFER, {
+  const [findOneOffer] = useLazyQuery<FindOneOfferOutput>(FIND_ONE_OFFER, {
     onError: (e) => toast.error(e.message ?? `${e}`),
     onCompleted(data) {
-      setOfferData(data.findOneOffer);
+      setOfferData(data);
     },
     fetchPolicy: "no-cache",
   });
