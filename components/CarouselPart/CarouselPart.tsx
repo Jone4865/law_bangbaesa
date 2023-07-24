@@ -65,6 +65,7 @@ const CarouselPart = ({ carouselData }: Props) => {
       }}
       className={cx("container")}
     >
+      11111
       <Slider className={cx("wrap")} {...settings} ref={sliderRef}>
         {carouselData.map((v, idx) => (
           <div

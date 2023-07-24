@@ -28,14 +28,21 @@ export const FIND_MANY_OFFER = gql(/* GraphQL */ `
         responseSpeed
         content
         createdAt
+        walletAddressKind
+        walletAddress
         reservationStatus
         transactionStatus
         city {
           id
           name
         }
+        district {
+          id
+          name
+        }
         identity
-        positiveCount
+        positiveFeedbackCount
+        offerCompleteCount
         isNewChatMessage
         connectionDate
       }

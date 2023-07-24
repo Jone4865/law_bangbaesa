@@ -5,8 +5,11 @@ export const FIND_MY_INFO_BY_USER = gql(/* GraphQL */ `
     findMyInfoByUser {
       identity
       createdAt
+      walletAddressKind
+      walletAddress
       level
       connectionDate
+      countryCode
       phone
       emailAuth {
         id
@@ -29,9 +32,11 @@ export const FIND_MY_INFO_BY_USER = gql(/* GraphQL */ `
       }
       passport {
         id
+        name
         passportNumber
         issueDate
         expirationDate
+        birth
       }
       positiveFeedbackCount
       negativeFeedbackCount

@@ -103,11 +103,11 @@ export default function GetGiftCard({ searchText, count = 0 }: Props) {
             <div
               className={cx(
                 "map_wrap",
-                count && idx >= count && "none_mobile"
-                // idx !== 0 &&
-                //   v.name.split("(")[0].trim() !==
-                //     arr[idx - 1]?.name.split("(")[0].trim() &&
-                //   "border_top"
+                count && idx >= count && "none_mobile",
+                idx !== 0 &&
+                  v.name.split("(")[0].trim() !==
+                    arr[idx - 1]?.name.split("(")[0].trim() &&
+                  "border_top"
               )}
               key={v.name}
             >

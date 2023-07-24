@@ -65,6 +65,7 @@
   font-size: 18px;
   color: #777;
   text-align: center;
+  margin-bottom: 15px;
   @include view("small") {
     font-size: 14px;
     width: 270px;
@@ -76,6 +77,7 @@
   @include view("mobile") {
     font-size: 14px;
     width: 270px;
+    margin-bottom: 8px;
   }
 }
 

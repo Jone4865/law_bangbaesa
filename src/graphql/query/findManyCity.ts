@@ -5,6 +5,10 @@ export const FIND_MANY_CITY = gql(/* GraphQL */ `
     findManyCity {
       id
       name
+      districts {
+        id
+        name
+      }
     }
   }
 `);

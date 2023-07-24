@@ -10,7 +10,11 @@ export const CREATE_OFFER_BY_USER = gql(/* GraphQL */ `
     $minAmount: Int!
     $maxAmount: Int!
     $responseSpeed: Int!
-    $content: String!
+    $isUseNextTime: Boolean!
+    $walletAddressKind: WalletAddressKind!
+    $walletAddress: String!
+    $districtId: Int
+    $content: String
   ) {
     createOfferByUser(
       coinKind: $coinKind
@@ -21,6 +25,10 @@ export const CREATE_OFFER_BY_USER = gql(/* GraphQL */ `
       minAmount: $minAmount
       maxAmount: $maxAmount
       responseSpeed: $responseSpeed
+      isUseNextTime: $isUseNextTime
+      walletAddressKind: $walletAddressKind
+      walletAddress: $walletAddress
+      districtId: $districtId
       content: $content
     ) {
       id
@@ -33,6 +41,8 @@ export const CREATE_OFFER_BY_USER = gql(/* GraphQL */ `
       responseSpeed
       content
       createdAt
+      walletAddressKind
+      walletAddress
       reservationStatus
       transactionStatus
     }
