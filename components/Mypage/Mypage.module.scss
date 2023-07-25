@@ -17,20 +17,15 @@
 }
 
 .wrap {
-  @include view("mobile") {
-    width: 100%;
-  }
+  max-width: 1200px;
+  width: 100%;
 }
 
 .top_wrap {
+  margin-top: 30px;
   display: flex;
   margin-bottom: 30px;
-  @include view("small") {
-    margin-bottom: 30px;
-  }
-  @include view("very_small") {
-    margin-bottom: 30px;
-  }
+
   @include view("mobile") {
     flex-direction: column;
     margin: 0;
@@ -66,6 +61,12 @@
     flex-direction: column;
     font-size: 16px;
   }
+
+  & > .auth-wrap {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    width: 100%;
+  }
 }
 
 .middle_top_container {
@@ -73,7 +74,8 @@
 }
 
 .middle_top_body {
-  display: flex;
+  line-height: 1.67;
+  font-weight: normal;
 }
 
 .middle_name {
@@ -93,15 +95,15 @@
 
 .middle_btn {
   display: flex;
-  max-width: 430px;
-  width: 25vw;
+  max-width: 531px;
+  width: 40vw;
   height: 60px;
   background-color: #3561c7;
   border-radius: 10px;
   justify-content: center;
   align-items: center;
   color: #fff;
-  margin-left: 20px;
+  margin-top: 30px;
   font-size: 18px;
   border: none;
   cursor: pointer;

@@ -11,6 +11,7 @@ import {
   FindUserInfoByUserQuery,
   ToggleFeedbackByUserMutation,
 } from "src/graphql/generated/graphql";
+import { AutoHeightImage } from "components/AutoHeightImage";
 
 const cx = className.bind(styles);
 
@@ -74,49 +75,88 @@ export default function MyPageTop({ detail, data, handleRefetch }: Props) {
           <div
             onClick={() => clickLikeHandle("POSITIVE")}
             className={cx(
-              "positive",
-              router.pathname === "/user/[id]" && "cursor"
+              "feedback_box",
+              router.pathname === "/user/[id]" && "cursor",
+              "positive"
             )}
           >
-            <div>+{data?.positiveFeedbackCount}</div>
+            <div className={cx("count_wrap")}>
+              <AutoHeightImage
+                alt="화살표"
+                src={"/img/mypage/thumb_up.png"}
+                className={cx("ment_img")}
+              />
+
+              <span>+{data?.positiveFeedbackCount}</span>
+            </div>
             <div className={cx("feedback_body")}>
               <div className={cx("ment")}>
                 <div>긍정</div>
                 <div className={cx("black")}>적 피드백</div>
               </div>
-              <div className={cx("ment_img")}>
-                <Image
-                  alt="화살표"
-                  src={"/img/mypage/thumb_up.png"}
-                  fill
-                  priority
-                  quality={100}
-                />
-              </div>
+
+              <AutoHeightImage
+                alt="화살표"
+                src={"/img/mypage/thumb_up.png"}
+                className={cx("ment_img")}
+              />
             </div>
           </div>
           <div
             onClick={() => clickLikeHandle("NEGATIVE")}
             className={cx(
+              "feedback_box",
               "negative",
               router.pathname === "/user/[id]" && "cursor"
             )}
           >
-            <div>+{data?.negativeFeedbackCount}</div>
+            <div className={cx("count_wrap")}>
+              <AutoHeightImage
+                alt="화살표"
+                src={"/img/mypage/thumb_down.png"}
+                className={cx("ment_img")}
+              />
+              <span>+{data?.negativeFeedbackCount}</span>
+            </div>
             <div className={cx("feedback_body")}>
               <div className={cx("ment")}>
                 <div>부정</div>
                 <div className={cx("black")}>적 피드백</div>
               </div>
-              <div className={cx("ment_img")}>
-                <Image
-                  alt="화살표"
-                  src={"/img/mypage/thumb_down.png"}
-                  fill
-                  priority
-                  quality={100}
-                />
+
+              <AutoHeightImage
+                alt="화살표"
+                src={"/img/mypage/thumb_down.png"}
+                className={cx("ment_img")}
+              />
+            </div>
+          </div>
+          <div
+            onClick={() => clickLikeHandle("NEGATIVE")}
+            className={cx(
+              "feedback_box",
+              "trade",
+              router.pathname === "/user/[id]" && "cursor"
+            )}
+          >
+            <div className={cx("count_wrap")}>
+              <AutoHeightImage
+                alt="화살표"
+                src={"/img/mypage/thumb_down.png"}
+                className={cx("ment_img")}
+              />
+              <span>+{data?.negativeFeedbackCount}</span>
+            </div>
+            <div className={cx("feedback_body")}>
+              <div className={cx("ment")}>
+                <div>거래</div>
+                <div className={cx("black")}>&nbsp;성사량</div>
               </div>
+              <AutoHeightImage
+                alt="화살표"
+                src={"/img/mypage/thumb_down.png"}
+                className={cx("ment_img")}
+              />
             </div>
           </div>
         </div>
