@@ -77,7 +77,7 @@
   box-sizing: border-box;
   padding: 0;
   margin: 0;
-  color: "black";
+
   font-family: "OneMobTitle";
   outline: none;
   ::-webkit-input-placeholder {
@@ -86,9 +86,11 @@
   ::-webkit-scrollbar-track {
     display: none;
     width: 0;
+    height: 0;
   }
   ::-webkit-scrollbar {
     width: 0;
+    height: 0;
   }
   scrollbar-width: none;
 }
@@ -177,4 +179,16 @@ a {
   justify-content: center;
   align-items: center;
   margin-top: 15px;
+}
+
+.slick-arrow.slick-next {
+  width: 0;
+  position: absolute;
+  display: none;
+}
+
+.slick-arrow.slick-next::before {
+  position: absolute;
+  display: none;
+  width: 0;
 }

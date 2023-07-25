@@ -22,7 +22,7 @@ const cx = className.bind(styles);
 
 type CarouselData = {
   id: number;
-  src: string;
+  name: string;
   moveTo: string | undefined;
   arrowColor: string | undefined;
   dotsColor: string | undefined;
@@ -41,6 +41,7 @@ export default function Body() {
   const [buyCoinKind, setBuyCoinKind] = useState<CoinKind>(CoinKind.Usdt);
   const [sellCoinKind, setSellCoinKind] = useState<CoinKind>(CoinKind.Usdt);
   const [kind, setKind] = useState<OfferAction>(OfferAction.Buy);
+
   const [middle, setMiddle] = useState(false);
   const isMiddle = useMediaQuery({
     query: "(min-width: 1300px) and (max-width: 10000px)",
@@ -50,29 +51,29 @@ export default function Body() {
     {
       id: 0,
       moveTo: undefined,
-      src: "1",
+      name: "banner1",
       alt: "1",
-      arrowColor: undefined,
-      dotsColor: undefined,
-      backGroundColor: "#fff",
+      arrowColor: "none",
+      dotsColor: "#ff7401",
+      backGroundColor: "none",
     },
     {
       id: 1,
-      moveTo: "notice",
-      src: "2",
+      moveTo: undefined,
+      name: "banner2",
       alt: "2",
-      arrowColor: undefined,
-      dotsColor: undefined,
-      backGroundColor: "#fff",
+      arrowColor: "none",
+      dotsColor: "#ff7401",
+      backGroundColor: "none",
     },
     {
       id: 2,
       moveTo: undefined,
-      src: "3",
+      name: "banner3",
       alt: "3",
-      arrowColor: "#fff",
-      dotsColor: "#fff",
-      backGroundColor: undefined,
+      arrowColor: "none",
+      dotsColor: "#ff7401",
+      backGroundColor: "none",
     },
   ]);
 
@@ -111,10 +112,9 @@ export default function Body() {
 
   return (
     <div className={cx("container")}>
-      <MarketPrice />
       <CarouselPart carouselData={carouselData} />
-      <TopImage imageName={"1"} />
-      <Marquee />
+      <MarketPrice />
+      {/* <Marquee /> */}
 
       <div className={cx("OTC_top")}>
         <div className={cx("OTC_top_wrap")}>
