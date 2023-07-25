@@ -34,7 +34,7 @@ export default function TopImage({ imageName }: Props) {
             alt="탑이미지"
             priority
             quality={100}
-            src={`/img/top_image/bg/${imageName}.png`}
+            src={`/img/top_image/bg/${imageName}.png?v=1231`}
           />
         </div>
         <div className={cx("img_wrap")}>
@@ -45,7 +45,7 @@ export default function TopImage({ imageName }: Props) {
             quality={100}
             src={`/img/top_image/img/${
               middle ? imageName : imageName + "_m"
-            }.png?v=2`}
+            }.png?v=3131`}
           />
         </div>
       </div>

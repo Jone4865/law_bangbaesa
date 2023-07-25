@@ -1,0 +1,46 @@
+@import "public/scss/style.scss";
+
+.wrap {
+  position: relative;
+  height: 601px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  @include view("very_small") {
+    height: 400px;
+  }
+  @include view("mobile") {
+    height: 37vw;
+  }
+}
+
+.bg_wrap {
+  width: 100%;
+  height: 601px;
+  position: absolute;
+  @include view("very_small") {
+    height: 400px;
+  }
+  @include view("mobile") {
+    display: none;
+  }
+}
+
+.img_wrap {
+  width: 1100px;
+  height: 562px;
+  position: absolute;
+
+  @include view("small") {
+    width: 1000px;
+    height: 510px;
+  }
+  @include view("very_small") {
+    width: 730px;
+    height: 400px;
+  }
+  @include view("mobile") {
+    width: 100%;
+    height: 37vw;
+  }
+}

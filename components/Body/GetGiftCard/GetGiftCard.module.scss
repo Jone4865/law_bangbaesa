@@ -1,11 +1,8 @@
 @import "public/scss/style.scss";
 
 .container {
-  width: 83vw;
+  width: 85vw;
   @include view("very_small") {
-    width: 95vw;
-  }
-  @include view("mobile") {
     width: 100%;
   }
 }
@@ -168,7 +165,10 @@
 }
 
 .border_top {
-  border-top: solid 3px black;
+  border-top: solid 1px #919191;
+  @include view("mobile") {
+    border-top: solid 1px #dcdcdc;
+  }
 }
 
 .count {

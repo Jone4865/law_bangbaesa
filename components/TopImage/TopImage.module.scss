@@ -2,13 +2,10 @@
 
 .wrap {
   position: relative;
-  height: 601px;
+  height: 200px;
   display: flex;
   justify-content: center;
   align-items: flex-end;
-  @include view("very_small") {
-    height: 400px;
-  }
   @include view("mobile") {
     height: 37vw;
   }
@@ -16,31 +13,32 @@
 
 .bg_wrap {
   width: 100%;
-  height: 601px;
+  height: 200px;
   position: absolute;
-  @include view("very_small") {
-    height: 400px;
-  }
   @include view("mobile") {
     display: none;
   }
 }
 
 .img_wrap {
-  width: 1100px;
-  height: 562px;
+  width: 858px;
+  height: 200px;
   position: absolute;
-
+  margin-left: -100px;
   @include view("small") {
-    width: 1000px;
-    height: 510px;
+    height: 180px;
+    width: 750px;
+    margin: 0;
   }
+
   @include view("very_small") {
-    width: 730px;
-    height: 400px;
+    height: 180px;
+    width: 750px;
+    margin: 0;
   }
   @include view("mobile") {
     width: 100%;
     height: 37vw;
+    margin: 0;
   }
 }

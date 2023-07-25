@@ -27,8 +27,9 @@ import {
   SignUpByUserMutation,
 } from "src/graphql/generated/graphql";
 import { FIND_MANY_COUNTRY_CODE } from "src/graphql/query/findManyCountryCode";
+
 import Image from "next/image";
-import DropDown from "components/DropDown/IDDropDown/DropDown";
+import CountryDropDown from "components/DropDown/CountryDropDown/CountryDropDown";
 
 const cx = className.bind(styles);
 
@@ -36,8 +37,7 @@ export default function SignUp() {
   const router = useRouter();
 
   const [countryCodes, setCountryCodes] = useState<CountryCodeModel[]>([]);
-  const [countryCode, setCountryCode] = useState(82);
-
+  const [countryCode, setCountryCode] = useState("82");
   const [id, setId] = useState("");
   const [passWord, setPassWord] = useState("");
   const [confirmPass, setConfirmPass] = useState("");
@@ -65,7 +65,7 @@ export default function SignUp() {
 
   const idRule = /^[a-zA-Z0-9]{4,20}$/;
 
-  const changeCountry = (code: number) => {
+  const changeCountry = (code: string) => {
     setCountryCode(code);
     setTell("");
     setViewConfirmTell(false);
@@ -104,7 +104,7 @@ export default function SignUp() {
   const onSendCertification = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (tell !== "") {
-      sendPhoneAuthNumber({ variables: { phone: tell } });
+      sendPhoneAuthNumber({ variables: { phone: tell, countryCode } });
     }
   };
 
@@ -114,6 +114,7 @@ export default function SignUp() {
       variables: {
         phone: tell,
         authNumber: certificationTellText,
+        countryCode,
       },
     });
   };
@@ -130,6 +131,7 @@ export default function SignUp() {
         phone: tell,
         hash: hash ? hash : "",
         loginKind: LoginKind.Email,
+        countryCode,
       },
     });
     toast.dismiss();
@@ -348,11 +350,12 @@ export default function SignUp() {
               {viewConfirmTell && !passTell && (
                 <div className={cx("warn_text_wrap")}>!</div>
               )}
-              <DropDown
-                type="county"
-                data={countryCodes}
-                onChangeHandel={changeCountry}
-              />
+              <div className={cx("dropdown_wrap")}>
+                <CountryDropDown
+                  data={countryCodes}
+                  onChangeHandel={changeCountry}
+                />
+              </div>
               <input
                 className={cx("part_input")}
                 placeholder="- 를 빼고 입력하세요"

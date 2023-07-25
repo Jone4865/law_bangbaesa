@@ -15,7 +15,13 @@
     padding-top: 100px;
     padding-bottom: 40px;
     background-color: #fff;
-    font-size: 14px;
+    font-size: 18px;
+  }
+  .input {
+    font-size: 18px;
+    @include view("mobile") {
+      font-size: 16px;
+    }
   }
 }
 
@@ -27,7 +33,7 @@
   border-radius: 10px;
   padding: 30px;
   @include view("mobile") {
-    padding: 0;
+    padding: 0 20px;
     max-width: 700px;
     width: 98vw;
   }
@@ -47,8 +53,7 @@
   margin-bottom: 48.5px;
   display: inline-block;
   @include view("mobile") {
-    font-size: 24px;
-    width: 205px;
+    font-size: 26px;
     margin-bottom: 30px;
   }
 }
@@ -56,8 +61,10 @@
 .sub_title {
   margin-bottom: 20px;
   font-size: 20px;
+  display: flex;
+  align-items: center;
   @include view("mobile") {
-    font-size: 16px;
+    font-size: 18px;
   }
 }
 
@@ -80,8 +87,8 @@
 
 .check {
   background-color: #ff7401;
-  width: 40px;
-  height: 40px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
   outline: none;
   appearance: none;
@@ -103,8 +110,8 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 20px;
-  height: 20px;
+  width: 14px;
+  height: 14px;
   background-color: white;
   border-radius: 50%;
   opacity: 0;
@@ -128,13 +135,17 @@
   border: 1px solid #c7c7c7;
 }
 
-.top_btns {
+.coin_btns {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
+  grid-template-columns: repeat(4, 1fr);
+  column-gap: 20px;
+  @include view("mobile") {
+    grid-template-columns: repeat(2, 1fr);
+    row-gap: 10px;
+  }
 }
 
-.top_btn {
+.coin_btn {
   display: flex;
   border: solid 1px #dcdcdc;
   border-radius: 10px;
@@ -142,16 +153,23 @@
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  @include view("mobile") {
+    border-radius: 5px;
+  }
 }
 
-.able_top_btn {
+.able_coin_btn {
   display: flex;
   border: solid 1px #ff7401;
-  border-radius: 10px;
+  border-radius: 5px;
   height: 50px;
   justify-content: center;
   align-items: center;
   background-color: #fff5ec;
+  color: #ff7401;
+  @include view("mobile") {
+    border-radius: 5px;
+  }
 }
 
 .align {
@@ -162,16 +180,21 @@
   }
 }
 
-.location_wrap {
+.location_container {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  row-gap: 10px;
-  div {
-    display: flex;
-    align-items: center;
-    :first-child {
-      margin-right: 15px;
-    }
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: 20px;
+  @include view("mobile") {
+    grid-template-columns: repeat(1, 1fr);
+    row-gap: 20px;
+  }
+}
+
+.location_text {
+  font-size: 18px;
+  margin-bottom: 10px;
+  @include view("mobile") {
+    font-size: 16px;
   }
 }
 
@@ -189,9 +212,13 @@
 
 .img_wrap {
   position: relative;
-  width: 20px;
-  height: 20px;
+  width: 26px;
+  height: 26px;
   margin-right: 5px;
+  @include view("mobile") {
+    width: 28px;
+    height: 28px;
+  }
 }
 
 .sub_text {
@@ -200,17 +227,43 @@
   display: flex;
   line-height: 20px;
   @include view("mobile") {
-    font-size: 10px;
+    font-size: 12px;
   }
 }
 
-.align_coin {
+.kind_btns {
+  display: grid;
+  justify-content: space-between;
+  grid-template-columns: repeat(2, 1fr);
+  height: 50px;
+  column-gap: 20px;
+}
+
+.able_kind_btn {
+  border: solid 1px #ff7401;
   display: flex;
+  justify-content: center;
   align-items: center;
-  :first-child {
-    margin-right: 20px;
+  border-radius: 10px;
+  color: #ff7401;
+  font-size: 18px;
+  background-color: #fff5ec;
+  @include view("mobile") {
+    border-radius: 5px;
   }
-  margin-bottom: 20px;
+}
+
+.default_kind_btn {
+  border: solid 1px #dcdcdc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  color: #333;
+  font-size: 18px;
+  @include view("mobile") {
+    border-radius: 5px;
+  }
 }
 
 .bot_btns {
@@ -222,12 +275,15 @@
 .cancle_btn {
   width: calc(50% - 10px);
   height: 60px;
-  background-color: #dcdcdc;
+  background-color: #989898;
   border: none;
   border-radius: 10px;
   color: #fff;
   font-size: 20px;
   cursor: pointer;
+  @include view("mobile") {
+    font-size: 18px;
+  }
 }
 
 .create_btn {
@@ -239,6 +295,9 @@
   border: none;
   border-radius: 10px;
   cursor: pointer;
+  @include view("mobile") {
+    font-size: 18px;
+  }
 }
 
 .help_img {
@@ -276,38 +335,120 @@
   font-size: 18px;
   border-radius: 10px;
   @include view("mobile") {
-    font-size: 14px;
+    font-size: 16px;
   }
 }
 
 .middle_inputs {
   display: flex;
   align-items: center;
+  width: 100%;
+  position: relative;
   input {
     height: 50px;
     border-radius: 12px;
     border: solid 1px #dcdcdc;
     padding: 15px 20px;
-    margin-right: 7px;
+    width: 100%;
+    margin-top: 10px;
+    font-size: 18px;
   }
 }
 
 .space {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: 20px;
+  @include view("mobile") {
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+  }
+}
+
+.middle_wrap {
+  width: 100%;
+  @include view("mobile") {
+    input {
+      font-size: 16px;
+    }
+  }
+}
+
+.price_content {
+  position: absolute;
+  right: 20px;
+  height: 50px;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.essential {
+  color: #ff7401;
+  margin: auto 0;
+}
+
+.essential_comment {
+  font-size: 14px;
+  color: #ff7401;
+  text-align: center;
+  margin-left: 10px;
+  @include view("mobile") {
+    font-size: 12px;
+  }
+}
+
+.margin_content {
+  margin-right: 14px;
+}
+
+.wallet_wrap {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
   @include view("mobile") {
     flex-direction: column;
   }
 }
 
-.essential {
-  color: red;
-  font-size: 15px;
+.drop_down_wrap {
+  min-width: 212px;
+  height: 100%;
+  margin-top: 10px;
+  margin-right: 20px;
+  @include view("mobile") {
+    min-width: 100%;
+    margin: auto;
+  }
 }
 
-.essential_comment {
-  font-size: 13px;
-  color: red;
-  text-align: center;
-  margin-left: 20px;
+.save_wallet_wrap {
+  display: flex;
+  align-items: center;
+  margin-bottom: 40px;
+  font-size: 16px;
+  div {
+    margin-left: 10px;
+  }
+  @include view("mobile") {
+    font-size: 14px;
+  }
+}
+
+.wallet_title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.wallet_content {
+  font-size: 16px;
+  color: #3561c7;
+  border-bottom: solid 1px #3561c7;
+  cursor: pointer;
+  @include view("mobile") {
+    font-size: 14px;
+  }
 }

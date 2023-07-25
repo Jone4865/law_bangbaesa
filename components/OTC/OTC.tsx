@@ -19,10 +19,12 @@ import {
   OfferAction,
   ReservationStatus,
   TransactionStatus,
+  WalletAddressKind,
 } from "src/graphql/generated/graphql";
 import { UPDATE_RESERVATION_STATUS_BY_USER } from "../../src/graphql/mutation/updateReservationStatusByUser";
 import { UPDATE_TRANSACTION_STATUS_BY_USER } from "src/graphql/mutation/updateTransactionStatusByUser";
 import { CREATE_OFFER_BY_USER } from "src/graphql/mutation/createOfferByUser";
+import MarketPrice from "components/MarketPrice/MarketPrice";
 
 const cx = className.bind(styles);
 
@@ -51,8 +53,8 @@ export default function OTC({
   const coinBtns = [
     { name: "USDT", coinKind: CoinKind.Usdt },
     { name: "BTC", coinKind: CoinKind.Btc },
-    // { name: "ETH", coinKind: CoinKind.Eth },
-    // { name: "TRX", coinKind: CoinKind.Trx },
+    { name: "ETH", coinKind: CoinKind.Eth },
+    { name: "TRX", coinKind: CoinKind.Trx },
   ];
   const [take] = useState(10);
   const [skip, setSkip] = useState(0);
@@ -99,7 +101,9 @@ export default function OTC({
     key: "reservation" | "complete",
     id: number,
     reservationState: ReservationStatus,
-    transactionStatus: TransactionStatus
+    transactionStatus: TransactionStatus,
+    walletAddress: string,
+    walletAddressKind: WalletAddressKind
   ) => {
     if (key === "complete") {
       if (transactionStatus === TransactionStatus.Progress) {
@@ -112,10 +116,19 @@ export default function OTC({
           variables: { updateTransactionStatusByUserId: id },
         });
       } else {
-        createOfferByUser({
-          variables: {
-            ...data.filter((v) => v.id === id)[0],
-            cityId: data.filter((v) => v.id === id)[0].city.id,
+        findMyInfoByUser({
+          onCompleted(myInfo) {
+            createOfferByUser({
+              variables: {
+                ...data.filter((v) => v.id === id)[0],
+                cityId: data.filter((v) => v.id === id)[0].city.id,
+                isUseNextTime: myInfo.findMyInfoByUser.walletAddress
+                  ? true
+                  : false,
+                walletAddress,
+                walletAddressKind,
+              },
+            });
           },
         });
       }
@@ -275,14 +288,11 @@ export default function OTC({
       {part === "otc" && (
         <>
           <TopImage imageName={"1"} />
+          <MarketPrice type="not_home" />
         </>
       )}
+
       <div className={cx("wrap")}>
-        {part === "otc" && (
-          <div style={{ border: "solid 1px #dcdcdc" }}>
-            <Marquee />
-          </div>
-        )}
         <div className={cx(part === "otc" ? "bottom_container" : "full")}>
           <div
             className={cx(part === "otc" ? "bottom_wrap" : "other_bottom_wrap")}
@@ -293,8 +303,8 @@ export default function OTC({
                   {!partKind && "P2P Offer"}
                 </div>
                 <div className={cx("bottom_body")}>
-                  <div>
-                    {part === "otc" && (
+                  {part === "otc" && (
+                    <div className={cx("btns_container")}>
                       <div className={cx("btns_wrap")}>
                         {offerStateBtns.map((btn, idx) => (
                           <div
@@ -319,23 +329,24 @@ export default function OTC({
                           </div>
                         ))}
                       </div>
-                    )}
-                  </div>
-                  {part === "otc" && (
-                    <>
                       <div className={cx("coin_btns")}>
                         {coinBtns.map((v) => (
                           <div
                             className={cx(
-                              coin === v.coinKind
-                                ? kind !== "buy"
-                                  ? "able_buy_btn"
-                                  : "able_sell_btn"
-                                : "default_btn"
+                              "coin_btn",
+                              coin === v.coinKind &&
+                                v.coinKind.toLocaleLowerCase()
                             )}
                             key={v.coinKind}
                             onClick={() => onClickHandle(v.coinKind, "coin")}
                           >
+                            <div className={cx("coin_img_wrap")}>
+                              <Image
+                                fill
+                                alt="코인 이미지"
+                                src={`/img/marquee/${v.coinKind.toLocaleLowerCase()}.png`}
+                              />
+                            </div>
                             {v.name}
                           </div>
                         ))}
@@ -358,7 +369,7 @@ export default function OTC({
                           />
                         </div>
                       </div>
-                    </>
+                    </div>
                   )}
                 </div>
               </>

@@ -5,7 +5,34 @@
   border-radius: 5px;
   padding: 20px;
   font-size: 16px;
-  border: solid 1px #dcdcdc;
+  height: 113px;
+  position: relative;
+  @include view("small") {
+    font-size: 14px;
+  }
+
+  @include view("mobile") {
+    height: 164px;
+  }
+}
+
+.not_home_map_wrap {
+  background-color: #fff;
+  border-radius: 5px;
+  padding: 20px;
+  font-size: 16px;
+  height: 113px;
+  position: relative;
+  @include view("small") {
+    font-size: 14px;
+  }
+  @include view("very_small") {
+    font-size: 16px;
+    height: 164px;
+  }
+  @include view("mobile") {
+    height: 164px;
+  }
 }
 
 .complete_wrap {
@@ -23,13 +50,20 @@
 
 .top {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(7, 1fr);
   padding: 0 20px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   font-size: 18px;
   text-align: center;
+  height: 44px;
+  background-color: #dcdcdc;
+  align-items: center;
+  border-radius: 5px;
+  div {
+    display: flex;
+  }
   @include view("very_small") {
-    font-size: 16px;
+    display: none;
   }
   @include view("mobile") {
     display: none;
@@ -38,28 +72,30 @@
 
 .home_top {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   padding: 0 20px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   font-size: 18px;
   text-align: center;
-  @include view("very_small") {
-    font-size: 16px;
-  }
+  height: 44px;
+  background-color: #dcdcdc;
+  align-items: center;
+  border-radius: 5px;
+
   @include view("mobile") {
     display: none;
   }
 }
 
 .body {
-  text-align: center;
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(7, 1fr);
+  position: relative;
+  height: 100%;
 
-  gap: 70px;
   @include view("very_small") {
     gap: 0px;
-    font-size: 14px;
+    grid-template-columns: repeat(3, 1fr);
   }
   @include view("mobile") {
     gap: 0;
@@ -72,11 +108,10 @@
 .home_body {
   text-align: center;
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(4, 1fr);
+  position: relative;
+  height: 100%;
 
-  @include view("very_small") {
-    font-size: 14px;
-  }
   @include view("mobile") {
     display: flex;
     justify-content: space-between;
@@ -87,7 +122,6 @@
 .mypage_id {
   text-decoration: underline;
   text-underline-offset: 2px;
-  margin-bottom: 10px;
 }
 
 .default_id {
@@ -100,7 +134,7 @@
 .seller {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: flex-start;
 }
 
@@ -120,34 +154,67 @@
 .log {
   font-size: 12px;
   color: #777;
-  @include view("very_small") {
-    font-size: 10px;
-  }
+  display: flex;
+  margin: auto auto 0 0;
 }
 
 .gray {
   font-size: 14px;
   color: #777;
-  @include view("very_small") {
+  @include view("small") {
     font-size: 12px;
+  }
+  @include view("mobile") {
+    margin-left: 3px;
   }
 }
 
 .gray_right {
   font-size: 16px;
   color: #777;
-  @include view("very_small") {
+  display: flex;
+  margin-top: 5.5px;
+  margin-left: 5px;
+  @include view("small") {
     font-size: 14px;
+  }
+  @include view("mobile") {
+    margin: 0 0 0 3px;
   }
 }
 
 .right_price {
-  font-size: 18px;
+  font-size: 24px;
   width: 100%;
   display: flex;
   justify-content: flex-end;
+  position: absolute;
+
+  @include view("small") {
+    font-size: 20px;
+  }
+
+  @include view("mobile") {
+    display: none;
+  }
+}
+
+.not_home_right_price {
+  font-size: 24px;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  position: absolute;
+
+  @include view("small") {
+    font-size: 20px;
+  }
+
   @include view("very_small") {
-    font-size: 16px;
+    display: none;
+  }
+  @include view("mobile") {
+    display: none;
   }
 }
 
@@ -165,12 +232,10 @@
   font-size: 16px;
   font-size: 16px;
   @include view("small") {
-    font-size: 14px;
     width: 70px;
     height: 30px;
   }
   @include view("very_small") {
-    font-size: 14px;
     width: 70px;
     height: 30px;
   }
@@ -180,55 +245,54 @@
   outline: none;
   border: none;
   background-color: #ff7401;
-  width: 90px;
+  width: 150px;
   height: 36px;
   color: #fff;
   border-radius: 10px;
   font-size: 16px;
-  font-size: 16px;
   cursor: pointer;
+
   @include view("small") {
-    font-size: 14px;
-    width: 70px;
-    height: 30px;
+    width: 90px;
+    height: 36px;
   }
   @include view("very_small") {
-    font-size: 14px;
-    width: 70px;
-    height: 30px;
+    width: 90px;
+    height: 36px;
+  }
+  @include view("mobile") {
+    width: 90px;
+    height: 36px;
   }
 }
 
 .chat_orange:disabled {
   cursor: default;
-  background-color: #dcdcdc;
+  background-color: #afafaf;
 }
 
 .chat_blue {
   outline: none;
   border: none;
   background-color: #3561c7;
-  width: 90px;
+  width: 150px;
   height: 36px;
   color: #fff;
   border-radius: 10px;
   font-size: 16px;
-  font-size: 16px;
   cursor: pointer;
   @include view("small") {
-    font-size: 14px;
     width: 70px;
     height: 30px;
   }
   @include view("very_small") {
-    font-size: 14px;
     width: 70px;
     height: 30px;
   }
 }
 
 .chat_blue:disabled {
-  background-color: #dcdcdc;
+  background-color: #afafaf;
   cursor: default;
 }
 
@@ -236,16 +300,95 @@
   margin-left: 25px;
 }
 
-.mobile_flex {
+.with_district {
+  display: flex;
+  white-space: nowrap;
+  column-gap: 5px;
+  margin-left: -10px;
   @include view("mobile") {
-    display: flex;
-    white-space: nowrap;
+    position: absolute;
+    right: 0;
   }
 }
 
-.mobile_none {
+.none_district {
+  display: flex;
+  white-space: nowrap;
+  margin-left: 10px;
   @include view("mobile") {
-    display: none;
+    position: absolute;
+    right: 0;
+  }
+}
+
+.only_pc {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-end;
+  position: relative;
+  @include view("mobile") {
+    position: static;
+  }
+}
+
+.only_mobile {
+  display: none;
+  @include view("mobile") {
+    position: absolute;
+    top: 38px;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
+.not_home_only_mobile {
+  display: none;
+  @include view("very_small") {
+    position: absolute;
+    top: 30px;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+  }
+  @include view("mobile") {
+    position: absolute;
+    top: 38px;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
+.mobile_body {
+  display: none;
+  @include view("mobile") {
+    align-items: flex-end;
+    display: flex;
+  }
+}
+
+.not_home_mobile_body {
+  display: none;
+  @include view("very_small") {
+    align-items: flex-end;
+    display: flex;
+  }
+  @include view("mobile") {
+    align-items: flex-end;
+    display: flex;
+  }
+}
+
+.mobile_price {
+  display: flex;
+  align-items: flex-end;
+  @include view("very_small") {
+    font-size: 18px;
+  }
+  @include view("mobile") {
+    font-size: 18px;
   }
 }
 
@@ -254,33 +397,14 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: flex-end;
-  @include view("mobile") {
-    display: none;
-  }
+  position: relative;
 }
 
 .mobile {
   display: none;
   @include view("mobile") {
-    display: block;
+    display: flex;
   }
-}
-
-.mobile_top_body {
-  display: flex;
-  flex-direction: column-reverse;
-  position: relative;
-}
-
-.mobile_body {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  align-items: flex-end;
-}
-
-.none {
-  display: none;
 }
 
 .my_offer_wrap {
@@ -417,7 +541,7 @@
 
 .right_btns {
   display: flex;
-  margin-top: 10px;
+  margin: auto 0 0 auto;
 }
 
 .mobile_top {
@@ -533,4 +657,223 @@
   border: solid 2px #3561c7;
   background-color: #3561c738;
   color: #3561c7;
+}
+
+.location {
+  text-align: left;
+}
+
+.min_and_max_wrap {
+  display: flex;
+}
+
+.min_and_max {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.img_container {
+  display: flex;
+  align-items: center;
+  column-gap: 10px;
+  @include view("mobile") {
+    position: absolute;
+    bottom: 28px;
+    column-gap: 4px;
+  }
+}
+
+.not_home_img_container {
+  display: none;
+  align-items: center;
+  column-gap: 10px;
+  @include view("very_small") {
+    position: absolute;
+    bottom: 28px;
+    column-gap: 4px;
+    display: flex;
+  }
+  @include view("mobile") {
+    position: absolute;
+    bottom: 28px;
+    column-gap: 4px;
+    display: flex;
+  }
+}
+
+.coin_img {
+  position: relative;
+  width: 28px;
+  height: 28px;
+  @include view("small") {
+    width: 23px;
+    height: 23px;
+  }
+  @include view("very_small") {
+    width: 20px;
+    height: 20px;
+  }
+  @include view("mobile") {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+.trust_img {
+  position: relative;
+  width: 28px;
+  height: 28px;
+  margin-left: 10px;
+
+  @include view("mobile") {
+    width: 20px;
+    height: 20px;
+    margin-left: 6px;
+  }
+}
+
+.not_home_trust_img {
+  position: relative;
+  width: 28px;
+  height: 28px;
+  @include view("small") {
+    width: 23px;
+    height: 23px;
+  }
+}
+
+.min_and_max_content {
+  position: absolute;
+  display: flex;
+  font-size: 12px;
+  color: #777;
+  white-space: nowrap;
+  bottom: 0;
+  @include view("mobile") {
+    left: 0;
+  }
+}
+
+.not_home_min_and_max_content {
+  position: absolute;
+
+  font-size: 12px;
+  color: #777;
+  white-space: nowrap;
+  bottom: 0;
+  display: none;
+  @include view("very_small") {
+    left: 0;
+    display: flex;
+  }
+  @include view("mobile") {
+    left: 0;
+    display: flex;
+  }
+}
+
+.stick {
+  width: 1px;
+  height: 13px;
+  background-color: #989898;
+  margin: 0 10px;
+}
+
+.min_and_max_bottom {
+  display: flex;
+  position: absolute;
+  white-space: nowrap;
+  @include view("mobile") {
+    display: none;
+  }
+}
+
+.none_mobile {
+  display: flex;
+  @include view("mobile") {
+    display: none;
+  }
+}
+
+.not_home_coin {
+  display: flex;
+  @include view("very_small") {
+    display: none;
+  }
+  @include view("mobile") {
+    display: none;
+  }
+  :first-child {
+    margin-right: 10px;
+  }
+}
+
+.not_home_min_and_max {
+  justify-content: center;
+}
+
+.not_home_min_and_max_bottom {
+  @include view("very_small") {
+    display: none;
+  }
+  @include view("mobile") {
+    display: none;
+  }
+}
+
+.not_home_location {
+  justify-content: center;
+}
+
+.not_home_only_pc {
+  display: flex;
+  justify-content: center;
+  text-align: right;
+  margin-top: 5px;
+}
+
+.flex {
+  display: flex;
+  justify-content: center;
+  margin-left: -35px;
+}
+
+.not_home_district {
+  display: flex;
+  justify-content: center;
+  margin-top: 5px;
+  @include view("very_small") {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  @include view("mobile") {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+}
+
+.respon_speed {
+  justify-content: flex-end;
+}
+
+.resphone_speed_body {
+  justify-content: flex-end;
+  display: flex;
+  margin-right: 20px;
+  margin-top: 5px;
+  @include view("very_small") {
+    display: none;
+  }
+  @include view("mobile") {
+    display: none;
+  }
+}
+
+.center {
+  margin-top: 5px;
+  @include view("very_small") {
+    margin-top: 0;
+  }
 }

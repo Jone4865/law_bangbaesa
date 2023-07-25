@@ -20,10 +20,11 @@ import {
   CreateChatMessageMutation,
   FindManyChatMessageByUserQuery,
   FindMyInfoByUserQuery,
-  FindOneOfferQuery,
+  FindOneOfferOutput,
   OfferAction,
   UpdateCheckedCurrentChatMessageByUserMutation,
 } from "src/graphql/generated/graphql";
+// import OfferModal from "components/OfferModal/OfferModal";
 
 const cx = className.bind(styles);
 
@@ -36,10 +37,11 @@ const Room: NextPage<Props> = ({ id, data }) => {
   const [first, setFirst] = useState(true);
   const [take] = useState(10);
   const [datas, setDatas] = useState<any[]>([]);
-  const [offerData, setOfferData] =
-    useState<FindOneOfferQuery["findOneOffer"]>();
+  const [offerData, setOfferData] = useState<FindOneOfferOutput>();
   const [myNickName, setMyNickName] = useState("");
   const [unreadView, setUnreadView] = useState(true);
+  const [offerModalVisible, setOfferModalVisible] = useState(false);
+
   const divRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -60,6 +62,14 @@ const Room: NextPage<Props> = ({ id, data }) => {
   });
 
   const router = useRouter();
+
+  const disableScroll = () => {
+    document.body.style.overflow = "hidden";
+  };
+
+  const enableScroll = () => {
+    document.body.style.overflow = "auto";
+  };
 
   const scrollToBottom = () => {
     if (containerRef.current) {
@@ -152,7 +162,6 @@ const Room: NextPage<Props> = ({ id, data }) => {
       onCompleted: (data) => {
         setMyNickName(data.findMyInfoByUser.identity);
       },
-      fetchPolicy: "no-cache",
     }
   );
 
@@ -173,10 +182,10 @@ const Room: NextPage<Props> = ({ id, data }) => {
       }
     );
 
-  const [findOneOffer] = useLazyQuery<FindOneOfferQuery>(FIND_ONE_OFFER, {
+  const [findOneOffer] = useLazyQuery<FindOneOfferOutput>(FIND_ONE_OFFER, {
     onError: (e) => toast.error(e.message ?? `${e}`),
     onCompleted(data) {
-      setOfferData(data.findOneOffer);
+      setOfferData(data);
     },
     fetchPolicy: "no-cache",
   });
@@ -289,6 +298,14 @@ const Room: NextPage<Props> = ({ id, data }) => {
   }, [scroll]);
 
   useEffect(() => {
+    if (offerModalVisible) {
+      disableScroll();
+    } else {
+      enableScroll();
+    }
+  }, [offerModalVisible]);
+
+  useEffect(() => {
     if (router.query.offerId) {
       findOneOffer({
         variables: {
@@ -312,6 +329,12 @@ const Room: NextPage<Props> = ({ id, data }) => {
 
   return (
     <div className={cx("container")}>
+      {/* {offerModalVisible && (
+        <OfferModal
+          offerData={offerData}
+          setOfferModalVisible={setOfferModalVisible}
+        />
+      )} */}
       <div className={cx("wrap")}>
         <div className={cx("top_wrap")}>
           <div className={cx("title")}>채팅하기</div>
@@ -362,6 +385,7 @@ const Room: NextPage<Props> = ({ id, data }) => {
               {offerData?.price?.toLocaleString()}{" "}
               <span className={cx("price_gray")}>KRW</span>
             </div>
+            {/* <button onClick={() => setOfferModalVisible(true)}>오퍼정보</button> */}
           </div>
         )}
         <div className={cx("bottom_wrap")}>

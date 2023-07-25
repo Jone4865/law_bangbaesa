@@ -1,5 +1,4 @@
 import { useState } from "react";
-import IDDropDown from "../../DropDown/IDDropDown/DropDown";
 import CertificationStateBar from "../CertificationStateBar/CertificationStateBar";
 import styles from "./Level3.module.scss";
 import className from "classnames/bind";

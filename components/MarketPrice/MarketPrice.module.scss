@@ -1,1 +1,481 @@
 @import "public/scss/style.scss";
+
+.container {
+  width: 100%;
+  padding: 70px 20px;
+  background-color: #fff;
+  color: #333;
+  @include view("very_small") {
+    padding: 58px 20px 40px 20px;
+  }
+  @include view("mobile") {
+    padding: 58px 20px 40px 20px;
+  }
+}
+
+.wrap {
+  width: 100%;
+  max-width: 1600px;
+  display: flex;
+  margin: 0 auto;
+  flex-direction: column;
+  @include view("middle") {
+    width: 86vw;
+  }
+  @include view("small") {
+    width: 86vw;
+  }
+  @include view("mobile") {
+    width: 86vw;
+  }
+}
+
+.body {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+
+  @include view("pc") {
+    flex-direction: row;
+  }
+}
+
+.top_container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  flex-direction: column;
+  @include view("pc") {
+    flex-direction: row;
+  }
+}
+
+.not_home_top_container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.text_wrap {
+  display: flex;
+  flex-direction: column;
+  // margin-bottom: 30px;
+  justify-content: center;
+  align-items: center;
+  @include view("pc") {
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 0;
+  }
+  @include view("very_small") {
+    margin-bottom: 0;
+  }
+  @include view("mobile") {
+    margin-bottom: 0;
+  }
+}
+
+.title {
+  font-size: 40px;
+  display: flex;
+  gap: 15px;
+  @include view("very_small") {
+    font-size: 26px;
+  }
+  @include view("mobile") {
+    font-size: 26px;
+  }
+}
+
+.not_home_title {
+  font-size: 40px;
+  display: flex;
+  gap: 15px;
+  margin: 0 auto;
+  @include view("very_small") {
+    font-size: 26px;
+  }
+  @include view("mobile") {
+    font-size: 26px;
+  }
+}
+
+.not_home_bottom_container {
+  margin-top: 20px;
+}
+
+.content {
+  font-size: 18px;
+  color: #777;
+  white-space: nowrap;
+  margin: 20px auto;
+  @include view("pc") {
+    margin: 0;
+  }
+  @include view("very_small") {
+    font-size: 14px;
+  }
+  @include view("mobile") {
+    font-size: 14px;
+  }
+}
+
+.not_home_content {
+  font-size: 18px;
+  color: #777;
+  white-space: nowrap;
+  margin: 20px 0;
+  @include view("very_small") {
+    font-size: 14px;
+  }
+  @include view("mobile") {
+    font-size: 14px;
+  }
+}
+
+.top_img_wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  @include view("very_small") {
+    width: 105px;
+    margin-right: 15px;
+    justify-content: flex-start;
+  }
+  @include view("mobile") {
+    width: 105px;
+    margin-right: 15px;
+    justify-content: flex-start;
+  }
+}
+
+.top_img {
+  position: relative;
+  height: 56px;
+  width: 56px;
+  margin-right: 10px;
+  @include view("very_small") {
+    height: 37px;
+    width: 37px;
+    min-width: 37px;
+  }
+  @include view("mobile") {
+    height: 37px;
+    width: 37px;
+    min-width: 37px;
+  }
+}
+
+.top_price {
+  display: flex;
+}
+
+.coin_title {
+  font-size: 22px;
+  font-weight: 900;
+  @include view("very_small") {
+    font-size: 18px;
+  }
+  @include view("mobile") {
+    font-size: 18px;
+  }
+}
+
+.coin_img {
+  position: relative;
+  width: 28px;
+  height: 28px;
+  max-height: 28px;
+  margin-right: 10px;
+  min-height: 28px;
+  @include view("very_small") {
+    margin: 0 auto 5px auto;
+  }
+  @include view("mobile") {
+    margin: 0 auto 5px auto;
+  }
+}
+
+.coin_container {
+  width: 100%;
+  height: 83px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.07);
+  background-color: #fff;
+  border-radius: 5px;
+  font-size: 20px;
+
+  white-space: nowrap;
+  &.tether {
+    margin: 0 auto 10px 0;
+    @include view("pc") {
+      margin-left: 40px;
+    }
+  }
+  &.usd {
+    margin: 0;
+    @include view("pc") {
+      margin-left: 60px;
+    }
+  }
+  @include view("very_small") {
+    font-size: 16px;
+    justify-content: flex-start;
+    padding-left: 27vw;
+  }
+  @include view("mobile") {
+    font-size: 16px;
+    justify-content: flex-start;
+    padding: 15px;
+    overflow-x: scroll;
+  }
+}
+
+.bottom_container {
+  display: flex;
+  font-size: 14px;
+  width: 100%;
+  border: solid 1px #dcdcdc;
+  border-bottom: none;
+  flex-direction: column;
+  margin-top: 20px;
+  @include view("pc") {
+    margin-top: 32px;
+  }
+}
+
+.title_container {
+  width: 100%;
+  height: 45px;
+  border-bottom: solid 2px #333;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  color: #fff;
+
+  @include view("very_small") {
+    height: 60px;
+    grid-template-columns: 0.65fr 2fr 2fr 2fr;
+  }
+  @include view("mobile") {
+    height: 60px;
+    grid-template-columns: 0.65fr 2fr 2fr 2fr;
+  }
+}
+
+.upbit_img {
+  width: 93px;
+  height: 30px;
+  position: relative;
+  margin-right: 4px;
+  @include view("very_small") {
+    width: 57px;
+    height: 18px;
+    margin: 0 auto;
+  }
+  @include view("mobile") {
+    width: 57px;
+    height: 18px;
+    margin: 0 auto;
+  }
+}
+
+.upbit {
+  background-color: #0a3488;
+  font-size: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  @include view("very_small") {
+    flex-direction: column;
+  }
+  @include view("mobile") {
+    flex-direction: column;
+    gap: 5px;
+    margin-bottom: -2px;
+  }
+}
+
+.binance_img {
+  width: 145px;
+  height: 100%;
+  position: relative;
+  margin-right: 4px;
+
+  @include view("very_small") {
+    width: 85px;
+    height: 27px;
+    margin: 0 auto;
+  }
+  @include view("mobile") {
+    width: 85px;
+    height: 27px;
+    margin: 0 auto;
+  }
+}
+
+.binance {
+  background-color: #333;
+  font-size: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-left: solid 1px #dcdcdc;
+  @include view("very_small") {
+    flex-direction: column;
+  }
+  @include view("mobile") {
+    flex-direction: column;
+  }
+}
+
+.kimchi {
+  background-color: #ff7401;
+  font-size: 19px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-left: solid 1px #dcdcdc;
+  @include view("very_small") {
+    font-size: 13px;
+    padding-top: 16.5px;
+  }
+  @include view("mobile") {
+    font-size: 13px;
+    padding-top: 16.5px;
+  }
+}
+
+.opcaity {
+  opacity: 0.7;
+}
+
+.map_container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-bottom: solid 1px #dcdcdc;
+  div {
+    display: flex;
+    align-items: center;
+  }
+  :first-child {
+    height: 44.5px;
+  }
+  @include view("very_small") {
+    grid-template-columns: 0.65fr 2fr 2fr 2fr;
+    :first-child {
+      height: auto;
+    }
+  }
+  @include view("mobile") {
+    grid-template-columns: 0.65fr 2fr 2fr 2fr;
+    :first-child {
+      height: auto;
+    }
+  }
+}
+
+.map_coin_container {
+  margin-left: 6.5vw;
+  @include view("very_small") {
+    flex-direction: column;
+    margin-left: 0;
+    justify-content: center;
+    align-items: center;
+  }
+  @include view("mobile") {
+    flex-direction: column;
+    margin-left: 0;
+
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.border_left {
+  border-left: solid 1px #dcdcdc;
+  justify-content: center;
+  @include view("very_small") {
+    flex-direction: column;
+    height: 72.5px;
+    line-height: 1.5;
+  }
+  @include view("mobile") {
+    flex-direction: column;
+    height: 72.5px;
+    line-height: 1.5;
+  }
+}
+
+.up {
+  color: #ff7401;
+}
+
+.down {
+  color: #3561c7;
+}
+
+.top_left {
+  margin-left: 5px;
+}
+
+.left {
+  margin-left: 5px;
+  font-size: 12px;
+}
+
+.bar {
+  height: 23px;
+  width: 1px;
+  background-color: #dcdcdc;
+  margin: 0 20px;
+  @include view("very_small") {
+    display: none;
+  }
+  @include view("mobile") {
+    display: none;
+  }
+}
+
+.non_mobile {
+  display: flex;
+  @include view("very_small") {
+    display: none;
+  }
+  @include view("mobile") {
+    display: none;
+  }
+}
+
+.up_and_down_img {
+  width: 20px;
+  height: 17px;
+  position: relative;
+  display: flex;
+  margin-left: 5px;
+  @include view("very_small") {
+    width: 15px;
+    height: 13px;
+    margin: 2px -4px 0 0;
+  }
+  @include view("mobile") {
+    width: 15px;
+    height: 13px;
+    margin: 2px -4px 0 0;
+  }
+}
+
+.down_img {
+  margin-top: 1px;
+}
+
+.kimchi_content {
+  @include view("very_small") {
+    margin: 0 auto auto auto;
+  }
+  @include view("mobile") {
+    margin: 0 auto auto auto;
+  }
+}
