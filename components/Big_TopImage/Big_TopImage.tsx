@@ -1,5 +1,5 @@
 import Image from "next/image";
-import styles from "./TopImage.module.scss";
+import styles from "./Big_TopImage.module.scss";
 import className from "classnames/bind";
 import { useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
@@ -10,7 +10,7 @@ type Props = {
   imageName: string;
 };
 
-export default function TopImage({ imageName }: Props) {
+export default function Big_TopImage({ imageName }: Props) {
   const [middle, setMiddle] = useState(true);
 
   const isMiddle = useMediaQuery({

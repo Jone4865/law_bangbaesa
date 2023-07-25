@@ -31,6 +31,7 @@
 }
 
 .body {
+  padding: 0 20px;
   @include view("mobile") {
     width: 100%;
     max-width: 600px;

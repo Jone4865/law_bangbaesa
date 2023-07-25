@@ -2,6 +2,7 @@
 
 .container {
   position: relative;
+  margin-bottom: -5px;
 }
 
 .wrap {
@@ -9,7 +10,6 @@
   justify-content: center;
   align-items: center;
   width: 100%;
-  margin-bottom: -12px;
 }
 
 .img_wrap {
@@ -17,24 +17,29 @@
   width: 100%;
   img {
     width: 100%;
-    object-fit: contain;
-    height: 600px;
+    height: 100%;
+    min-height: 160px;
+    object-fit: cover;
   }
 }
 
 .dots {
   position: absolute;
   height: 100%;
-  bottom: 15px;
+  bottom: -25px;
   height: 20px;
-  display: flex;
-  left: 50%;
   column-gap: 10px;
+  display: none;
+  width: 100%;
+  justify-content: center;
+  @include view("mobile") {
+    display: flex;
+  }
 }
 
 .able_dot {
-  width: 15px;
-  height: 15px;
+  width: 8px;
+  height: 8px;
   border-radius: 100%;
   display: flex;
   justify-content: center;
@@ -42,8 +47,8 @@
 }
 
 .default_dot {
-  width: 15px;
-  height: 15px;
+  width: 8px;
+  height: 8px;
   opacity: 0.3;
   border-radius: 100%;
   display: flex;
@@ -64,6 +69,7 @@
   left: 30px;
   top: 50%;
   cursor: pointer;
+  display: none;
 }
 
 .next {
@@ -75,4 +81,5 @@
   right: 30px;
   cursor: pointer;
   top: 50%;
+  display: none;
 }

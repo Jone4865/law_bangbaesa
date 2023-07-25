@@ -6,12 +6,13 @@ import "slick-carousel/slick/slick-theme.css";
 import className from "classnames/bind";
 import styles from "./CarouselPart.module.scss";
 import { useRouter } from "next/router";
+import { useMediaQuery } from "react-responsive";
 
 const cx = className.bind(styles);
 
 type CarouselData = {
   id: number;
-  src: string;
+  name: string;
   moveTo: string | undefined;
   arrowColor: string | undefined;
   dotsColor: string | undefined;
@@ -24,6 +25,11 @@ type Props = {
 };
 
 const CarouselPart = ({ carouselData }: Props) => {
+  const [mobile, setMobile] = useState(false);
+  const isMobile = useMediaQuery({
+    query: "(max-width: 759px)",
+  });
+
   const [currentPage, setCurrentPage] = useState(1);
   const [currentDataIdx, setCurrentDataIdx] = useState(0);
   const sliderRef = useRef<Slider>(null);
@@ -54,6 +60,10 @@ const CarouselPart = ({ carouselData }: Props) => {
 
   useEffect(() => {}, [currentPage, carouselData]);
 
+  useEffect(() => {
+    setMobile(isMobile ? true : false);
+  }, [isMobile]);
+
   return (
     <div
       style={{
@@ -65,7 +75,6 @@ const CarouselPart = ({ carouselData }: Props) => {
       }}
       className={cx("container")}
     >
-      11111
       <Slider className={cx("wrap")} {...settings} ref={sliderRef}>
         {carouselData.map((v, idx) => (
           <div
@@ -73,7 +82,10 @@ const CarouselPart = ({ carouselData }: Props) => {
             key={idx}
             className={cx("img_wrap", v.moveTo && "pointer")}
           >
-            <img src={`/img/banner/${v.src}.png`} alt={v.alt} />
+            <img
+              src={`/img/banner/${!mobile ? v.name : v.name + "_m"}.png`}
+              alt={v.alt}
+            />
           </div>
         ))}
       </Slider>

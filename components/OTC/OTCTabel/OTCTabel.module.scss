@@ -7,6 +7,29 @@
   font-size: 16px;
   height: 113px;
   position: relative;
+  @include view("small") {
+    font-size: 14px;
+  }
+
+  @include view("mobile") {
+    height: 164px;
+  }
+}
+
+.not_home_map_wrap {
+  background-color: #fff;
+  border-radius: 5px;
+  padding: 20px;
+  font-size: 16px;
+  height: 113px;
+  position: relative;
+  @include view("small") {
+    font-size: 14px;
+  }
+  @include view("very_small") {
+    font-size: 16px;
+    height: 164px;
+  }
   @include view("mobile") {
     height: 164px;
   }
@@ -39,6 +62,9 @@
   div {
     display: flex;
   }
+  @include view("very_small") {
+    display: none;
+  }
   @include view("mobile") {
     display: none;
   }
@@ -66,8 +92,10 @@
   grid-template-columns: repeat(7, 1fr);
   position: relative;
   height: 100%;
+
   @include view("very_small") {
     gap: 0px;
+    grid-template-columns: repeat(3, 1fr);
   }
   @include view("mobile") {
     gap: 0;
@@ -133,6 +161,9 @@
 .gray {
   font-size: 14px;
   color: #777;
+  @include view("small") {
+    font-size: 12px;
+  }
   @include view("mobile") {
     margin-left: 3px;
   }
@@ -144,6 +175,9 @@
   display: flex;
   margin-top: 5.5px;
   margin-left: 5px;
+  @include view("small") {
+    font-size: 14px;
+  }
   @include view("mobile") {
     margin: 0 0 0 3px;
   }
@@ -156,6 +190,29 @@
   justify-content: flex-end;
   position: absolute;
 
+  @include view("small") {
+    font-size: 20px;
+  }
+
+  @include view("mobile") {
+    display: none;
+  }
+}
+
+.not_home_right_price {
+  font-size: 24px;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  position: absolute;
+
+  @include view("small") {
+    font-size: 20px;
+  }
+
+  @include view("very_small") {
+    display: none;
+  }
   @include view("mobile") {
     display: none;
   }
@@ -286,8 +343,38 @@
   }
 }
 
+.not_home_only_mobile {
+  display: none;
+  @include view("very_small") {
+    position: absolute;
+    top: 30px;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+  }
+  @include view("mobile") {
+    position: absolute;
+    top: 38px;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
 .mobile_body {
   display: none;
+  @include view("mobile") {
+    align-items: flex-end;
+    display: flex;
+  }
+}
+
+.not_home_mobile_body {
+  display: none;
+  @include view("very_small") {
+    align-items: flex-end;
+    display: flex;
+  }
   @include view("mobile") {
     align-items: flex-end;
     display: flex;
@@ -297,6 +384,9 @@
 .mobile_price {
   display: flex;
   align-items: flex-end;
+  @include view("very_small") {
+    font-size: 18px;
+  }
   @include view("mobile") {
     font-size: 18px;
   }
@@ -573,6 +663,10 @@
   text-align: left;
 }
 
+.min_and_max_wrap {
+  display: flex;
+}
+
 .min_and_max {
   display: flex;
   justify-content: flex-end;
@@ -589,10 +683,36 @@
   }
 }
 
+.not_home_img_container {
+  display: none;
+  align-items: center;
+  column-gap: 10px;
+  @include view("very_small") {
+    position: absolute;
+    bottom: 28px;
+    column-gap: 4px;
+    display: flex;
+  }
+  @include view("mobile") {
+    position: absolute;
+    bottom: 28px;
+    column-gap: 4px;
+    display: flex;
+  }
+}
+
 .coin_img {
   position: relative;
   width: 28px;
   height: 28px;
+  @include view("small") {
+    width: 23px;
+    height: 23px;
+  }
+  @include view("very_small") {
+    width: 20px;
+    height: 20px;
+  }
   @include view("mobile") {
     width: 20px;
     height: 20px;
@@ -604,10 +724,21 @@
   width: 28px;
   height: 28px;
   margin-left: 10px;
+
   @include view("mobile") {
     width: 20px;
     height: 20px;
     margin-left: 6px;
+  }
+}
+
+.not_home_trust_img {
+  position: relative;
+  width: 28px;
+  height: 28px;
+  @include view("small") {
+    width: 23px;
+    height: 23px;
   }
 }
 
@@ -620,6 +751,24 @@
   bottom: 0;
   @include view("mobile") {
     left: 0;
+  }
+}
+
+.not_home_min_and_max_content {
+  position: absolute;
+
+  font-size: 12px;
+  color: #777;
+  white-space: nowrap;
+  bottom: 0;
+  display: none;
+  @include view("very_small") {
+    left: 0;
+    display: flex;
+  }
+  @include view("mobile") {
+    left: 0;
+    display: flex;
   }
 }
 
@@ -648,16 +797,83 @@
 
 .not_home_coin {
   display: flex;
+  @include view("very_small") {
+    display: none;
+  }
+  @include view("mobile") {
+    display: none;
+  }
   :first-child {
     margin-right: 10px;
   }
 }
 
+.not_home_min_and_max {
+  justify-content: center;
+}
+
 .not_home_min_and_max_bottom {
+  @include view("very_small") {
+    display: none;
+  }
+  @include view("mobile") {
+    display: none;
+  }
+}
+
+.not_home_location {
+  justify-content: center;
+}
+
+.not_home_only_pc {
+  display: flex;
+  justify-content: center;
+  text-align: right;
+  margin-top: 5px;
 }
 
 .flex {
   display: flex;
   justify-content: center;
   margin-left: -35px;
+}
+
+.not_home_district {
+  display: flex;
+  justify-content: center;
+  margin-top: 5px;
+  @include view("very_small") {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  @include view("mobile") {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+}
+
+.respon_speed {
+  justify-content: flex-end;
+}
+
+.resphone_speed_body {
+  justify-content: flex-end;
+  display: flex;
+  margin-right: 20px;
+  margin-top: 5px;
+  @include view("very_small") {
+    display: none;
+  }
+  @include view("mobile") {
+    display: none;
+  }
+}
+
+.center {
+  margin-top: 5px;
+  @include view("very_small") {
+    margin-top: 0;
+  }
 }

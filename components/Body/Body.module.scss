@@ -49,6 +49,7 @@
   @include view("mobile") {
     padding: 40px 20px 30px 20px;
     font-size: 26px;
+    margin-bottom: -1px;
   }
 }
 
@@ -365,5 +366,8 @@
   margin-bottom: 20px;
   @include view("pc") {
     margin: 0;
+  }
+  @include view("mobile") {
+    margin-bottom: 0;
   }
 }
