@@ -6,6 +6,10 @@
     width: 100%;
     margin-top: 20px;
   }
+  @include view("small") {
+    width: 100%;
+    margin-top: 20px;
+  }
   @include view("mobile") {
     width: 100%;
     margin-top: 20px;
@@ -42,6 +46,7 @@
 .btn {
   margin-left: 10px;
   width: 160px;
+  min-width: 160px;
   border-radius: 10px;
   border: solid 1px #ff7401;
   background-color: white;
