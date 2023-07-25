@@ -227,7 +227,9 @@ export default function OTCTabel({
                     router.pathname === "/mypage" &&
                     nowAble === "my"
                     ? "complete_wrap"
-                    : "map_wrap"
+                    : part === "home"
+                    ? "map_wrap"
+                    : "not_home_map_wrap"
                 )}
                 key={idx}
               >
@@ -241,10 +243,12 @@ export default function OTCTabel({
                           fill
                         />
                       </div>
-                      <div>{v.coinKind.toUpperCase()}</div>
+                      <div className={cx("center")}>
+                        {v.coinKind.toUpperCase()}
+                      </div>
                     </div>
                   )}
-                  <div className={cx("seller", part !== "home")}>
+                  <div className={cx("seller", part !== "home" && "center")}>
                     <div
                       onClick={() =>
                         cookies.nickName !== v.identity &&
@@ -258,8 +262,14 @@ export default function OTCTabel({
                     >
                       {v.identity}
                     </div>
-                    {part === "home" && (
-                      <div className={cx("img_container")}>
+                    {
+                      <div
+                        className={cx(
+                          part === "home"
+                            ? "img_container"
+                            : "not_home_img_container"
+                        )}
+                      >
                         <div className={cx("coin_img")}>
                           <Image
                             alt="코인 이미지"
@@ -277,18 +287,18 @@ export default function OTCTabel({
                         </div>
                         <div>{v.offerCompleteCount}</div>
                       </div>
-                    )}
+                    }
                   </div>
                   {part !== "home" && (
                     <div className={cx("not_home_coin")}>
-                      <div className={cx("trust_img")}>
+                      <div className={cx("not_home_trust_img")}>
                         <Image
                           alt="코인 이미지"
                           src={`/img/icon/trust.png`}
                           fill
                         />
                       </div>
-                      {v.offerCompleteCount}
+                      <div className={cx("center")}>{v.offerCompleteCount}</div>
                     </div>
                   )}
                   <div
@@ -303,8 +313,16 @@ export default function OTCTabel({
                     <div>{v.city?.name + " "}</div>
                     <div>{v.district?.name}</div>
                   </div>
-                  <div className={cx("only_mobile")}>
-                    <div className={cx("mobile_body")}>
+                  <div
+                    className={cx(
+                      part === "home" ? "only_mobile" : "not_home_only_mobile"
+                    )}
+                  >
+                    <div
+                      className={cx(
+                        part === "home" ? "mobile_body" : "not_home_mobile_body"
+                      )}
+                    >
                       <div>{v.minAmount.toLocaleString()}</div>
                       <div className={cx("gray")}>KRW</div>
                       <div>/{v.maxAmount.toLocaleString()}</div>
@@ -336,20 +354,23 @@ export default function OTCTabel({
                         <span className={cx("gray")}>KRW</span>
                       </div>
                     </div>
-                    {part === "home" && (
-                      <div className={cx("min_and_max_content")}>
-                        <div>
-                          최근 접속 : {convertConnectionDate(v.connectionDate)}
-                        </div>
-                        <div className={cx("stick")} />
-                        <div className={cx("min_and_max_wrap")}>
-                          <div className={cx("none_mobile")}>
-                            평균응답속도 :
-                          </div>{" "}
-                          {v.responseSpeed}분 미만
-                        </div>
+
+                    <div
+                      className={cx(
+                        part === "home"
+                          ? "min_and_max_content"
+                          : "not_home_min_and_max_content"
+                      )}
+                    >
+                      <div>
+                        최근 접속 : {convertConnectionDate(v.connectionDate)}
                       </div>
-                    )}
+                      <div className={cx("stick")} />
+                      <div className={cx("min_and_max_wrap")}>
+                        <div className={cx("none_mobile")}>평균응답속도 :</div>{" "}
+                        {v.responseSpeed}분 미만
+                      </div>
+                    </div>
                   </div>
                   {part !== "home" && (
                     <div className={cx("resphone_speed_body")}>
@@ -357,7 +378,11 @@ export default function OTCTabel({
                     </div>
                   )}
                   <div className={cx("btns_wrap")}>
-                    <div className={cx("right_price")}>
+                    <div
+                      className={cx(
+                        part === "home" ? "right_price" : "not_home_right_price"
+                      )}
+                    >
                       {v.price.toLocaleString()}
                       <div className={cx("gray_right")}>KRW</div>
                     </div>
