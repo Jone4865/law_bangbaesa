@@ -133,9 +133,6 @@ export default function Mypage() {
       <div className={cx("wrap")}>
         <MyPageTop data={data} handleRefetch={handleRefetch} />
         <div className="flex">
-          <div>
-            <SideStatus mobile={false} level={data ? data.level : 1} />
-          </div>
           <div className={cx("top_container")}>
             {router.pathname !== "/user/[id]" && (
               <>
@@ -144,56 +141,60 @@ export default function Mypage() {
                     <div>
                       <div className={cx("middle_top_container")}>
                         <div className={cx("middle_top_body")}>
-                          <div className={cx("middle_name")}>회원</div> 님의
-                          보안 인증 레벨은
+                          <span className={cx("middle_name")}>
+                            {data?.identity}
+                          </span>{" "}
+                          님의 보안 인증 레벨은
+                          <span className={cx("level_blue")}>
+                            레벨 {data?.level}
+                          </span>{" "}
+                          입니다
+                          <br />
+                          다양한 기능을 이용하기 위해서
+                          <br />
+                          본인인증을 진행해 주세요
                         </div>
-                        <span className={cx("level_blue")}>
-                          레벨 {data?.level}
-                        </span>{" "}
-                        입니다
-                        <br />
                       </div>
-                      다양한 기능을 이용하기 위해서
-                      <br />
-                      본인인증을 진행해 주세요
-                    </div>
-                    <div className={cx("btn_wrap")}>
-                      <div
-                        className={cx("mobile_btn")}
-                        onClick={() => setMobileMore(true)}
-                      >
-                        나의 인증상태
+                      <div className={cx("btn_wrap")}>
+                        <div
+                          className={cx("mobile_btn")}
+                          onClick={() => setMobileMore(true)}
+                        >
+                          나의 인증상태
+                        </div>
+                        <button
+                          onClick={() =>
+                            router.push(
+                              `/certification/level${
+                                data ? data?.level + 1 : 1
+                              }`
+                            )
+                          }
+                          className={cx("middle_btn")}
+                          disabled={data && data.level >= 3}
+                        >
+                          {data && data.level >= 3 ? (
+                            <div>본인인증 완료</div>
+                          ) : (
+                            <>
+                              <div>본인인증 하기</div>
+                              <div className={cx("top_img_wrap", "non_mobile")}>
+                                <Image
+                                  alt="화살표"
+                                  src={"/img/mypage/arrow.png"}
+                                  fill
+                                  priority
+                                  quality={100}
+                                />
+                              </div>
+                            </>
+                          )}
+                        </button>
                       </div>
-                      <button
-                        onClick={() =>
-                          router.push(
-                            `/certification/level${data ? data?.level + 1 : 1}`
-                          )
-                        }
-                        className={cx("middle_btn")}
-                        disabled={data && data.level >= 3}
-                      >
-                        {data && data.level >= 3 ? (
-                          <div>본인인증 완료</div>
-                        ) : (
-                          <>
-                            <div>본인인증 하기</div>
-                            <div className={cx("top_img_wrap", "non_mobile")}>
-                              <Image
-                                alt="화살표"
-                                src={"/img/mypage/arrow.png"}
-                                fill
-                                priority
-                                quality={100}
-                              />
-                            </div>
-                          </>
-                        )}
-                      </button>
                     </div>
+                    <MyLevel level={data ? data.level : 1} />
                   </div>
                 </div>
-                <MyLevel level={data ? data.level : 1} />
               </>
             )}
             <div>
