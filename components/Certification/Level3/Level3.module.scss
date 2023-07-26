@@ -5,9 +5,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-top: 170px;
-  padding-bottom: 70px;
   color: #333;
+  padding: 170px 20px 70px 20px;
   @include view("mobile") {
     background-color: #fff;
     padding-top: 100px;
@@ -38,24 +37,30 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 15px;
+  font-size: 20px;
+  @include view("mobile") {
+    font-size: 16px;
+  }
 }
 
 .able_btn {
+  height: 50px;
+  border-radius: 10px;
+  background-color: #fff5ec;
   border: solid 1px #ff7401;
-  padding: 10px;
-  border-radius: 12px;
+  color: #ff7401;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .default_btn {
+  height: 50px;
+  border-radius: 10px;
   border: solid 1px #dcdcdc;
-  padding: 10px;
-  border-radius: 12px;
+  background-color: #fff;
+  color: #333;
   display: flex;
   justify-content: center;
   align-items: center;
-  cursor: pointer;
-  color: #777;
 }
