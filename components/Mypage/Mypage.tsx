@@ -46,9 +46,6 @@ export default function Mypage() {
   const [mynickName, setMynickName] = useState("");
   const [refetch, setRefetch] = useState(false);
 
-  const [part, setPart] =
-    useState<"mypage" | "home" | "otc" | "user">("mypage");
-
   const logoutHandle = () => {
     removeCookies("login");
     removeCookies("nickName");
@@ -214,17 +211,9 @@ export default function Mypage() {
               </>
             )}
             <div>
-              {router.pathname === "/user/[id]" && (
-                <div>
-                  <div
-                    onClick={() => setMobileMore(true)}
-                    className={cx("user_more_btn")}
-                  >
-                    {data?.identity} 님의 인증상태
-                  </div>
-                  <div className={cx("user_title")}>오퍼내역</div>
-                </div>
-              )}
+              <div className={cx("user_title")}>
+                {router.pathname === "/mypage" ? "내 오퍼내역" : "오퍼내역"}
+              </div>
               <div
                 className={cx(
                   "offer_body",
@@ -252,7 +241,7 @@ export default function Mypage() {
                   </div>
                 </div>
                 <OTC
-                  part={part}
+                  part={router.pathname === "/mypage" ? "mypage" : "home"}
                   nickName={data ? data.identity : ""}
                   isChat={false}
                   nowAble={nowAble}
@@ -261,39 +250,47 @@ export default function Mypage() {
                   refetch={refetch}
                 />
               </div>
-              <div
-                className={cx("offer_body", totalOffer === 0 ? "white" : null)}
-              >
-                <div className={cx("btns")}>
+              {router.pathname === "/mypage" && (
+                <>
+                  <div className={cx("user_title")}>즐겨찾기</div>
                   <div
-                    onClick={() => changeOfferActionHandle()}
                     className={cx(
-                      "btn",
-                      offerState === OfferAction.Buy && "able_buy"
+                      "offer_body",
+                      totalOffer === 0 ? "white" : null
                     )}
                   >
-                    구매
+                    <div className={cx("btns")}>
+                      <div
+                        onClick={() => changeOfferActionHandle()}
+                        className={cx(
+                          "btn",
+                          offerState === OfferAction.Buy && "able_buy"
+                        )}
+                      >
+                        구매
+                      </div>
+                      <div
+                        onClick={() => changeOfferActionHandle()}
+                        className={cx(
+                          "btn",
+                          offerState === OfferAction.Sell && "able_sell"
+                        )}
+                      >
+                        판매
+                      </div>
+                    </div>
+                    <OTC
+                      part={"mypage"}
+                      nickName={data ? data.identity : ""}
+                      isChat={true}
+                      nowAble={nowAble}
+                      partKind={offerState}
+                      setTotalOffer={setTotalOffer}
+                      refetch={refetch}
+                    />
                   </div>
-                  <div
-                    onClick={() => changeOfferActionHandle()}
-                    className={cx(
-                      "btn",
-                      offerState === OfferAction.Sell && "able_sell"
-                    )}
-                  >
-                    판매
-                  </div>
-                </div>
-                <OTC
-                  part={part}
-                  nickName={data ? data.identity : ""}
-                  isChat={true}
-                  nowAble={nowAble}
-                  partKind={offerState}
-                  setTotalOffer={setTotalOffer}
-                  refetch={refetch}
-                />
-              </div>
+                </>
+              )}
             </div>
           </div>
         </div>
