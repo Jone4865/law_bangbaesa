@@ -47,6 +47,8 @@ export default function Header({ setModalState }: Props) {
     onCompleted(_data) {
       setLogin(!login);
       setLogin(false);
+      removeCookies("login");
+      removeCookies("nickName");
       router.replace("/");
     },
     fetchPolicy: "no-cache",

@@ -22,7 +22,6 @@
   padding: 20px;
   font-size: 16px;
   height: 113px;
-  position: relative;
   @include view("small") {
     font-size: 14px;
   }
@@ -415,11 +414,23 @@
   color: #333;
   height: 47px;
   background-color: #fff;
-  border: solid 1px #dcdcdc;
-  margin-top: -5px;
-  @include view("mobile") {
+  border-top: solid 1px #dcdcdc;
+  border-radius: 0 0 5px 5px;
+  margin-top: -30px;
+  @include view("very_small") {
+    margin-top: 0;
     overflow: hidden;
     text-overflow: ellipsis;
+    border: solid 1px #dcdcdc;
+  }
+  @include view("mobile") {
+    margin-top: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    border: solid 1px #dcdcdc;
+    grid-template-columns: 1.5fr 1fr 1fr 1fr 1fr;
+    white-space: nowrap;
+    font-size: 12px;
   }
 }
 
@@ -447,6 +458,12 @@
   border-right: solid 1px #dcdcdc;
   background-color: transparent;
   cursor: pointer;
+  @include view("very_samll") {
+    font-size: 12px;
+  }
+  @include view("mobile") {
+    font-size: 12px;
+  }
 }
 
 .edit_btn:disabled {
@@ -464,6 +481,12 @@
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  @include view("very_samll") {
+    font-size: 12px;
+  }
+  @include view("mobile") {
+    font-size: 12px;
+  }
 }
 
 .blue {
@@ -609,54 +632,36 @@
   border: solid 1px #dcdcdc;
   cursor: pointer;
   margin-left: 10px;
+  @include view("very_small") {
+    font-size: 12px;
+  }
+  @include view("mobile") {
+    font-size: 12px;
+  }
 }
 
 .answer {
   margin-bottom: 10px;
+  @include view("very_small") {
+    font-size: 14px;
+  }
+  @include view("mobile") {
+    font-size: 14px;
+  }
 }
 
 .blue {
   color: #3561c7;
+  @include view("very_small") {
+    font-size: 12px;
+  }
+  @include view("mobile") {
+    font-size: 12px;
+  }
 }
 
 .red {
   color: #ff6d6d;
-}
-
-.toggle_wrap {
-  width: 130px;
-  height: 30px;
-  background-color: #dcdcdc;
-  border-radius: 12px;
-  align-items: center;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  color: #777;
-  div {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-  }
-  @include view("mobile") {
-    font-size: 10px;
-    width: 80px;
-    height: 25px;
-  }
-}
-
-.toggle_open {
-  border-radius: 12px 0 0 12px;
-  border: solid 2px #3561c7;
-  background-color: #3561c738;
-  color: #3561c7;
-}
-
-.toggle_reservation {
-  border-radius: 0 12px 12px 0;
-  border: solid 2px #3561c7;
-  background-color: #3561c738;
-  color: #3561c7;
 }
 
 .location {
@@ -790,6 +795,7 @@
 
 .none_mobile {
   display: flex;
+  margin-right: 2px;
   @include view("mobile") {
     display: none;
   }
@@ -875,5 +881,51 @@
   margin-top: 5px;
   @include view("very_small") {
     margin-top: 0;
+  }
+}
+
+.none {
+  display: none;
+}
+
+.reservation_btns {
+  display: flex;
+  color: #989898;
+  font-size: 14px;
+  @include view("very_small") {
+    font-size: 12px;
+  }
+  @include view("mobile") {
+    font-size: 12px;
+  }
+}
+
+.bar {
+  height: 16px;
+  width: 1px;
+  background-color: #c9c9c9;
+  margin: 0 10px;
+  @include view("very_small") {
+    margin: 0 5px;
+    height: 13px;
+  }
+  @include view("mobile") {
+    margin: 0 5px;
+    height: 13px;
+  }
+}
+
+.able {
+  color: #11a472;
+}
+
+.my_ischat {
+  position: absolute;
+  bottom: 0;
+  @include view("very_small") {
+    display: none;
+  }
+  @include view("mobile") {
+    display: none;
   }
 }

@@ -7,7 +7,6 @@ import { ENTER_CHAT_ROOM } from "../../../src/graphql/mutation/enterChatRoom";
 import { toast } from "react-toastify";
 import { DELETE_OFFER_BY_USER } from "../../../src/graphql/mutation/deleteOfferByUser";
 import { useInView } from "react-intersection-observer";
-import moment from "moment";
 import Image from "next/image";
 import { useCookies } from "react-cookie";
 import { FIND_MY_INFO_BY_USER } from "../../../src/graphql/query/findMyInfoByUser";
@@ -16,6 +15,7 @@ import {
   EnterChatRoomMutation,
   FindManyOfferQuery,
   FindMyInfoByUserQuery,
+  OfferAction,
   ReservationStatus,
   TransactionStatus,
   WalletAddressKind,
@@ -28,9 +28,10 @@ type Props = {
   offerId: number | undefined;
   nowAble: string;
   data: FindManyOfferQuery["findManyOffer"]["offers"];
-  kind: "SELL" | "BUY" | undefined;
+  kind: OfferAction.Sell | OfferAction.Buy | undefined;
   coin: string;
   part: "home" | "otc" | "mypage" | "user";
+  isChat: boolean;
   updateOfferClickHandle: (
     key: "reservation" | "complete",
     id: number,
@@ -51,6 +52,7 @@ export default function OTCTabel({
   data,
   coin,
   kind,
+  isChat,
   updateOfferClickHandle,
   onScrollHandle,
   deletehandle,
@@ -62,6 +64,7 @@ export default function OTCTabel({
   const [onData, setOnData] = useState(false);
   const [moreKind, setMoreKind] =
     useState<"delete" | "reservation" | "complete" | undefined>(undefined);
+
   const [nextRef, nextView] = useInView({
     threshold: 1,
   });
@@ -214,7 +217,7 @@ export default function OTCTabel({
                 )}
                 key={idx}
               >
-                <div className={cx(part === "otc" ? "body" : "home_body")}>
+                <div className={cx(part !== "home" ? "body" : "home_body")}>
                   {part !== "home" && (
                     <div className={cx("not_home_coin")}>
                       <div className={cx("coin_img")}>
@@ -343,16 +346,30 @@ export default function OTCTabel({
                           : "not_home_min_and_max_content"
                       )}
                     >
-                      <div>
-                        최근 접속 : {convertConnectionDate(v.connectionDate)}
-                      </div>
-                      <div className={cx("stick")} />
+                      {(router.pathname !== "/mypage" || isChat) && (
+                        <>
+                          <div>
+                            최근 접속 :{" "}
+                            {convertConnectionDate(v.connectionDate)}
+                          </div>
+                          <div className={cx("stick")} />
+                        </>
+                      )}
                       <div className={cx("min_and_max_wrap")}>
-                        <div className={cx("none_mobile")}>평균응답속도 :</div>{" "}
-                        {v.responseSpeed}분 미만
+                        {(router.pathname !== "/mypage" || isChat) && (
+                          <span className={cx("none_mobile")}>
+                            평균응답속도 :
+                          </span>
+                        )}
+                        <span>{v.responseSpeed}분 미만</span>
                       </div>
                     </div>
                   </div>
+                  {router.pathname === "/mypage" && isChat && (
+                    <div className={cx("gray", "my_ischat")}>
+                      최근 접속 : {convertConnectionDate(v.connectionDate)}
+                    </div>
+                  )}
                   {part !== "home" && (
                     <div className={cx("resphone_speed_body")}>
                       {v.responseSpeed}분 미만
@@ -433,7 +450,7 @@ export default function OTCTabel({
                   </div>
                 </div>
               )}
-              {nowAble === "my" && router.pathname === "/mypage" && (
+              {nowAble === "my" && router.pathname === "/mypage" && !isChat && (
                 <>
                   <div
                     className={cx(
@@ -453,27 +470,25 @@ export default function OTCTabel({
                           "pointer"
                       )}
                     >
-                      {v.transactionStatus !== TransactionStatus.Complete && (
-                        <div className={cx("toggle_wrap")}>
-                          <div
-                            className={cx(
-                              v.reservationStatus === ReservationStatus.None &&
-                                "toggle_open"
-                            )}
-                          >
-                            오픈
-                          </div>
-                          <div
-                            className={cx(
-                              v.reservationStatus ===
-                                ReservationStatus.Progress &&
-                                "toggle_reservation"
-                            )}
-                          >
-                            예약중
-                          </div>
+                      <div className={cx("reservation_btns")}>
+                        <div
+                          className={cx(
+                            v.reservationStatus === ReservationStatus.None &&
+                              "able"
+                          )}
+                        >
+                          오픈
                         </div>
-                      )}
+                        <div className={cx("bar")} />
+                        <div
+                          className={cx(
+                            v.reservationStatus ===
+                              ReservationStatus.Progress && "able"
+                          )}
+                        >
+                          예약중
+                        </div>
+                      </div>
                     </div>
                     <div
                       className={cx("circle_wrap")}
