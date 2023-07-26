@@ -35,6 +35,7 @@ export default function CertificationStateBar({ path }: Props) {
   return (
     <div className={cx("container")}>
       <div className={cx("wrap")}>
+        <div className={cx("line")} />
         {arrs.map((arr, idx) => (
           <div className={cx("body")} key={idx}>
             <div className={cx(idx + 1 <= level ? "ableBox" : "defaultBox")}>
@@ -43,27 +44,28 @@ export default function CertificationStateBar({ path }: Props) {
               >
                 레벨 {idx + 1}
               </div>
-              <div className={cx("img_wrap")}>
-                <Image
-                  fill
-                  alt="인증 아이콘"
-                  src={`/img/Certification/${
-                    idx + 1 <= level ? "success" : "notyet"
-                  }/${idx + 1}.png`}
-                  priority
-                  quality={100}
-                />
+              <div className={cx("img_circle")}>
+                <div className={cx("check")}>✓</div>
+                <div className={cx("img_wrap")}>
+                  <Image
+                    fill
+                    alt="인증 아이콘"
+                    src={`/img/Certification/${
+                      idx + 1 <= level ? "success" : "notyet"
+                    }/${idx + 1}.png`}
+                    priority
+                    quality={100}
+                  />
+                </div>
               </div>
-              <div>{arr}</div>
-              <div>
-                {idx + 1 <= level ? (
-                  <span className={cx("done")}>완료</span>
-                ) : (
-                  <span>미완료</span>
-                )}
+              <div className={cx("text_wrap")}>
+                <div className={cx(idx + 1 <= level && "done")}>
+                  {arr}
+                  {idx + 1 <= level ? " 완료" : " 필요"}
+                </div>
               </div>
             </div>
-            {idx !== 2 && <div className={cx("line")} />}
+            {/* {idx !== 2 && <div className={cx("line")} />} */}
           </div>
         ))}
       </div>

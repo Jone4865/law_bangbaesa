@@ -118,13 +118,14 @@ export default function PassPort() {
         value={endDate}
         onChange={(e) => setEndDate(e.target.value)}
       />
+      <div className={cx("title")}>KYC</div>
       <div className={cx("image_wrap")}>
         <div className={cx("image")}>
           <div className={cx("title")}>전면</div>
           <ImageUpload
             onUpload={handleUpload}
             kind={"front"}
-            defaultImageUrl="/img/level3/pass_port/front.png"
+            defaultImageUrl="/img/level3/pass_port/front.png?v2"
           />
         </div>
         <div className={cx("image")}>
@@ -132,7 +133,7 @@ export default function PassPort() {
           <ImageUpload
             onUpload={handleUpload}
             kind={"selfie"}
-            defaultImageUrl="/img/level3/pass_port/selfie.png"
+            defaultImageUrl="/img/level3/pass_port/selfie.png?v2"
           />
         </div>
       </div>
