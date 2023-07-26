@@ -1,7 +1,7 @@
 import { gql } from "../generated";
 
 export const FIND_ONE_OFFER = gql(/* GraphQL */ `
-  query QufindOneOfferery($findOneOfferId: Int!) {
+  query findOneOffer($findOneOfferId: Int!) {
     findOneOffer(id: $findOneOfferId) {
       id
       coinKind
@@ -21,12 +21,13 @@ export const FIND_ONE_OFFER = gql(/* GraphQL */ `
         id
         name
       }
-      identity
-      isNewChatMessage
       district {
         id
         name
       }
+      identity
+      isNewChatMessage
+      offerCompleteCount
     }
   }
 `);
