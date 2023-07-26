@@ -15,6 +15,8 @@ export default function OfferModal({ offerData, setOfferModalVisible }: Props) {
     setOfferModalVisible(false);
   };
 
+  useEffect(() => {}, [offerData]);
+
   return (
     <div onClick={onClickClose} className={cx("container")}>
       <div onClick={(e) => e.stopPropagation()} className={cx("wrap")}>
