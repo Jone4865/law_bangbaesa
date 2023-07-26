@@ -22,7 +22,9 @@ export default function DriverLicense() {
 
   const handleUpload = (file: File, key: string) => {
     setFiles((prev: any) =>
-      prev ? [...prev, { file, key }] : [{ file, key }]
+      prev
+        ? [...prev.filter((v: any) => v.key !== key), { file, key }]
+        : [{ file, key }]
     );
   };
 
