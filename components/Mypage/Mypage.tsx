@@ -268,8 +268,8 @@ export default function Mypage() {
                         changeOfferActionHandle(OfferAction.Buy, "my")
                       }
                       className={cx(
-                        "btn",
-                        myOfferState === OfferAction.Buy && "able_buy"
+                        myOfferState === OfferAction.Buy && "able_buy",
+                        "btn"
                       )}
                     >
                       구매
@@ -279,8 +279,8 @@ export default function Mypage() {
                         changeOfferActionHandle(OfferAction.Sell, "my")
                       }
                       className={cx(
-                        "btn",
-                        myOfferState === OfferAction.Sell && "able_sell"
+                        myOfferState === OfferAction.Sell && "able_sell",
+                        "btn"
                       )}
                     >
                       판매
@@ -305,8 +305,8 @@ export default function Mypage() {
                     <div
                       onClick={() => changeOfferActionHandle(OfferAction.Buy)}
                       className={cx(
-                        "btn",
-                        offerState === OfferAction.Buy && "able_buy"
+                        offerState === OfferAction.Buy && "able_buy",
+                        "btn"
                       )}
                     >
                       구매
@@ -314,8 +314,8 @@ export default function Mypage() {
                     <div
                       onClick={() => changeOfferActionHandle(OfferAction.Sell)}
                       className={cx(
-                        "btn",
-                        offerState === OfferAction.Sell && "able_sell"
+                        offerState === OfferAction.Sell && "able_sell",
+                        "btn"
                       )}
                     >
                       판매
