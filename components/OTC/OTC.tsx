@@ -9,7 +9,6 @@ import { FIND_MANY_OFFER } from "../../src/graphql/query/findManyOffer";
 import { toast } from "react-toastify";
 import TopImage from "../TopImage/TopImage";
 import Image from "next/image";
-import Marquee from "../Marquee/Marquee";
 import { useCookies } from "react-cookie";
 import { FIND_MY_INFO_BY_USER } from "../../src/graphql/query/findMyInfoByUser";
 import {
@@ -172,11 +171,7 @@ export default function OTC({
         variables: {
           take,
           skip,
-          offerAction: partKind
-            ? partKind
-            : kind === "buy"
-            ? OfferAction.Buy
-            : OfferAction.Sell,
+          offerAction: partKind,
           coinKind: v,
         },
       });
@@ -187,12 +182,10 @@ export default function OTC({
     findManyOffer({
       variables: {
         isChat,
-        identity:
-          router.pathname === "/mypage" && isChat ? undefined : nickName,
+        identity: isChat ? undefined : nickName,
         take: part === "home" ? 4 : take,
         skip,
-        offerAction:
-          router.pathname === "/mypage" && !isChat ? undefined : partKind,
+        offerAction: part === "mypage" ? partKind : undefined,
         coinKind: part === "mypage" || part === "user" ? undefined : coinKind,
       },
     });
@@ -270,18 +263,16 @@ export default function OTC({
       findManyOffer({
         variables: {
           isChat,
-          identity:
-            router.pathname === "/mypage" && isChat ? undefined : nickName,
+          identity: isChat ? undefined : nickName,
           take: part === "home" ? 4 : take,
           skip,
-          offerAction:
-            router.pathname === "/mypage" && !isChat ? undefined : partKind,
+          offerAction: partKind,
           coinKind: part === "mypage" || part === "user" ? undefined : coinKind,
         },
         fetchPolicy: "no-cache",
       });
     }
-  }, [coinKind, partKind, isChat, nickName, refetch, data?.length, kind]);
+  }, [coinKind, partKind, isChat, nickName, refetch, data?.length, kind, part]);
 
   return (
     <div className={cx(part === "otc" ? "container" : undefined)}>
@@ -378,19 +369,14 @@ export default function OTC({
               offerId={offerId}
               part={part}
               data={data ? data : []}
-              kind={
-                partKind
-                  ? partKind
-                  : kind === "buy"
-                  ? OfferAction.Buy
-                  : OfferAction.Sell
-              }
+              kind={partKind}
               coin={coin}
               nowAble={nowAble}
               updateOfferClickHandle={updateOfferClickHandle}
               onScrollHandle={scrollHandle}
               deletehandle={deletehandle}
               setOfferId={setOfferId}
+              isChat={isChat}
             />
           </div>
           {part === "otc" && (

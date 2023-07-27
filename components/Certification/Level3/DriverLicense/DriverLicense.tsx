@@ -22,7 +22,9 @@ export default function DriverLicense() {
 
   const handleUpload = (file: File, key: string) => {
     setFiles((prev: any) =>
-      prev ? [...prev, { file, key }] : [{ file, key }]
+      prev
+        ? [...prev.filter((v: any) => v.key !== key), { file, key }]
+        : [{ file, key }]
     );
   };
 
@@ -116,13 +118,14 @@ export default function DriverLicense() {
         value={number}
         onChange={(e) => setNumber(e.target.value)}
       />
+      <div className={cx("title")}>KYC</div>
       <div className={cx("image_wrap")}>
         <div className={cx("image")}>
           <div className={cx("title")}>전면</div>
           <ImageUpload
             onUpload={handleUpload}
             kind={"front"}
-            defaultImageUrl="/img/level3/drive_card/front.png"
+            defaultImageUrl="/img/level3/drive_card/front.png?v2"
           />
         </div>
         <div className={cx("image")}>
@@ -130,7 +133,7 @@ export default function DriverLicense() {
           <ImageUpload
             onUpload={handleUpload}
             kind={"back"}
-            defaultImageUrl="/img/level3/drive_card/back.png"
+            defaultImageUrl="/img/level3/drive_card/back.png?v2"
           />
         </div>
         <div className={cx("image")}>
@@ -138,7 +141,7 @@ export default function DriverLicense() {
           <ImageUpload
             onUpload={handleUpload}
             kind={"selfie"}
-            defaultImageUrl="/img/level3/drive_card/selfie.png"
+            defaultImageUrl="/img/level3/drive_card/selfie.png?v2"
           />
         </div>
       </div>

@@ -63,6 +63,9 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
           className={cx("none")}
         />
       </div>
+      <div className={cx("bottom_btn")} onClick={handleImageClick}>
+        파일찾기
+      </div>
     </div>
   );
 };
