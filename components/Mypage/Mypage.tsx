@@ -31,7 +31,6 @@ export default function Mypage() {
   });
   const [cookies, , removeCookies] = useCookies(["login", "nickName"]);
   const [mobileMore, setMobileMore] = useState(false);
-  const [nowAble, setNowAble] = useState("my");
   const [data, setData] =
     useState<
       | FindMyInfoByUserQuery["findMyInfoByUser"]
@@ -41,10 +40,10 @@ export default function Mypage() {
   const [myOfferState, setmyOfferState] = useState<OfferAction>(
     OfferAction.Buy
   );
-  const [totalOffer, setTotalOffer] = useState(0);
-  const [myTotalOffer, setMyTotalOffer] = useState(0);
   const [mynickName, setMynickName] = useState("");
   const [refetch, setRefetch] = useState(false);
+
+  const certificateArr = ["휴대폰 인증", "이메일 인증", "신분증 인증"];
 
   const logoutHandle = () => {
     removeCookies("login");
@@ -52,15 +51,11 @@ export default function Mypage() {
     signOutByUser();
   };
 
-  const changeOfferActionHandle = (key?: "my") => {
+  const changeOfferActionHandle = (value: OfferAction, key?: "my") => {
     if (key) {
-      setmyOfferState((prev) =>
-        prev === OfferAction.Buy ? OfferAction.Sell : OfferAction.Buy
-      );
+      setmyOfferState(value);
     } else {
-      setOfferState((prev) =>
-        prev === OfferAction.Buy ? OfferAction.Sell : OfferAction.Buy
-      );
+      setOfferState(value);
     }
   };
 
@@ -119,7 +114,7 @@ export default function Mypage() {
 
   useEffect(() => {
     setRefetch(!refetch);
-  }, [nowAble, data, totalOffer]);
+  }, [data]);
 
   useEffect(() => {
     if (mobileMore) {
@@ -135,13 +130,11 @@ export default function Mypage() {
   return (
     <div className={cx("container")}>
       {mobileMore && (
-        <div className={cx("mobile_more")}>
-          <SideStatus
-            mobile
-            setMobileMore={setMobileMore}
-            level={data ? data.level : 1}
-          />
-        </div>
+        <SideStatus
+          mobile
+          setMobileMore={setMobileMore}
+          level={data ? data.level : 1}
+        />
       )}
       <div className={cx("wrap")}>
         <MyPageTop data={data} handleRefetch={handleRefetch} />
@@ -210,88 +203,135 @@ export default function Mypage() {
                 </div>
               </>
             )}
-            <div>
-              <div className={cx("user_title")}>
-                {router.pathname === "/mypage" ? "내 오퍼내역" : "오퍼내역"}
-              </div>
-              <div
-                className={cx(
-                  "offer_body",
-                  myTotalOffer === 0 ? "white" : null
-                )}
-              >
-                <div className={cx("btns")}>
-                  <div
-                    onClick={() => changeOfferActionHandle("my")}
-                    className={cx(
-                      "btn",
-                      myOfferState === OfferAction.Buy && "able_buy"
-                    )}
-                  >
-                    구매
-                  </div>
-                  <div
-                    onClick={() => changeOfferActionHandle("my")}
-                    className={cx(
-                      "btn",
-                      myOfferState === OfferAction.Sell && "able_sell"
-                    )}
-                  >
-                    판매
-                  </div>
-                </div>
-                <OTC
-                  part={router.pathname === "/mypage" ? "mypage" : "home"}
-                  nickName={data ? data.identity : ""}
-                  isChat={false}
-                  nowAble={nowAble}
-                  partKind={myOfferState}
-                  setTotalOffer={setMyTotalOffer}
-                  refetch={refetch}
-                />
-              </div>
-              {router.pathname === "/mypage" && (
-                <>
-                  <div className={cx("user_title")}>즐겨찾기</div>
-                  <div
-                    className={cx(
-                      "offer_body",
-                      totalOffer === 0 ? "white" : null
-                    )}
-                  >
-                    <div className={cx("btns")}>
-                      <div
-                        onClick={() => changeOfferActionHandle()}
-                        className={cx(
-                          "btn",
-                          offerState === OfferAction.Buy && "able_buy"
-                        )}
-                      >
-                        구매
+            <div className={cx("offer_flex")}>
+              {router.pathname === "/user/[id]" && (
+                <div className={cx("user_info")}>
+                  <div className={cx("user_info_line")} />
+                  {certificateArr.map((v, idx) => (
+                    <div key={idx} className={cx("certificate_map")}>
+                      <div className={cx("certificate_img_container")}>
+                        <div className={cx("certificate_img_wrap")}>
+                          <Image
+                            alt="인증단계"
+                            src={`/img/Certification/${
+                              data?.level && data?.level > idx
+                                ? "success"
+                                : "notyet"
+                            }/${idx + 1}.png`}
+                            fill
+                          />
+                        </div>
                       </div>
-                      <div
-                        onClick={() => changeOfferActionHandle()}
-                        className={cx(
-                          "btn",
-                          offerState === OfferAction.Sell && "able_sell"
-                        )}
-                      >
-                        판매
+                      <div>
+                        <div>레벨 {idx + 1} (필수사항)</div>
+                        <div
+                          className={cx(
+                            "certificate_state",
+                            data?.level && data?.level > idx
+                              ? "done"
+                              : "not_yet"
+                          )}
+                        >
+                          {v}
+                          {data?.level && data?.level > idx && " 완료"}
+                          {data?.level && data?.level > idx && (
+                            <div className={cx("done_img")}>
+                              <Image
+                                alt="체크 이미지"
+                                fill
+                                src="/img/mypage/check-icon.png"
+                              />
+                            </div>
+                          )}
+                        </div>
                       </div>
                     </div>
-                    <OTC
-                      part={"mypage"}
-                      nickName={data ? data.identity : ""}
-                      isChat={true}
-                      nowAble={nowAble}
-                      partKind={offerState}
-                      setTotalOffer={setTotalOffer}
-                      refetch={refetch}
-                    />
-                  </div>
-                </>
+                  ))}
+                </div>
               )}
+              <div className={cx("offer_container")}>
+                {router.pathname === "/user/[id]" && (
+                  <div
+                    onClick={() => setMobileMore(!mobileMore)}
+                    className={cx("user_btn")}
+                  >
+                    {data?.identity} 님의 인증상태
+                  </div>
+                )}
+                <div className={cx("user_title")}>
+                  {router.pathname === "/mypage" ? "내 오퍼내역" : "오퍼내역"}
+                </div>
+                <div className={cx("offer_body")}>
+                  <div className={cx("btns")}>
+                    <div
+                      onClick={() =>
+                        changeOfferActionHandle(OfferAction.Buy, "my")
+                      }
+                      className={cx(
+                        "btn",
+                        myOfferState === OfferAction.Buy && "able_buy"
+                      )}
+                    >
+                      구매
+                    </div>
+                    <div
+                      onClick={() =>
+                        changeOfferActionHandle(OfferAction.Sell, "my")
+                      }
+                      className={cx(
+                        "btn",
+                        myOfferState === OfferAction.Sell && "able_sell"
+                      )}
+                    >
+                      판매
+                    </div>
+                  </div>
+                  <OTC
+                    part={router.pathname === "/mypage" ? "mypage" : "home"}
+                    nickName={data ? data.identity : ""}
+                    isChat={false}
+                    nowAble={"my"}
+                    partKind={myOfferState}
+                    refetch={refetch}
+                  />
+                </div>
+              </div>
             </div>
+            {router.pathname === "/mypage" && (
+              <>
+                <div className={cx("user_title")}>즐겨찾기</div>
+                <div className={cx("offer_body")}>
+                  <div className={cx("btns")}>
+                    <div
+                      onClick={() => changeOfferActionHandle(OfferAction.Buy)}
+                      className={cx(
+                        "btn",
+                        offerState === OfferAction.Buy && "able_buy"
+                      )}
+                    >
+                      구매
+                    </div>
+                    <div
+                      onClick={() => changeOfferActionHandle(OfferAction.Sell)}
+                      className={cx(
+                        "btn",
+                        offerState === OfferAction.Sell && "able_sell"
+                      )}
+                    >
+                      판매
+                    </div>
+                  </div>
+                  <OTC
+                    part={"mypage"}
+                    nickName={data ? data.identity : ""}
+                    isChat={true}
+                    nowAble={"my"}
+                    partKind={offerState}
+                    refetch={refetch}
+                  />
+                </div>
+              </>
+            )}
           </div>
         </div>
         {router.pathname !== "/user/[id]" && (

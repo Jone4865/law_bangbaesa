@@ -294,7 +294,10 @@ export default function OTCTabel({
                         : "not_home_district"
                     )}
                   >
-                    <div>{v.city?.name + " "}</div>
+                    <div>
+                      {v.city?.name}
+                      {`\b`}
+                    </div>
                     <div>{v.district?.name}</div>
                   </div>
                   <div
@@ -384,9 +387,7 @@ export default function OTCTabel({
                       {v.price.toLocaleString()}
                       <div className={cx("gray_right")}>KRW</div>
                     </div>
-                    {(router.pathname === "/user/[id]" ||
-                      nowAble === "like" ||
-                      router.pathname === "/") && (
+                    {(router.pathname !== "/mypage" || isChat) && (
                       <div className={cx("right_btns")}>
                         <button
                           disabled={

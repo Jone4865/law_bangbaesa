@@ -35,7 +35,6 @@ type Props = {
   nickName?: string | undefined;
   isChat?: boolean;
   refetch?: boolean;
-  setTotalOffer?: Dispatch<SetStateAction<number>>;
 };
 
 export default function OTC({
@@ -46,7 +45,6 @@ export default function OTC({
   part = "otc",
   nickName = undefined,
   isChat = false,
-  setTotalOffer,
 }: Props) {
   const offerStateBtns = ["팝니다", "삽니다"];
   const coinBtns = [
@@ -160,7 +158,8 @@ export default function OTC({
 
   const onClickHandle = (v: any, key: string) => {
     if (key === "kind") {
-      router.push(v === "buy" ? "/p2p/buy" : "/p2p/sell");
+      !router.pathname.includes(v) &&
+        router.push(v === "buy" ? "/p2p/buy" : "/p2p/sell");
       setKind(v);
       setCoin(CoinKind.Usdt);
     } else {
@@ -243,7 +242,6 @@ export default function OTC({
   );
 
   useEffect(() => {
-    setTotalOffer && setTotalOffer(totalCount);
     if (router.pathname.includes("/p2p")) {
       findManyOffer({
         variables: {
