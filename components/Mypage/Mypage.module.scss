@@ -51,21 +51,21 @@
 .middle_top {
   display: flex;
   width: 100%;
-  justify-content: space-between;
+  // justify-content: space-between;
   font-size: 18px;
   margin-bottom: 30px;
   @include view("very_small") {
-    font-size: 15px;
+    // flex-direction: column;
+    font-size: 14px;
   }
   @include view("mobile") {
     flex-direction: column;
     font-size: 16px;
   }
 
-  & > .auth-wrap {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    width: 100%;
+  & > div:first-child {
+    width: 40vw;
+    max-width: 530px;
   }
 }
 
@@ -95,8 +95,7 @@
 
 .middle_btn {
   display: flex;
-  max-width: 531px;
-  width: 40vw;
+  width: 100%;
   height: 60px;
   background-color: #3561c7;
   border-radius: 10px;
@@ -107,6 +106,12 @@
   font-size: 18px;
   border: none;
   cursor: pointer;
+  @include view("very_small") {
+    margin-top: 10px;
+    height: auto;
+    padding: 15px;
+    font-size: 16px;
+  }
   @include view("mobile") {
     width: calc(50% - 6px);
     font-size: 16px;

@@ -154,7 +154,7 @@ export default function MyPageTop({ detail, data, handleRefetch }: Props) {
               </div>
               <AutoHeightImage
                 alt="화살표"
-                src={"/img/mypage/thumb_down.png"}
+                src={"/img/mypage/trade-icon.png"}
                 className={cx("ment_img")}
               />
             </div>
