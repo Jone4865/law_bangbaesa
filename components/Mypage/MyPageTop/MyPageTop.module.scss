@@ -41,7 +41,7 @@
     max-width: 100%;
     align-items: flex-start;
     justify-content: center;
-    padding: 50px 20px;
+    padding: 20px;
     height: auto;
   }
   @include view("mobile") {
@@ -50,7 +50,7 @@
     max-width: 100%;
     align-items: flex-start;
     justify-content: center;
-    padding: 50px 20px;
+    padding: 20px;
     height: auto;
   }
 }
@@ -181,14 +181,12 @@
   cursor: pointer;
   @include view("small") {
     width: 150px;
-    font-size: 15px;
   }
   @include view("very_small") {
     width: 100%;
     margin-top: 15px;
   }
   @include view("mobile") {
-    max-width: 348px;
     width: 100%;
     height: 44px;
     margin-top: 15px;

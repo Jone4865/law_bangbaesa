@@ -70,6 +70,10 @@
   & > div:first-child {
     width: 40vw;
     max-width: 530px;
+    @include view("mobile") {
+      max-width: 100%;
+      width: 100%;
+    }
   }
 }
 
@@ -116,9 +120,11 @@
     padding: 15px;
     font-size: 16px;
   }
+
   @include view("mobile") {
     width: calc(50% - 6px);
     font-size: 16px;
+    margin-top: 0;
   }
 }
 
