@@ -42,7 +42,7 @@
     align-items: flex-start;
     justify-content: center;
     padding: 20px;
-    height: auto;
+    height: 135px;
   }
   @include view("mobile") {
     flex-direction: column;
@@ -51,7 +51,7 @@
     align-items: flex-start;
     justify-content: center;
     padding: 20px;
-    height: auto;
+    height: 135px;
   }
 }
 
@@ -76,9 +76,10 @@
     width: 100%;
     max-width: 100%;
     align-items: flex-start;
-    justify-content: center;
-    padding: 50px 20px;
-    height: auto;
+    justify-content: space-between;
+    height: 135px;
+    padding: 20px;
+    position: relative;
   }
   @include view("mobile") {
     flex-direction: column;
@@ -96,6 +97,12 @@
   display: flex;
   width: 100%;
   justify-content: space-between;
+  @include view("very_small") {
+    flex-direction: column;
+  }
+  @include view("mobile") {
+    flex-direction: column;
+  }
 }
 
 .nickname_wrap {
@@ -157,6 +164,9 @@
     font-size: 14px;
     width: 70px;
     height: 28px;
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
   }
   @include view("mobile") {
     font-size: 14px;

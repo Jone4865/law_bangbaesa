@@ -281,12 +281,16 @@
   font-size: 16px;
   cursor: pointer;
   @include view("small") {
-    width: 70px;
-    height: 30px;
+    width: 90px;
+    height: 36px;
   }
   @include view("very_small") {
-    width: 70px;
-    height: 30px;
+    width: 90px;
+    height: 36px;
+  }
+  @include view("mobile") {
+    width: 90px;
+    height: 36px;
   }
 }
 

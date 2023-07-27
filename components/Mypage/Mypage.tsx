@@ -286,14 +286,16 @@ export default function Mypage() {
                       판매
                     </div>
                   </div>
-                  <OTC
-                    part={router.pathname === "/mypage" ? "mypage" : "home"}
-                    nickName={data ? data.identity : ""}
-                    isChat={false}
-                    nowAble={"my"}
-                    partKind={myOfferState}
-                    refetch={refetch}
-                  />
+                  <div className={cx("offer_wrap")}>
+                    <OTC
+                      part={router.pathname === "/mypage" ? "mypage" : "home"}
+                      nickName={data ? data.identity : ""}
+                      isChat={false}
+                      nowAble={"my"}
+                      partKind={myOfferState}
+                      refetch={refetch}
+                    />
+                  </div>
                 </div>
               </div>
             </div>
@@ -321,14 +323,16 @@ export default function Mypage() {
                       판매
                     </div>
                   </div>
-                  <OTC
-                    part={"mypage"}
-                    nickName={data ? data.identity : ""}
-                    isChat={true}
-                    nowAble={"my"}
-                    partKind={offerState}
-                    refetch={refetch}
-                  />
+                  <div className={cx("offer_wrap")}>
+                    <OTC
+                      part={"mypage"}
+                      nickName={data ? data.identity : ""}
+                      isChat={true}
+                      nowAble={"my"}
+                      partKind={offerState}
+                      refetch={refetch}
+                    />
+                  </div>
                 </div>
               </>
             )}
