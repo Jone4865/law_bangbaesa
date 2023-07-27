@@ -1,83 +1,96 @@
 @import "public/scss/style.scss";
 
 .container {
+  width: 100%;
   @include view("mobile") {
     margin-top: 20px;
   }
 }
 
 .wrap {
+  width: 100%;
+  flex: 1;
+
+  margin-left: 20px;
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
+  grid-template-columns: repeat(3, 1fr);
+
+  column-gap: 10px;
   background-color: #fff;
-  white-space: nowrap;
+  // white-space: nowrap;
   margin-bottom: 30px;
-  @include view("very_small") {
-    display: flex;
-    flex-direction: column;
-  }
-  @include view("small") {
-    display: flex;
-    flex-direction: column;
-  }
-  @include view("mobile") {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-}
 
-.able {
-  border: solid 1px #11a472;
-  height: 170px;
-  border-radius: 10px;
-  display: flex;
-  font-size: 1.04vw;
-  color: #11a472;
-  padding: 30px 20px;
-  padding-right: 0;
-  width: 100%;
-  @include view("middle") {
-    font-size: 16px;
-  }
-  @include view("small") {
-    font-size: 18px;
-  }
-  @include view("very_small") {
-    font-size: 18px;
-  }
-  @include view("mobile") {
-    font-size: 18px;
+  & > .auth_item {
     width: 100%;
-    height: auto;
-    padding: 20px;
-  }
-}
+    max-width: 211px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 
-.default {
-  border: solid 1px #dcdcdc;
-  height: 170px;
-  border-radius: 10px;
-  display: flex;
-  font-size: 1.04vw;
-  padding: 30px 20px;
-  padding-right: 0;
-  width: 100%;
-  @include view("middle") {
-    font-size: 16px;
-  }
-  @include view("small") {
-    font-size: 18px;
-  }
-  @include view("very_small") {
-    font-size: 18px;
-  }
-  @include view("mobile") {
-    font-size: 18px;
-    width: 100%;
-    height: auto;
-    padding: 20px;
+    border: solid 1px #dcdcdc;
+    border-radius: 10px;
+    display: flex;
+
+    padding: 30px 20px;
+    @include view("very_small") {
+      padding: 15px 10px;
+    }
+    & > .auth_icon_wrap {
+      width: 50px;
+      height: 50px;
+      border: 1px solid #dcdcdc;
+      border-radius: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      @include view("very_small") {
+        width: 40px;
+        height: 40px;
+      }
+      & > .auth_icon {
+        width: 31px;
+        line-height: 0;
+        @include view("very_small") {
+          width: 20px;
+        }
+      }
+    }
+    & > .level_txt {
+      margin-top: 10px;
+      font-size: 16px;
+      @include view("very_small") {
+        font-size: 12px;
+      }
+    }
+    & > .status_box {
+      margin-top: 10px;
+      width: 100%;
+      background-color: #afafaf;
+      margin-top: 10px;
+      color: #fff;
+      font-size: 14px;
+      padding: 7px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 14.5px;
+      @include view("very_small") {
+        font-size: 10px;
+        padding: 5px;
+      }
+      &.complete {
+        background-color: #11a472;
+      }
+      & > .check_img {
+        width: 18px;
+        margin-left: 5px;
+        display: flex;
+        @include view("very_small") {
+          width: 12px;
+        }
+      }
+    }
   }
 }
 
