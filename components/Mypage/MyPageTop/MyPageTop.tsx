@@ -152,21 +152,14 @@ export default function MyPageTop({ detail, data, handleRefetch }: Props) {
               />
             </div>
           </div>
-          <div
-            onClick={() => clickLikeHandle("NEGATIVE")}
-            className={cx(
-              "feedback_box",
-              "trade",
-              router.pathname === "/user/[id]" && "cursor"
-            )}
-          >
+          <div className={cx("feedback_box", "trade")}>
             <div className={cx("count_wrap")}>
               <AutoHeightImage
                 alt="화살표"
                 src={"/img/mypage/trade-icon.png"}
                 className={cx("ment_img")}
               />
-              <span>+{data?.negativeFeedbackCount}</span>
+              <span>+{data?.offerCompleteCount}</span>
             </div>
             <div className={cx("feedback_body")}>
               <div className={cx("ment")}>
