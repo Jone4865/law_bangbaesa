@@ -28,6 +28,7 @@ export const FIND_ONE_OFFER = gql(/* GraphQL */ `
       identity
       isNewChatMessage
       offerCompleteCount
+      connectionDate
     }
   }
 `);

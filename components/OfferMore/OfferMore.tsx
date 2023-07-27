@@ -64,8 +64,7 @@ export default function OfferMore({ offerData }: Props) {
         <div>{offerData?.offerCompleteCount}</div>
       </div>
       <div className={cx("bottom")}>
-        {/* <div>최근접속 : {convertConnectionDate(offerData.c)}</div> */}
-        <div>최근접속 : 25분 전</div>
+        <div>최근접속 : {convertConnectionDate(offerData?.connectionDate)}</div>
         <div className={cx("bar")} />
         <div>{offerData?.responseSpeed}분 미만</div>
       </div>
