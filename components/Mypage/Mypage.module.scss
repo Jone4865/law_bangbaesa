@@ -425,11 +425,13 @@
 .able_buy {
   color: #ff7401;
   border-bottom: solid 6px #ff7401;
+  cursor: default;
 }
 
 .able_sell {
   color: #3561c7;
   border-bottom: solid 6px #3561c7;
+  cursor: default;
 }
 
 .flex {

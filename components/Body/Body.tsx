@@ -119,7 +119,12 @@ export default function Body() {
       <div className={cx("OTC_top")}>
         <div className={cx("OTC_top_wrap")}>
           <span>P2P</span>
-          <div onClick={() => router.push("/p2p/buy")}>P2P 더보기 {">"}</div>
+          <div
+            className={cx("pointer")}
+            onClick={() => router.push("/p2p/buy")}
+          >
+            P2P 더보기 {">"}
+          </div>
         </div>
       </div>
       <div className={cx("OTC_container")}>
