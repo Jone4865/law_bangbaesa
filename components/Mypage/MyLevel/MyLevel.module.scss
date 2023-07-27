@@ -1,12 +1,5 @@
 @import "public/scss/style.scss";
 
-.container {
-  width: 100%;
-  @include view("mobile") {
-    margin-top: 20px;
-  }
-}
-
 .wrap {
   width: 100%;
   flex: 1;
@@ -19,6 +12,9 @@
   background-color: #fff;
   // white-space: nowrap;
   margin-bottom: 30px;
+  @include view("mobile") {
+    display: none;
+  }
 
   & > .auth_item {
     width: 100%;
@@ -59,6 +55,9 @@
     & > .level_txt {
       margin-top: 10px;
       font-size: 16px;
+      @include view("small") {
+        font-size: 14px;
+      }
       @include view("very_small") {
         font-size: 12px;
       }
@@ -75,6 +74,9 @@
       align-items: center;
       justify-content: center;
       border-radius: 14.5px;
+      @include view("small") {
+        font-size: 12px;
+      }
       @include view("very_small") {
         font-size: 10px;
         padding: 5px;
@@ -86,6 +88,9 @@
         width: 18px;
         margin-left: 5px;
         display: flex;
+        @include view("small") {
+          width: 14px;
+        }
         @include view("very_small") {
           width: 12px;
         }
