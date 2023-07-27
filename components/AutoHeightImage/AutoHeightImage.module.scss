@@ -3,13 +3,8 @@
   position: relative;
   overflow: hidden;
 
-  & > span {
-    position: unset !important;
-    height: 100% !important;
-
-    & > img {
-      position: relative !important;
-      height: auto !important;
-    }
+  & > img {
+    position: relative !important;
+    height: auto !important;
   }
 }
