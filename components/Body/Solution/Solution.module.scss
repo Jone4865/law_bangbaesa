@@ -30,13 +30,14 @@
 
 .img_wraper {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: repeat(3, 1fr);
   gap: 0 50px;
   width: 100%;
+
   @include view("small") {
-    display: flex;
-    flex-direction: column;
+    gap: 0 20px;
   }
+
   @include view("very_small") {
     display: flex;
     flex-direction: column;
@@ -52,9 +53,7 @@
   color: #333;
   margin-bottom: 20px;
   text-align: center;
-  @include view("small") {
-    font-size: 26px;
-  }
+
   @include view("very_small") {
     font-size: 26px;
   }
@@ -69,10 +68,7 @@
   color: #777;
   text-align: center;
   margin-bottom: 15px;
-  @include view("small") {
-    font-size: 14px;
-    width: 270px;
-  }
+
   @include view("very_small") {
     font-size: 14px;
     width: 270px;

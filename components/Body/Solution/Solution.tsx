@@ -44,7 +44,7 @@ export default function Solution({ title, content }: Props) {
       마케팅을 실시합니다.
     </>,
     <>
-      실시간부정클릭방지 솔루션을 통한
+      실시간 부정 클릭 방지 솔루션을 통한
       <br />
       모니터링을 진행합니다.
     </>,

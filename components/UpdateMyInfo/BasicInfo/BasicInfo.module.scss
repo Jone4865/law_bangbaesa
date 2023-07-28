@@ -97,6 +97,7 @@
   color: #ff7401;
   cursor: pointer;
   min-width: 160px;
+  font-size: 18px;
   @include view("very_small") {
     width: 80px;
     min-width: 80px;
