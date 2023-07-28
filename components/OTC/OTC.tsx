@@ -415,8 +415,7 @@ export default function OTC({
                     />
                   </div>
                 }
-                lastPageText={""}
-                firstPageText={""}
+                hideFirstLastPages
               />
             </div>
           )}

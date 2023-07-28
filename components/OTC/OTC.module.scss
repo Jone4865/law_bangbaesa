@@ -3,6 +3,8 @@
 .container {
   padding-top: 100px;
   white-space: nowrap;
+  display: flex;
+  flex-direction: column;
 
   @include view("middle") {
     padding-top: 75px;
@@ -42,7 +44,8 @@
   align-items: center;
   width: 30px;
   height: 30px;
-  margin: 0 5px;
+  margin: 0 10px;
+  background-color: #fff;
 }
 
 .able_number {
@@ -52,9 +55,10 @@
   align-items: center;
   width: 30px;
   height: 30px;
-  margin: 0 5px;
+  margin: 0 10px;
   color: orange;
   border: solid 1px orange;
+  background-color: #fff;
 }
 
 .right_arrow {

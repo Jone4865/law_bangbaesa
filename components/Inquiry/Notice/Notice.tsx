@@ -141,8 +141,7 @@ export default function Notice() {
               />
             </div>
           }
-          lastPageText={""}
-          firstPageText={""}
+          hideFirstLastPages
         />
       </div>
     </div>

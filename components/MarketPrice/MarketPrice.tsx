@@ -76,7 +76,9 @@ export default function MarketPrice({ type = "home" }: Props) {
 
   return (
     <div className={cx("container")}>
-      <div className={cx("wrap")}>
+      <div
+        className={cx("market-price-wrap", type === "not_home" && "not_home")}
+      >
         <div
           className={cx(
             type === "home" ? "top_container" : "not_home_top_container"
