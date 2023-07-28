@@ -23,7 +23,7 @@ export default function Footer() {
               </div>
               <div className={cx("content_wrap")}>
                 <span className={cx("content")}>
-                  각 분야별 전문가들이 서비스 운영과 마케팅 홍보를 대행해
+                  각 분야별 전문가들이 서비스 운영과 마케팅 홍보를 대행해&nbsp;
                 </span>
                 <span className={cx("content")}>
                   IT 서비스의 운영을 컨설팅합니다.
