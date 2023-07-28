@@ -345,8 +345,11 @@
 .offer_wrap {
   max-height: 574px;
   overflow: scroll;
+  @include view("very_small") {
+    max-height: 900px;
+  }
   @include view("mobile") {
-    max-height: 800px;
+    max-height: 900px;
   }
 }
 
