@@ -139,14 +139,12 @@
   justify-content: center;
   align-items: center;
   @include view("very_small") {
-    width: 105px;
-    margin-right: 15px;
+    width: 100px;
     justify-content: flex-start;
   }
   @include view("mobile") {
-    width: 105px;
-    min-width: 105px;
-    margin-right: 15px;
+    width: 100px;
+    min-width: 100px;
     justify-content: flex-start;
   }
 }
@@ -157,14 +155,14 @@
   width: 56px;
   margin-right: 10px;
   @include view("very_small") {
-    height: 37px;
-    width: 37px;
-    min-width: 37px;
+    height: 32px;
+    width: 32px;
+    min-width: 32px;
   }
   @include view("mobile") {
-    height: 37px;
-    width: 37px;
-    min-width: 37px;
+    height: 32px;
+    width: 32px;
+    min-width: 32px;
   }
 }
 
@@ -176,10 +174,10 @@
   font-size: 22px;
   font-weight: 900;
   @include view("very_small") {
-    font-size: 18px;
+    font-size: 15px;
   }
   @include view("mobile") {
-    font-size: 18px;
+    font-size: 15px;
   }
 }
 
