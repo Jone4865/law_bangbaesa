@@ -10,9 +10,11 @@
   @include view("small") {
     font-size: 14px;
   }
-
   @include view("mobile") {
     height: 164px;
+  }
+  @include view("mobile_small") {
+    height: 184px;
   }
 }
 
@@ -31,6 +33,9 @@
   }
   @include view("mobile") {
     height: 164px;
+  }
+  @include view("mobile_small") {
+    height: 184px;
   }
 }
 
@@ -392,6 +397,11 @@
   }
   @include view("mobile") {
     font-size: 18px;
+  }
+  @include view("mobile_small") {
+    position: absolute;
+    bottom: -30px;
+    right: 0;
   }
 }
 

@@ -145,6 +145,7 @@
   }
   @include view("mobile") {
     width: 105px;
+    min-width: 105px;
     margin-right: 15px;
     justify-content: flex-start;
   }
@@ -231,6 +232,7 @@
     justify-content: flex-start;
     padding: 15px;
     overflow-x: scroll;
+    height: 59px;
   }
 }
 
@@ -379,6 +381,7 @@
 
 .map_coin_container {
   margin-left: 6.5vw;
+  font-size: 14px;
   @include view("very_small") {
     flex-direction: column;
     margin-left: 0;
@@ -397,6 +400,7 @@
 .border_left {
   border-left: solid 1px #dcdcdc;
   justify-content: center;
+  font-size: 14px;
   @include view("very_small") {
     flex-direction: column;
     height: 72.5px;
@@ -406,6 +410,9 @@
     flex-direction: column;
     height: 72.5px;
     line-height: 1.5;
+  }
+  @include view("mobile_small") {
+    font-size: 12px;
   }
 }
 
@@ -424,6 +431,9 @@
 .left {
   margin-left: 5px;
   font-size: 12px;
+  @include view("mobile_small") {
+    font-size: 10px;
+  }
 }
 
 .bar {
@@ -440,6 +450,17 @@
 }
 
 .non_mobile {
+  display: flex;
+  font-size: 12px;
+  @include view("very_small") {
+    display: none;
+  }
+  @include view("mobile") {
+    display: none;
+  }
+}
+
+.non_mobile_title {
   display: flex;
   @include view("very_small") {
     display: none;
