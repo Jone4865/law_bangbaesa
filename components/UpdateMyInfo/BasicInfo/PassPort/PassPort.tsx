@@ -42,7 +42,7 @@ export default function PassPort({ kind, myInfo, onClickChangeHandle }: Props) {
             className={cx("btn")}
             onClick={() =>
               myInfo?.emailAuth?.email
-                ? onClickChangeHandle
+                ? onClickChangeHandle()
                 : router.push(
                     `/certification/level${
                       myInfo?.level ? myInfo?.level + 1 : 2

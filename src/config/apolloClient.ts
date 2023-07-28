@@ -13,6 +13,8 @@ import { WebSocketLink } from "@apollo/client/link/ws";
 import { IncomingHttpHeaders } from "http";
 import { useMemo } from "react";
 import { REFRESH_BY_USER } from "../graphql/mutation/refreshByUser";
+import { useRouter } from "next/router";
+import { useCookies } from "react-cookie";
 
 export const SERVER = process.env.NEXT_PUBLIC_GQL_URL!;
 export const SOCKET = process.env.NEXT_PUBLIC_SOCKET_URL!;

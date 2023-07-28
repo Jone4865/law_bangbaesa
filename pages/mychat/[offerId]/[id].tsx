@@ -5,7 +5,6 @@ import { useLazyQuery, useMutation, useSubscription } from "@apollo/client";
 import { toast } from "react-toastify";
 
 import { GetServerSideProps, NextPage } from "next";
-import RoomSide from "../../../components/Room/RoomSide/RoomSide";
 import { useInView } from "react-intersection-observer";
 import { useRouter } from "next/router";
 import { useMediaQuery } from "react-responsive";
@@ -24,7 +23,6 @@ import {
   FindManyChatMessageByUserQuery,
   FindManyChatRoomByUserQuery,
   FindMyInfoByUserQuery,
-  FindOneOfferOutput,
   FindOneOfferQuery,
   UpdateCheckedCurrentChatMessageByUserMutation,
 } from "src/graphql/generated/graphql";
@@ -40,7 +38,6 @@ type Props = {
 };
 
 const Room: NextPage<Props> = ({ id, data }) => {
-  const [peopleVisible, setPeopleVisible] = useState(true);
   const [infoVisible, setInfoVisible] = useState(true);
   const [roomList, setRoomList] =
     useState<
@@ -58,7 +55,6 @@ const Room: NextPage<Props> = ({ id, data }) => {
   const [offerModalVisible, setOfferModalVisible] = useState(false);
   const [message, setMessage] = useState("");
   const [subscriptTexts, setSubscriptTexts] = useState<any[]>();
-
   const router = useRouter();
 
   const divRef = useRef<HTMLDivElement>(null);
@@ -245,10 +241,8 @@ const Room: NextPage<Props> = ({ id, data }) => {
   useEffect(() => {
     if (isMobile) {
       setInfoVisible(false);
-      setPeopleVisible(false);
     } else {
       setInfoVisible(true);
-      setPeopleVisible(true);
     }
     if (containerRef.current && first) {
       scrollToBottom();
@@ -392,14 +386,28 @@ const Room: NextPage<Props> = ({ id, data }) => {
           <div className={cx("right_container")}>
             <div className={cx("many_offer_container")}>
               <div className={cx("able_chat")}>
-                <div className={cx("room_list")}>{offerData?.identity}</div>
-              </div>
-              {roomList?.map((v) => (
-                <div key={v.id} className={cx("disable_chat")}>
-                  <div className={cx("room_list")}>{v.otherIdentity}</div>
-                  {v.isUnread && <div className={cx("dot")} />}
+                <div className={cx("room_list")}>
+                  {
+                    roomList?.filter(
+                      (v) => router.query.id && v.id === +router.query.id
+                    )[0].otherIdentity
+                  }
                 </div>
-              ))}
+              </div>
+              {roomList?.map(
+                (v) =>
+                  router.query.id &&
+                  v.id !== +router.query.id && (
+                    <div
+                      key={v.id}
+                      className={cx("disable_chat")}
+                      onClick={() => onClickRoomId(v.id)}
+                    >
+                      <div className={cx("room_list")}>{v.otherIdentity}</div>
+                      {v.isUnread && <div className={cx("dot")} />}
+                    </div>
+                  )
+              )}
             </div>
             <div className={cx("right_wrap")}>
               <div ref={containerRef} className={cx("chat_container")}>

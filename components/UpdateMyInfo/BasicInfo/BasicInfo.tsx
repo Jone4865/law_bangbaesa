@@ -135,7 +135,7 @@ export default function BasicInfo({ myInfo, setNowAble }: Props) {
                 className={cx("btn")}
                 onClick={() =>
                   myInfo?.emailAuth?.email
-                    ? onClickChangeHandle
+                    ? onClickChangeHandle()
                     : router.push(
                         `/certification/level${
                           myInfo?.level ? myInfo?.level + 1 : 2

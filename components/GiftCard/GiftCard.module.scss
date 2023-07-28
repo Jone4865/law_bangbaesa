@@ -32,6 +32,7 @@
 
 .body {
   padding: 0 20px;
+  max-width: 1200px;
   @include view("mobile") {
     width: 100%;
     max-width: 600px;
@@ -99,10 +100,10 @@
   border: solid 1px #dcdcdc;
   border-right: none;
   padding: 15px 20px;
-}
-
-.input::placeholder {
-  font-size: 16px;
+  font-size: 18px;
+  @include view("mobile") {
+    font-size: 16px;
+  }
 }
 
 .btn {
