@@ -224,7 +224,7 @@ export default function MarketPrice({ type = "home" }: Props) {
             </div>
             <div className={cx("kimchi")}>
               <div className={cx("kimchi_content")}>KIMCHI</div>
-              <span className={cx("non_mobile")}>PREMIUM</span>
+              <span className={cx("non_mobile_title")}>PREMIUM</span>
             </div>
           </div>
           {upbitData?.map((v, idx) => (
