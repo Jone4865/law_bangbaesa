@@ -69,7 +69,7 @@ export default function GetGiftCard({ searchText, count = 0 }: Props) {
             : name,
           originPrice: buyPrice / (1 - originBuyPercent / 100),
           buyPercent: originBuyPercent + 0.5,
-          sellPercent: sellPercent + 0.5,
+          sellPercent: sellPercent - 0.5,
         };
       });
 
@@ -120,17 +120,21 @@ export default function GetGiftCard({ searchText, count = 0 }: Props) {
                 <span className={cx("mobile")}>매입</span>
                 {(
                   v.originPrice -
-                  (v.originPrice / 100) * v.sellPercent
+                  (v.originPrice / 100) * v.buyPercent
                 ).toLocaleString()}
-                <span className={cx("black")}>({v.sellPercent}%)</span>
+                <span className={cx("black")}>
+                  ({v.buyPercent.toFixed(1)}%)
+                </span>
               </div>
               <div className={cx("map_sell_price")}>
                 <span className={cx("mobile")}>판매</span>
                 {(
                   v.originPrice -
-                  (v.originPrice / 100) * v.buyPercent
+                  (v.originPrice / 100) * v.sellPercent
                 ).toLocaleString()}
-                <span className={cx("black")}>({v.buyPercent}%)</span>
+                <span className={cx("black")}>
+                  ({v.sellPercent.toFixed(1)}%)
+                </span>
               </div>
             </div>
           ))}
