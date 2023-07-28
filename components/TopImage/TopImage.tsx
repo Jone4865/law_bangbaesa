@@ -40,6 +40,7 @@ export default function TopImage({ imageName }: Props) {
         <div className={cx("img_wrap")}>
           <Image
             fill
+            objectFit="contain"
             alt="탑이미지"
             priority
             quality={100}
