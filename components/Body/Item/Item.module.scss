@@ -38,7 +38,7 @@
 .content {
   font-size: 18px;
   color: #777;
-  margin-bottom: 60px;
+  margin-bottom: 30px;
   @include view("mobile") {
     font-size: 14px;
     width: 330px;

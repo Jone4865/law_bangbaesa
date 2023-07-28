@@ -18,8 +18,10 @@
   border-radius: 10px;
   border: solid 1px #dcdcdc;
   margin-bottom: 40px;
+  font-size: 18px;
   @include view("mobile") {
     margin-bottom: 20px;
+    font-size: 16px;
   }
 }
 
@@ -39,6 +41,10 @@
   margin-bottom: 30px;
   resize: none;
   outline: none;
+  font-size: 18px;
+  @include view("mobile") {
+    font-size: 16px;
+  }
 }
 
 .bottom {
