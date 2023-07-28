@@ -395,7 +395,7 @@ const Room: NextPage<Props> = ({ id, data }) => {
                 <div className={cx("room_list")}>{offerData?.identity}</div>
               </div>
               {roomList?.map((v) => (
-                <div className={cx("disable_chat")}>
+                <div key={v.id} className={cx("disable_chat")}>
                   <div className={cx("room_list")}>{v.otherIdentity}</div>
                   {v.isUnread && <div className={cx("dot")} />}
                 </div>
