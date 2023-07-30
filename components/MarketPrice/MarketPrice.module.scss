@@ -13,7 +13,7 @@
   }
 }
 
-.wrap {
+.market-price-wrap {
   width: 100%;
   max-width: 1600px;
   display: flex;
@@ -27,6 +27,9 @@
   }
   @include view("mobile") {
     width: 86vw;
+  }
+  &.not_home {
+    max-width: 1200px;
   }
 }
 

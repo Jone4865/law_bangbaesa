@@ -74,7 +74,7 @@ export default function Inquiry() {
               quality={100}
             />
           </div>
-          <div>
+          <div className={cx("top_text_wrap")}>
             <div className={cx("top_title")}>고객센터</div>
             <div className={cx("top_text")}>
               궁금한게 있으시면 방배사 고객센터에
