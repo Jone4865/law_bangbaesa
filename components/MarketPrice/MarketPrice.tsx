@@ -154,7 +154,7 @@ export default function MarketPrice({ type = "home" }: Props) {
               </div>
               <div className={cx("bar")} />
               <div className={cx("top_price")}>
-                1 USDT = {usdData?.krwPrice.toLocaleString()} KRW (
+                1 USD = {usdData?.krwPrice.toLocaleString()} KRW (
                 {usdData?.changeRate
                   ? usdData?.changeRate !== 0 && (
                       <div className={cx("up_and_down_img")}>
