@@ -16,7 +16,7 @@ type Props = {
 export default function PolicyModal({ visible, partName, setVisible }: Props) {
   const [policyContent, setPolicyContent] = useState<React.ReactNode>();
   const policyContent_service = (
-    <>
+    <div key={1} className={cx("body")}>
       서비스 이용약관
       <br />
       <br />
@@ -136,11 +136,11 @@ export default function PolicyModal({ visible, partName, setVisible }: Props) {
       회원의 손해에 대하여 책임지지 않습니다.
       <br />
       <br />이 약관은 사이트 개설일부터 시행합니다.
-    </>
+    </div>
   );
 
   const policyContent_persnal = (
-    <>
+    <div key={2} className={cx("body")}>
       개인정보처리방침
       <br />
       • &apos;방배사&apos; 애플리케이션(이하 &apos;앱&apos;)을 운영하는 주식회사
@@ -458,7 +458,7 @@ export default function PolicyModal({ visible, partName, setVisible }: Props) {
       <br />• 이 개인정보처리방침은 시행일로부터 적용되며, 관련법령 및 방침에
       따른 변경 내용의 추가, 삭제 및 정정이 있는 경우에는 지체없이 홈페이지
       통하여 고지할 것입니다.
-    </>
+    </div>
   );
 
   // const formattedContent = policyContent?.replace(/(?:\r\n|\r|\n)/g, "<br>");
