@@ -41,8 +41,12 @@ export default function Notice() {
   const [findManyNotice] = useLazyQuery<FindManyNoticeQuery>(FIND_MANY_NOTICE, {
     onError: (e) => toast.error(e.message ?? `${e}`),
     onCompleted(data) {
-      setTotalCount(data.findManyNotice.totalCount);
-      setData(data.findManyNotice.notices);
+      if (data.findManyNotice.notices?.length !== 0) {
+        setTotalCount(data.findManyNotice.totalCount);
+        setData(data.findManyNotice.notices);
+      } else {
+        toast.warn("검색결과가 없습니다");
+      }
     },
     fetchPolicy: "no-cache",
   });

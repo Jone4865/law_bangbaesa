@@ -12,16 +12,8 @@ const cx = className.bind(styles);
 
 export default function NoticeDetail() {
   const router = useRouter();
-  const [detailData, setDetailData] = useState<
-    FindOneNoticeQuery["findOneNotice"]
-  >({
-    content:
-      "안녕하십니까?<br/>방배사와 함께해주시는 모든 분들께 깊은 감사의 말씀을 드립니다.<br/>방배사 웹서비스가 2023년 7월에 오픈을 하였습니다.<br/>항상 여러분이 편하게 사용하실 수 있도록 노력하는 방배사가 되겠습니다.<br/>불편사항이나 궁금하신게 있으시다면<br/>언제든 고객센터를 통해 문의주시면 감사하겠습니다.<br/>늘 행복하시고 건강하세요.<br/>감사합니다.",
-    createdAt: new Date(),
-    hits: 30,
-    id: 1,
-    title: "방배사 사이트가 오픈하였습니다.",
-  });
+  const [detailData, setDetailData] =
+    useState<FindOneNoticeQuery["findOneNotice"]>();
 
   const [findOneNotice] = useLazyQuery<FindOneNoticeQuery>(FIND_ONE_NOTICE, {
     onError: (e) => toast.error(e.message ?? `${e}`),
@@ -31,11 +23,11 @@ export default function NoticeDetail() {
   });
 
   useEffect(() => {
-    // if (router.query.id) {
-    //   findOneNotice({
-    //     variables: { findOneNoticeId: +router.query.id },
-    //   });
-    // }
+    if (router.query.id) {
+      findOneNotice({
+        variables: { findOneNoticeId: +router.query.id },
+      });
+    }
   }, [router.query.id]);
 
   const formattedContent = detailData?.content?.replace(
