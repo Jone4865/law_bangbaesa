@@ -7,6 +7,7 @@ import className from "classnames/bind";
 import styles from "./CarouselPart.module.scss";
 import { useRouter } from "next/router";
 import { useMediaQuery } from "react-responsive";
+import { AutoHeightImage } from "components/AutoHeightImage";
 
 const cx = className.bind(styles);
 
@@ -82,9 +83,11 @@ const CarouselPart = ({ carouselData }: Props) => {
             key={idx}
             className={cx("img_wrap", v.moveTo && "pointer")}
           >
-            <img
+            <AutoHeightImage
               src={`/img/banner/${!mobile ? v.name : v.name + "_m"}.png`}
               alt={v.alt}
+              key={idx}
+              objectFit="contain"
             />
           </div>
         ))}

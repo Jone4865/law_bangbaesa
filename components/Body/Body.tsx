@@ -55,7 +55,7 @@ export default function Body() {
       alt: "1",
       arrowColor: "none",
       dotsColor: "#ff7401",
-      backGroundColor: "none",
+      backGroundColor: "#f5f5f5",
     },
     {
       id: 1,
@@ -64,7 +64,7 @@ export default function Body() {
       alt: "2",
       arrowColor: "none",
       dotsColor: "#ff7401",
-      backGroundColor: "none",
+      backGroundColor: "#f5f5f5",
     },
     {
       id: 2,
@@ -73,7 +73,7 @@ export default function Body() {
       alt: "3",
       arrowColor: "none",
       dotsColor: "#ff7401",
-      backGroundColor: "none",
+      backGroundColor: "#f5f5f5",
     },
   ]);
 

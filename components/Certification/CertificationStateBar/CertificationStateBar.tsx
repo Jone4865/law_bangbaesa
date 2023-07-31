@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { FindMyInfoByUserQuery } from "src/graphql/generated/graphql";
+import { AutoHeightImage } from "components/AutoHeightImage";
 
 const cx = className.bind(styles);
 
@@ -45,7 +46,13 @@ export default function CertificationStateBar({ path }: Props) {
                 레벨 {idx + 1}
               </div>
               <div className={cx("img_circle")}>
-                <div className={cx("check")}>✓</div>
+                {idx + 1 <= level && (
+                  <AutoHeightImage
+                    src="/img/mypage/check_on.png"
+                    width={15}
+                    className={cx("check")}
+                  />
+                )}
                 <div className={cx("img_wrap")}>
                   <Image
                     fill
