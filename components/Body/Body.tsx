@@ -47,7 +47,7 @@ export default function Body() {
   const [carouselData, setCarouselData] = useState<CarouselData[]>([
     {
       id: 0,
-      moveTo: "/notice/5",
+      moveTo: undefined,
       name: "banner1",
       alt: "1",
       arrowColor: "none",
@@ -65,7 +65,7 @@ export default function Body() {
     },
     {
       id: 2,
-      moveTo: undefined,
+      moveTo: "/notice/5",
       name: "banner3",
       alt: "3",
       arrowColor: "none",
@@ -111,8 +111,6 @@ export default function Body() {
     <div className={cx("container")}>
       <CarouselPart carouselData={carouselData} />
       <MarketPrice />
-      {/* <Marquee /> */}
-
       <div className={cx("OTC_top")}>
         <div className={cx("OTC_top_wrap")}>
           <span>P2P</span>
