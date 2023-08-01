@@ -159,6 +159,7 @@ a {
   -o-transform: translate3d(0, 0, 0);
   transform: translate3d(0, 0, 0);
   transition-delay: 10ms;
+  margin-bottom: -5px;
 }
 
 .slick-slide div {
