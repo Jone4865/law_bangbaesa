@@ -377,7 +377,7 @@ export default function OTC({
               isChat={isChat}
             />
           </div>
-          {part === "otc" && (
+          {part === "otc" && data.length !== 0 && (
             <div className={cx("pagenation_wrap")}>
               <Pagination
                 activePage={current}
