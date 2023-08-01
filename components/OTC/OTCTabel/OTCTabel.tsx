@@ -294,10 +294,7 @@ export default function OTCTabel({
                         : "not_home_district"
                     )}
                   >
-                    <div>
-                      {v.city?.name}
-                      {`\b`}
-                    </div>
+                    <div>{v.city?.name}</div>
                     <div>{v.district?.name}</div>
                   </div>
                   <div
