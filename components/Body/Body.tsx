@@ -10,12 +10,9 @@ import styles from "./Body.module.scss";
 
 import className from "classnames/bind";
 import { useRouter } from "next/router";
-import TopImage from "../TopImage/TopImage";
-import Marquee from "../Marquee/Marquee";
 import { CoinKind, OfferAction } from "src/graphql/generated/graphql";
 import CarouselPart from "components/CarouselPart/CarouselPart";
 import MarketPrice from "components/MarketPrice/MarketPrice";
-import { toast } from "react-toastify";
 import Image from "next/image";
 
 const cx = className.bind(styles);
@@ -50,7 +47,7 @@ export default function Body() {
   const [carouselData, setCarouselData] = useState<CarouselData[]>([
     {
       id: 0,
-      moveTo: undefined,
+      moveTo: "/notice/5",
       name: "banner1",
       alt: "1",
       arrowColor: "none",
@@ -59,7 +56,7 @@ export default function Body() {
     },
     {
       id: 1,
-      moveTo: undefined,
+      moveTo: "/notice/4",
       name: "banner2",
       alt: "2",
       arrowColor: "none",
