@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./NoticeDetail.module.scss";
 import className from "classnames/bind";
 import moment from "moment";
@@ -30,10 +30,16 @@ export default function NoticeDetail() {
     }
   }, [router.query.id]);
 
-  const formattedContent = detailData?.content?.replace(
-    /(?:\r\n|\r|\n)/g,
-    "<br>"
-  );
+  const parseContentWithLinks = (content: string | undefined) => {
+    if (!content) return "";
+    // Regular expression to find URLs in the content
+    const urlRegex = /(https?:\/\/[^\s]+)/g;
+    return content.replace(urlRegex, (url) => {
+      return `<a href="${url}" target="_blank">${url}</a>`;
+    });
+  };
+
+  const formattedContent = parseContentWithLinks(detailData?.content);
 
   return (
     <div className={cx("container")}>
@@ -49,7 +55,7 @@ export default function NoticeDetail() {
         <div
           className={cx("content")}
           dangerouslySetInnerHTML={{ __html: formattedContent || "" }}
-        ></div>
+        />
         <div className={cx("btn_wrap")}>
           <div className={cx("btn")} onClick={() => router.push("/notice")}>
             목록
