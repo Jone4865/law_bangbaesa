@@ -26,7 +26,7 @@ export default function Header({ setModalState }: Props) {
 
   const Btns = [
     { name: "홈", path: "/", index: "/" },
-    { name: "P2P", path: "/p2p/buy", index: "/p2p" },
+    { name: "P2P", path: "/p2p", index: "/p2p" },
     { name: "상품권", path: "/gift-card", index: "/gift-card" },
     { name: "고객센터", path: "/notice", index: "/notice" },
     { name: "회사소개", path: "/introduction", index: "/introduction" },

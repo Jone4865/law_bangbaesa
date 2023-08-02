@@ -163,14 +163,6 @@ export default function OTC({
 
   const onClickHandle = (v: any, key: string) => {
     if (key === "kind") {
-      !router.pathname.includes(v.toLocaleLowerCase()) &&
-        router.push(
-          v === OfferAction.Buy ? "/p2p/buy" : "/p2p/sell",
-          undefined,
-          {
-            scroll: false,
-          }
-        );
       setKind(v);
       setCoin(CoinKind.Usdt);
       setSkip(0);
@@ -321,24 +313,24 @@ export default function OTC({
                   {part === "otc" && (
                     <div className={cx("btns_container")}>
                       <div className={cx("btns_wrap")}>
-                        {offerStateBtns.map((btn, idx) => (
+                        {offerStateBtns.map((btn) => (
                           <div
                             key={btn}
                             onClick={() =>
                               onClickHandle(
                                 btn === "팝니다"
-                                  ? OfferAction.Buy
-                                  : OfferAction.Sell,
+                                  ? OfferAction.Sell
+                                  : OfferAction.Buy,
                                 "kind"
                               )
                             }
                             className={cx(
                               btn === "팝니다"
-                                ? kind === OfferAction.Buy
-                                  ? `able_buy`
+                                ? kind === OfferAction.Sell
+                                  ? `able_sell`
                                   : "default_kind"
-                                : kind === OfferAction.Sell
-                                ? "able_sell"
+                                : kind === OfferAction.Buy
+                                ? "able_buy"
                                 : "default_kind"
                             )}
                           >
@@ -397,7 +389,7 @@ export default function OTC({
               offerId={offerId}
               part={part}
               data={data ? data : []}
-              kind={kind}
+              kind={partKind ? partKind : kind}
               coin={coin}
               nowAble={nowAble}
               updateOfferClickHandle={updateOfferClickHandle}
