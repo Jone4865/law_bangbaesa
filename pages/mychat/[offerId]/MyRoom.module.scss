@@ -156,13 +156,18 @@
   height: 622px;
   background-color: #f6f6f6;
   border-radius: 0 0 10px 10px;
-  padding: 0 20px 20px 20px;
+  padding: 20px;
+
   display: flex;
   flex-direction: column;
   @include view("mobile") {
     width: 100%;
-    padding: 20px 20px 30px 20px;
-    height: calc(100vh - 120px);
+    height: calc(100vh - 240px);
+    max-height: 800px;
+  }
+  @include view("mobile_small") {
+    width: 100%;
+    height: calc(100vh - 140px);
     max-height: 800px;
   }
 }
@@ -211,6 +216,7 @@
   display: flex;
   width: 100%;
   position: relative;
+  margin-top: 20px;
 }
 
 .input {
@@ -220,6 +226,7 @@
   border: solid 1px #dcdcdc;
   border-left: none;
   font-size: 18px;
+  background-color: #fff;
   @include view("mobile") {
     font-size: 16px;
   }
@@ -535,7 +542,7 @@
   width: 8px;
   height: 8px;
   background-color: #ff7401;
-  z-index: 999;
+  z-index: 100;
   border-radius: 100%;
   top: 8px;
   right: 8px;

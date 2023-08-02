@@ -56,7 +56,9 @@ export default function OfferInfo({
           </div>
           <div className={cx("align")}>
             <div className={cx("width")}>
-              {offerData?.offerAction === OfferAction.Buy ? "구매자" : "판매자"}
+              {offerData?.offerAction === OfferAction.Sell
+                ? "구매자"
+                : "판매자"}
             </div>
             <div>{offerData?.identity}</div>
           </div>

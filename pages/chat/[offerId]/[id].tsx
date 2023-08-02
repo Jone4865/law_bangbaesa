@@ -86,7 +86,7 @@ const Room: NextPage<Props> = ({ id, data }) => {
 
   const onSubmitHandle = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (message !== "") {
+    if (message.trim() !== "") {
       createChatMessage({
         variables: { chatRoomId: id, message },
       }).then(({ data }) => {
@@ -344,7 +344,12 @@ const Room: NextPage<Props> = ({ id, data }) => {
 
       <div className={cx("wrap")}>
         <div className={cx("mobile")}>
-          {infoVisible && <OfferMore offerData={offerData} />}
+          {infoVisible && (
+            <OfferMore
+              offerData={offerData}
+              setOfferModalVisible={setOfferModalVisible}
+            />
+          )}
           <div
             onClick={() => {
               setInfoVisible((prev) => !prev);
@@ -389,19 +394,6 @@ const Room: NextPage<Props> = ({ id, data }) => {
                           : "message_container"
                       )}
                     >
-                      {v.sender !== myNickName && (
-                        <div className={cx("account_wrap")}>
-                          {datas[idx - 1]?.sender !== v.sender && (
-                            <Image
-                              alt="프로필"
-                              src={"/img/chat/account.png"}
-                              fill
-                              quality={100}
-                              className={cx("img")}
-                            />
-                          )}
-                        </div>
-                      )}
                       <div className={cx("body")}>
                         {datas[idx - 1]?.sender !== v.sender && (
                           <>
@@ -442,9 +434,7 @@ const Room: NextPage<Props> = ({ id, data }) => {
                 </div>
               )}
               <form onSubmit={onSubmitHandle} className={cx("form_wrap")}>
-                <div className={cx("input_nickname")}>
-                  {offerData?.identity}
-                </div>
+                <div className={cx("input_nickname")}>{myNickName}</div>
                 <input
                   disabled={offerData?.transactionStatus === "COMPLETE"}
                   value={message}

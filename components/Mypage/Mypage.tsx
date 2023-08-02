@@ -96,7 +96,6 @@ export default function Mypage() {
   useEffect(() => {
     if (!cookies.nickName) {
       router.push("/sign-in");
-      toast.warn("로그인이 필요한 서비스입니다.", { toastId: 0 });
     } else {
       router.pathname === "/mypage" && findMyInfoByUser();
     }
@@ -117,6 +116,7 @@ export default function Mypage() {
   }, [data]);
 
   useEffect(() => {
+    toast.dismiss();
     if (mobileMore) {
       document.body.style.overflow = "hidden";
     } else {
@@ -144,7 +144,7 @@ export default function Mypage() {
               <>
                 <div className={cx("top_wrap")}>
                   <div className={cx("middle_top")}>
-                    <div>
+                    <div className={cx("middle_top_left")}>
                       <div className={cx("middle_top_container")}>
                         <div className={cx("middle_top_body")}>
                           <span className={cx("middle_name")}>
@@ -155,10 +155,14 @@ export default function Mypage() {
                             레벨 {data?.level}
                           </span>{" "}
                           입니다
-                          <br />
-                          다양한 기능을 이용하기 위해서
-                          <br />
-                          본인인증을 진행해 주세요
+                          {data?.level && data?.level < 3 && (
+                            <>
+                              <br />
+                              다양한 기능을 이용하기 위해서
+                              <br />
+                              본인인증을 진행해 주세요
+                            </>
+                          )}
                         </div>
                       </div>
                       <div className={cx("btn_wrap")}>

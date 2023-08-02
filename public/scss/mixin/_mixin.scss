@@ -1,6 +1,6 @@
 @mixin view($breakpoint) {
   @if ($breakpoint == "pc") {
-    @media (min-width: 1520px) and (max-width: 1920px) {
+    @media (min-width: 1520px) and (max-width: 10000px) {
       @content;
     }
   }

@@ -5,19 +5,23 @@ import Image from "next/image";
 import { convertConnectionDate } from "utils/convertConnectionDate";
 import { useRouter } from "next/router";
 import { useCookies } from "react-cookie";
+import { SetStateAction } from "react";
 
 const cx = className.bind(styles);
 
 type Props = {
   offerData: FindOneOfferOutput | undefined;
+  setOfferModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export default function OfferMore({ offerData }: Props) {
+export default function OfferMore({ offerData, setOfferModalVisible }: Props) {
   const router = useRouter();
   const [cookies] = useCookies(["nickName"]);
   return (
     <div className={cx("container")}>
-      <div className={cx("btn")}>오퍼조건 보기</div>
+      <div onClick={() => setOfferModalVisible(true)} className={cx("btn")}>
+        오퍼조건 보기
+      </div>
       <div className={cx("align")}>
         <div
           onClick={() =>
@@ -35,14 +39,14 @@ export default function OfferMore({ offerData }: Props) {
           {offerData?.city?.name} {offerData?.district?.name}
         </div>
       </div>
-      <div className={cx("align")}>
+      <div className={cx("align_center")}>
         <div className={cx("flex")}>
           <div>{offerData?.minAmount?.toLocaleString()}</div>
           <div className={cx("gray")}>KRW</div>/
           <div>{offerData?.maxAmount?.toLocaleString()}</div>
           <div className={cx("gray")}>KRW</div>
         </div>
-        <div className={cx("flex")}>
+        <div className={cx("flex", "price_wrap")}>
           <div className={cx("price")}>
             {offerData?.price?.toLocaleString()}
           </div>

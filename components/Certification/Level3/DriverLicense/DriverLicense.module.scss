@@ -29,9 +29,19 @@
   padding: 15px 20px;
   border: solid 1px #dcdcdc;
   font-size: 18px;
+  -moz-appearance: textfield;
   @include view("mobile") {
     font-size: 16px;
   }
+}
+
+.input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 .btn {

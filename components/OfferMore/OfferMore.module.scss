@@ -11,6 +11,9 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  @include view("mobile_small") {
+    height: 180px;
+  }
 }
 
 .btn {
@@ -46,6 +49,15 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.align_center {
+  display: flex;
+  justify-content: space-between;
+  @include view("mobile_small") {
+    flex-direction: column;
+    gap: 10px;
+  }
 }
 
 .gray {
@@ -88,4 +100,12 @@
 
 .pointer {
   cursor: pointer;
+}
+
+.price_wrap {
+  @include view("mobile_small") {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+  }
 }

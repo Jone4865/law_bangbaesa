@@ -124,6 +124,9 @@ export default function OTC({
                   : false,
                 walletAddress,
                 walletAddressKind,
+                content: data.filter((v) => v.id === id)[0].content
+                  ? data.filter((v) => v.id === id)[0].content
+                  : undefined,
               },
             });
           },
@@ -152,7 +155,6 @@ export default function OTC({
       });
     } else {
       router.push("/sign-in");
-      toast.warn("로그인이 필요한 서비스입니다.");
     }
   };
 

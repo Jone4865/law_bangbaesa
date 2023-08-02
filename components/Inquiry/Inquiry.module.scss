@@ -60,9 +60,9 @@
     padding: 0 20px;
   }
   @include view("mobile") {
-    padding: 50px 0 50px 0.8rem;
-    white-space: nowrap;
-    height: 160px;
+    padding: 50px 0.8rem;
+    word-break: keep-all;
+    height: 37vw;
   }
 }
 
@@ -76,6 +76,7 @@
   background-color: #fff;
   width: 94.4px;
   height: 94.4px;
+  min-width: 94.4px;
   border-radius: 100%;
   display: flex;
   justify-content: center;
@@ -152,5 +153,8 @@
   display: none;
   @include view("mobile") {
     display: flex;
+  }
+  @include view("mobile_small") {
+    display: none;
   }
 }

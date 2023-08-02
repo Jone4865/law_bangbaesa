@@ -34,19 +34,18 @@ export default function TopImage({ imageName }: Props) {
             alt="탑이미지"
             priority
             quality={100}
-            src={`/img/top_image/bg/${imageName}.png?v=1231`}
+            src={`/img/top_image/bg/${imageName}.png?v=123111`}
           />
         </div>
         <div className={cx("img_wrap")}>
           <Image
             fill
-            objectFit="contain"
             alt="탑이미지"
             priority
             quality={100}
             src={`/img/top_image/img/${
               middle ? imageName : imageName + "_m"
-            }.png?v=3131`}
+            }.png?v=31312`}
           />
         </div>
       </div>

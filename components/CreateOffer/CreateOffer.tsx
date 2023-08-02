@@ -11,6 +11,7 @@ import {
   CoinKind,
   CreateOfferByUserMutation,
   FindManyCityQuery,
+  OfferAction,
   WalletAddressKind,
 } from "src/graphql/generated/graphql";
 import { FIND_ONE_OFFER } from "src/graphql/query/findOneOffer";
@@ -147,7 +148,7 @@ export default function CreateOffer() {
         createOfferByUser({
           variables: {
             coinKind: coin,
-            offerAction: kind === "판매" ? "SELL" : "BUY",
+            offerAction: kind === "판매" ? OfferAction.Sell : OfferAction.Buy,
             transactionMethod: "DIRECT",
             cityId: location.id,
             price: +price,
