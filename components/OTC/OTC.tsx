@@ -60,7 +60,7 @@ export default function OTC({
   const [data, setData] = useState<
     FindManyOfferQuery["findManyOffer"]["offers"]
   >([]);
-  const [kind, setKind] = useState<"sell" | "buy">("buy");
+  const [kind, setKind] = useState<"sell" | "buy">("sell");
   const [coin, setCoin] = useState<CoinKind>(CoinKind.Usdt);
   const [cookies] = useCookies(["nickName"]);
   const [offerId, setOfferId] = useState<number | undefined>(undefined);
@@ -302,16 +302,16 @@ export default function OTC({
                             key={btn}
                             onClick={() =>
                               onClickHandle(
-                                btn === "팝니다" ? "buy" : "sell",
+                                btn !== "팝니다" ? "buy" : "sell",
                                 "kind"
                               )
                             }
                             className={cx(
                               btn === "팝니다"
-                                ? kind === "buy"
+                                ? kind !== "buy"
                                   ? `able_buy`
                                   : "default_kind"
-                                : kind === "sell"
+                                : kind !== "sell"
                                 ? "able_sell"
                                 : "default_kind"
                             )}
@@ -345,7 +345,7 @@ export default function OTC({
                       <div
                         className={cx(
                           "non_mobile",
-                          kind === "buy" ? "create_orange" : "create_blue"
+                          kind === "sell" ? "create_orange" : "create_blue"
                         )}
                         onClick={onClickCreate}
                       >

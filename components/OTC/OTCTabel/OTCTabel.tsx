@@ -170,6 +170,7 @@ export default function OTCTabel({
       onScrollHandle();
     }
   }, [nextView]);
+
   return (
     <div className={cx("container")}>
       <div className={cx("wrap")}>
@@ -180,7 +181,7 @@ export default function OTCTabel({
         >
           {part === "otc" && <div>코인</div>}
           <div className={cx("seller")}>
-            {kind === "SELL" ? "구매자" : "판매자"}
+            {kind === "SELL" ? "판매자" : "구매자"}
           </div>
           {part === "otc" && <div>거래성사량</div>}
           <div
@@ -390,7 +391,18 @@ export default function OTCTabel({
                             v.reservationStatus === ReservationStatus.Progress
                           }
                           className={cx(
-                            kind === "BUY" ? "chat_orange" : "chat_blue"
+                            (router.pathname === "/" ||
+                              router.pathname.includes("p2p")) &&
+                              (v.offerAction === OfferAction.Sell
+                                ? "chat_orange"
+                                : "chat_blue"),
+                            !(
+                              router.pathname === "/" ||
+                              router.pathname.includes("p2p")
+                            ) &&
+                              (v.offerAction === OfferAction.Buy
+                                ? "chat_orange"
+                                : "chat_blue")
                           )}
                           onClick={() => enterChatHandle(v.id, v.identity)}
                         >
