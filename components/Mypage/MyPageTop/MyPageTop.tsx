@@ -48,7 +48,11 @@ export default function MyPageTop({ detail, data, handleRefetch }: Props) {
 
   return (
     <div className={cx("container")}>
-      <div className={cx("top_wrap")}>
+      <div
+        className={cx(
+          router.pathname === "/mypage" ? "my_top_wrap" : "top_wrap"
+        )}
+      >
         <div
           className={cx(
             router.pathname === "/mypage" ? "my_top_left" : "top_left"
@@ -58,7 +62,7 @@ export default function MyPageTop({ detail, data, handleRefetch }: Props) {
             <div className={cx("nickname_wrap")}>
               <div className={cx("nickname")}>{data?.identity}</div>
               {router.pathname === "/user/[id]" && (
-                <div className={cx("user_content")}>{`\b`}님의 프로필</div>
+                <div className={cx("user_content")}>님의 프로필</div>
               )}
               <div
                 className={cx(

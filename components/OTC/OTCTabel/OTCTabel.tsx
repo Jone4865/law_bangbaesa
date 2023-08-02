@@ -131,7 +131,6 @@ export default function OTCTabel({
       });
     } else {
       router.replace("/sign-in");
-      toast.warn("로그인이 필요한 서비스입니다", { toastId: 0 });
     }
   };
 
@@ -172,10 +171,6 @@ export default function OTCTabel({
     }
   }, [nextView]);
 
-  useEffect(() => {
-    console.log(kind);
-  }, [kind]);
-
   return (
     <div className={cx("container")}>
       <div className={cx("wrap")}>
@@ -186,7 +181,7 @@ export default function OTCTabel({
         >
           {part === "otc" && <div>코인</div>}
           <div className={cx("seller")}>
-            {kind === "BUY" ? "구매자" : "판매자"}
+            {kind === "SELL" ? "구매자" : "판매자"}
           </div>
           {part === "otc" && <div>거래성사량</div>}
           <div
@@ -298,11 +293,8 @@ export default function OTCTabel({
                         : "not_home_district"
                     )}
                   >
-                    <div>
-                      {v.city?.name}
-                      {`\b`}
-                    </div>
-                    <div>{v.district?.name}</div>
+                    <div>{v.city?.name}</div>
+                    <div className={cx("distric_text")}>{v.district?.name}</div>
                   </div>
                   <div
                     className={cx(

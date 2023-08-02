@@ -10,6 +10,21 @@
   }
 }
 
+.my_top_wrap {
+  display: flex;
+
+  @include view("very_small") {
+    flex-direction: column;
+    margin: 0;
+    padding: 0 20px;
+  }
+  @include view("mobile") {
+    flex-direction: column;
+    margin: 0;
+    padding: 0 20px;
+  }
+}
+
 .top_wrap {
   display: flex;
 
@@ -336,6 +351,7 @@
 .user_content {
   font-size: 20px;
   margin-bottom: -3px;
+  margin-left: 5px;
 }
 
 .user_content_gray {

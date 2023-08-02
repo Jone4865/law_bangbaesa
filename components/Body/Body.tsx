@@ -10,12 +10,9 @@ import styles from "./Body.module.scss";
 
 import className from "classnames/bind";
 import { useRouter } from "next/router";
-import TopImage from "../TopImage/TopImage";
-import Marquee from "../Marquee/Marquee";
 import { CoinKind, OfferAction } from "src/graphql/generated/graphql";
 import CarouselPart from "components/CarouselPart/CarouselPart";
 import MarketPrice from "components/MarketPrice/MarketPrice";
-import { toast } from "react-toastify";
 import Image from "next/image";
 
 const cx = className.bind(styles);
@@ -59,7 +56,7 @@ export default function Body() {
     },
     {
       id: 1,
-      moveTo: undefined,
+      moveTo: "/notice/4",
       name: "banner2",
       alt: "2",
       arrowColor: "none",
@@ -68,7 +65,7 @@ export default function Body() {
     },
     {
       id: 2,
-      moveTo: undefined,
+      moveTo: "/notice/5",
       name: "banner3",
       alt: "3",
       arrowColor: "none",
@@ -114,8 +111,6 @@ export default function Body() {
     <div className={cx("container")}>
       <CarouselPart carouselData={carouselData} />
       <MarketPrice />
-      {/* <Marquee /> */}
-
       <div className={cx("OTC_top")}>
         <div className={cx("OTC_top_wrap")}>
           <span>P2P</span>

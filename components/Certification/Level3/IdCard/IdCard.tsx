@@ -91,16 +91,18 @@ export default function IdCard() {
       />
       <div className={cx("title")}>주민등록번호</div>
       <input
+        type="number"
         className={cx("input")}
         placeholder="9011121234566"
-        value={number}
+        value={number.replace("-", "")}
         onChange={(e) => setNumber(e.target.value)}
       />
       <div className={cx("title")}>발급일</div>
       <input
         className={cx("input")}
         placeholder="20000303"
-        value={date}
+        type="number"
+        value={date.replace("-", "")}
         onChange={(e) => setDate(e.target.value)}
       />
       <div className={cx("title")}>KYC</div>

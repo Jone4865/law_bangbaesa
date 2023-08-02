@@ -43,7 +43,7 @@ function InnerApp({ Component, pageProps }: AppProps & { router: NextRouter }) {
       containerRef.current &&
       !containerRef.current.contains(event.target as HTMLElement)
     ) {
-      toast.dismiss(); // 모든 토스트 메시지를 닫습니다.
+      toast.dismiss();
     }
   };
 
@@ -106,6 +106,7 @@ function InnerApp({ Component, pageProps }: AppProps & { router: NextRouter }) {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
+                fontSize: "20px",
               }}
             >
               <div>닫기</div>

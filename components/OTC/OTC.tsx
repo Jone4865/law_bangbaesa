@@ -126,6 +126,9 @@ export default function OTC({
                   : false,
                 walletAddress,
                 walletAddressKind,
+                content: data.filter((v) => v.id === id)[0].content
+                  ? data.filter((v) => v.id === id)[0].content
+                  : undefined,
               },
             });
           },
@@ -154,7 +157,6 @@ export default function OTC({
       });
     } else {
       router.push("/sign-in");
-      toast.warn("로그인이 필요한 서비스입니다.");
     }
   };
 
@@ -406,7 +408,7 @@ export default function OTC({
               isChat={isChat}
             />
           </div>
-          {part === "otc" && (
+          {part === "otc" && data.length !== 0 && (
             <div className={cx("pagenation_wrap")}>
               <Pagination
                 activePage={current}

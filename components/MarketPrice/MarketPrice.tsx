@@ -9,6 +9,7 @@ import {
   FindManyMarketPriceQuery,
 } from "src/graphql/generated/graphql";
 import Image from "next/image";
+import { useRouter } from "next/router";
 
 const cx = className.bind(styles);
 
@@ -17,6 +18,7 @@ type Props = {
 };
 
 export default function MarketPrice({ type = "home" }: Props) {
+  const router = useRouter();
   const [binanceData, setBinanceData] =
     useState<
       FindManyMarketPriceQuery["findManyMarketPrice"]["binanceMarkets"]
@@ -95,7 +97,14 @@ export default function MarketPrice({ type = "home" }: Props) {
             </div>
           </div>
           <div className={cx("body")}>
-            <div className={cx("coin_container", "tether")}>
+            <div
+              className={cx(
+                router.pathname === "/"
+                  ? "home_coin_container"
+                  : "coin_container",
+                "tether"
+              )}
+            >
               <div className={cx("top_img_wrap")}>
                 <div className={cx("top_img")}>
                   <Image alt="테더 이미지" fill src={"/img/marquee/usdt.png"} />
@@ -145,7 +154,14 @@ export default function MarketPrice({ type = "home" }: Props) {
                 )
               </div>
             </div>
-            <div className={cx("coin_container", "usd")}>
+            <div
+              className={cx(
+                router.pathname === "/"
+                  ? "home_coin_container"
+                  : "coin_container",
+                "usd"
+              )}
+            >
               <div className={cx("top_img_wrap")}>
                 <div className={cx("top_img")}>
                   <Image alt="테더 이미지" fill src={"/img/marquee/usd.png"} />

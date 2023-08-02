@@ -38,6 +38,16 @@ type Props = {
 };
 
 const Room: NextPage<Props> = ({ id, data }) => {
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+  const handleWheel = (event: React.WheelEvent) => {
+    const scrollContainer = scrollContainerRef.current;
+    if (!scrollContainer) return;
+
+    const scrollDistance = event.deltaY > 0 ? 100 : -100;
+    scrollContainer.scrollLeft += scrollDistance;
+  };
+
   const [infoVisible, setInfoVisible] = useState(true);
   const [roomList, setRoomList] =
     useState<
@@ -49,8 +59,8 @@ const Room: NextPage<Props> = ({ id, data }) => {
   const [datas, setDatas] = useState<any[]>([]);
   const [offerData, setOfferData] =
     useState<FindOneOfferQuery["findOneOffer"]>();
+  const [offerId, setOfferId] = useState(0);
   const [myNickName, setMyNickName] = useState("");
-  const [offerId] = useState<number | undefined>(0);
   const [unreadView, setUnreadView] = useState(true);
   const [offerModalVisible, setOfferModalVisible] = useState(false);
   const [message, setMessage] = useState("");
@@ -98,7 +108,7 @@ const Room: NextPage<Props> = ({ id, data }) => {
 
   const onSubmitHandle = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (message !== "") {
+    if (message.trim() !== "") {
       createChatMessage({
         variables: { chatRoomId: id, message },
       }).then(({ data }) => {
@@ -338,9 +348,11 @@ const Room: NextPage<Props> = ({ id, data }) => {
       findOneOffer({ variables: { findOneOfferId: +router.query.offerId } });
     }
 
-    findManyChatRoomByUser({
-      variables: { take: 10, offerId },
-    });
+    if (router.query.offerId) {
+      findManyChatRoomByUser({
+        variables: { take: 10, offerId: +router.query.offerId },
+      });
+    }
     findMyInfoByUser();
     setSubscriptTexts(undefined);
     setDatas(data);
@@ -363,7 +375,12 @@ const Room: NextPage<Props> = ({ id, data }) => {
 
       <div className={cx("wrap")}>
         <div className={cx("mobile")}>
-          {infoVisible && <OfferMore offerData={offerData} />}
+          {infoVisible && (
+            <OfferMore
+              offerData={offerData}
+              setOfferModalVisible={setOfferModalVisible}
+            />
+          )}
           <div
             onClick={() => {
               setInfoVisible((prev) => !prev);
@@ -390,7 +407,7 @@ const Room: NextPage<Props> = ({ id, data }) => {
                   {
                     roomList?.filter(
                       (v) => router.query.id && v.id === +router.query.id
-                    )[0].otherIdentity
+                    )[0]?.otherIdentity
                   }
                 </div>
               </div>
@@ -399,6 +416,8 @@ const Room: NextPage<Props> = ({ id, data }) => {
                   router.query.id &&
                   v.id !== +router.query.id && (
                     <div
+                      onWheel={handleWheel}
+                      ref={scrollContainerRef}
                       key={v.id}
                       className={cx("disable_chat")}
                       onClick={() => onClickRoomId(v.id)}
@@ -430,19 +449,6 @@ const Room: NextPage<Props> = ({ id, data }) => {
                           : "message_container"
                       )}
                     >
-                      {v.sender !== myNickName && (
-                        <div className={cx("account_wrap")}>
-                          {datas[idx - 1]?.sender !== v.sender && (
-                            <Image
-                              alt="프로필"
-                              src={"/img/chat/account.png"}
-                              fill
-                              quality={100}
-                              className={cx("img")}
-                            />
-                          )}
-                        </div>
-                      )}
                       <div className={cx("body")}>
                         {datas[idx - 1]?.sender !== v.sender && (
                           <>
@@ -483,9 +489,7 @@ const Room: NextPage<Props> = ({ id, data }) => {
                 </div>
               )}
               <form onSubmit={onSubmitHandle} className={cx("form_wrap")}>
-                <div className={cx("input_nickname")}>
-                  {offerData?.identity}
-                </div>
+                <div className={cx("input_nickname")}>{myNickName}</div>
                 <input
                   disabled={offerData?.transactionStatus === "COMPLETE"}
                   value={message}

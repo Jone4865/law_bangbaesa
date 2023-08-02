@@ -473,6 +473,36 @@ type FindMyInfoOutput {
   offerCompleteCount: Int!
 }
 
+"""회원 정보 조회 (회원)"""
+type FindUserInfoByUserOutput {
+  """아이디"""
+  identity: String!
+
+  """지갑주소 종류"""
+  walletAddressKind: WalletAddressKind
+
+  """지갑주소"""
+  walletAddress: String
+
+  """레벨"""
+  level: Int!
+
+  """접속일"""
+  connectionDate: Date
+
+  """국가코드"""
+  countryCode: String!
+
+  """긍정적 피드백 개수"""
+  positiveFeedbackCount: Int!
+
+  """부정적 피드백 개수"""
+  negativeFeedbackCount: Int!
+
+  """거래 성사량 개수"""
+  offerCompleteCount: Int!
+}
+
 """오퍼 상세 조회 (회원, 비회원) output"""
 type FindOneOfferOutput {
   """ID"""
@@ -586,8 +616,12 @@ type KimchiMarketModel {
   """코인 코드"""
   code: String!
 
-  """타임스탬프"""
-  timestamp: String!
+"""BigInt custom scalar type"""
+scalar BigInt
+
+type Query {
+  """내정보 조회 (회원)"""
+  findMyInfoByUser: FindMyInfoOutput!
 
   """변화 금액"""
   changePrice: Float!
