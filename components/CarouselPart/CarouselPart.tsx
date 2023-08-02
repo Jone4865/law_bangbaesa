@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -30,7 +30,7 @@ const CarouselPart = ({ carouselData }: Props) => {
   const isMobile = useMediaQuery({
     query: "(max-width: 759px)",
   });
-
+  const [dragging, setDragging] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [currentDataIdx, setCurrentDataIdx] = useState(0);
   const sliderRef = useRef<Slider>(null);
@@ -42,9 +42,10 @@ const CarouselPart = ({ carouselData }: Props) => {
     speed: 1000,
     slidesToShow: 1,
     slidesToScroll: 1,
-    autoplay: false,
+    autoplay: true,
     arrows: true,
     beforeChange: (currentSlide: number, nextSlide: number) => {
+      setDragging(true);
       const dataLength = carouselData.length;
       let adjustedNextSlide = nextSlide;
 
@@ -57,12 +58,13 @@ const CarouselPart = ({ carouselData }: Props) => {
       setCurrentPage(currentSlide);
       setCurrentDataIdx(adjustedNextSlide);
     },
+    afterChange: () => setDragging(false),
   };
 
   useEffect(() => {}, [currentPage, carouselData]);
 
   useEffect(() => {
-    setMobile(isMobile ? true : false);
+    setMobile(isMobile);
   }, [isMobile]);
 
   return (
@@ -79,14 +81,13 @@ const CarouselPart = ({ carouselData }: Props) => {
       <Slider className={cx("wrap")} {...settings} ref={sliderRef}>
         {carouselData.map((v, idx) => (
           <div
-            onClick={() => v.moveTo && router.push(`/${v.moveTo}`)}
+            onClick={() => !dragging && v.moveTo && router.push(`/${v.moveTo}`)}
             key={idx}
             className={cx("img_wrap", v.moveTo && "pointer")}
           >
             <AutoHeightImage
               src={`/img/banner/${!mobile ? v.name : v.name + "_m"}.png`}
               alt={v.alt}
-              key={idx}
               objectFit="contain"
               className={cx("inner_img")}
             />
