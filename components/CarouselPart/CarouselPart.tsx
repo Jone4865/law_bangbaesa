@@ -38,11 +38,11 @@ const CarouselPart = ({ carouselData }: Props) => {
 
   const settings = {
     infinite: true,
-    autoplaySpeed: 5000,
+    autoplaySpeed: 4000,
     speed: 1000,
     slidesToShow: 1,
     slidesToScroll: 1,
-    autoplay: true,
+    autoplay: false,
     arrows: true,
     beforeChange: (currentSlide: number, nextSlide: number) => {
       const dataLength = carouselData.length;
@@ -88,6 +88,7 @@ const CarouselPart = ({ carouselData }: Props) => {
               alt={v.alt}
               key={idx}
               objectFit="contain"
+              className={cx("inner_img")}
             />
           </div>
         ))}

@@ -12,6 +12,8 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  /** BigInt custom scalar type */
+  BigInt: any;
   /** Date custom scalar type */
   Date: any;
   /** The `Upload` scalar type represents a file upload. */

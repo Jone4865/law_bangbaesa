@@ -133,6 +133,10 @@ export default function CreateOffer() {
       toast.warn("최소거래량을 입력해주세요"), { toastId: 0 };
     } else if (max === undefined || max <= 0) {
       toast.warn("최대거래량을 입력해주세요", { toastId: 0 });
+    } else if (max && max > 1000000) {
+      toast.warn("최대거래량 1,000,000KRW까지 입력 가능합니다.", {
+        toastId: 0,
+      });
     } else if (max < min) {
       toast.warn(
         <div>
@@ -155,7 +159,7 @@ export default function CreateOffer() {
             maxAmount: +max,
             responseSpeed: +time,
             content: text,
-            walletAddress: saveWallet ? walletAddress : undefined,
+            walletAddress,
             isUseNextTime: saveWallet,
             walletAddressKind,
             districtId: detailLocation?.id,
@@ -208,19 +212,20 @@ export default function CreateOffer() {
       setKind(newData.offerAction === "BUY" ? "구매" : "판매");
       setLocation(newData.city);
       setDetailLocation(newData.district);
+      setWalletAddressKind(newData.walletAddressKind);
     },
     fetchPolicy: "no-cache",
   });
 
   useEffect(() => {
-    findManyCity({});
+    findManyCity();
     if (router.pathname.includes("edit-offer") && router.query.id) {
       findOneOffer({
         variables: { findOneOfferId: +router.query.id },
       });
     }
     findMyInfoByUser();
-  }, [router.pathname, walletAddress]);
+  }, [router.pathname, walletAddress, router.isReady]);
 
   useEffect(() => {
     if (price && price > 99999999) {
@@ -395,6 +400,7 @@ export default function CreateOffer() {
                   value={min ? min.toLocaleString() : ""}
                   placeholder="입력하세요.."
                   onChange={(e) => setMin(+e.target.value.replace(/,/g, ""))}
+                  maxLength={9}
                 />
                 <div className={cx("price_content")}>KRW</div>
               </div>
@@ -411,6 +417,7 @@ export default function CreateOffer() {
                   placeholder="입력하세요.."
                   value={max ? max.toLocaleString() : ""}
                   onChange={(e) => setMax(+e.target.value.replace(/,/g, ""))}
+                  maxLength={9}
                 />
                 <div className={cx("price_content")}>KRW</div>
               </div>
@@ -467,7 +474,10 @@ export default function CreateOffer() {
           <div className={cx("sub_title")}>
             지갑주소 <span className={cx("essential")}>*</span>
           </div>
-          <div className={cx("wallet_content")}>
+          <div
+            className={cx("wallet_content")}
+            onClick={() => window.open("/notice")}
+          >
             아직 지갑주소가 없으신가요?
           </div>
         </div>

@@ -227,9 +227,9 @@
     padding-left: 27vw;
   }
   @include view("mobile") {
-    font-size: 16px;
+    font-size: 12px;
     justify-content: flex-start;
-    padding: 15px;
+    padding: 10px;
     overflow-x: scroll;
     height: 59px;
   }
@@ -341,11 +341,11 @@
   border-left: solid 1px #dcdcdc;
   @include view("very_small") {
     font-size: 13px;
-    padding-top: 16.5px;
+    flex-direction: column;
   }
   @include view("mobile") {
     font-size: 13px;
-    padding-top: 16.5px;
+    flex-direction: column;
   }
 }
 
@@ -461,12 +461,12 @@
 
 .non_mobile_title {
   display: flex;
-  @include view("very_small") {
-    display: none;
-  }
-  @include view("mobile") {
-    display: none;
-  }
+  // @include view("very_small") {
+  //   display: none;
+  // }
+  // @include view("mobile") {
+  //   display: none;
+  // }
 }
 
 .up_and_down_img {
@@ -492,10 +492,4 @@
 }
 
 .kimchi_content {
-  @include view("very_small") {
-    margin: 0 auto auto auto;
-  }
-  @include view("mobile") {
-    margin: 0 auto auto auto;
-  }
 }

@@ -135,9 +135,11 @@
   align-items: center;
   color: #3561c7;
   border-right: solid 1px #dcdcdc;
+  background-color: rgba(53, 97, 199, 0.04);
   @include view("mobile") {
     border-right: none;
     justify-content: flex-end;
+    background-color: #fff;
   }
 }
 
@@ -148,8 +150,10 @@
   justify-content: center;
   align-items: center;
   color: #ff7401;
+  background-color: rgba(255, 116, 1, 0.04);
   @include view("mobile") {
     justify-content: flex-end;
+    background-color: #fff;
   }
 }
 
