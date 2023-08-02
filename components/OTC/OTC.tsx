@@ -62,6 +62,7 @@ export default function OTC({
   const [data, setData] = useState<
     FindManyOfferQuery["findManyOffer"]["offers"]
   >([]);
+
   const [kind, setKind] = useState<OfferAction>(OfferAction.Buy);
   const [coin, setCoin] = useState<CoinKind>(CoinKind.Usdt);
   const [cookies] = useCookies(["nickName"]);
@@ -372,7 +373,7 @@ export default function OTC({
                       <div
                         className={cx(
                           "non_mobile",
-                          kind === OfferAction.Buy
+                          kind === OfferAction.Sell
                             ? "create_orange"
                             : "create_blue"
                         )}

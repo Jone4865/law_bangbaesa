@@ -37,7 +37,7 @@ export default function Body() {
   ];
   const [buyCoinKind, setBuyCoinKind] = useState<CoinKind>(CoinKind.Usdt);
   const [sellCoinKind, setSellCoinKind] = useState<CoinKind>(CoinKind.Usdt);
-  const [kind, setKind] = useState<OfferAction>(OfferAction.Buy);
+  const [kind, setKind] = useState<OfferAction>(OfferAction.Sell);
 
   const [middle, setMiddle] = useState(false);
   const isMiddle = useMediaQuery({
@@ -100,10 +100,10 @@ export default function Body() {
   useEffect(() => {
     if (isMiddle) {
       setMiddle(true);
-      setKind(OfferAction.Buy);
+      setKind(OfferAction.Sell);
     } else {
       setMiddle(false);
-      setKind(OfferAction.Buy);
+      setKind(OfferAction.Sell);
     }
   }, [isMiddle]);
 
@@ -130,14 +130,14 @@ export default function Body() {
                 <div className={cx("only_pc")}>팝니다</div>
                 <div className={cx("non_pc")}>
                   <div
-                    onClick={() => setKind(OfferAction.Buy)}
-                    className={cx(kind === "BUY" ? "able_buy" : "default")}
+                    onClick={() => setKind(OfferAction.Sell)}
+                    className={cx(kind === "SELL" ? "able_sell" : "default")}
                   >
                     팝니다
                   </div>
                   <div
-                    onClick={() => setKind(OfferAction.Sell)}
-                    className={cx(kind === "SELL" ? "able_sell" : "default")}
+                    onClick={() => setKind(OfferAction.Buy)}
+                    className={cx(kind === "BUY" ? "able_buy" : "default")}
                   >
                     삽니다
                   </div>
@@ -198,7 +198,7 @@ export default function Body() {
               </div>
             </div>
             <OTC
-              partKind={OfferAction.Sell}
+              partKind={OfferAction.Buy}
               part="home"
               coinKind={sellCoinKind}
               nowAble=""
