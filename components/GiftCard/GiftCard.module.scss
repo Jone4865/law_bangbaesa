@@ -113,6 +113,11 @@
   border: solid 1px #dcdcdc;
   font-size: 18px;
   cursor: pointer;
+  color: #333;
+  @include view("mobile") {
+    width: 80px;
+    min-width: 80px;
+  }
 }
 
 .part_title {
