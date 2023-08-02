@@ -26,7 +26,6 @@ export default function CertificationStateBar({ path, isReady }: Props) {
       onError: (e) => toast.error(e.message ?? `${e}`),
       onCompleted(data) {
         setLevel(data.findMyInfoByUser.level);
-        console.log(data.findMyInfoByUser.level);
       },
       fetchPolicy: "no-cache",
     }
@@ -36,9 +35,7 @@ export default function CertificationStateBar({ path, isReady }: Props) {
     findMyInfoByUser();
   }, [path, findMyInfoByUser, isReady]);
 
-  useEffect(() => {
-    console.log(level);
-  }, [level]);
+  useEffect(() => {}, [level]);
 
   return (
     <div className={cx("container")}>

@@ -236,7 +236,6 @@ export default function OTC({
         });
         setOfferId(undefined);
         if (handleRefetch) {
-          console.log("2222");
           handleRefetch();
         }
       },
@@ -254,7 +253,6 @@ export default function OTC({
         });
         setOfferId(undefined);
         if (handleRefetch) {
-          console.log("1111");
           handleRefetch();
         }
       },
