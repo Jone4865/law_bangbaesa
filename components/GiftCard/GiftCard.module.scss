@@ -118,6 +118,7 @@
   font-size: 18px;
   color: #333;
   cursor: pointer;
+
   @include view("mobile") {
     width: 80px;
     min-width: 80px;
