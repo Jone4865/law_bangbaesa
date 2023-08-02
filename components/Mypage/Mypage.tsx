@@ -67,9 +67,8 @@ export default function Mypage() {
     fetchPolicy: "no-cache",
   });
 
-  const [findMyInfoByUser] = useLazyQuery<FindMyInfoByUserQuery>(
-    FIND_MY_INFO_BY_USER,
-    {
+  const [findMyInfoByUser, { refetch: findUserInfoRefetch }] =
+    useLazyQuery<FindMyInfoByUserQuery>(FIND_MY_INFO_BY_USER, {
       onError: (_e) => {
         router.push("/sign-in");
       },
@@ -78,13 +77,13 @@ export default function Mypage() {
         setMynickName(data.findMyInfoByUser.identity);
       },
       fetchPolicy: "no-cache",
-    }
-  );
+    });
 
   const { data: findUserInfoByUserQuery, refetch: userRefetch } =
     useQuery<FindUserInfoByUserQuery>(FIND_USER_INFO_BY_USER, {
       variables: { identity: router.query.id },
       skip: router.pathname !== "/user/[id]",
+      fetchPolicy: "no-cache",
     });
 
   const handleRefetch = () => {
@@ -298,6 +297,7 @@ export default function Mypage() {
                       nowAble={"my"}
                       partKind={myOfferState}
                       refetch={refetch}
+                      handleRefetch={() => findMyInfoByUser()}
                     />
                   </div>
                 </div>
@@ -335,6 +335,7 @@ export default function Mypage() {
                       nowAble={"my"}
                       partKind={offerState}
                       refetch={refetch}
+                      handleRefetch={() => findMyInfoByUser()}
                     />
                   </div>
                 </div>

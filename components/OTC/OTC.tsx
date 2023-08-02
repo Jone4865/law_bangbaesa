@@ -35,6 +35,7 @@ type Props = {
   nickName?: string | undefined;
   isChat?: boolean;
   refetch?: boolean;
+  handleRefetch?: () => void;
 };
 
 export default function OTC({
@@ -45,6 +46,7 @@ export default function OTC({
   part = "otc",
   nickName = undefined,
   isChat = false,
+  handleRefetch,
 }: Props) {
   const offerStateBtns = ["팝니다", "삽니다"];
   const coinBtns = [
@@ -60,7 +62,8 @@ export default function OTC({
   const [data, setData] = useState<
     FindManyOfferQuery["findManyOffer"]["offers"]
   >([]);
-  const [kind, setKind] = useState<"sell" | "buy">("sell");
+
+  const [kind, setKind] = useState<OfferAction>(OfferAction.Buy);
   const [coin, setCoin] = useState<CoinKind>(CoinKind.Usdt);
   const [cookies] = useCookies(["nickName"]);
   const [offerId, setOfferId] = useState<number | undefined>(undefined);
@@ -160,10 +163,17 @@ export default function OTC({
 
   const onClickHandle = (v: any, key: string) => {
     if (key === "kind") {
-      !router.pathname.includes(v) &&
-        router.push(v === "buy" ? "/p2p/buy" : "/p2p/sell");
+      !router.pathname.includes(v.toLocaleLowerCase()) &&
+        router.push(
+          v === OfferAction.Buy ? "/p2p/buy" : "/p2p/sell",
+          undefined,
+          {
+            scroll: false,
+          }
+        );
       setKind(v);
       setCoin(CoinKind.Usdt);
+      setSkip(0);
     } else {
       setCoin(v);
       setCurrent(1);
@@ -225,6 +235,10 @@ export default function OTC({
           variables: { take, skip, identity: cookies.nickName },
         });
         setOfferId(undefined);
+        if (handleRefetch) {
+          console.log("2222");
+          handleRefetch();
+        }
       },
     }
   );
@@ -239,9 +253,20 @@ export default function OTC({
           variables: { take, skip, identity: cookies.nickName },
         });
         setOfferId(undefined);
+        if (handleRefetch) {
+          console.log("1111");
+          handleRefetch();
+        }
       },
     }
   );
+
+  useEffect(() => {
+    if (router.pathname.includes("/p2p")) {
+      const path = router.pathname.split("/")[1];
+      setKind(path === "buy" ? OfferAction.Buy : OfferAction.Sell);
+    }
+  }, []);
 
   useEffect(() => {
     if (router.pathname.includes("/p2p")) {
@@ -251,7 +276,8 @@ export default function OTC({
           identity: undefined,
           take,
           skip,
-          offerAction: kind === "buy" ? OfferAction.Buy : OfferAction.Sell,
+          offerAction:
+            kind === OfferAction.Buy ? OfferAction.Buy : OfferAction.Sell,
           coinKind: coin,
         },
       });
@@ -302,16 +328,18 @@ export default function OTC({
                             key={btn}
                             onClick={() =>
                               onClickHandle(
-                                btn !== "팝니다" ? "buy" : "sell",
+                                btn === "팝니다"
+                                  ? OfferAction.Buy
+                                  : OfferAction.Sell,
                                 "kind"
                               )
                             }
                             className={cx(
                               btn === "팝니다"
-                                ? kind !== "buy"
+                                ? kind === OfferAction.Buy
                                   ? `able_buy`
                                   : "default_kind"
-                                : kind !== "sell"
+                                : kind === OfferAction.Sell
                                 ? "able_sell"
                                 : "default_kind"
                             )}
@@ -345,7 +373,9 @@ export default function OTC({
                       <div
                         className={cx(
                           "non_mobile",
-                          kind === "sell" ? "create_orange" : "create_blue"
+                          kind === OfferAction.Sell
+                            ? "create_orange"
+                            : "create_blue"
                         )}
                         onClick={onClickCreate}
                       >
@@ -369,7 +399,7 @@ export default function OTC({
               offerId={offerId}
               part={part}
               data={data ? data : []}
-              kind={partKind}
+              kind={kind}
               coin={coin}
               nowAble={nowAble}
               updateOfferClickHandle={updateOfferClickHandle}
@@ -425,7 +455,9 @@ export default function OTC({
           <div
             onClick={onClickCreate}
             className={cx(
-              kind === "buy" ? "mobile_buy_create" : "mobile_sell_create"
+              kind === OfferAction.Buy
+                ? "mobile_buy_create"
+                : "mobile_sell_create"
             )}
           >
             <div>오퍼 만들기</div>

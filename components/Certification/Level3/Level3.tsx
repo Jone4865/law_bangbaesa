@@ -22,7 +22,10 @@ export default function Level3() {
   return (
     <div className={cx("container")}>
       <div className={cx("wrap")}>
-        <CertificationStateBar path={router.pathname} />
+        <CertificationStateBar
+          path={router.pathname}
+          isReady={router.isReady}
+        />
         <div className={cx("title")}>신분증 종류</div>
         <div className={cx("btns_wrap")}>
           {kindArr.map((v, idx) => (

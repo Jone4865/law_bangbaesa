@@ -28,7 +28,7 @@ type Props = {
   offerId: number | undefined;
   nowAble: string;
   data: FindManyOfferQuery["findManyOffer"]["offers"];
-  kind: OfferAction.Sell | OfferAction.Buy | undefined;
+  kind?: OfferAction;
   coin: string;
   part: "home" | "otc" | "mypage" | "user";
   isChat: boolean;
