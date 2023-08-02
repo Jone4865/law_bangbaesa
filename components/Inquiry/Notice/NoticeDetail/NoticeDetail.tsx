@@ -30,17 +30,6 @@ export default function NoticeDetail() {
     }
   }, [router.query.id]);
 
-  const parseContentWithLinks = (content: string | undefined) => {
-    if (!content) return "";
-    // Regular expression to find URLs in the content
-    const urlRegex = /(https?:\/\/[^\s]+)/g;
-    return content.replace(urlRegex, (url) => {
-      return `<a href="${url}" target="_blank">${url}</a>`;
-    });
-  };
-
-  const formattedContent = parseContentWithLinks(detailData?.content);
-
   return (
     <div className={cx("container")}>
       <div className={cx("wrap")}>
@@ -54,8 +43,8 @@ export default function NoticeDetail() {
         </div>
         <div
           className={cx("content")}
-          dangerouslySetInnerHTML={{ __html: formattedContent || "" }}
-        />
+          dangerouslySetInnerHTML={{ __html: detailData?.content || "" }}
+        ></div>
         <div className={cx("btn_wrap")}>
           <div className={cx("btn")} onClick={() => router.push("/notice")}>
             목록

@@ -1,9 +1,3 @@
-"""Exposes a URL that specifies the behavior of this scalar."""
-directive @specifiedBy(
-  """The URL that specifies the behavior of this scalar."""
-  url: String!
-) on SCALAR
-
 """
 Direct the client to resolve this field locally, either from the cache or local resolvers.
 """
@@ -38,19 +32,40 @@ directive @connection(
   filter: [String!]
 ) on FIELD
 
-"""관리자 목록 조회 (관리자) output - 관리자"""
-type AdminByFindManyAdminOutput {
-  """이메일"""
-  email: String!
+"""회원"""
+type UserModel {
+  """아이디"""
+  identity: String!
 
   """생성일"""
   createdAt: Date!
 
-  """권한명"""
-  role: Role!
+  """지갑주소 종류"""
+  walletAddressKind: WalletAddressKind
 
-  """QR 등록 여부"""
-  isQr: Boolean!
+  """지갑주소"""
+  walletAddress: String
+
+  """레벨"""
+  level: Int!
+
+  """접속일"""
+  connectionDate: Date
+
+  """국가코드"""
+  countryCode: String!
+
+  """휴대폰"""
+  phone: String!
+}
+
+"""지갑주소 종류"""
+enum WalletAddressKind {
+  """아임토큰"""
+  IM_TOKEN
+
+  """메타마스크"""
+  META_MASK
 }
 
 """관리자"""
@@ -65,133 +80,58 @@ type AdminModel {
   role: Role!
 }
 
-"""배너"""
-type BannerModel {
+"""권한명"""
+enum Role {
+  """회원"""
+  USER
+
+  """관리자"""
+  ADMIN
+}
+
+"""오퍼"""
+type OfferModel {
   """ID"""
   id: Int!
 
-  """순서"""
-  index: Int!
+  """암호화폐 종류"""
+  coinKind: CoinKind!
 
-  """파일명"""
-  fileName: String!
+  """오퍼액션"""
+  offerAction: OfferAction!
 
-  """화살표 색상"""
-  arrowColor: String!
+  """거래방법"""
+  transactionMethod: TransactionMethod!
 
-  """점 색상"""
-  dotColor: String!
+  """가격"""
+  price: Int!
 
-  """생성일"""
-  createdAt: Date!
-}
+  """최소 거래량"""
+  minAmount: Int!
 
-"""BigInt custom scalar type"""
-scalar BigInt
+  """최대 거래량"""
+  maxAmount: Int!
 
-"""바이낸스 마켓"""
-type BinanceMarketModel {
-  """코인 코드"""
-  code: String!
+  """평균 응답 속도"""
+  responseSpeed: Int!
 
-  """타임스탬프"""
-  timestamp: String!
-
-  """원화 가격"""
-  krwPrice: Float!
-
-  """달러 가격"""
-  usdPrice: Float!
-}
-
-"""채팅 메세지 방향"""
-enum ChatMessageDirection {
-  """이전"""
-  PREV
-
-  """다음"""
-  NEXT
-}
-
-"""채팅 메세지"""
-type ChatMessageModel {
-  """ID"""
-  id: Int!
-
-  """메세지"""
-  message: String!
+  """오퍼 조건"""
+  content: String
 
   """생성일"""
   createdAt: Date!
 
-  """보낸 회원 Identity"""
-  sender: String!
-}
+  """지갑주소 종류"""
+  walletAddressKind: WalletAddressKind!
 
-"""채팅 메세지 목록 - 채팅 메세지 목록 조회 (회원) output"""
-type ChatMessagesByFindManyChatMessageByUserOutput {
-  """ID"""
-  id: Int!
+  """지갑주소"""
+  walletAddress: String!
 
-  """메세지"""
-  message: String!
+  """예약상태"""
+  reservationStatus: ReservationStatus!
 
-  """생성일"""
-  createdAt: Date!
-
-  """보낸 회원 Identity"""
-  sender: String!
-
-  """읽음 여부"""
-  isUnread: Boolean!
-}
-
-"""채팅방"""
-type ChatRoomModel {
-  """ID"""
-  id: Int!
-
-  """생성일"""
-  createdAt: Date!
-}
-
-"""채팅방 목록 - 참가한 채팅방 목록 조회 (회원) output"""
-type ChatRoomsByFindManyChatRoomByUserOutput {
-  """ID"""
-  id: Int!
-
-  """생성일"""
-  createdAt: Date!
-
-  """상대방 아이디"""
-  otherIdentity: String!
-
-  """오퍼 ID"""
-  offerId: Int!
-
-  """새 채팅 메세지 여부"""
-  isNewChatMessage: Boolean!
-
-  """안읽은 메세지 여부"""
-  isUnread: Boolean!
-}
-
-"""확인한 최근 채팅 메세지"""
-type CheckedCurrentChatMessageModel {
-  """ID"""
-  id: Int!
-
-  """생성일"""
-  createdAt: Date!
-}
-
-"""지역"""
-type CityModel {
-  """ID"""
-  id: Int!
-
-  """지역명"""
-  name: String!
+  """거래상태"""
+  transactionStatus: TransactionStatus!
 }
 
 """암호화폐 종류"""
@@ -227,40 +167,64 @@ enum CoinKind {
   TRX
 }
 
-"""국가번호"""
-type CountryCodeModel {
-  """국가 이름"""
-  name: String!
+"""오퍼액션"""
+enum OfferAction {
+  """판매"""
+  SELL
 
-  """국가 네이티브 이름"""
-  native: String!
-
-  """국가번호"""
-  phone: String!
-
-  """국기"""
-  emoji: String!
+  """구매"""
+  BUY
 }
 
-"""OTP QR코드 생성 output"""
-type CreateOtpQrOutput {
-  """URL"""
-  url: String!
-
-  """OTP Secret"""
-  otpSecret: String!
+"""거래방법"""
+enum TransactionMethod {
+  """직접"""
+  DIRECT
 }
 
-"""Date custom scalar type"""
-scalar Date
+"""예약상태"""
+enum ReservationStatus {
+  """기본값"""
+  NONE
 
-"""행정구"""
-type DistrictModel {
+  """진행중"""
+  PROGRESS
+}
+
+"""거래상태"""
+enum TransactionStatus {
+  """진행중"""
+  PROGRESS
+
+  """완료"""
+  COMPLETE
+}
+
+"""이메일 인증"""
+type EmailAuthModel {
   """ID"""
   id: Int!
 
-  """행정구명"""
+  """이메일"""
+  email: String!
+
+  """생성일"""
+  createdAt: Date!
+}
+
+"""주민등록증"""
+type IdCardModel {
+  """ID"""
+  id: Int!
+
+  """이름"""
   name: String!
+
+  """주민등록번호"""
+  registrationNumber: String!
+
+  """발급일"""
+  issueDate: String!
 }
 
 """운전면허증"""
@@ -284,25 +248,136 @@ type DriverLicenseModel {
   serialNumber: String!
 }
 
-"""이메일 인증"""
-type EmailAuthModel {
+"""여권"""
+type PassportModel {
   """ID"""
   id: Int!
 
-  """이메일"""
-  email: String!
+  """이름"""
+  name: String!
+
+  """여권번호"""
+  passportNumber: String!
+
+  """발급일"""
+  issueDate: String!
+
+  """만료일"""
+  expirationDate: String!
+
+  """생년월일"""
+  birth: String!
+}
+
+"""지역"""
+type CityModel {
+  """ID"""
+  id: Int!
+
+  """지역명"""
+  name: String!
+}
+
+"""공지사항"""
+type NoticeModel {
+  """ID"""
+  id: Int!
+
+  """제목"""
+  title: String!
+
+  """내용"""
+  content: String!
+
+  """생성일"""
+  createdAt: Date!
+
+  """조회수"""
+  hits: Int!
+}
+
+"""1:1문의"""
+type UserInquiryModel {
+  """ID"""
+  id: Int!
+
+  """제목"""
+  title: String!
+
+  """내용"""
+  content: String!
+
+  """답변"""
+  reply: String
+
+  """답변일"""
+  repliedAt: Date
 
   """생성일"""
   createdAt: Date!
 }
 
-"""피드백 종류"""
-enum FeedbackKind {
-  """긍정"""
-  POSITIVE
+"""약관"""
+type PolicyModel {
+  """ID"""
+  id: Int!
 
-  """부정"""
-  NEGATIVE
+  """약관 종류"""
+  policyKind: PolicyKind!
+
+  """제목"""
+  title: String!
+
+  """내용"""
+  content: String!
+
+  """생성일"""
+  createdAt: Date!
+
+  """수정일"""
+  updatedAt: Date!
+}
+
+"""약관 종류"""
+enum PolicyKind {
+  """이용약관"""
+  TERMS_AND_CONDITIONS
+
+  """개인정보처리방침"""
+  PERSONAL_INFORMATION_PROCESSING_POLICY
+}
+
+"""채팅방"""
+type ChatRoomModel {
+  """ID"""
+  id: Int!
+
+  """생성일"""
+  createdAt: Date!
+}
+
+"""채팅 메세지"""
+type ChatMessageModel {
+  """ID"""
+  id: Int!
+
+  """메세지"""
+  message: String!
+
+  """생성일"""
+  createdAt: Date!
+
+  """보낸 회원 Identity"""
+  sender: String!
+}
+
+"""확인한 최근 채팅 메세지"""
+type CheckedCurrentChatMessageModel {
+  """ID"""
+  id: Int!
+
+  """생성일"""
+  createdAt: Date!
 }
 
 """피드백"""
@@ -317,85 +392,205 @@ type FeedbackModel {
   createdAt: Date!
 }
 
-"""대시보드 그래프 조회 (관리자) output"""
-type FindDashboardByAdminOutput {
-  """회원"""
-  users: [ObjectByFindDashboardByAdminOutput!]!
+"""피드백 종류"""
+enum FeedbackKind {
+  """긍정"""
+  POSITIVE
 
-  """1:1문의"""
-  userInquiries: [ObjectByFindDashboardByAdminOutput!]!
-
-  """오퍼 생성"""
-  offers: [ObjectByFindDashboardByAdminOutput!]!
+  """부정"""
+  NEGATIVE
 }
 
-"""관리자 목록 조회 (관리자) output"""
-type FindManyAdminOutput {
+"""1 USDT 가격"""
+type UsdtModel {
+  """타임스탬프"""
+  timestamp: String!
+
+  """원화 가격"""
+  krwPrice: Float!
+
+  """달러 가격"""
+  usdPrice: Float!
+
+  """변화율"""
+  changeRate: Float!
+}
+
+"""1 USD 가격"""
+type UsdModel {
+  """타임스탬프"""
+  timestamp: String!
+
+  """원화 가격"""
+  krwPrice: Float!
+
+  """달러 가격"""
+  usdPrice: Float!
+
+  """변화율"""
+  changeRate: Float!
+}
+
+"""업비트 마켓"""
+type UpbitMarketModel {
+  """코인 코드"""
+  code: String!
+
+  """타임스탬프"""
+  timestamp: String!
+
+  """원화 가격"""
+  krwPrice: Float!
+
+  """달러 가격"""
+  usdPrice: Float!
+}
+
+"""바이낸스 마켓"""
+type BinanceMarketModel {
+  """코인 코드"""
+  code: String!
+
+  """타임스탬프"""
+  timestamp: String!
+
+  """원화 가격"""
+  krwPrice: Float!
+
+  """달러 가격"""
+  usdPrice: Float!
+}
+
+"""김치 프리미엄 마켓"""
+type KimchiMarketModel {
+  """코인 코드"""
+  code: String!
+
+  """타임스탬프"""
+  timestamp: String!
+
+  """변화 금액"""
+  changePrice: Float!
+
+  """변화율"""
+  changeRate: Float!
+}
+
+"""마켓 시세"""
+type MarketPriceModel {
+  """1 USDT 가격"""
+  usdt: UsdtModel!
+
+  """1 USD 가격"""
+  usd: UsdModel!
+
+  """업비트 마켓"""
+  upbitMarkets: [UpbitMarketModel!]!
+
+  """바이낸스 마켓"""
+  binanceMarkets: [BinanceMarketModel!]!
+
+  """김치 프리미엄 마켓"""
+  kimchiMarkets: [KimchiMarketModel!]!
+}
+
+"""국가번호"""
+type CountryCodeModel {
+  """국가 이름"""
+  name: String!
+
+  """국가 네이티브 이름"""
+  native: String!
+
+  """국가번호"""
+  phone: String!
+
+  """국기"""
+  emoji: String!
+}
+
+"""배너"""
+type BannerModel {
+  """ID"""
+  id: Int!
+
+  """순서"""
+  index: Int!
+
+  """파일명"""
+  fileName: String!
+
+  """화살표 색상"""
+  arrowColor: String!
+
+  """점 색상"""
+  dotColor: String!
+
+  """생성일"""
+  createdAt: Date!
+}
+
+"""행정구"""
+type DistrictModel {
+  """ID"""
+  id: Int!
+
+  """행정구명"""
+  name: String!
+}
+
+"""인증 토큰 output"""
+type TokenOutput {
+  """Access Token"""
+  accessToken: String!
+
+  """Refresh Token"""
+  refreshToken: String!
+}
+
+"""OTP QR코드 생성 output"""
+type CreateOtpQrOutput {
+  """URL"""
+  url: String!
+
+  """OTP Secret"""
+  otpSecret: String!
+}
+
+"""1:1 문의 목록 조회 (회원) output"""
+type FindManyUserInquiryByUserOutput {
   """총 개수"""
   totalCount: Int!
 
   """문의 목록"""
-  admins: [AdminByFindManyAdminOutput!]!
+  userInquiries: [UserInquiryModel!]!
 }
 
-"""채팅 메세지 목록 조회 (회원) output"""
-type FindManyChatMessageByUserOutput {
-  """총 개수"""
-  totalCount: Int!
-
-  """채팅 메세지 목록"""
-  chatMessages: [ChatMessagesByFindManyChatMessageByUserOutput!]!
-
-  """마지막 메세지 여부"""
-  isEnd: Boolean!
-}
-
-"""참가한 채팅방 목록 조회 (회원) output"""
-type FindManyChatRoomByUserOutput {
-  """총 개수"""
-  totalCount: Int!
-
-  """채팅방 목록"""
-  chatRooms: [ChatRoomsByFindManyChatRoomByUserOutput!]!
-}
-
-"""지역 목록 조회 output"""
-type FindManyCityOutput {
+"""1:1 문의 목록 조회 (관리자) output - 1:1 문의"""
+type UserInquiryInFindManyUserInquiryByAdminOutput {
   """ID"""
   id: Int!
 
-  """지역명"""
-  name: String!
+  """제목"""
+  title: String!
 
-  """행정구"""
-  districts: [DistrictModel!]!
-}
+  """내용"""
+  content: String!
 
-"""공지사항 목록 조회 output"""
-type FindManyNoticeOutput {
-  """총 개수"""
-  totalCount: Int!
+  """답변"""
+  reply: String
 
-  """공지사항 목록"""
-  notices: [NoticeInFindManyNoticeOutput!]!
-}
+  """답변일"""
+  repliedAt: Date
 
-"""오퍼 목록 조회 (회원) output"""
-type FindManyOfferOutput {
-  """총 개수"""
-  totalCount: Int!
+  """생성일"""
+  createdAt: Date!
 
-  """오퍼 목록"""
-  offers: [OfferByFindManyOfferOutput!]!
-}
+  """답변한 관리자"""
+  admin: AdminModel
 
-"""약관 목록 조회 output"""
-type FindManyPolicyOutput {
-  """총 개수"""
-  totalCount: Int!
-
-  """약관 목록"""
-  policies: [PolicyModel!]!
+  """회원 아이디"""
+  userIdentity: String!
 }
 
 """1:1 문의 목록 조회 (관리자) output"""
@@ -407,13 +602,34 @@ type FindManyUserInquiryByAdminOutput {
   userInquiries: [UserInquiryInFindManyUserInquiryByAdminOutput!]!
 }
 
-"""1:1 문의 목록 조회 (회원) output"""
-type FindManyUserInquiryByUserOutput {
-  """총 개수"""
-  totalCount: Int!
+"""회원 목록 조회 output - 회원"""
+type UserByFindManyUserOutput {
+  """아이디"""
+  identity: String!
 
-  """문의 목록"""
-  userInquiries: [UserInquiryModel!]!
+  """생성일"""
+  createdAt: Date!
+
+  """지갑주소 종류"""
+  walletAddressKind: WalletAddressKind
+
+  """지갑주소"""
+  walletAddress: String
+
+  """레벨"""
+  level: Int!
+
+  """접속일"""
+  connectionDate: Date
+
+  """국가코드"""
+  countryCode: String!
+
+  """휴대폰"""
+  phone: String!
+
+  """이메일 인증"""
+  emailAuth: EmailAuthModel
 }
 
 """회원 목록 조회 output"""
@@ -503,6 +719,90 @@ type FindUserInfoByUserOutput {
   offerCompleteCount: Int!
 }
 
+"""약관 목록 조회 output"""
+type FindManyPolicyOutput {
+  """총 개수"""
+  totalCount: Int!
+
+  """약관 목록"""
+  policies: [PolicyModel!]!
+}
+
+"""오퍼 - 오퍼 목록 조회 (회원) output"""
+type OfferByFindManyOfferOutput {
+  """ID"""
+  id: Int!
+
+  """암호화폐 종류"""
+  coinKind: CoinKind!
+
+  """오퍼액션"""
+  offerAction: OfferAction!
+
+  """거래방법"""
+  transactionMethod: TransactionMethod!
+
+  """가격"""
+  price: Int!
+
+  """최소 거래량"""
+  minAmount: Int!
+
+  """최대 거래량"""
+  maxAmount: Int!
+
+  """평균 응답 속도"""
+  responseSpeed: Int!
+
+  """오퍼 조건"""
+  content: String
+
+  """생성일"""
+  createdAt: Date!
+
+  """지갑주소 종류"""
+  walletAddressKind: WalletAddressKind!
+
+  """지갑주소"""
+  walletAddress: String!
+
+  """예약상태"""
+  reservationStatus: ReservationStatus!
+
+  """거래상태"""
+  transactionStatus: TransactionStatus!
+
+  """지역"""
+  city: CityModel!
+
+  """행정구"""
+  district: DistrictModel
+
+  """아이디"""
+  identity: String!
+
+  """긍정 피드백 수"""
+  positiveFeedbackCount: Int!
+
+  """거래 성사량 개수"""
+  offerCompleteCount: Int!
+
+  """새 채팅 메세지 여부"""
+  isNewChatMessage: Boolean!
+
+  """접속일"""
+  connectionDate: Date
+}
+
+"""오퍼 목록 조회 (회원) output"""
+type FindManyOfferOutput {
+  """총 개수"""
+  totalCount: Int!
+
+  """오퍼 목록"""
+  offers: [OfferByFindManyOfferOutput!]!
+}
+
 """오퍼 상세 조회 (회원, 비회원) output"""
 type FindOneOfferOutput {
   """ID"""
@@ -566,55 +866,164 @@ type FindOneOfferOutput {
   connectionDate: Date
 }
 
-"""회원 정보 조회 (회원)"""
-type FindUserInfoByUserOutput {
-  """아이디"""
-  identity: String!
-
-  """지갑주소 종류"""
-  walletAddressKind: WalletAddressKind
-
-  """지갑주소"""
-  walletAddress: String
-
-  """레벨"""
-  level: Int!
-
-  """접속일"""
-  connectionDate: Date
-
-  """국가코드"""
-  countryCode: String!
-
-  """긍정적 피드백 개수"""
-  positiveFeedbackCount: Int!
-
-  """부정적 피드백 개수"""
-  negativeFeedbackCount: Int!
-
-  """거래 성사량 개수"""
-  offerCompleteCount: Int!
-}
-
-"""주민등록증"""
-type IdCardModel {
+"""공지사항 목록 조회 output - 공지사항"""
+type NoticeInFindManyNoticeOutput {
   """ID"""
   id: Int!
 
-  """이름"""
-  name: String!
+  """제목"""
+  title: String!
 
-  """주민등록번호"""
-  registrationNumber: String!
+  """내용"""
+  content: String!
 
-  """발급일"""
-  issueDate: String!
+  """생성일"""
+  createdAt: Date!
+
+  """조회수"""
+  hits: Int!
+
+  """작성한 관리자"""
+  admin: AdminModel
 }
 
-"""김치 프리미엄 마켓"""
-type KimchiMarketModel {
-  """코인 코드"""
-  code: String!
+"""공지사항 목록 조회 output"""
+type FindManyNoticeOutput {
+  """총 개수"""
+  totalCount: Int!
+
+  """공지사항 목록"""
+  notices: [NoticeInFindManyNoticeOutput!]!
+}
+
+"""채팅방 목록 - 참가한 채팅방 목록 조회 (회원) output"""
+type ChatRoomsByFindManyChatRoomByUserOutput {
+  """ID"""
+  id: Int!
+
+  """생성일"""
+  createdAt: Date!
+
+  """상대방 아이디"""
+  otherIdentity: String!
+
+  """오퍼 ID"""
+  offerId: Int!
+
+  """새 채팅 메세지 여부"""
+  isNewChatMessage: Boolean!
+
+  """안읽은 메세지 여부"""
+  isUnread: Boolean!
+}
+
+"""참가한 채팅방 목록 조회 (회원) output"""
+type FindManyChatRoomByUserOutput {
+  """총 개수"""
+  totalCount: Int!
+
+  """채팅방 목록"""
+  chatRooms: [ChatRoomsByFindManyChatRoomByUserOutput!]!
+}
+
+"""채팅 메세지 목록 - 채팅 메세지 목록 조회 (회원) output"""
+type ChatMessagesByFindManyChatMessageByUserOutput {
+  """ID"""
+  id: Int!
+
+  """메세지"""
+  message: String!
+
+  """생성일"""
+  createdAt: Date!
+
+  """보낸 회원 Identity"""
+  sender: String!
+
+  """읽음 여부"""
+  isUnread: Boolean!
+}
+
+"""채팅 메세지 목록 조회 (회원) output"""
+type FindManyChatMessageByUserOutput {
+  """총 개수"""
+  totalCount: Int!
+
+  """채팅 메세지 목록"""
+  chatMessages: [ChatMessagesByFindManyChatMessageByUserOutput!]!
+
+  """마지막 메세지 여부"""
+  isEnd: Boolean!
+}
+
+"""채팅 메세지 구독/발행 (회원) output"""
+type SubscribeChatMessageOutput {
+  """채팅 메세지"""
+  chatMessage: ChatMessageModel!
+
+  """총 개수"""
+  totalCount: Int!
+}
+
+"""대시보드 그래프 조회 (관리자) output"""
+type ObjectByFindDashboardByAdminOutput {
+  """수"""
+  count: Int!
+
+  """날짜"""
+  date: Date!
+}
+
+"""대시보드 그래프 조회 (관리자) output"""
+type FindDashboardByAdminOutput {
+  """회원"""
+  users: [ObjectByFindDashboardByAdminOutput!]!
+
+  """1:1문의"""
+  userInquiries: [ObjectByFindDashboardByAdminOutput!]!
+
+  """오퍼 생성"""
+  offers: [ObjectByFindDashboardByAdminOutput!]!
+}
+
+"""관리자 목록 조회 (관리자) output - 관리자"""
+type AdminByFindManyAdminOutput {
+  """이메일"""
+  email: String!
+
+  """생성일"""
+  createdAt: Date!
+
+  """권한명"""
+  role: Role!
+
+  """QR 등록 여부"""
+  isQr: Boolean!
+}
+
+"""관리자 목록 조회 (관리자) output"""
+type FindManyAdminOutput {
+  """총 개수"""
+  totalCount: Int!
+
+  """문의 목록"""
+  admins: [AdminByFindManyAdminOutput!]!
+}
+
+"""지역 목록 조회 output"""
+type FindManyCityOutput {
+  """ID"""
+  id: Int!
+
+  """지역명"""
+  name: String!
+
+  """행정구"""
+  districts: [DistrictModel!]!
+}
+
+"""Date custom scalar type"""
+scalar Date
 
 """BigInt custom scalar type"""
 scalar BigInt
@@ -623,38 +1032,293 @@ type Query {
   """내정보 조회 (회원)"""
   findMyInfoByUser: FindMyInfoOutput!
 
-  """변화 금액"""
-  changePrice: Float!
+  """회원 정보 조회 (회원)"""
+  findUserInfoByUser(
+    """아이디"""
+    identity: String!
+  ): FindUserInfoByUserOutput!
 
-  """변화율"""
-  changeRate: Float!
+  """회원 목록 조회 (관리자)"""
+  findManyUser(
+    """가져올 개수"""
+    take: Int!
+
+    """넘길 개수"""
+    skip: Int!
+
+    """검색어"""
+    searchText: String!
+  ): FindManyUserOutput!
+
+  """휴대폰 인증번호 발송 (180초)"""
+  sendPhoneAuthNumber(
+    """국가코드"""
+    countryCode: String!
+
+    """휴대전화"""
+    phone: String!
+  ): Boolean!
+
+  """휴대폰 인증번호 잔여시간 확인"""
+  checkRemainTimePhoneAuthNumber(
+    """국가코드"""
+    countryCode: String!
+
+    """휴대전화"""
+    phone: String!
+  ): Int!
+
+  """휴대폰 인증번호 확인"""
+  confirmPhoneAuthNumber(
+    """국가코드"""
+    countryCode: String!
+
+    """휴대전화"""
+    phone: String!
+
+    """인증번호"""
+    authNumber: String!
+
+    """아이디"""
+    identity: String
+  ): String!
+
+  """아이디 중복검사"""
+  checkDuplicateIdentity(
+    """아이디"""
+    identity: String!
+  ): Boolean!
+
+  """로그인 (회원)"""
+  signInByUser(
+    """아이디"""
+    identity: String!
+
+    """비밀번호"""
+    password: String!
+  ): TokenOutput!
+
+  """기존 비밀번호 유효성 검사 (회원)"""
+  verifyOriginPasswordByUser(
+    """비밀번호"""
+    password: String!
+  ): Boolean!
+
+  """아이디 찾기"""
+  findIdentity(
+    """해시값"""
+    hash: String!
+
+    """국가코드"""
+    countryCode: String!
+
+    """휴대전화"""
+    phone: String!
+  ): String!
+
+  """비밀번호 찾기"""
+  findPassword(
+    """아이디"""
+    identity: String!
+
+    """해시값"""
+    hash: String!
+
+    """휴대전화"""
+    phone: String!
+
+    """새 비밀번호"""
+    newPassword: String!
+  ): String!
+
+  """로그인 (관리자)"""
+  signInByAdmin(
+    """이메일"""
+    email: String!
+
+    """비밀번호"""
+    password: String!
+
+    """OTP 인증번호"""
+    code: String!
+  ): TokenOutput!
+
+  """내정보 조회 (관리자)"""
+  findMyInfoByAdmin: AdminModel!
+
+  """관리자 목록 조회 (관리자)"""
+  findManyAdmin(
+    """가져올 개수"""
+    take: Int!
+
+    """넘길 개수"""
+    skip: Int!
+
+    """검색어(관리자 이메일)"""
+    searchText: String!
+  ): FindManyAdminOutput!
+
+  """문의 상세 조회 (회원)"""
+  findOneUserInquiryByUser(
+    """문의 ID"""
+    id: Float!
+  ): UserInquiryModel!
+
+  """문의 목록 조회 (회원)"""
+  findManyUserInquiryByUser(
+    """가져올 개수"""
+    take: Int!
+
+    """넘길 개수"""
+    skip: Int!
+  ): FindManyUserInquiryByUserOutput!
+
+  """문의 목록 조회 (관리자)"""
+  findManyUserInquiryByAdmin(
+    """가져올 개수"""
+    take: Int!
+
+    """넘길 개수"""
+    skip: Int!
+
+    """검색어(회원명 또는 문의내용)"""
+    searchText: String!
+  ): FindManyUserInquiryByAdminOutput!
+
+  """약관 목록 조회"""
+  findManyPolicy(
+    """가져올 개수"""
+    take: Int!
+
+    """넘길 개수"""
+    skip: Int!
+
+    """검색어"""
+    searchText: String!
+  ): FindManyPolicyOutput!
+
+  """약관 상세 조회"""
+  findOnePolicy(
+    """약관 ID"""
+    id: Int
+
+    """약관 종류"""
+    policyKind: PolicyKind
+  ): PolicyModel!
+
+  """이메일 인증번호 발송 (회원)"""
+  sendMailAuthNumber(
+    """이메일"""
+    email: String!
+  ): Boolean!
+
+  """오퍼 목록 조회 (회원, 비회원)"""
+  findManyOffer(
+    """가져올 개수"""
+    take: Int!
+
+    """넘길 개수"""
+    skip: Int!
+
+    """암호화폐 종류"""
+    coinKind: CoinKind
+
+    """오퍼액션"""
+    offerAction: OfferAction
+
+    """아이디"""
+    identity: String
+
+    """채팅중인 오퍼만 조회"""
+    isChat: Boolean
+  ): FindManyOfferOutput!
+
+  """오퍼 상세 조회 (회원, 비회원)"""
+  findOneOffer(
+    """오퍼 ID"""
+    id: Int!
+  ): FindOneOfferOutput!
+
+  """공지사항 목록 조회"""
+  findManyNotice(
+    """가져올 개수"""
+    take: Int!
+
+    """넘길 개수"""
+    skip: Int!
+
+    """검색어"""
+    searchText: String
+
+    """검색 종류"""
+    searchKind: NoticeSearchKind
+  ): FindManyNoticeOutput!
+
+  """공지사항 상세 조회"""
+  findOneNotice(
+    """ID"""
+    id: Int!
+  ): NoticeModel!
+
+  """참가한 채팅방 목록 조회 (회원)"""
+  findManyChatRoomByUser(
+    """가져올 개수"""
+    take: Int!
+
+    """커서 ID"""
+    cursorId: Int
+
+    """오퍼 ID"""
+    offerId: Int
+  ): FindManyChatRoomByUserOutput!
+
+  """채팅 메세지 목록 조회 (회원)"""
+  findManyChatMessageByUser(
+    """가져올 개수"""
+    take: Int!
+
+    """커서 ID"""
+    cursorId: Int
+
+    """채팅방 ID"""
+    chatRoomId: Int!
+
+    """채팅 메세지 방향"""
+    direction: ChatMessageDirection! = PREV
+  ): FindManyChatMessageByUserOutput!
+
+  """대시보드 그래프 조회 (관리자)"""
+  findDashboardByAdmin: FindDashboardByAdminOutput!
+
+  """마켓 시세 목록 조회"""
+  findManyMarketPrice: MarketPriceModel!
+
+  """도시 목록 조회"""
+  findManyCity: [FindManyCityOutput!]!
+
+  """국가번호 목록 조회"""
+  findManyCountryCode: [CountryCodeModel!]!
+
+  """배너 목록 조회"""
+  findManyBanner: [BannerModel!]!
 }
 
-"""로그인 종류"""
-enum LoginKind {
-  """이메일"""
-  EMAIL
+"""검색 종류"""
+enum NoticeSearchKind {
+  """제목"""
+  title
 
-  """카카오"""
-  KAKAO
+  """내용"""
+  content
 }
 
-"""마켓 시세"""
-type MarketPriceModel {
-  """1 USDT 가격"""
-  usdt: UsdtModel!
+"""채팅 메세지 방향"""
+enum ChatMessageDirection {
+  """이전"""
+  PREV
 
-  """1 USD 가격"""
-  usd: UsdModel!
-
-  """업비트 마켓"""
-  upbitMarkets: [UpbitMarketModel!]!
-
-  """바이낸스 마켓"""
-  binanceMarkets: [BinanceMarketModel!]!
-
-  """김치 프리미엄 마켓"""
-  kimchiMarkets: [KimchiMarketModel!]!
+  """다음"""
+  NEXT
 }
 
 type Mutation {
@@ -1025,535 +1689,17 @@ type Mutation {
   ): BannerModel!
 }
 
-"""공지사항 목록 조회 output - 공지사항"""
-type NoticeInFindManyNoticeOutput {
-  """ID"""
-  id: Int!
+"""로그인 종류"""
+enum LoginKind {
+  """이메일"""
+  EMAIL
 
-  """제목"""
-  title: String!
-
-  """내용"""
-  content: String!
-
-  """생성일"""
-  createdAt: Date!
-
-  """조회수"""
-  hits: Int!
-
-  """작성한 관리자"""
-  admin: AdminModel
+  """카카오"""
+  KAKAO
 }
 
-"""공지사항"""
-type NoticeModel {
-  """ID"""
-  id: Int!
-
-  """제목"""
-  title: String!
-
-  """내용"""
-  content: String!
-
-  """생성일"""
-  createdAt: Date!
-
-  """조회수"""
-  hits: Int!
-}
-
-"""검색 종류"""
-enum NoticeSearchKind {
-  """제목"""
-  title
-
-  """내용"""
-  content
-}
-
-"""대시보드 그래프 조회 (관리자) output"""
-type ObjectByFindDashboardByAdminOutput {
-  """수"""
-  count: Int!
-
-  """날짜"""
-  date: Date!
-}
-
-"""오퍼액션"""
-enum OfferAction {
-  """판매"""
-  SELL
-
-  """구매"""
-  BUY
-}
-
-"""오퍼 - 오퍼 목록 조회 (회원) output"""
-type OfferByFindManyOfferOutput {
-  """ID"""
-  id: Int!
-
-  """암호화폐 종류"""
-  coinKind: CoinKind!
-
-  """오퍼액션"""
-  offerAction: OfferAction!
-
-  """거래방법"""
-  transactionMethod: TransactionMethod!
-
-  """가격"""
-  price: Int!
-
-  """최소 거래량"""
-  minAmount: Int!
-
-  """최대 거래량"""
-  maxAmount: Int!
-
-  """평균 응답 속도"""
-  responseSpeed: Int!
-
-  """오퍼 조건"""
-  content: String
-
-  """생성일"""
-  createdAt: Date!
-
-  """지갑주소 종류"""
-  walletAddressKind: WalletAddressKind!
-
-  """지갑주소"""
-  walletAddress: String!
-
-  """예약상태"""
-  reservationStatus: ReservationStatus!
-
-  """거래상태"""
-  transactionStatus: TransactionStatus!
-
-  """지역"""
-  city: CityModel!
-
-  """행정구"""
-  district: DistrictModel
-
-  """아이디"""
-  identity: String!
-
-  """긍정 피드백 수"""
-  positiveFeedbackCount: Int!
-
-  """거래 성사량 개수"""
-  offerCompleteCount: Int!
-
-  """새 채팅 메세지 여부"""
-  isNewChatMessage: Boolean!
-
-  """접속일"""
-  connectionDate: Date
-}
-
-"""오퍼"""
-type OfferModel {
-  """ID"""
-  id: Int!
-
-  """암호화폐 종류"""
-  coinKind: CoinKind!
-
-  """오퍼액션"""
-  offerAction: OfferAction!
-
-  """거래방법"""
-  transactionMethod: TransactionMethod!
-
-  """가격"""
-  price: Int!
-
-  """최소 거래량"""
-  minAmount: Int!
-
-  """최대 거래량"""
-  maxAmount: Int!
-
-  """평균 응답 속도"""
-  responseSpeed: Int!
-
-  """오퍼 조건"""
-  content: String
-
-  """생성일"""
-  createdAt: Date!
-
-  """지갑주소 종류"""
-  walletAddressKind: WalletAddressKind!
-
-  """지갑주소"""
-  walletAddress: String!
-
-  """예약상태"""
-  reservationStatus: ReservationStatus!
-
-  """거래상태"""
-  transactionStatus: TransactionStatus!
-}
-
-"""여권"""
-type PassportModel {
-  """ID"""
-  id: Int!
-
-  """이름"""
-  name: String!
-
-  """여권번호"""
-  passportNumber: String!
-
-  """발급일"""
-  issueDate: String!
-
-  """만료일"""
-  expirationDate: String!
-
-  """생년월일"""
-  birth: String!
-}
-
-"""약관 종류"""
-enum PolicyKind {
-  """이용약관"""
-  TERMS_AND_CONDITIONS
-
-  """개인정보처리방침"""
-  PERSONAL_INFORMATION_PROCESSING_POLICY
-}
-
-"""약관"""
-type PolicyModel {
-  """ID"""
-  id: Int!
-
-  """약관 종류"""
-  policyKind: PolicyKind!
-
-  """제목"""
-  title: String!
-
-  """내용"""
-  content: String!
-
-  """생성일"""
-  createdAt: Date!
-
-  """수정일"""
-  updatedAt: Date!
-}
-
-type Query {
-  """내정보 조회 (회원)"""
-  findMyInfoByUser: FindMyInfoOutput!
-
-  """회원 정보 조회 (회원)"""
-  findUserInfoByUser(
-    """아이디"""
-    identity: String!
-  ): FindUserInfoByUserOutput!
-
-  """회원 목록 조회 (관리자)"""
-  findManyUser(
-    """가져올 개수"""
-    take: Int!
-
-    """넘길 개수"""
-    skip: Int!
-
-    """검색어"""
-    searchText: String!
-  ): FindManyUserOutput!
-
-  """휴대폰 인증번호 발송 (180초)"""
-  sendPhoneAuthNumber(
-    """국가코드"""
-    countryCode: String!
-
-    """휴대전화"""
-    phone: String!
-  ): Boolean!
-
-  """휴대폰 인증번호 잔여시간 확인"""
-  checkRemainTimePhoneAuthNumber(
-    """국가코드"""
-    countryCode: String!
-
-    """휴대전화"""
-    phone: String!
-  ): Int!
-
-  """휴대폰 인증번호 확인"""
-  confirmPhoneAuthNumber(
-    """국가코드"""
-    countryCode: String!
-
-    """휴대전화"""
-    phone: String!
-
-    """인증번호"""
-    authNumber: String!
-
-    """아이디"""
-    identity: String
-  ): String!
-
-  """아이디 중복검사"""
-  checkDuplicateIdentity(
-    """아이디"""
-    identity: String!
-  ): Boolean!
-
-  """로그인 (회원)"""
-  signInByUser(
-    """아이디"""
-    identity: String!
-
-    """비밀번호"""
-    password: String!
-  ): TokenOutput!
-
-  """기존 비밀번호 유효성 검사 (회원)"""
-  verifyOriginPasswordByUser(
-    """비밀번호"""
-    password: String!
-  ): Boolean!
-
-  """아이디 찾기"""
-  findIdentity(
-    """해시값"""
-    hash: String!
-
-    """국가코드"""
-    countryCode: String!
-
-    """휴대전화"""
-    phone: String!
-  ): String!
-
-  """비밀번호 찾기"""
-  findPassword(
-    """아이디"""
-    identity: String!
-
-    """해시값"""
-    hash: String!
-
-    """휴대전화"""
-    phone: String!
-
-    """새 비밀번호"""
-    newPassword: String!
-  ): String!
-
-  """로그인 (관리자)"""
-  signInByAdmin(
-    """이메일"""
-    email: String!
-
-    """비밀번호"""
-    password: String!
-
-    """OTP 인증번호"""
-    code: String!
-  ): TokenOutput!
-
-  """내정보 조회 (관리자)"""
-  findMyInfoByAdmin: AdminModel!
-
-  """관리자 목록 조회 (관리자)"""
-  findManyAdmin(
-    """가져올 개수"""
-    take: Int!
-
-    """넘길 개수"""
-    skip: Int!
-
-    """검색어(관리자 이메일)"""
-    searchText: String!
-  ): FindManyAdminOutput!
-
-  """문의 상세 조회 (회원)"""
-  findOneUserInquiryByUser(
-    """문의 ID"""
-    id: Float!
-  ): UserInquiryModel!
-
-  """문의 목록 조회 (회원)"""
-  findManyUserInquiryByUser(
-    """가져올 개수"""
-    take: Int!
-
-    """넘길 개수"""
-    skip: Int!
-  ): FindManyUserInquiryByUserOutput!
-
-  """문의 목록 조회 (관리자)"""
-  findManyUserInquiryByAdmin(
-    """가져올 개수"""
-    take: Int!
-
-    """넘길 개수"""
-    skip: Int!
-
-    """검색어(회원명 또는 문의내용)"""
-    searchText: String!
-  ): FindManyUserInquiryByAdminOutput!
-
-  """약관 목록 조회"""
-  findManyPolicy(
-    """가져올 개수"""
-    take: Int!
-
-    """넘길 개수"""
-    skip: Int!
-
-    """검색어"""
-    searchText: String!
-  ): FindManyPolicyOutput!
-
-  """약관 상세 조회"""
-  findOnePolicy(
-    """약관 ID"""
-    id: Int
-
-    """약관 종류"""
-    policyKind: PolicyKind
-  ): PolicyModel!
-
-  """이메일 인증번호 발송 (회원)"""
-  sendMailAuthNumber(
-    """이메일"""
-    email: String!
-  ): Boolean!
-
-  """오퍼 목록 조회 (회원, 비회원)"""
-  findManyOffer(
-    """가져올 개수"""
-    take: Int!
-
-    """넘길 개수"""
-    skip: Int!
-
-    """암호화폐 종류"""
-    coinKind: CoinKind
-
-    """오퍼액션"""
-    offerAction: OfferAction
-
-    """아이디"""
-    identity: String
-
-    """채팅중인 오퍼만 조회"""
-    isChat: Boolean
-  ): FindManyOfferOutput!
-
-  """오퍼 상세 조회 (회원, 비회원)"""
-  findOneOffer(
-    """오퍼 ID"""
-    id: Int!
-  ): FindOneOfferOutput!
-
-  """공지사항 목록 조회"""
-  findManyNotice(
-    """가져올 개수"""
-    take: Int!
-
-    """넘길 개수"""
-    skip: Int!
-
-    """검색어"""
-    searchText: String
-
-    """검색 종류"""
-    searchKind: NoticeSearchKind
-  ): FindManyNoticeOutput!
-
-  """공지사항 상세 조회"""
-  findOneNotice(
-    """ID"""
-    id: Int!
-  ): NoticeModel!
-
-  """참가한 채팅방 목록 조회 (회원)"""
-  findManyChatRoomByUser(
-    """가져올 개수"""
-    take: Int!
-
-    """커서 ID"""
-    cursorId: Int
-
-    """오퍼 ID"""
-    offerId: Int
-  ): FindManyChatRoomByUserOutput!
-
-  """채팅 메세지 목록 조회 (회원)"""
-  findManyChatMessageByUser(
-    """가져올 개수"""
-    take: Int!
-
-    """커서 ID"""
-    cursorId: Int
-
-    """채팅방 ID"""
-    chatRoomId: Int!
-
-    """채팅 메세지 방향"""
-    direction: ChatMessageDirection! = PREV
-  ): FindManyChatMessageByUserOutput!
-
-  """대시보드 그래프 조회 (관리자)"""
-  findDashboardByAdmin: FindDashboardByAdminOutput!
-
-  """마켓 시세 목록 조회"""
-  findManyMarketPrice: MarketPriceModel!
-
-  """도시 목록 조회"""
-  findManyCity: [FindManyCityOutput!]!
-
-  """국가번호 목록 조회"""
-  findManyCountryCode: [CountryCodeModel!]!
-
-  """배너 목록 조회"""
-  findManyBanner: [BannerModel!]!
-}
-
-"""예약상태"""
-enum ReservationStatus {
-  """기본값"""
-  NONE
-
-  """진행중"""
-  PROGRESS
-}
-
-"""권한명"""
-enum Role {
-  """회원"""
-  USER
-
-  """관리자"""
-  ADMIN
-}
-
-"""채팅 메세지 구독/발행 (회원) output"""
-type SubscribeChatMessageOutput {
-  """채팅 메세지"""
-  chatMessage: ChatMessageModel!
-
-  """총 개수"""
-  totalCount: Int!
-}
+"""The `Upload` scalar type represents a file upload."""
+scalar Upload
 
 type Subscription {
   """1:1문의 개수 구독 (관리자)"""
@@ -1564,190 +1710,4 @@ type Subscription {
     """채팅방 ID"""
     chatRoomId: Int!
   ): SubscribeChatMessageOutput!
-}
-
-"""인증 토큰 output"""
-type TokenOutput {
-  """Access Token"""
-  accessToken: String!
-
-  """Refresh Token"""
-  refreshToken: String!
-}
-
-"""거래방법"""
-enum TransactionMethod {
-  """직접"""
-  DIRECT
-}
-
-"""거래상태"""
-enum TransactionStatus {
-  """진행중"""
-  PROGRESS
-
-  """완료"""
-  COMPLETE
-}
-
-"""업비트 마켓"""
-type UpbitMarketModel {
-  """코인 코드"""
-  code: String!
-
-  """타임스탬프"""
-  timestamp: String!
-
-  """원화 가격"""
-  krwPrice: Float!
-
-  """달러 가격"""
-  usdPrice: Float!
-}
-
-"""The `Upload` scalar type represents a file upload."""
-scalar Upload
-
-"""1 USD 가격"""
-type UsdModel {
-  """타임스탬프"""
-  timestamp: String!
-
-  """원화 가격"""
-  krwPrice: Float!
-
-  """달러 가격"""
-  usdPrice: Float!
-
-  """변화율"""
-  changeRate: Float!
-}
-
-"""1 USDT 가격"""
-type UsdtModel {
-  """타임스탬프"""
-  timestamp: String!
-
-  """원화 가격"""
-  krwPrice: Float!
-
-  """달러 가격"""
-  usdPrice: Float!
-
-  """변화율"""
-  changeRate: Float!
-}
-
-"""회원 목록 조회 output - 회원"""
-type UserByFindManyUserOutput {
-  """아이디"""
-  identity: String!
-
-  """생성일"""
-  createdAt: Date!
-
-  """지갑주소 종류"""
-  walletAddressKind: WalletAddressKind
-
-  """지갑주소"""
-  walletAddress: String
-
-  """레벨"""
-  level: Int!
-
-  """접속일"""
-  connectionDate: Date
-
-  """국가코드"""
-  countryCode: String!
-
-  """휴대폰"""
-  phone: String!
-
-  """이메일 인증"""
-  emailAuth: EmailAuthModel
-}
-
-"""1:1 문의 목록 조회 (관리자) output - 1:1 문의"""
-type UserInquiryInFindManyUserInquiryByAdminOutput {
-  """ID"""
-  id: Int!
-
-  """제목"""
-  title: String!
-
-  """내용"""
-  content: String!
-
-  """답변"""
-  reply: String
-
-  """답변일"""
-  repliedAt: Date
-
-  """생성일"""
-  createdAt: Date!
-
-  """답변한 관리자"""
-  admin: AdminModel
-
-  """회원 아이디"""
-  userIdentity: String!
-}
-
-"""1:1문의"""
-type UserInquiryModel {
-  """ID"""
-  id: Int!
-
-  """제목"""
-  title: String!
-
-  """내용"""
-  content: String!
-
-  """답변"""
-  reply: String
-
-  """답변일"""
-  repliedAt: Date
-
-  """생성일"""
-  createdAt: Date!
-}
-
-"""회원"""
-type UserModel {
-  """아이디"""
-  identity: String!
-
-  """생성일"""
-  createdAt: Date!
-
-  """지갑주소 종류"""
-  walletAddressKind: WalletAddressKind
-
-  """지갑주소"""
-  walletAddress: String
-
-  """레벨"""
-  level: Int!
-
-  """접속일"""
-  connectionDate: Date
-
-  """국가코드"""
-  countryCode: String!
-
-  """휴대폰"""
-  phone: String!
-}
-
-"""지갑주소 종류"""
-enum WalletAddressKind {
-  """아임토큰"""
-  IM_TOKEN
-
-  """메타마스크"""
-  META_MASK
 }

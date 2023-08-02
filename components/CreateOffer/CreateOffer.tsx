@@ -477,7 +477,7 @@ export default function CreateOffer() {
           </div>
           <div
             className={cx("wallet_content")}
-            onClick={() => window.open("/notice")}
+            onClick={() => router.push("/notice/4")}
           >
             아직 지갑주소가 없으신가요?
           </div>
