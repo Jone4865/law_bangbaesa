@@ -44,7 +44,7 @@ export default function NoticeDetail() {
         <div
           className={cx("content")}
           dangerouslySetInnerHTML={{ __html: detailData?.content || "" }}
-        ></div>
+        />
         <div className={cx("btn_wrap")}>
           <div className={cx("btn")} onClick={() => router.push("/notice")}>
             목록

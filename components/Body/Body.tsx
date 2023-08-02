@@ -114,10 +114,7 @@ export default function Body() {
       <div className={cx("OTC_top")}>
         <div className={cx("OTC_top_wrap")}>
           <span>P2P</span>
-          <div
-            className={cx("pointer")}
-            onClick={() => router.push("/p2p/buy")}
-          >
+          <div className={cx("pointer")} onClick={() => router.push("/p2p")}>
             P2P 더보기 {">"}
           </div>
         </div>
@@ -131,13 +128,17 @@ export default function Body() {
                 <div className={cx("non_pc")}>
                   <div
                     onClick={() => setKind(OfferAction.Sell)}
-                    className={cx(kind === "SELL" ? "able_sell" : "default")}
+                    className={cx(
+                      kind === OfferAction.Sell ? "able_sell" : "default"
+                    )}
                   >
                     팝니다
                   </div>
                   <div
                     onClick={() => setKind(OfferAction.Buy)}
-                    className={cx(kind === "BUY" ? "able_buy" : "default")}
+                    className={cx(
+                      kind === OfferAction.Buy ? "able_buy" : "default"
+                    )}
                   >
                     삽니다
                   </div>
