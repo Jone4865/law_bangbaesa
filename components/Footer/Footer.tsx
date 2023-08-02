@@ -23,10 +23,10 @@ export default function Footer() {
               </div>
               <div className={cx("content_wrap")}>
                 <span className={cx("content")}>
-                  각 분야별 전문가들이 서비스 운영과 마케팅 홍보를 대행해&nbsp;
+                  방배사는 기업을 대상으로 한 상품권 판매 온라인 광고에 &nbsp;
                 </span>
                 <span className={cx("content")}>
-                  IT 서비스의 운영을 컨설팅합니다.
+                  최적화된 통합마케팅 서비스를 제공합니다.
                 </span>
               </div>
             </div>

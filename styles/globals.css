@@ -92,6 +92,10 @@
     height: 0;
   }
   scrollbar-width: none;
+
+  .ql-align-center {
+    margin: 0 auto;
+  }
 }
 
 input {

@@ -33,12 +33,13 @@
 }
 
 .content {
-  text-align: center;
   font-size: 18px;
-  color: #333;
   margin-bottom: 30px;
   line-height: 2.5;
   letter-spacing: normal;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
   @include view("mobile") {
     font-size: 16px;
   }
@@ -64,4 +65,8 @@
     width: 100%;
     font-size: 18px;
   }
+}
+
+.url {
+  color: blue;
 }
