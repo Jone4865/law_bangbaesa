@@ -2,6 +2,12 @@
 
 .container {
   position: relative;
+  @include view("very_small") {
+    padding: 0 20px;
+  }
+  @include view("mobile") {
+    padding: 0 20px;
+  }
 }
 
 .my_top_wrap {
@@ -25,12 +31,10 @@
   @include view("very_small") {
     flex-direction: column;
     margin: 0;
-    padding: 0 20px;
   }
   @include view("mobile") {
     flex-direction: column;
     margin: 0;
-    padding: 0 20px;
   }
 }
 
