@@ -684,6 +684,9 @@ type FindMyInfoOutput {
 
   """부정적 피드백 개수"""
   negativeFeedbackCount: Int!
+
+  """거래 성사량 개수"""
+  offerCompleteCount: Int!
 }
 
 """회원 정보 조회 (회원)"""
@@ -858,6 +861,9 @@ type FindOneOfferOutput {
 
   """거래 성사량 개수"""
   offerCompleteCount: Int!
+
+  """접속일"""
+  connectionDate: Date
 }
 
 """공지사항 목록 조회 output - 공지사항"""
@@ -1018,6 +1024,9 @@ type FindManyCityOutput {
 
 """Date custom scalar type"""
 scalar Date
+
+"""BigInt custom scalar type"""
+scalar BigInt
 
 type Query {
   """내정보 조회 (회원)"""

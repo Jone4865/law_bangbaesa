@@ -94,21 +94,24 @@ export default function DriverLicense() {
       <input
         className={cx("input")}
         placeholder="19920116"
-        value={birthDay}
+        value={birthDay.replace("-", "")}
+        type="number"
         onChange={(e) => setBirthDay(e.target.value)}
       />
       <div className={cx("title")}>지역코드 앞 두자리 또는 지역명</div>
       <input
+        type="number"
         className={cx("input")}
         placeholder="11 또는 서울"
-        value={code}
+        value={code.replace("-", "")}
         onChange={(e) => setCode(e.target.value)}
       />
       <div className={cx("title")}>운전면허 번호 (10자리)</div>
       <input
+        type="number"
         className={cx("input")}
         placeholder="1234567891"
-        value={licenseNumber}
+        value={licenseNumber.replace("-", "")}
         onChange={(e) => setLicenseNumber(e.target.value)}
       />
       <div className={cx("title")}>암호일련번호</div>

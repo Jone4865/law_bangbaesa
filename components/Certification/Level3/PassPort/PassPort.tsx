@@ -97,7 +97,8 @@ export default function PassPort() {
       <input
         className={cx("input")}
         placeholder="20100110"
-        value={birth}
+        type="number"
+        value={birth.replace("-", "")}
         onChange={(e) => setBirth(e.target.value)}
       />
       <div className={cx("title")}>여권번호</div>
@@ -111,14 +112,16 @@ export default function PassPort() {
       <input
         className={cx("input")}
         placeholder="20050203"
-        value={createDate}
+        type="number"
+        value={createDate.replace("-", "")}
         onChange={(e) => setCreatDate(e.target.value)}
       />
       <div className={cx("title")}>기간만료일</div>
       <input
         className={cx("input")}
         placeholder="20050203"
-        value={endDate}
+        type="number"
+        value={endDate.replace("-", "")}
         onChange={(e) => setEndDate(e.target.value)}
       />
       <div className={cx("title")}>KYC</div>

@@ -44,7 +44,20 @@
   border-radius: 5px;
   padding: 20px;
   font-size: 16px;
-  border: solid 1px #dcdcdc;
+  height: 113px;
+  @include view("small") {
+    font-size: 14px;
+  }
+  @include view("very_small") {
+    font-size: 16px;
+    height: 164px;
+  }
+  @include view("mobile") {
+    height: 164px;
+  }
+  @include view("mobile_small") {
+    height: 184px;
+  }
 }
 
 .map_container {
@@ -421,14 +434,14 @@
 }
 
 .my_offer_wrap {
+  background-color: #fff;
+  border-top: solid 1px #dcdcdc;
   width: 100%;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   font-size: 14px;
   color: #333;
   height: 47px;
-  background-color: #fff;
-  border-top: solid 1px #dcdcdc;
   border-radius: 0 0 5px 5px;
   margin-top: -30px;
   @include view("very_small") {
@@ -449,18 +462,28 @@
 }
 
 .disable {
+  background-color: rgb(190, 182, 182);
   width: 100%;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   font-size: 14px;
   color: #333;
   height: 47px;
-  background-color: rgb(190, 182, 182);
+  border-radius: 0 0 5px 5px;
+  margin-top: -30px;
   border: solid 1px #dcdcdc;
-  margin-top: -5px;
-  @include view("mobile") {
+  @include view("very_small") {
+    margin-top: 0;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+  @include view("mobile") {
+    margin-top: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    grid-template-columns: 1.5fr 1fr 1fr 1fr 1fr;
+    white-space: nowrap;
+    font-size: 12px;
   }
 }
 
@@ -535,6 +558,9 @@
   margin-top: 8px;
   margin-left: 4px;
   position: absolute;
+  @include view("mobile_small") {
+    margin-left: 0;
+  }
 }
 
 .pointer {
@@ -942,4 +968,8 @@
   @include view("mobile") {
     display: none;
   }
+}
+
+.distric_text {
+  margin-left: 5px;
 }
