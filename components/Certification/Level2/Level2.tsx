@@ -91,7 +91,10 @@ export default function Level2() {
   return (
     <div className={cx("container")}>
       <div className={cx("wrap")}>
-        <CertificationStateBar path={router.pathname} />
+        <CertificationStateBar
+          path={router.pathname}
+          isReady={router.isReady}
+        />
         <div>
           <div className={cx("title")}>이메일</div>
           <form onSubmit={onSendMailHandle} className="flex">

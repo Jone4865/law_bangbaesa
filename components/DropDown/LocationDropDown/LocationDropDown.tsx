@@ -58,7 +58,7 @@ const LocationDropDown = ({
     if (defaultValue) {
       setSelectedOption(defaultValue);
     }
-  }, [data]);
+  }, [data, defaultValue]);
 
   return (
     <div className={cx("container")}>

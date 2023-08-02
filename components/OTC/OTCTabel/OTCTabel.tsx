@@ -28,7 +28,7 @@ type Props = {
   offerId: number | undefined;
   nowAble: string;
   data: FindManyOfferQuery["findManyOffer"]["offers"];
-  kind: OfferAction.Sell | OfferAction.Buy | undefined;
+  kind?: OfferAction;
   coin: string;
   part: "home" | "otc" | "mypage" | "user";
   isChat: boolean;
@@ -170,6 +170,7 @@ export default function OTCTabel({
       onScrollHandle();
     }
   }, [nextView]);
+
   return (
     <div className={cx("container")}>
       <div className={cx("wrap")}>
@@ -390,7 +391,9 @@ export default function OTCTabel({
                             v.reservationStatus === ReservationStatus.Progress
                           }
                           className={cx(
-                            kind === "BUY" ? "chat_orange" : "chat_blue"
+                            kind === OfferAction.Buy
+                              ? "chat_orange"
+                              : "chat_blue"
                           )}
                           onClick={() => enterChatHandle(v.id, v.identity)}
                         >

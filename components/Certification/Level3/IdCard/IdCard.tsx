@@ -62,7 +62,7 @@ export default function IdCard() {
       onError: (e) => toast.error(e.message ?? `${e}`),
       onCompleted(_data) {
         toast.success("신분증 인증이 완료되었습니다.");
-        router.push("/mypage");
+        router.push("/certification/level2");
       },
     }
   );

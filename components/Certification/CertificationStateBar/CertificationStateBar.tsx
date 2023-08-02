@@ -12,9 +12,10 @@ const cx = className.bind(styles);
 
 type Props = {
   path: string;
+  isReady?: boolean;
 };
 
-export default function CertificationStateBar({ path }: Props) {
+export default function CertificationStateBar({ path, isReady }: Props) {
   const arrs = ["휴대폰 인증", "이메일 인증", "신분증 인증"];
 
   const [level, setLevel] = useState(1);
@@ -25,13 +26,19 @@ export default function CertificationStateBar({ path }: Props) {
       onError: (e) => toast.error(e.message ?? `${e}`),
       onCompleted(data) {
         setLevel(data.findMyInfoByUser.level);
+        console.log(data.findMyInfoByUser.level);
       },
+      fetchPolicy: "no-cache",
     }
   );
 
   useEffect(() => {
     findMyInfoByUser();
-  }, [path]);
+  }, [path, findMyInfoByUser, isReady]);
+
+  useEffect(() => {
+    console.log(level);
+  }, [level]);
 
   return (
     <div className={cx("container")}>
