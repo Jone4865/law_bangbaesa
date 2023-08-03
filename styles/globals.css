@@ -187,13 +187,13 @@ a {
 
 .slick-arrow.slick-next {
   position: absolute !important;
-  right: 80px;
+  right: 4vw;
   width: 80px;
   height: 80px;
 }
 .slick-arrow.slick-prev {
   position: absolute !important;
-  left: 80px;
+  left: 4vw;
   width: 80px;
   height: 80px;
   z-index: 1;

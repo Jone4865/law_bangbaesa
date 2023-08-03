@@ -37,6 +37,7 @@ const documents = {
     "\n  query checkDuplicateIdentity($identity: String!) {\n    checkDuplicateIdentity(identity: $identity)\n  }\n": types.CheckDuplicateIdentityDocument,
     "\n  query confirmPhoneAuthNumber(\n    $countryCode: String!\n    $phone: String!\n    $authNumber: String!\n    $identity: String\n  ) {\n    confirmPhoneAuthNumber(\n      countryCode: $countryCode\n      phone: $phone\n      authNumber: $authNumber\n      identity: $identity\n    )\n  }\n": types.ConfirmPhoneAuthNumberDocument,
     "\n  query findIdentity($hash: String!, $countryCode: String!, $phone: String!) {\n    findIdentity(hash: $hash, countryCode: $countryCode, phone: $phone)\n  }\n": types.FindIdentityDocument,
+    "\n  query findManyBanner {\n    findManyBanner {\n      id\n      index\n      pcFileName\n      mobileFileName\n      arrowColor\n      dotColor\n      path\n      createdAt\n    }\n  }\n": types.FindManyBannerDocument,
     "\n  query findManyChatMessageByUser(\n    $take: Int!\n    $chatRoomId: Int!\n    $cursorId: Int\n    $direction: ChatMessageDirection\n  ) {\n    findManyChatMessageByUser(\n      take: $take\n      chatRoomId: $chatRoomId\n      cursorId: $cursorId\n      direction: $direction\n    ) {\n      totalCount\n      chatMessages {\n        id\n        message\n        createdAt\n        sender\n        isUnread\n      }\n      isEnd\n    }\n  }\n": types.FindManyChatMessageByUserDocument,
     "\n  query FindManyChatRoomByUser($take: Int!, $cursorId: Int, $offerId: Int) {\n    findManyChatRoomByUser(\n      take: $take\n      cursorId: $cursorId\n      offerId: $offerId\n    ) {\n      totalCount\n      chatRooms {\n        id\n        createdAt\n        otherIdentity\n        offerId\n        isNewChatMessage\n        isUnread\n      }\n    }\n  }\n": types.FindManyChatRoomByUserDocument,
     "\n  query findManyCity {\n    findManyCity {\n      id\n      name\n      districts {\n        id\n        name\n      }\n    }\n  }\n": types.FindManyCityDocument,
@@ -156,6 +157,10 @@ export function gql(source: "\n  query confirmPhoneAuthNumber(\n    $countryCode
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "\n  query findIdentity($hash: String!, $countryCode: String!, $phone: String!) {\n    findIdentity(hash: $hash, countryCode: $countryCode, phone: $phone)\n  }\n"): (typeof documents)["\n  query findIdentity($hash: String!, $countryCode: String!, $phone: String!) {\n    findIdentity(hash: $hash, countryCode: $countryCode, phone: $phone)\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  query findManyBanner {\n    findManyBanner {\n      id\n      index\n      pcFileName\n      mobileFileName\n      arrowColor\n      dotColor\n      path\n      createdAt\n    }\n  }\n"): (typeof documents)["\n  query findManyBanner {\n    findManyBanner {\n      id\n      index\n      pcFileName\n      mobileFileName\n      arrowColor\n      dotColor\n      path\n      createdAt\n    }\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

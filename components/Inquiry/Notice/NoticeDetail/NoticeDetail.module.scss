@@ -1,5 +1,11 @@
 @import "public/scss/style.scss";
 
+.container {
+  *img {
+    width: 100%;
+  }
+}
+
 .title {
   font-size: 30px;
   color: #333;
@@ -35,7 +41,7 @@
 .content {
   font-size: 18px;
   margin-bottom: 30px;
-  line-height: 2.5;
+  line-height: 1.5;
   letter-spacing: normal;
   display: flex;
   flex-direction: column;

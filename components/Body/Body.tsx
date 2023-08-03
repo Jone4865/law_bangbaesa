@@ -10,22 +10,19 @@ import styles from "./Body.module.scss";
 
 import className from "classnames/bind";
 import { useRouter } from "next/router";
-import { CoinKind, OfferAction } from "src/graphql/generated/graphql";
+import {
+  CoinKind,
+  FindManyBannerQuery,
+  OfferAction,
+} from "src/graphql/generated/graphql";
 import CarouselPart from "components/CarouselPart/CarouselPart";
 import MarketPrice from "components/MarketPrice/MarketPrice";
 import Image from "next/image";
+import { useLazyQuery } from "@apollo/client";
+import { FIND_MANY_BANNER } from "src/graphql/query/findManyBanner";
+import { toast } from "react-toastify";
 
 const cx = className.bind(styles);
-
-type CarouselData = {
-  id: number;
-  name: string;
-  moveTo: string | undefined;
-  arrowColor: string | undefined;
-  dotsColor: string | undefined;
-  backGroundColor: string | undefined;
-  alt: string;
-};
 
 export default function Body() {
   const router = useRouter();
@@ -44,35 +41,9 @@ export default function Body() {
     query: "(min-width: 1300px) and (max-width: 10000px)",
   });
 
-  const [carouselData, setCarouselData] = useState<CarouselData[]>([
-    {
-      id: 0,
-      moveTo: undefined,
-      name: "banner1",
-      alt: "1",
-      arrowColor: "none",
-      dotsColor: "#ff7401",
-      backGroundColor: "#f5f5f5",
-    },
-    {
-      id: 1,
-      moveTo: "/notice/4",
-      name: "banner2",
-      alt: "2",
-      arrowColor: "none",
-      dotsColor: "#ff7401",
-      backGroundColor: "#f5f5f5",
-    },
-    {
-      id: 2,
-      moveTo: "/notice/5",
-      name: "banner3",
-      alt: "3",
-      arrowColor: "none",
-      dotsColor: "#ff7401",
-      backGroundColor: "#f5f5f5",
-    },
-  ]);
+  const [carouselData, setCarouselData] = useState<
+    FindManyBannerQuery["findManyBanner"]
+  >([]);
 
   const titles = [
     <>상품권 시세</>,
@@ -97,7 +68,21 @@ export default function Body() {
     </>,
   ];
 
+  const [findManyBanner] = useLazyQuery<FindManyBannerQuery>(FIND_MANY_BANNER, {
+    onError: (e) => toast.error(e.message ?? `${e}`),
+    onCompleted(data) {
+      const modifiedData = data.findManyBanner.map((item) => ({
+        ...item,
+        pcFileName: `${process.env.NEXT_PUBLIC_IMG_URL}/banner/${item.pcFileName}`,
+        mobileFileName: `${process.env.NEXT_PUBLIC_IMG_URL}/banner/${item.mobileFileName}`,
+      }));
+      setCarouselData(modifiedData);
+    },
+    fetchPolicy: "no-cache",
+  });
+
   useEffect(() => {
+    findManyBanner();
     if (isMiddle) {
       setMiddle(true);
       setKind(OfferAction.Sell);
@@ -109,7 +94,7 @@ export default function Body() {
 
   return (
     <div className={cx("container")}>
-      <CarouselPart carouselData={carouselData} />
+      {carouselData && <CarouselPart carouselData={carouselData} />}
       <MarketPrice />
       <div className={cx("OTC_top")}>
         <div className={cx("OTC_top_wrap")}>

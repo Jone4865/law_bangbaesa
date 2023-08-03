@@ -517,14 +517,20 @@ type BannerModel {
   """순서"""
   index: Int!
 
-  """파일명"""
-  fileName: String!
+  """PC 파일명"""
+  pcFileName: String!
+
+  """모바일 파일명"""
+  mobileFileName: String!
 
   """화살표 색상"""
   arrowColor: String!
 
   """점 색상"""
   dotColor: String!
+
+  """배너 경로"""
+  path: String
 
   """생성일"""
   createdAt: Date!
@@ -1601,6 +1607,12 @@ type Mutation {
     content: String!
   ): NoticeModel!
 
+  """약관 첨부파일 업로드 (관리자)"""
+  uploadNoticeFile(
+    """공지사항 첨부파일"""
+    file: Upload!
+  ): String!
+
   """공지사항 수정 (관리자)"""
   updateNotice(
     """공지사항 ID"""
@@ -1660,11 +1672,17 @@ type Mutation {
     """점 색상"""
     dotColor: String!
 
-    """배너 파일"""
-    file: Upload!
+    """PC 배너 파일"""
+    pcFile: Upload!
+
+    """모바일 배너 파일"""
+    mobileFile: Upload!
 
     """순서"""
     index: Int!
+
+    """배너 경로"""
+    path: String
   ): BannerModel!
 
   """배너 수정 (관리자)"""
@@ -1680,6 +1698,15 @@ type Mutation {
 
     """순서"""
     index: Int
+
+    """배너 경로"""
+    path: String
+
+    """PC 배너 파일"""
+    pcFile: Upload
+
+    """모바일 배너 파일"""
+    mobileFile: Upload
   ): BannerModel!
 
   """배너 삭제 (관리자)"""

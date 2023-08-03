@@ -8,22 +8,12 @@ import styles from "./CarouselPart.module.scss";
 import { useRouter } from "next/router";
 import { useMediaQuery } from "react-responsive";
 import { AutoHeightImage } from "components/AutoHeightImage";
-import Image from "next/image";
+import { FindManyBannerQuery } from "src/graphql/generated/graphql";
 
 const cx = className.bind(styles);
 
-type CarouselData = {
-  id: number;
-  name: string;
-  moveTo: string | undefined;
-  arrowColor: string | undefined;
-  dotsColor: string | undefined;
-  alt: string;
-  backGroundColor: string | undefined;
-};
-
 type Props = {
-  carouselData: CarouselData[];
+  carouselData: FindManyBannerQuery["findManyBanner"];
 };
 
 const CarouselPart = ({ carouselData }: Props) => {
@@ -69,18 +59,8 @@ const CarouselPart = ({ carouselData }: Props) => {
   }, [isMobile]);
 
   return (
-    <div
-      style={{
-        backgroundColor: `${
-          carouselData[currentDataIdx]?.backGroundColor
-            ? carouselData[currentDataIdx]?.backGroundColor
-            : "black"
-        }`,
-      }}
-      className={cx("container")}
-    >
+    <div className={cx("container")}>
       <Slider
-        className={cx("wrap")}
         {...settings}
         ref={sliderRef}
         nextArrow={
@@ -106,13 +86,13 @@ const CarouselPart = ({ carouselData }: Props) => {
       >
         {carouselData.map((v, idx) => (
           <div
-            onClick={() => !dragging && v.moveTo && router.push(`/${v.moveTo}`)}
+            onClick={() => !dragging && v.path && router.push(`/${v.path}`)}
             key={idx}
-            className={cx("img_wrap", v.moveTo && "pointer")}
+            className={cx("img_wrap", v.path && "pointer")}
           >
             <AutoHeightImage
-              src={`/img/banner/${!mobile ? v.name : v.name + "_m"}.png`}
-              alt={v.alt}
+              src={!isMobile ? v.pcFileName : v.mobileFileName}
+              alt={v.pcFileName}
               objectFit="contain"
               className={cx("inner_img")}
             />
@@ -123,11 +103,11 @@ const CarouselPart = ({ carouselData }: Props) => {
       <div className={cx("dots")}>
         {carouselData.map((v, idx) => (
           <div
-            key={v.alt}
+            key={v.pcFileName}
             style={{
               backgroundColor: `${
-                carouselData[currentDataIdx]?.dotsColor
-                  ? carouselData[currentDataIdx]?.dotsColor
+                carouselData[currentDataIdx]?.dotColor
+                  ? carouselData[currentDataIdx]?.dotColor
                   : "black"
               }`,
             }}
