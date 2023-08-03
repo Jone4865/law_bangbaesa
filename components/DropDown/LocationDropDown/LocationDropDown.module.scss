@@ -1,0 +1,80 @@
+@import "public/scss/style.scss";
+
+.container {
+  width: 100%;
+  cursor: pointer;
+  position: relative;
+  white-space: nowrap;
+  margin-right: 10px;
+  font-size: 18px;
+  @include view("mobile") {
+    font-size: 16px;
+  }
+}
+
+.btn_wrap {
+  height: 50px;
+  border-radius: 10px;
+  border: solid 1px #dcdcdc;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+}
+
+.text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  column-gap: 15px;
+}
+
+.btn {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.menu {
+  position: absolute;
+  padding: 5px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: #fff;
+  z-index: 2;
+  margin-top: -1px;
+  border: solid 1px #dcdcdc;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  row-gap: 10px;
+  max-height: 300px;
+}
+
+.menu_body {
+  width: 100%;
+  margin-top: 5px;
+  display: flex;
+  align-items: center;
+  column-gap: 15px;
+}
+
+.img_wrap {
+  position: relative;
+  width: 16.7px;
+  height: 9.9px;
+}
+
+.arrow_rotate {
+  rotate: 180deg;
+  position: relative;
+  width: 16.7px;
+  height: 9.9px;
+}
+
+.gray {
+  color: #c7c7c7;
+}

@@ -153,7 +153,6 @@ export default function OTCTabel({
     FIND_MY_INFO_BY_USER,
     {
       onError: (e) => toast.error(e.message ?? `${e}`),
-      fetchPolicy: "no-cache",
     }
   );
 
@@ -190,13 +189,15 @@ export default function OTCTabel({
             part === "otc" ? "top" : part === "home" ? "home_top" : "none"
           )}
         >
+          {part === "otc" && <div>코인</div>}
           <div className={cx("seller")}>
             {kind === "BUY" ? "구매자" : "판매자"}
           </div>
-          <div>거래수단</div>
-          <div>Min/Max</div>
-          <div>평균 응답 속도</div>
-          <div className={cx("price")}>{coin}당 가격</div>
+          {part === "otc" && <div>거래성사량</div>}
+          <div className={cx("location")}>거래장소</div>
+          <div className={cx(part === "home" && "min_and_max")}>Min/Max</div>
+          {part === "otc" && <div>평균응답속도</div>}
+          <div className={cx("price")}>가격</div>
         </div>
         {onData ? (
           data?.map((v, idx) => (
@@ -212,6 +213,18 @@ export default function OTCTabel({
                 key={idx}
               >
                 <div className={cx(part === "otc" ? "body" : "home_body")}>
+                  {part !== "home" && (
+                    <div className={cx("not_home_coin")}>
+                      <div className={cx("coin_img")}>
+                        <Image
+                          alt="코인 이미지"
+                          src={`/img/marquee/${v.coinKind.toLowerCase()}.png`}
+                          fill
+                        />
+                      </div>
+                      {v.coinKind.toUpperCase()}
+                    </div>
+                  )}
                   <div className={cx("seller")}>
                     <div
                       onClick={() =>
@@ -226,47 +239,100 @@ export default function OTCTabel({
                     >
                       {v.identity}
                     </div>
-                    {(router.pathname === "/user/[id]" ||
-                      nowAble === "like" ||
-                      router.pathname === "/") && (
-                      <div className={cx("thumbs")}>
-                        <div className={cx("thumb_wrap")}>
+                    {part === "home" && (
+                      <div className={cx("img_container")}>
+                        <div className={cx("coin_img")}>
                           <Image
-                            src={"/img/otc/thumb.png"}
-                            alt="엄지척"
+                            alt="코인 이미지"
+                            src={`/img/marquee/${v.coinKind.toLowerCase()}.png`}
                             fill
-                            priority
-                            quality={100}
                           />
-                        </div>{" "}
-                        {v.positiveCount}
+                        </div>
+                        <div>{v.coinKind.toUpperCase()}</div>
+                        <div className={cx("trust_img")}>
+                          <Image
+                            alt="코인 이미지"
+                            src={`/img/icon/trust.png`}
+                            fill
+                          />
+                        </div>
+                        <div>{v.offerCompleteCount}</div>
                       </div>
                     )}
-                    {nowAble !== "my" && (
-                      <div className={cx("log", "mobile_none")}>
-                        최근 접속 : {convertConnectionDate(v.connectionDate)}
+                  </div>
+                  {part !== "home" && (
+                    <div className={cx("not_home_coin")}>
+                      <div className={cx("trust_img")}>
+                        <Image
+                          alt="코인 이미지"
+                          src={`/img/icon/trust.png`}
+                          fill
+                        />
+                      </div>
+                      {v.offerCompleteCount}
+                    </div>
+                  )}
+                  <div
+                    className={cx(
+                      part === "home"
+                        ? v.district
+                          ? "with_district"
+                          : "none_district"
+                        : "flex"
+                    )}
+                  >
+                    <div>{v.city?.name + " "}</div>
+                    <div>{v.district?.name}</div>
+                  </div>
+                  <div className={cx("only_mobile")}>
+                    <div className={cx("mobile_body")}>
+                      <div>{v.minAmount.toLocaleString()}</div>
+                      <div className={cx("gray")}>KRW</div>
+                      <div>/{v.maxAmount.toLocaleString()}</div>
+                      <div className={cx("gray")}>KRW</div>
+                    </div>
+                    <div className={cx("mobile_price")}>
+                      <div>{v.price.toLocaleString()}</div>
+                      <div className={cx("gray_right")}>KRW</div>
+                    </div>
+                  </div>
+                  <div className={cx("only_pc")}>
+                    <div
+                      className={cx(
+                        part === "home"
+                          ? "min_and_max_bottom"
+                          : "not_home_min_and_max_bottom"
+                      )}
+                    >
+                      <div>
+                        {v.minAmount.toLocaleString()}
+                        <span className={cx("gray")}>KRW</span>/
+                      </div>
+                      <div>
+                        {v.maxAmount.toLocaleString()}
+                        <span className={cx("gray")}>KRW</span>
+                      </div>
+                    </div>
+                    {part === "home" && (
+                      <div className={cx("min_and_max_content")}>
+                        <div>
+                          최근 접속 : {convertConnectionDate(v.connectionDate)}
+                        </div>
+                        <div className={cx("stick")} />
+                        <div className={cx("flex")}>
+                          <div className={cx("none_mobile")}>
+                            평균응답속도 :
+                          </div>{" "}
+                          {v.responseSpeed}분 미만
+                        </div>
                       </div>
                     )}
                   </div>
-                  <div className={cx("mobile_flex")}>
-                    <div>{v.city?.name}/</div>
-                    <div>{v.transactionMethod === "DIRECT" ? "직접" : ""}</div>
-                  </div>
-                  <div className={cx("mobile_none")}>
-                    <div>
-                      {v.minAmount.toLocaleString()}
-                      <span className={cx("gray")}>KRW</span>/
-                    </div>
-                    <div>
-                      {v.maxAmount.toLocaleString()}
-                      <span className={cx("gray")}>KRW</span>
-                    </div>
-                  </div>
-                  <div className={cx("time")}>{v.responseSpeed}분 미만</div>
+                  {part !== "home" && <div>{v.responseSpeed}분 미만</div>}
                   <div className={cx("btns_wrap")}>
                     <div className={cx("right_price")}>
                       {v.price.toLocaleString()}
-                      <span className={cx("gray_right")}>KRW</span>
+                      <div className={cx("gray_right")}>KRW</div>
                     </div>
                     {(router.pathname === "/user/[id]" ||
                       nowAble === "like" ||
@@ -292,96 +358,6 @@ export default function OTCTabel({
                     )}
                   </div>
                 </div>
-
-                {nowAble !== "my" ? (
-                  <div className={cx("mobile")}>
-                    <div className={cx("mobile_top_body")}>
-                      <div className={cx("mobile_top")}>
-                        <div>
-                          {v.minAmount.toLocaleString()}
-                          <span className={cx("gray")}>KRW</span>/
-                        </div>
-                        <div>
-                          {v.maxAmount.toLocaleString()}
-                          <span className={cx("gray")}>KRW</span>
-                        </div>
-                      </div>
-                    </div>
-                    <div className={cx("right_price")}>
-                      {v.price.toLocaleString()}
-                      <span className={cx("gray_right")}>KRW</span>
-                    </div>
-                    <div className={cx("mobile_body")}>
-                      <div className={cx("log")}>
-                        최근 접속 : {convertConnectionDate(v.connectionDate)}
-                      </div>
-                      <div className={cx("right_btns")}>
-                        <button
-                          disabled={
-                            v.identity === cookies.nickName ||
-                            v.reservationStatus === ReservationStatus.Progress
-                          }
-                          className={cx(
-                            kind === "BUY" ? "chat_orange" : "chat_blue"
-                          )}
-                          onClick={() => enterChatHandle(v.id, v.identity)}
-                        >
-                          {v.reservationStatus === ReservationStatus.Progress
-                            ? v.transactionStatus === TransactionStatus.Progress
-                              ? "예약중"
-                              : "거래완료"
-                            : "채팅하기"}
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                ) : (
-                  <div className={cx("my_mobile")}>
-                    <div className={cx("my_mobile_top_body")}>
-                      <div className={cx("my_mobile_top")}>
-                        <div>
-                          {v.minAmount.toLocaleString()}
-                          <span className={cx("gray")}>KRW</span>/
-                        </div>
-                        <div>
-                          {v.maxAmount.toLocaleString()}
-                          <span className={cx("gray")}>KRW</span>
-                        </div>
-                      </div>
-                    </div>
-                    <div className={cx("right_price")}>
-                      {v.price.toLocaleString()}
-                      <span className={cx("gray_right")}>KRW</span>
-                    </div>
-                    {router.pathname === "/user/[id]" && (
-                      <div className={cx("mobile_body")}>
-                        <div />
-                        <div className={cx("right_btns")}>
-                          {v.reservationStatus === ReservationStatus.Progress &&
-                            v.transactionStatus !==
-                              TransactionStatus.Complete && (
-                              <div className={cx("reservation_btn")}>
-                                예약중
-                              </div>
-                            )}
-                          <button
-                            disabled={
-                              v.transactionStatus ===
-                                TransactionStatus.Complete ||
-                              v.identity === cookies.nickName
-                            }
-                            className={cx(
-                              kind === "BUY" ? "chat_orange" : "chat_blue"
-                            )}
-                            onClick={() => enterChatHandle(v.id, v.identity)}
-                          >
-                            채팅하기
-                          </button>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                )}
               </div>
               {v.id === offerId && (
                 <div className={cx("more_container")}>

@@ -6,6 +6,7 @@ export const SIGN_UP_BY_USER = gql(/* GraphQL */ `
     $password: String!
     $phone: String!
     $hash: String!
+    $countryCode: String!
     $loginKind: LoginKind!
   ) {
     signUpByUser(
@@ -13,12 +14,15 @@ export const SIGN_UP_BY_USER = gql(/* GraphQL */ `
       password: $password
       phone: $phone
       hash: $hash
+      countryCode: $countryCode
       loginKind: $loginKind
     ) {
       identity
       createdAt
+      walletAddress
       level
       connectionDate
+      countryCode
       phone
     }
   }

@@ -6,8 +6,14 @@ import { toast } from "react-toastify";
 import IdCard from "./IdCard/IdCard";
 import PassPort from "./PassPort/PassPort";
 import DriveCard from "./DriveCard/DriveCard";
-import { FindMyInfoByUserQuery } from "src/graphql/generated/graphql";
+import {
+  CountryCodeModel,
+  FindMyInfoByUserQuery,
+} from "src/graphql/generated/graphql";
 import { useRouter } from "next/router";
+import CountryDropDown from "components/DropDown/CountryDropDown/CountryDropDown";
+import { useLazyQuery } from "@apollo/client";
+import { FIND_MANY_COUNTRY_CODE } from "src/graphql/query/findManyCountryCode";
 
 const cx = className.bind(styles);
 
@@ -22,6 +28,8 @@ export default function BasicInfo({ myInfo, setNowAble }: Props) {
   const [kind, setKind] =
     useState<"주민등록증" | "여권" | "운전면허증">("주민등록증");
 
+  const [myCountryCode, setMyCountryCode] = useState<CountryCodeModel>();
+
   const onClickChangeHandle = () => {
     toast.warn(
       <div>
@@ -33,6 +41,17 @@ export default function BasicInfo({ myInfo, setNowAble }: Props) {
     );
   };
 
+  const [findManyCountryCode] = useLazyQuery(FIND_MANY_COUNTRY_CODE, {
+    onError: (e) => toast.error(e.message ?? `${e}`),
+    onCompleted(data) {
+      setMyCountryCode(
+        data.findManyCountryCode.filter(
+          (v) => v.phone === myInfo?.countryCode
+        )[0]
+      );
+    },
+  });
+
   useEffect(() => {
     if (myInfo?.driverLicense) {
       setKind("운전면허증");
@@ -41,6 +60,7 @@ export default function BasicInfo({ myInfo, setNowAble }: Props) {
     } else if (myInfo?.passport) {
       setKind("여권");
     }
+    findManyCountryCode();
   }, [myInfo]);
 
   return (
@@ -61,7 +81,7 @@ export default function BasicInfo({ myInfo, setNowAble }: Props) {
           </div>
           <div className={cx("full")}>
             <div className={cx("title")}>아이디</div>
-            <div className={cx("view_text")}>{myInfo?.identity}</div>
+            <div className={cx("view_text_title")}>{myInfo?.identity}</div>
             <div className={cx("title")}>비밀번호</div>
             <div className="flex">
               <div className={cx("view_text")}>************</div>
@@ -87,11 +107,17 @@ export default function BasicInfo({ myInfo, setNowAble }: Props) {
             </div>
             <div>본인인증 정보</div>
           </div>
-          <div className={cx("full")}>
+          <div className={cx("full_phone")}>
             <div className={cx("title")}>휴대폰 번호</div>
-            <div className="flex">
-              <div className={cx("country_code")}>82</div>
-              <div className={cx("view_text")}>{myInfo?.phone}</div>
+            <div className={cx("countrycode_wrap")}>
+              <div className={cx("dropdown_wrap")}>
+                <CountryDropDown
+                  data={myCountryCode ? [myCountryCode] : []}
+                  onChangeHandel={() => ""}
+                  disable
+                />
+              </div>
+              <div className={cx("text_view_phone")}>{myInfo?.phone}</div>
               <button className={cx("btn")} onClick={onClickChangeHandle}>
                 변경
               </button>

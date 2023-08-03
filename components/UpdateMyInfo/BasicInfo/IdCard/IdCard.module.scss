@@ -2,6 +2,10 @@
 
 .container {
   width: calc(100% - 320px);
+  @include view("very_small") {
+    width: 100%;
+    margin-top: 20px;
+  }
   @include view("mobile") {
     width: 100%;
     margin-top: 20px;
@@ -25,6 +29,11 @@
   align-items: center;
   font-size: 18px;
   margin-bottom: 20px;
+  background-color: #f6f6f6;
+  border: solid 1px #dcdcdc;
+  @include view("very_small") {
+    font-size: 16px;
+  }
   @include view("mobile") {
     font-size: 16px;
   }
@@ -39,10 +48,20 @@
   color: #ff7401;
   cursor: pointer;
   height: 50px;
+  @include view("very_small") {
+    width: 80px;
+  }
+  @include view("mobile") {
+    width: 80px;
+    min-width: 80px;
+  }
 }
 
 .title {
   margin-bottom: 20px;
+  @include view("very_small") {
+    font-size: 18px;
+  }
   @include view("mobile") {
     font-size: 18px;
   }

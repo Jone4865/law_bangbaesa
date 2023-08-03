@@ -13,6 +13,8 @@ export const DELETE_OFFER_BY_USER = gql(/* GraphQL */ `
       responseSpeed
       content
       createdAt
+      walletAddressKind
+      walletAddress
       reservationStatus
       transactionStatus
     }

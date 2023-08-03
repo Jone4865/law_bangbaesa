@@ -25,7 +25,6 @@ export default function CertificationStateBar({ path }: Props) {
       onCompleted(data) {
         setLevel(data.findMyInfoByUser.level);
       },
-      fetchPolicy: "no-cache",
     }
   );
 

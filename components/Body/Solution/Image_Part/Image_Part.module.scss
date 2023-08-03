@@ -53,6 +53,7 @@
   font-size: 16px;
   line-height: 1.63;
   letter-spacing: normal;
+  font-weight: 100;
   @include view("mobile") {
     font-size: 14px;
     line-height: 1.86;
