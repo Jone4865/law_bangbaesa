@@ -5,7 +5,7 @@ import { useMediaQuery } from "react-responsive";
 import Download_Part from "../Body/Download_Part/Download_Part";
 import styles from "./Introduction.module.scss";
 import className from "classnames/bind";
-import TopImage from "../TopImage/TopImage";
+import Big_TopImage from "components/Big_TopImage/Big_TopImage";
 
 const cx = className.bind(styles);
 
@@ -53,7 +53,7 @@ export default function Introduction() {
 
   return (
     <div className={cx("container")}>
-      <TopImage imageName={"3"} />
+      <Big_TopImage imageName={"3"} />
       <Item
         title={titles[1]}
         content={contents[1]}

@@ -11,7 +11,6 @@
   }
   @include view("mobile") {
     font-size: 14px;
-    max-width: 343px;
   }
 }
 
@@ -80,6 +79,9 @@
   font-size: 20px;
   margin: 40px auto;
   cursor: pointer;
+  @include view("mobile") {
+    width: 100%;
+  }
 }
 
 .btn:disabled {
@@ -160,6 +162,12 @@
   display: flex;
 
   margin-top: 15px;
+  @include view("mobile") {
+    letter-spacing: -0.28px;
+    line-height: 1.86;
+    margin-top: 0;
+    word-break: normal;
+  }
 }
 
 .content {
@@ -171,11 +179,6 @@
   }
   @include view("mobile") {
     letter-spacing: -0.28px;
-    line-height: 2;
-    margin: -5px auto 0 auto;
-    div {
-      max-width: 388px;
-      width: 90vw;
-    }
+    line-height: 1.86;
   }
 }

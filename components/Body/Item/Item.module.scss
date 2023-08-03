@@ -29,9 +29,7 @@
   @include view("mobile") {
     font-size: 26px;
   }
-  @include view("small") {
-    font-size: 26px;
-  }
+
   @include view("very_small") {
     font-size: 26px;
   }
@@ -40,17 +38,13 @@
 .content {
   font-size: 18px;
   color: #777;
-  margin-bottom: 60px;
+  margin-bottom: 30px;
   @include view("mobile") {
     font-size: 14px;
     width: 330px;
     margin-bottom: 20px;
   }
-  @include view("small") {
-    font-size: 14px;
-    width: 330px;
-    margin-bottom: 20px;
-  }
+
   @include view("very_small") {
     font-size: 14px;
     width: 330px;

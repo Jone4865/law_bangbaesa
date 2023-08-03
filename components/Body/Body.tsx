@@ -10,25 +10,19 @@ import styles from "./Body.module.scss";
 
 import className from "classnames/bind";
 import { useRouter } from "next/router";
-import TopImage from "../TopImage/TopImage";
-import Marquee from "../Marquee/Marquee";
-import { CoinKind, OfferAction } from "src/graphql/generated/graphql";
+import {
+  CoinKind,
+  FindManyBannerQuery,
+  OfferAction,
+} from "src/graphql/generated/graphql";
 import CarouselPart from "components/CarouselPart/CarouselPart";
 import MarketPrice from "components/MarketPrice/MarketPrice";
-import { toast } from "react-toastify";
 import Image from "next/image";
+import { useLazyQuery } from "@apollo/client";
+import { FIND_MANY_BANNER } from "src/graphql/query/findManyBanner";
+import { toast } from "react-toastify";
 
 const cx = className.bind(styles);
-
-type CarouselData = {
-  id: number;
-  src: string;
-  moveTo: string | undefined;
-  arrowColor: string | undefined;
-  dotsColor: string | undefined;
-  backGroundColor: string | undefined;
-  alt: string;
-};
 
 export default function Body() {
   const router = useRouter();
@@ -40,41 +34,16 @@ export default function Body() {
   ];
   const [buyCoinKind, setBuyCoinKind] = useState<CoinKind>(CoinKind.Usdt);
   const [sellCoinKind, setSellCoinKind] = useState<CoinKind>(CoinKind.Usdt);
-  const [kind, setKind] = useState<OfferAction>(OfferAction.Buy);
+  const [kind, setKind] = useState<OfferAction>(OfferAction.Sell);
+
   const [middle, setMiddle] = useState(false);
   const isMiddle = useMediaQuery({
     query: "(min-width: 1300px) and (max-width: 10000px)",
   });
 
-  const [carouselData, setCarouselData] = useState<CarouselData[]>([
-    {
-      id: 0,
-      moveTo: undefined,
-      src: "1",
-      alt: "1",
-      arrowColor: undefined,
-      dotsColor: undefined,
-      backGroundColor: "#fff",
-    },
-    {
-      id: 1,
-      moveTo: "notice",
-      src: "2",
-      alt: "2",
-      arrowColor: undefined,
-      dotsColor: undefined,
-      backGroundColor: "#fff",
-    },
-    {
-      id: 2,
-      moveTo: undefined,
-      src: "3",
-      alt: "3",
-      arrowColor: "#fff",
-      dotsColor: "#fff",
-      backGroundColor: undefined,
-    },
-  ]);
+  const [carouselData, setCarouselData] = useState<
+    FindManyBannerQuery["findManyBanner"]
+  >([]);
 
   const titles = [
     <>상품권 시세</>,
@@ -99,26 +68,40 @@ export default function Body() {
     </>,
   ];
 
+  const [findManyBanner] = useLazyQuery<FindManyBannerQuery>(FIND_MANY_BANNER, {
+    onError: (e) => toast.error(e.message ?? `${e}`),
+    onCompleted(data) {
+      const modifiedData = data.findManyBanner.map((item) => ({
+        ...item,
+        pcFileName: `${process.env.NEXT_PUBLIC_IMG_URL}/banner/${item.pcFileName}`,
+        mobileFileName: `${process.env.NEXT_PUBLIC_IMG_URL}/banner/${item.mobileFileName}`,
+      }));
+      setCarouselData(modifiedData);
+    },
+    fetchPolicy: "no-cache",
+  });
+
   useEffect(() => {
+    findManyBanner();
     if (isMiddle) {
       setMiddle(true);
-      setKind(OfferAction.Buy);
+      setKind(OfferAction.Sell);
     } else {
       setMiddle(false);
-      setKind(OfferAction.Buy);
+      setKind(OfferAction.Sell);
     }
   }, [isMiddle]);
 
   return (
     <div className={cx("container")}>
- <CarouselPart carouselData={carouselData} />
-      <TopImage imageName={"1"} />
-      <Marquee />
-
+      {carouselData && <CarouselPart carouselData={carouselData} />}
+      <MarketPrice />
       <div className={cx("OTC_top")}>
         <div className={cx("OTC_top_wrap")}>
           <span>P2P</span>
-          <div onClick={() => router.push("/p2p/buy")}>P2P 더보기 {">"}</div>
+          <div className={cx("pointer")} onClick={() => router.push("/p2p")}>
+            P2P 더보기 {">"}
+          </div>
         </div>
       </div>
       <div className={cx("OTC_container")}>
@@ -129,14 +112,18 @@ export default function Body() {
                 <div className={cx("only_pc")}>팝니다</div>
                 <div className={cx("non_pc")}>
                   <div
-                    onClick={() => setKind(OfferAction.Buy)}
-                    className={cx(kind === "BUY" ? "able_buy" : "default")}
+                    onClick={() => setKind(OfferAction.Sell)}
+                    className={cx(
+                      kind === OfferAction.Sell ? "able_sell" : "default"
+                    )}
                   >
                     팝니다
                   </div>
                   <div
-                    onClick={() => setKind(OfferAction.Sell)}
-                    className={cx(kind === "SELL" ? "able_sell" : "default")}
+                    onClick={() => setKind(OfferAction.Buy)}
+                    className={cx(
+                      kind === OfferAction.Buy ? "able_buy" : "default"
+                    )}
                   >
                     삽니다
                   </div>
@@ -197,7 +184,7 @@ export default function Body() {
               </div>
             </div>
             <OTC
-              partKind={OfferAction.Sell}
+              partKind={OfferAction.Buy}
               part="home"
               coinKind={sellCoinKind}
               nowAble=""

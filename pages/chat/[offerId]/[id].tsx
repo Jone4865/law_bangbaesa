@@ -20,11 +20,12 @@ import {
   CreateChatMessageMutation,
   FindManyChatMessageByUserQuery,
   FindMyInfoByUserQuery,
-  FindOneOfferQuery,
-  OfferAction,
+  FindOneOfferOutput,
   UpdateCheckedCurrentChatMessageByUserMutation,
 } from "src/graphql/generated/graphql";
-// import OfferModal from "components/OfferModal/OfferModal";
+import OfferInfo from "components/OfferInfo/OfferInfo";
+import OfferModal from "components/OfferModal/OfferModal";
+import OfferMore from "components/OfferMore/OfferMore";
 
 const cx = className.bind(styles);
 
@@ -37,8 +38,7 @@ const Room: NextPage<Props> = ({ id, data }) => {
   const [first, setFirst] = useState(true);
   const [take] = useState(10);
   const [datas, setDatas] = useState<any[]>([]);
-  const [offerData, setOfferData] =
-    useState<FindOneOfferQuery["findOneOffer"]>();
+  const [offerData, setOfferData] = useState<FindOneOfferOutput>();
   const [myNickName, setMyNickName] = useState("");
   const [unreadView, setUnreadView] = useState(true);
   const [offerModalVisible, setOfferModalVisible] = useState(false);
@@ -86,7 +86,7 @@ const Room: NextPage<Props> = ({ id, data }) => {
 
   const onSubmitHandle = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (message !== "") {
+    if (message.trim() !== "") {
       createChatMessage({
         variables: { chatRoomId: id, message },
       }).then(({ data }) => {
@@ -183,7 +183,7 @@ const Room: NextPage<Props> = ({ id, data }) => {
       }
     );
 
-  const [findOneOffer] = useLazyQuery<FindOneOfferQuery>(FIND_ONE_OFFER, {
+  const [findOneOffer] = useLazyQuery(FIND_ONE_OFFER, {
     onError: (e) => toast.error(e.message ?? `${e}`),
     onCompleted(data) {
       setOfferData(data.findOneOffer);
@@ -330,145 +330,122 @@ const Room: NextPage<Props> = ({ id, data }) => {
 
   return (
     <div className={cx("container")}>
-      {/* {offerModalVisible && (
+      <OfferInfo
+        offerData={offerData}
+        type={"other"}
+        setOfferModalVisible={setOfferModalVisible}
+      />
+      {offerModalVisible && (
         <OfferModal
           offerData={offerData}
           setOfferModalVisible={setOfferModalVisible}
         />
-      )} */}
+      )}
+
       <div className={cx("wrap")}>
-        <div className={cx("top_wrap")}>
-          <div className={cx("title")}>채팅하기</div>
-          <div className={cx("mobile")}>
-            <div
-              onClick={() => {
-                setInfoVisible((prev) => !prev);
-              }}
-              className={cx("mobile_wrap")}
-            >
-              <span>{infoVisible ? "접기" : "펼치기"}</span>
-              <div
-                className={cx(infoVisible ? "arrow_wrap_down" : "arrow_wrap")}
-              >
-                <Image
-                  alt="화살표"
-                  src={"/img/chat/arrow.png"}
-                  fill
-                  priority
-                  quality={100}
-                />
-              </div>
+        <div className={cx("mobile")}>
+          {infoVisible && (
+            <OfferMore
+              offerData={offerData}
+              setOfferModalVisible={setOfferModalVisible}
+            />
+          )}
+          <div
+            onClick={() => {
+              setInfoVisible((prev) => !prev);
+            }}
+            className={cx("mobile_wrap")}
+          >
+            <span>상세정보</span>
+            <div className={cx(infoVisible ? "arrow_wrap_down" : "arrow_wrap")}>
+              <Image
+                alt="화살표"
+                src={"/img/chat/arrow.png"}
+                fill
+                priority
+                quality={100}
+              />
             </div>
           </div>
         </div>
-        {infoVisible && (
-          <div className={cx("offer_wrap")}>
-            <div className={cx("kind")}>
-              {offerData?.offerAction === OfferAction.Sell ? "판매" : "구매"}
-            </div>
-            <div
-              className={cx("nickname")}
-              onClick={() => router.push(`/user/${offerData?.identity}`)}
-            >
-              {offerData?.identity}
-            </div>
-            <div className={cx("location")}>{offerData?.city.name} / 직접</div>
-            <div className={cx("min_and_max")}>
-              {offerData?.minAmount?.toLocaleString()}{" "}
-              <span className={cx("gray")}>KRW</span> /{" "}
-              {offerData?.maxAmount?.toLocaleString()}{" "}
-              <span className={cx("gray")}>KRW</span>
-            </div>
-            <div className={cx("minute")}>
-              {offerData?.responseSpeed}분 미만
-            </div>
-            <div className={cx("price")}>
-              {offerData?.price?.toLocaleString()}{" "}
-              <span className={cx("price_gray")}>KRW</span>
-            </div>
-            {/* <button onClick={() => setOfferModalVisible(true)}>오퍼정보</button> */}
-          </div>
-        )}
         <div className={cx("bottom_wrap")}>
-          <div className={cx("right_wrap")}>
-            <div ref={containerRef} className={cx("chat_container")}>
-              <div ref={prevRef} />
-              {datas?.map((v, idx, array) => (
-                <div key={idx}>
-                  {v?.isUnread && !array[idx - 1]?.isUnread && unreadView && (
-                    <div
-                      tabIndex={0}
-                      ref={(el) => scroll && el?.focus()}
-                      className={cx("unread")}
-                    >
-                      여기까지 읽었습니다.
-                    </div>
-                  )}
-                  <div
-                    className={cx(
-                      v.sender === myNickName
-                        ? "my_message_container"
-                        : "message_container"
-                    )}
-                  >
-                    {v.sender !== myNickName && (
-                      <div className={cx("account_wrap")}>
-                        {datas[idx - 1]?.sender !== v.sender && (
-                          <Image
-                            alt="프로필"
-                            src={"/img/chat/account.png"}
-                            fill
-                            quality={100}
-                            className={cx("img")}
-                          />
-                        )}
+          <div className={cx("right_container")}>
+            <div className={cx("able_chat")}>
+              <div className={cx("room_list")}>{offerData?.identity}</div>
+            </div>
+            <div className={cx("right_wrap")}>
+              <div ref={containerRef} className={cx("chat_container")}>
+                <div ref={prevRef} />
+                {datas?.map((v, idx, array) => (
+                  <div key={idx}>
+                    {v?.isUnread && !array[idx - 1]?.isUnread && unreadView && (
+                      <div
+                        tabIndex={0}
+                        ref={(el) => scroll && el?.focus()}
+                        className={cx("unread")}
+                      >
+                        여기까지 읽었습니다.
                       </div>
                     )}
-                    <div className={cx("body")}>
-                      {datas[idx - 1]?.sender !== v.sender && (
-                        <>
-                          <div className={cx("chat_nickname")}>{v.sender}</div>
-                          <div
-                            className={cx(
-                              v.sender === myNickName ? "right" : "left"
-                            )}
-                          />
-                        </>
+                    <div
+                      className={cx(
+                        v.sender === myNickName
+                          ? "my_message_container"
+                          : "message_container"
                       )}
-                      <div
-                        className={cx(
-                          v.sender === myNickName
-                            ? "message_orange"
-                            : "message_blue"
+                    >
+                      <div className={cx("body")}>
+                        {datas[idx - 1]?.sender !== v.sender && (
+                          <>
+                            <div className={cx("chat_nickname")}>
+                              {v.sender}
+                            </div>
+                            <div
+                              className={cx(
+                                v.sender === myNickName ? "right" : "left"
+                              )}
+                            />
+                          </>
                         )}
-                      >
-                        {v.message}
+                        <div
+                          className={cx(
+                            v.sender === myNickName
+                              ? "message_orange"
+                              : "message_blue"
+                          )}
+                        >
+                          {v.message}
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              ))}
-              <div tabIndex={1} ref={divRef} />
-              <div ref={nextRef} />
-            </div>
-            {subscriptTexts && (
-              <div onClick={onClickSubText} className={cx("pop_up")}>
-                <span>
-                  {subscriptTexts[subscriptTexts?.length - 1]?.sender}
-                </span>
-                <div>{subscriptTexts[subscriptTexts?.length - 1]?.message}</div>
+                ))}
+                <div tabIndex={1} ref={divRef} />
+                <div ref={nextRef} />
               </div>
-            )}
-            <form onSubmit={onSubmitHandle} className={cx("form_wrap")}>
-              <input
-                disabled={offerData?.transactionStatus === "COMPLETE"}
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                className={cx("input")}
-                ref={inputRef}
-              />
-              <button className={cx("btn")}>전송</button>
-            </form>
+              {subscriptTexts && (
+                <div onClick={onClickSubText} className={cx("pop_up")}>
+                  <span>
+                    {subscriptTexts[subscriptTexts?.length - 1]?.sender}
+                  </span>
+                  <div>
+                    {subscriptTexts[subscriptTexts?.length - 1]?.message}
+                  </div>
+                </div>
+              )}
+              <form onSubmit={onSubmitHandle} className={cx("form_wrap")}>
+                <div className={cx("input_nickname")}>{myNickName}</div>
+                <input
+                  disabled={offerData?.transactionStatus === "COMPLETE"}
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                  className={cx("input")}
+                  placeholder="메세지를 입력하세요"
+                  ref={inputRef}
+                />
+                <button className={cx("btn")}>전송</button>
+              </form>
+            </div>
           </div>
         </div>
       </div>

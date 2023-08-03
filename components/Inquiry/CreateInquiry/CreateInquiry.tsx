@@ -61,6 +61,9 @@ export default function CreateInquiry({ setCreate }: Props) {
           value={content}
           onChange={(e) => setContent(e.target.value)}
         />
+        <div className={cx("text_len_box")}>
+          <span>{`${content.length} / 500`}</span>
+        </div>
         <div className={cx("bottom")}>
           <button
             className={cx("btn")}

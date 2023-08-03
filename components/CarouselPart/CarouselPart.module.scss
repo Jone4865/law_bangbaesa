@@ -9,7 +9,6 @@
   justify-content: center;
   align-items: center;
   width: 100%;
-  margin-bottom: -12px;
 }
 
 .img_wrap {
@@ -17,24 +16,39 @@
   width: 100%;
   img {
     width: 100%;
-    object-fit: contain;
-    height: 600px;
+    height: 100%;
+    height: 160px;
+    position: relative !important;
+  }
+}
+
+.slider_next,
+.slider_prev {
+  width: 7vw !important;
+  max-width: 80px;
+
+  @include view("mobile") {
+    display: none;
   }
 }
 
 .dots {
   position: absolute;
   height: 100%;
-  bottom: 15px;
+  bottom: -30px;
   height: 20px;
-  display: flex;
-  left: 50%;
   column-gap: 10px;
+  display: none;
+  width: 100%;
+  justify-content: center;
+  @include view("mobile") {
+    display: flex;
+  }
 }
 
 .able_dot {
-  width: 15px;
-  height: 15px;
+  width: 8px;
+  height: 8px;
   border-radius: 100%;
   display: flex;
   justify-content: center;
@@ -42,8 +56,8 @@
 }
 
 .default_dot {
-  width: 15px;
-  height: 15px;
+  width: 8px;
+  height: 8px;
   opacity: 0.3;
   border-radius: 100%;
   display: flex;
@@ -52,17 +66,6 @@
 }
 
 .pointer {
-  cursor: pointer;
-}
-
-.prev {
-  width: 30px;
-  height: 30px;
-  color: #333;
-  font-size: 30px;
-  position: absolute;
-  left: 30px;
-  top: 50%;
   cursor: pointer;
 }
 
@@ -75,4 +78,14 @@
   right: 30px;
   cursor: pointer;
   top: 50%;
+  display: none;
+}
+
+.test {
+  position: relative;
+  width: 100%;
+  background-color: red;
+
+  img {
+  }
 }

@@ -8,6 +8,7 @@
 .body {
   display: flex;
   margin-bottom: 50px;
+  max-width: 1200px;
   @include view("mobile") {
     flex-direction: column;
     margin-bottom: 20px;
@@ -57,6 +58,9 @@
   @include view("very_small") {
     width: 100%;
   }
+  @include view("small") {
+    width: 100%;
+  }
   @include view("mobile") {
     width: 100%;
   }
@@ -77,18 +81,11 @@
   @include view("very_small") {
     font-size: 16px;
     width: calc(100% - 90px);
-    div {
-      overflow: scroll;
-      padding-top: 15px;
-    }
   }
   @include view("mobile") {
     font-size: 16px;
     width: calc(100% - 90px);
-    div {
-      overflow: scroll;
-      padding-top: 15px;
-    }
+    overflow: scroll;
   }
 }
 
@@ -101,12 +98,14 @@
   color: #ff7401;
   cursor: pointer;
   min-width: 160px;
+  font-size: 18px;
   @include view("very_small") {
     width: 80px;
     min-width: 80px;
     max-width: 80px;
   }
   @include view("mobile") {
+    font-size: 16px;
     width: 80px;
     min-width: 80px;
     max-width: 80px;
@@ -172,14 +171,12 @@
   background-color: #f6f6f6;
   font-size: 18px;
   padding-left: 20px;
-
+  overflow: scroll;
   @include view("very_small") {
     font-size: 16px;
   }
   @include view("mobile") {
-    font-size: 16px;
-    overflow: scroll;
-    padding-top: 15px;
+    font-size: 14px;
   }
 }
 
@@ -200,5 +197,22 @@
   }
   @include view("mobile") {
     font-size: 16px;
+  }
+}
+
+.full_phone {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  width: calc(100% - 320px);
+  @include view("small") {
+    width: 100%;
+  }
+  @include view("very_small") {
+    width: 100%;
+  }
+  @include view("mobile") {
+    width: 100%;
   }
 }

@@ -77,7 +77,6 @@
   box-sizing: border-box;
   padding: 0;
   margin: 0;
-  color: "black";
   font-family: "OneMobTitle";
   outline: none;
   ::-webkit-input-placeholder {
@@ -86,11 +85,17 @@
   ::-webkit-scrollbar-track {
     display: none;
     width: 0;
+    height: 0;
   }
   ::-webkit-scrollbar {
     width: 0;
+    height: 0;
   }
   scrollbar-width: none;
+
+  .ql-align-center {
+    margin: 0 auto;
+  }
 }
 
 input {
@@ -157,6 +162,7 @@ a {
   -o-transform: translate3d(0, 0, 0);
   transform: translate3d(0, 0, 0);
   transition-delay: 10ms;
+  margin-bottom: -5px;
 }
 
 .slick-slide div {
@@ -177,4 +183,29 @@ a {
   justify-content: center;
   align-items: center;
   margin-top: 15px;
+}
+
+.slick-arrow.slick-next {
+  position: absolute !important;
+  right: 4vw;
+  width: 80px;
+  height: 80px;
+}
+.slick-arrow.slick-prev {
+  position: absolute !important;
+  left: 4vw;
+  width: 80px;
+  height: 80px;
+  z-index: 1;
+}
+
+.slick-arrow.slick-prev::before {
+  position: absolute;
+  display: none;
+  width: 0;
+}
+.slick-arrow.slick-next::before {
+  position: absolute;
+  display: none;
+  width: 0;
 }

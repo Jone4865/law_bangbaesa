@@ -11,6 +11,8 @@ import {
   FindUserInfoByUserQuery,
   ToggleFeedbackByUserMutation,
 } from "src/graphql/generated/graphql";
+import { AutoHeightImage } from "components/AutoHeightImage";
+import { convertConnectionDate } from "utils/convertConnectionDate";
 
 const cx = className.bind(styles);
 
@@ -46,27 +48,51 @@ export default function MyPageTop({ detail, data, handleRefetch }: Props) {
 
   return (
     <div className={cx("container")}>
-      <div className={cx("top_wrap")}>
-        <div className={cx("top_left")}>
-          <div className={cx("nickname_wrap")}>
-            <div className={cx("nickname")}>{data?.identity}</div>
-            <div className={cx("level")}>레벨 {data?.level}</div>
-          </div>
-          {router.pathname === "/mypage" && (
-            <div
-              onClick={() => router.push("/update-myinfo")}
-              className={cx(!detail ? "top_btn" : "none")}
-            >
-              <div>정보수정</div>
-              <div className={cx("top_img_wrap")}>
-                <Image
-                  alt="화살표"
-                  src={"/img/mypage/arrow.png"}
-                  fill
-                  priority
-                  quality={100}
-                />
+      <div
+        className={cx(
+          router.pathname === "/mypage" ? "my_top_wrap" : "top_wrap"
+        )}
+      >
+        <div
+          className={cx(
+            router.pathname === "/mypage" ? "my_top_left" : "top_left"
+          )}
+        >
+          <div className={cx("top_left_body")}>
+            <div className={cx("nickname_wrap")}>
+              <div className={cx("nickname")}>{data?.identity}</div>
+              {router.pathname === "/user/[id]" && (
+                <div className={cx("user_content")}>님의 프로필</div>
+              )}
+              <div
+                className={cx(
+                  router.pathname === "/mypage" ? "my_level" : "level"
+                )}
+              >
+                레벨 {data?.level}
               </div>
+            </div>
+            {router.pathname === "/mypage" && (
+              <div
+                onClick={() => router.push("/update-myinfo")}
+                className={cx(!detail ? "top_btn" : "none")}
+              >
+                <div>정보수정</div>
+                <div className={cx("top_img_wrap")}>
+                  <Image
+                    alt="화살표"
+                    src={"/img/mypage/arrow.png"}
+                    fill
+                    priority
+                    quality={100}
+                  />
+                </div>
+              </div>
+            )}
+          </div>
+          {router.pathname === "/user/[id]" && (
+            <div className={cx("user_content_gray")}>
+              최근 접속 : {convertConnectionDate(data?.connectionDate)}
             </div>
           )}
         </div>
@@ -74,49 +100,81 @@ export default function MyPageTop({ detail, data, handleRefetch }: Props) {
           <div
             onClick={() => clickLikeHandle("POSITIVE")}
             className={cx(
-              "positive",
-              router.pathname === "/user/[id]" && "cursor"
+              "feedback_box",
+              router.pathname === "/user/[id]" && "cursor",
+              "positive"
             )}
           >
-            <div>+{data?.positiveFeedbackCount}</div>
+            <div className={cx("count_wrap")}>
+              <AutoHeightImage
+                alt="화살표"
+                src={"/img/mypage/thumb_up.png"}
+                className={cx("ment_img")}
+              />
+
+              <span>+{data?.positiveFeedbackCount}</span>
+            </div>
             <div className={cx("feedback_body")}>
               <div className={cx("ment")}>
                 <div>긍정</div>
                 <div className={cx("black")}>적 피드백</div>
               </div>
-              <div className={cx("ment_img")}>
-                <Image
-                  alt="화살표"
-                  src={"/img/mypage/thumb_up.png"}
-                  fill
-                  priority
-                  quality={100}
-                />
-              </div>
+
+              <AutoHeightImage
+                alt="화살표"
+                src={"/img/mypage/thumb_up.png"}
+                className={cx("ment_img")}
+              />
             </div>
           </div>
           <div
             onClick={() => clickLikeHandle("NEGATIVE")}
             className={cx(
+              "feedback_box",
               "negative",
               router.pathname === "/user/[id]" && "cursor"
             )}
           >
-            <div>+{data?.negativeFeedbackCount}</div>
+            <div className={cx("count_wrap")}>
+              <AutoHeightImage
+                alt="화살표"
+                src={"/img/mypage/thumb_down.png"}
+                className={cx("ment_img")}
+              />
+              <span>+{data?.negativeFeedbackCount}</span>
+            </div>
             <div className={cx("feedback_body")}>
               <div className={cx("ment")}>
                 <div>부정</div>
                 <div className={cx("black")}>적 피드백</div>
               </div>
-              <div className={cx("ment_img")}>
-                <Image
-                  alt="화살표"
-                  src={"/img/mypage/thumb_down.png"}
-                  fill
-                  priority
-                  quality={100}
-                />
+
+              <AutoHeightImage
+                alt="화살표"
+                src={"/img/mypage/thumb_down.png"}
+                className={cx("ment_img")}
+              />
+            </div>
+          </div>
+          <div className={cx("feedback_box", "trade")}>
+            <div className={cx("count_wrap")}>
+              <AutoHeightImage
+                alt="화살표"
+                src={"/img/mypage/trade-icon.png"}
+                className={cx("ment_img")}
+              />
+              <span>+{data?.offerCompleteCount}</span>
+            </div>
+            <div className={cx("feedback_body")}>
+              <div className={cx("ment")}>
+                <div>거래</div>
+                <div className={cx("black")}>&nbsp;성사량</div>
               </div>
+              <AutoHeightImage
+                alt="화살표"
+                src={"/img/mypage/trade-icon.png"}
+                className={cx("ment_img")}
+              />
             </div>
           </div>
         </div>

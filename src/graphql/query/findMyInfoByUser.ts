@@ -40,6 +40,7 @@ export const FIND_MY_INFO_BY_USER = gql(/* GraphQL */ `
       }
       positiveFeedbackCount
       negativeFeedbackCount
+      offerCompleteCount
     }
   }
 `);

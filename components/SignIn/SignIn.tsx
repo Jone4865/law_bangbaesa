@@ -58,6 +58,7 @@ export default function SignIn() {
         removeCookie("id");
         removeCookie("saveId");
         removeCookie("nickName");
+        removeCookie("login");
         setCookie("nickName", id);
         setCookie("login", true);
         window.location.replace("/");

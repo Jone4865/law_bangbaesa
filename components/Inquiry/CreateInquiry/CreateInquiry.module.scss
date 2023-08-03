@@ -4,6 +4,12 @@
   padding-bottom: 70px;
 }
 
+.text_len_box {
+  display: flex;
+  justify-content: end;
+  font-size: 14px;
+}
+
 .title {
   font-size: 20px;
   margin-bottom: 20px;
@@ -18,8 +24,10 @@
   border-radius: 10px;
   border: solid 1px #dcdcdc;
   margin-bottom: 40px;
+  font-size: 18px;
   @include view("mobile") {
     margin-bottom: 20px;
+    font-size: 16px;
   }
 }
 
@@ -39,6 +47,10 @@
   margin-bottom: 30px;
   resize: none;
   outline: none;
+  font-size: 18px;
+  @include view("mobile") {
+    font-size: 16px;
+  }
 }
 
 .bottom {
