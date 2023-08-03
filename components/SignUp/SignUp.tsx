@@ -366,6 +366,7 @@ export default function SignUp() {
                 }}
               />
             </div>
+
             <button className={cx("part_btn")}>
               {viewConfirmTell ? "재전송" : "인증번호 발송"}
             </button>

@@ -54,6 +54,7 @@ const Room: NextPage<Props> = ({ id, data }) => {
   const [subscriptTexts, setSubscriptTexts] = useState<any[]>();
 
   const router = useRouter();
+  const [offerModalVisible, setOfferModalVisible] = useState(false);
 
   const divRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -349,12 +350,6 @@ const Room: NextPage<Props> = ({ id, data }) => {
 
   return (
     <div className={cx("container")}>
-      {offerModalVisible && (
-        <OfferModal
-          offerData={offerData}
-          setOfferModalVisible={setOfferModalVisible}
-        />
-      )}
       <div className={cx("wrap")}>
         <div className={cx("top_wrap")}>
           <div className={cx("title")}>채팅하기</div>
