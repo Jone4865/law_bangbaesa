@@ -116,8 +116,8 @@
   outline: none;
   border: solid 1px #dcdcdc;
   font-size: 18px;
-  color: #333;
   cursor: pointer;
+  color: #333;
   @include view("mobile") {
     width: 80px;
     min-width: 80px;
