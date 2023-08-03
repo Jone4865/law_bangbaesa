@@ -519,6 +519,9 @@ export default function CreateOffer() {
           value={text ? text : ""}
           onChange={(e) => setText(e.target.value)}
         />
+        <div className={cx("text_len_box")}>
+          <span>{`${text?.length ?? 0} / 1000`}</span>
+        </div>
         <div className={cx("sub_text")}>
           <div className={cx("help_img")}>
             <Image

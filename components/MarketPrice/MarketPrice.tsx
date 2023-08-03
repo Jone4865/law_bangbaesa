@@ -241,7 +241,7 @@ export default function MarketPrice({ type = "home" }: Props) {
               <div className={cx("opcaity")}>(기준거래소)</div>
             </div>
             <div className={cx("kimchi")}>
-              <div className={cx("kimchi_content")}>KIMCHI</div>
+              <div className={cx("kimchi_content")}>KIMCHI&nbsp;</div>
               <span className={cx("non_mobile_title")}>PREMIUM</span>
             </div>
           </div>
