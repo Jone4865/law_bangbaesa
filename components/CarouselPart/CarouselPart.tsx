@@ -8,6 +8,7 @@ import styles from "./CarouselPart.module.scss";
 import { useRouter } from "next/router";
 import { useMediaQuery } from "react-responsive";
 import { AutoHeightImage } from "components/AutoHeightImage";
+import Image from "next/image";
 
 const cx = className.bind(styles);
 
@@ -78,7 +79,31 @@ const CarouselPart = ({ carouselData }: Props) => {
       }}
       className={cx("container")}
     >
-      <Slider className={cx("wrap")} {...settings} ref={sliderRef}>
+      <Slider
+        className={cx("wrap")}
+        {...settings}
+        ref={sliderRef}
+        nextArrow={
+          <div>
+            <AutoHeightImage
+              src="/img/icon/slider-right.png"
+              objectFit="contain"
+              alt="화살표"
+              className={cx("slider_next")}
+            />
+          </div>
+        }
+        prevArrow={
+          <div>
+            <AutoHeightImage
+              src="/img/icon/slider-left.png"
+              objectFit="contain"
+              alt="화살표"
+              className={cx("slider_prev")}
+            />
+          </div>
+        }
+      >
         {carouselData.map((v, idx) => (
           <div
             onClick={() => !dragging && v.moveTo && router.push(`/${v.moveTo}`)}
@@ -94,32 +119,7 @@ const CarouselPart = ({ carouselData }: Props) => {
           </div>
         ))}
       </Slider>
-      <div
-        style={{
-          color: `${
-            carouselData[currentDataIdx]?.arrowColor
-              ? carouselData[currentDataIdx]?.arrowColor
-              : "black"
-          }`,
-        }}
-        className={cx("prev")}
-        onClick={() => sliderRef.current?.slickPrev()}
-      >
-        {"<"}
-      </div>
-      <div
-        style={{
-          color: `${
-            carouselData[currentDataIdx]?.arrowColor
-              ? carouselData[currentDataIdx]?.arrowColor
-              : "black"
-          }`,
-        }}
-        className={cx("next")}
-        onClick={() => sliderRef.current?.slickNext()}
-      >
-        {">"}
-      </div>
+
       <div className={cx("dots")}>
         {carouselData.map((v, idx) => (
           <div

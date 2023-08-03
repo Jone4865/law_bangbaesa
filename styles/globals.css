@@ -186,11 +186,24 @@ a {
 }
 
 .slick-arrow.slick-next {
-  width: 0;
-  position: absolute;
-  display: none;
+  position: absolute !important;
+  right: 80px;
+  width: 80px;
+  height: 80px;
+}
+.slick-arrow.slick-prev {
+  position: absolute !important;
+  left: 80px;
+  width: 80px;
+  height: 80px;
+  z-index: 1;
 }
 
+.slick-arrow.slick-prev::before {
+  position: absolute;
+  display: none;
+  width: 0;
+}
 .slick-arrow.slick-next::before {
   position: absolute;
   display: none;
