@@ -6,14 +6,14 @@
   background-color: #fff;
   color: #333;
   @include view("very_small") {
-    padding: 58px 20px 40px 20px;
+    padding: 40px 20px;
   }
   @include view("mobile") {
     padding: 58px 20px 40px 20px;
   }
 }
 
-.wrap {
+.market-price-wrap {
   width: 100%;
   max-width: 1600px;
   display: flex;
@@ -25,8 +25,9 @@
   @include view("small") {
     width: 86vw;
   }
-  @include view("mobile") {
-    width: 86vw;
+
+  &.not_home {
+    max-width: 1200px;
   }
 }
 
@@ -103,6 +104,8 @@
 
 .not_home_bottom_container {
   margin-top: 20px;
+  border: solid 1px #dcdcdc;
+  border-bottom: none;
 }
 
 .content {
@@ -139,13 +142,12 @@
   justify-content: center;
   align-items: center;
   @include view("very_small") {
-    width: 105px;
-    margin-right: 15px;
+    width: 100px;
     justify-content: flex-start;
   }
   @include view("mobile") {
-    width: 105px;
-    margin-right: 15px;
+    width: 100px;
+    min-width: 100px;
     justify-content: flex-start;
   }
 }
@@ -156,14 +158,14 @@
   width: 56px;
   margin-right: 10px;
   @include view("very_small") {
-    height: 37px;
-    width: 37px;
-    min-width: 37px;
+    height: 32px;
+    width: 32px;
+    min-width: 32px;
   }
   @include view("mobile") {
-    height: 37px;
-    width: 37px;
-    min-width: 37px;
+    height: 32px;
+    width: 32px;
+    min-width: 32px;
   }
 }
 
@@ -175,10 +177,10 @@
   font-size: 22px;
   font-weight: 900;
   @include view("very_small") {
-    font-size: 18px;
+    font-size: 15px;
   }
   @include view("mobile") {
-    font-size: 18px;
+    font-size: 15px;
   }
 }
 
@@ -211,9 +213,6 @@
   white-space: nowrap;
   &.tether {
     margin: 0 auto 10px 0;
-    @include view("pc") {
-      margin-left: 40px;
-    }
   }
   &.usd {
     margin: 0;
@@ -231,6 +230,47 @@
     justify-content: flex-start;
     padding: 15px;
     overflow-x: scroll;
+    overflow-y: hidden;
+    height: 59px;
+  }
+}
+
+.home_coin_container {
+  width: 100%;
+  height: 83px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.07);
+  background-color: #fff;
+  border-radius: 5px;
+  font-size: 20px;
+
+  white-space: nowrap;
+  &.tether {
+    margin: 0 auto 10px 0;
+    @include view("pc") {
+      margin-left: 40px;
+    }
+  }
+  &.usd {
+    margin: 0;
+    @include view("pc") {
+      margin-left: 60px;
+    }
+  }
+  @include view("very_small") {
+    font-size: 16px;
+    justify-content: flex-start;
+    padding-left: 27vw;
+  }
+  @include view("mobile") {
+    font-size: 12px;
+    justify-content: flex-start;
+    padding: 10px;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    height: 59px;
   }
 }
 
@@ -261,7 +301,7 @@
   }
   @include view("mobile") {
     height: 60px;
-    grid-template-columns: 0.65fr 2fr 2fr 2fr;
+    grid-template-columns: 1fr 2fr 2fr 2fr;
   }
 }
 
@@ -340,11 +380,11 @@
   border-left: solid 1px #dcdcdc;
   @include view("very_small") {
     font-size: 13px;
-    padding-top: 16.5px;
+    flex-direction: column;
   }
   @include view("mobile") {
     font-size: 13px;
-    padding-top: 16.5px;
+    flex-direction: column;
   }
 }
 
@@ -370,7 +410,7 @@
     }
   }
   @include view("mobile") {
-    grid-template-columns: 0.65fr 2fr 2fr 2fr;
+    grid-template-columns: 1fr 2fr 2fr 2fr;
     :first-child {
       height: auto;
     }
@@ -379,6 +419,7 @@
 
 .map_coin_container {
   margin-left: 6.5vw;
+  font-size: 14px;
   @include view("very_small") {
     flex-direction: column;
     margin-left: 0;
@@ -397,6 +438,7 @@
 .border_left {
   border-left: solid 1px #dcdcdc;
   justify-content: center;
+  font-size: 14px;
   @include view("very_small") {
     flex-direction: column;
     height: 72.5px;
@@ -406,6 +448,9 @@
     flex-direction: column;
     height: 72.5px;
     line-height: 1.5;
+  }
+  @include view("mobile_small") {
+    font-size: 12px;
   }
 }
 
@@ -424,6 +469,9 @@
 .left {
   margin-left: 5px;
   font-size: 12px;
+  @include view("mobile_small") {
+    font-size: 10px;
+  }
 }
 
 .bar {
@@ -441,12 +489,23 @@
 
 .non_mobile {
   display: flex;
+  font-size: 12px;
   @include view("very_small") {
     display: none;
   }
   @include view("mobile") {
     display: none;
   }
+}
+
+.non_mobile_title {
+  display: flex;
+  // @include view("very_small") {
+  //   display: none;
+  // }
+  // @include view("mobile") {
+  //   display: none;
+  // }
 }
 
 .up_and_down_img {
@@ -472,10 +531,4 @@
 }
 
 .kimchi_content {
-  @include view("very_small") {
-    margin: 0 auto auto auto;
-  }
-  @include view("mobile") {
-    margin: 0 auto auto auto;
-  }
 }

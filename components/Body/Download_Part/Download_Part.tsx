@@ -7,7 +7,7 @@ const cx = className.bind(styles);
 
 export default function Download_Part() {
   const onClickHandle = () => {
-    toast.warn("아직 준비중입니다 !", { toastId: 1 });
+    toast.warn("준비중입니다.", { toastId: 1 });
   };
   return (
     <div className={cx("container")}>

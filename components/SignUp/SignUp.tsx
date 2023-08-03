@@ -4,6 +4,7 @@ import {
   ChangeEvent,
   FormEvent,
   SyntheticEvent,
+  useCallback,
 } from "react";
 import { useRouter } from "next/router";
 
@@ -54,6 +55,7 @@ export default function SignUp() {
   const [viewConfirmTell, setViewConfirmTell] = useState(false);
   const [disAbleTell, setDisAbleTell] = useState(true);
   const [disAbleSubmit, setDisAbleSummit] = useState(true);
+  const [prevSubmitEvent, setPrevSubmitEvent] = useState<number | null>(null);
 
   const [visible, setVisible] = useState(false);
   const [policy, setPolicy] = useState<PolicyKind>(
@@ -103,6 +105,9 @@ export default function SignUp() {
 
   const onSendCertification = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (disAbleSubmit) {
+      setDisAbleSummit(false);
+    }
     if (tell !== "") {
       sendPhoneAuthNumber({ variables: { phone: tell, countryCode } });
     }
@@ -119,11 +124,27 @@ export default function SignUp() {
     });
   };
 
+  const onSubmitHandleDebounced = useCallback(
+    (e: FormEvent<HTMLButtonElement>) => {
+      e.preventDefault();
+
+      if (prevSubmitEvent) {
+        clearTimeout(+prevSubmitEvent);
+      }
+
+      const newSubmitEvent = setTimeout(() => {
+        onSubmitHandle(e);
+      }, 500);
+
+      setPrevSubmitEvent(+newSubmitEvent);
+    },
+    [prevSubmitEvent]
+  );
+
   const onSubmitHandle = (
     e: FormEvent<HTMLButtonElement> | FormEvent<HTMLFormElement>
   ) => {
     e.preventDefault();
-
     signUpByUser({
       variables: {
         identity: id,
@@ -366,6 +387,7 @@ export default function SignUp() {
                 }}
               />
             </div>
+
             <button className={cx("part_btn")}>
               {viewConfirmTell ? "재전송" : "인증번호 발송"}
             </button>
@@ -446,9 +468,10 @@ export default function SignUp() {
             </div>
           </div>
           <button
+            id="btn"
             className={cx("btn")}
             disabled={disAbleSubmit}
-            onClick={onSubmitHandle}
+            onClick={onSubmitHandleDebounced}
           >
             회원가입
           </button>

@@ -3,6 +3,8 @@
 .container {
   padding-top: 100px;
   white-space: nowrap;
+  display: flex;
+  flex-direction: column;
 
   @include view("middle") {
     padding-top: 75px;
@@ -42,7 +44,8 @@
   align-items: center;
   width: 30px;
   height: 30px;
-  margin: 0 5px;
+  margin: 0 10px;
+  background-color: #fff;
 }
 
 .able_number {
@@ -52,9 +55,10 @@
   align-items: center;
   width: 30px;
   height: 30px;
-  margin: 0 5px;
+  margin: 0 10px;
   color: orange;
   border: solid 1px orange;
+  background-color: #fff;
 }
 
 .right_arrow {
@@ -351,9 +355,9 @@
 
 .able_buy {
   font-size: 30px;
-  color: #ff7401;
+  color: #3561c7;
+  border-bottom: solid 6px #3561c7;
   padding-bottom: 4px;
-  border-bottom: solid 6px #ff7401;
   margin-right: 30px;
   @include view("mobile") {
     font-size: 20px;
@@ -364,9 +368,9 @@
 
 .able_sell {
   font-size: 30px;
-  color: #3561c7;
+  color: #ff7401;
+  border-bottom: solid 6px #ff7401;
   padding-bottom: 4px;
-  border-bottom: solid 6px #3561c7;
   margin-right: 30px;
   @include view("mobile") {
     font-size: 20px;
@@ -538,7 +542,7 @@
   display: none;
   height: 60px;
   font-size: 18px;
-  background-color: #ff7401;
+  background-color: #3561c7;
   justify-content: center;
   align-items: center;
   color: #fff;
@@ -559,7 +563,7 @@
   display: none;
   height: 60px;
   font-size: 18px;
-  background-color: #3561c7;
+  background-color: #ff7401;
   justify-content: center;
   align-items: center;
   color: #fff;

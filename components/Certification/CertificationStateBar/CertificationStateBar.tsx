@@ -6,14 +6,16 @@ import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { FindMyInfoByUserQuery } from "src/graphql/generated/graphql";
+import { AutoHeightImage } from "components/AutoHeightImage";
 
 const cx = className.bind(styles);
 
 type Props = {
   path: string;
+  isReady?: boolean;
 };
 
-export default function CertificationStateBar({ path }: Props) {
+export default function CertificationStateBar({ path, isReady }: Props) {
   const arrs = ["휴대폰 인증", "이메일 인증", "신분증 인증"];
 
   const [level, setLevel] = useState(1);
@@ -25,16 +27,20 @@ export default function CertificationStateBar({ path }: Props) {
       onCompleted(data) {
         setLevel(data.findMyInfoByUser.level);
       },
+      fetchPolicy: "no-cache",
     }
   );
 
   useEffect(() => {
     findMyInfoByUser();
-  }, [path]);
+  }, [path, findMyInfoByUser, isReady]);
+
+  useEffect(() => {}, [level]);
 
   return (
     <div className={cx("container")}>
       <div className={cx("wrap")}>
+        <div className={cx("line")} />
         {arrs.map((arr, idx) => (
           <div className={cx("body")} key={idx}>
             <div className={cx(idx + 1 <= level ? "ableBox" : "defaultBox")}>
@@ -43,27 +49,34 @@ export default function CertificationStateBar({ path }: Props) {
               >
                 레벨 {idx + 1}
               </div>
-              <div className={cx("img_wrap")}>
-                <Image
-                  fill
-                  alt="인증 아이콘"
-                  src={`/img/Certification/${
-                    idx + 1 <= level ? "success" : "notyet"
-                  }/${idx + 1}.png`}
-                  priority
-                  quality={100}
-                />
-              </div>
-              <div>{arr}</div>
-              <div>
-                {idx + 1 <= level ? (
-                  <span className={cx("done")}>완료</span>
-                ) : (
-                  <span>미완료</span>
+              <div className={cx("img_circle")}>
+                {idx + 1 <= level && (
+                  <AutoHeightImage
+                    src="/img/mypage/check_on.png"
+                    width={15}
+                    className={cx("check")}
+                  />
                 )}
+                <div className={cx("img_wrap")}>
+                  <Image
+                    fill
+                    alt="인증 아이콘"
+                    src={`/img/Certification/${
+                      idx + 1 <= level ? "success" : "notyet"
+                    }/${idx + 1}.png`}
+                    priority
+                    quality={100}
+                  />
+                </div>
+              </div>
+              <div className={cx("text_wrap")}>
+                <div className={cx(idx + 1 <= level && "done")}>
+                  {arr}
+                  {idx + 1 <= level ? " 완료" : " 필요"}
+                </div>
               </div>
             </div>
-            {idx !== 2 && <div className={cx("line")} />}
+            {/* {idx !== 2 && <div className={cx("line")} />} */}
           </div>
         ))}
       </div>

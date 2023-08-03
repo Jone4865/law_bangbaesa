@@ -9,6 +9,7 @@ import {
   FindManyMarketPriceQuery,
 } from "src/graphql/generated/graphql";
 import Image from "next/image";
+import { useRouter } from "next/router";
 
 const cx = className.bind(styles);
 
@@ -17,6 +18,7 @@ type Props = {
 };
 
 export default function MarketPrice({ type = "home" }: Props) {
+  const router = useRouter();
   const [binanceData, setBinanceData] =
     useState<
       FindManyMarketPriceQuery["findManyMarketPrice"]["binanceMarkets"]
@@ -76,7 +78,9 @@ export default function MarketPrice({ type = "home" }: Props) {
 
   return (
     <div className={cx("container")}>
-      <div className={cx("wrap")}>
+      <div
+        className={cx("market-price-wrap", type === "not_home" && "not_home")}
+      >
         <div
           className={cx(
             type === "home" ? "top_container" : "not_home_top_container"
@@ -93,7 +97,14 @@ export default function MarketPrice({ type = "home" }: Props) {
             </div>
           </div>
           <div className={cx("body")}>
-            <div className={cx("coin_container", "tether")}>
+            <div
+              className={cx(
+                router.pathname === "/"
+                  ? "home_coin_container"
+                  : "coin_container",
+                "tether"
+              )}
+            >
               <div className={cx("top_img_wrap")}>
                 <div className={cx("top_img")}>
                   <Image alt="테더 이미지" fill src={"/img/marquee/usdt.png"} />
@@ -143,7 +154,14 @@ export default function MarketPrice({ type = "home" }: Props) {
                 )
               </div>
             </div>
-            <div className={cx("coin_container", "usd")}>
+            <div
+              className={cx(
+                router.pathname === "/"
+                  ? "home_coin_container"
+                  : "coin_container",
+                "usd"
+              )}
+            >
               <div className={cx("top_img_wrap")}>
                 <div className={cx("top_img")}>
                   <Image alt="테더 이미지" fill src={"/img/marquee/usd.png"} />
@@ -152,7 +170,7 @@ export default function MarketPrice({ type = "home" }: Props) {
               </div>
               <div className={cx("bar")} />
               <div className={cx("top_price")}>
-                1 USDT = {usdData?.krwPrice.toLocaleString()} KRW (
+                1 USD = {usdData?.krwPrice.toLocaleString()} KRW (
                 {usdData?.changeRate
                   ? usdData?.changeRate !== 0 && (
                       <div className={cx("up_and_down_img")}>
@@ -223,8 +241,8 @@ export default function MarketPrice({ type = "home" }: Props) {
               <div className={cx("opcaity")}>(기준거래소)</div>
             </div>
             <div className={cx("kimchi")}>
-              <div className={cx("kimchi_content")}>KIMCHI</div>
-              <span className={cx("non_mobile")}>PREMIUM</span>
+              <div className={cx("kimchi_content")}>KIMCHI&nbsp;</div>
+              <span className={cx("non_mobile_title")}>PREMIUM</span>
             </div>
           </div>
           {upbitData?.map((v, idx) => (

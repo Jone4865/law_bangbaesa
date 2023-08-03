@@ -1,0 +1,10 @@
+.auto-height-image {
+  // width: 100%;
+  position: relative;
+  overflow: hidden;
+
+  & > img {
+    position: relative !important;
+    height: auto !important;
+  }
+}

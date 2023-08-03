@@ -40,8 +40,10 @@
 }
 
 .btn {
+  font-size: 18px;
   margin-left: 10px;
   width: 160px;
+  min-width: 160px;
   border-radius: 10px;
   border: solid 1px #ff7401;
   background-color: white;

@@ -77,7 +77,6 @@
   box-sizing: border-box;
   padding: 0;
   margin: 0;
-
   font-family: "OneMobTitle";
   outline: none;
   ::-webkit-input-placeholder {
@@ -93,6 +92,10 @@
     height: 0;
   }
   scrollbar-width: none;
+
+  .ql-align-center {
+    margin: 0 auto;
+  }
 }
 
 input {
@@ -159,6 +162,7 @@ a {
   -o-transform: translate3d(0, 0, 0);
   transform: translate3d(0, 0, 0);
   transition-delay: 10ms;
+  margin-bottom: -5px;
 }
 
 .slick-slide div {
@@ -182,11 +186,24 @@ a {
 }
 
 .slick-arrow.slick-next {
-  width: 0;
-  position: absolute;
-  display: none;
+  position: absolute !important;
+  right: 4vw;
+  width: 80px;
+  height: 80px;
+}
+.slick-arrow.slick-prev {
+  position: absolute !important;
+  left: 4vw;
+  width: 80px;
+  height: 80px;
+  z-index: 1;
 }
 
+.slick-arrow.slick-prev::before {
+  position: absolute;
+  display: none;
+  width: 0;
+}
 .slick-arrow.slick-next::before {
   position: absolute;
   display: none;

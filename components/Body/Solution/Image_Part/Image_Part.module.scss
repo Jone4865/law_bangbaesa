@@ -5,18 +5,12 @@
   display: flex;
   width: 26vw;
   height: 259px;
-  margin: 14px 0;
 
   & > .image_item {
     object-fit: cover;
     border-radius: 10px;
   }
 
-  @include view("small") {
-    width: 388px;
-    height: 200px;
-    margin: 20px 0;
-  }
   @include view("very_small") {
     width: 388px;
     height: 200px;
@@ -44,6 +38,13 @@
 .title {
   font-size: 24px;
   margin-bottom: 15px;
+
+  @include view("small") {
+    font-size: 20px;
+  }
+  @include view("very_small") {
+    font-size: 20px;
+  }
   @include view("mobile") {
     font-size: 20px;
   }
@@ -54,6 +55,14 @@
   line-height: 1.63;
   letter-spacing: normal;
   font-weight: 100;
+  @include view("small") {
+    font-size: 14px;
+    line-height: 1.86;
+  }
+  @include view("very_small") {
+    font-size: 14px;
+    line-height: 1.86;
+  }
   @include view("mobile") {
     font-size: 14px;
     line-height: 1.86;

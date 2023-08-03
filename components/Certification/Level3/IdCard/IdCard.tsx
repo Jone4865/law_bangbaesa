@@ -21,7 +21,9 @@ export default function IdCard() {
 
   const handleUpload = (file: File, key: string) => {
     setFiles((prev: any) =>
-      prev ? [...prev, { file, key }] : [{ file, key }]
+      prev
+        ? [...prev.filter((v: any) => v.key !== key), { file, key }]
+        : [{ file, key }]
     );
   };
 
@@ -60,7 +62,7 @@ export default function IdCard() {
       onError: (e) => toast.error(e.message ?? `${e}`),
       onCompleted(_data) {
         toast.success("신분증 인증이 완료되었습니다.");
-        router.push("/mypage");
+        router.push("/certification/level2");
       },
     }
   );
@@ -89,26 +91,28 @@ export default function IdCard() {
       />
       <div className={cx("title")}>주민등록번호</div>
       <input
+        type="number"
         className={cx("input")}
         placeholder="9011121234566"
-        value={number}
+        value={number.replace("-", "")}
         onChange={(e) => setNumber(e.target.value)}
       />
       <div className={cx("title")}>발급일</div>
       <input
         className={cx("input")}
         placeholder="20000303"
-        value={date}
+        type="number"
+        value={date.replace("-", "")}
         onChange={(e) => setDate(e.target.value)}
       />
-
+      <div className={cx("title")}>KYC</div>
       <div className={cx("image_wrap")}>
         <div className={cx("image")}>
           <div className={cx("title")}>전면</div>
           <ImageUpload
             onUpload={handleUpload}
             kind={"front"}
-            defaultImageUrl="/img/level3/id_card/front.png"
+            defaultImageUrl="/img/level3/id_card/front.png?v1"
           />
         </div>
         <div className={cx("image")}>
@@ -116,7 +120,7 @@ export default function IdCard() {
           <ImageUpload
             onUpload={handleUpload}
             kind={"back"}
-            defaultImageUrl="/img/level3/id_card/back.png"
+            defaultImageUrl="/img/level3/id_card/back.png?v1"
           />
         </div>
         <div className={cx("image")}>
@@ -124,7 +128,7 @@ export default function IdCard() {
           <ImageUpload
             onUpload={handleUpload}
             kind={"selfie"}
-            defaultImageUrl="/img/level3/id_card/selfie.png"
+            defaultImageUrl="/img/level3/id_card/selfie.png?v1"
           />
         </div>
       </div>

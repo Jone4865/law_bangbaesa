@@ -1,7 +1,7 @@
 import { gql } from "../generated";
 
 export const CREATE_OFFER_BY_USER = gql(/* GraphQL */ `
-  mutation createOfferByUser(
+  mutation CreateOfferByUser(
     $coinKind: CoinKind!
     $offerAction: OfferAction!
     $transactionMethod: TransactionMethod!
