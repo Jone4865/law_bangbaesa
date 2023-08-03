@@ -21,6 +21,12 @@
   }
 }
 
+.slider_next,
+.slider_prev {
+  width: 80px !important;
+  height: 80px !important;
+}
+
 .dots {
   position: absolute;
   height: 100%;
@@ -56,18 +62,6 @@
 
 .pointer {
   cursor: pointer;
-}
-
-.prev {
-  width: 30px;
-  height: 30px;
-  color: #333;
-  font-size: 30px;
-  position: absolute;
-  left: 30px;
-  top: 50%;
-  cursor: pointer;
-  display: none;
 }
 
 .next {
