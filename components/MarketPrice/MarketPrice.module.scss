@@ -500,12 +500,6 @@
 
 .non_mobile_title {
   display: flex;
-  // @include view("very_small") {
-  //   display: none;
-  // }
-  // @include view("mobile") {
-  //   display: none;
-  // }
 }
 
 .up_and_down_img {
@@ -522,7 +516,7 @@
   @include view("mobile") {
     width: 15px;
     height: 13px;
-    margin: 2px -4px 0 0;
+    margin: auto -4px auto 0;
   }
 }
 
