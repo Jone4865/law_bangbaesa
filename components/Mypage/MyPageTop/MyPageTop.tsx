@@ -50,7 +50,9 @@ export default function MyPageTop({ detail, data, handleRefetch }: Props) {
     <div className={cx("container")}>
       <div
         className={cx(
-          router.pathname === "/mypage" ? "my_top_wrap" : "top_wrap"
+          "top_wrap",
+          router.pathname === "/mypage" && "padding",
+          router.pathname === "/user/[id]" && "padding"
         )}
       >
         <div

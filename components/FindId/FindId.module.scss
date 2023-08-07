@@ -153,10 +153,25 @@
   margin-bottom: 20px;
 }
 
+.dropdown_container {
+  display: flex;
+
+  @include view("mobile") {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
 .dropdown_wrap {
   width: 212px;
   margin-right: 10px;
+
   @include view("mobile") {
-    width: 147px;
+    width: 100%;
   }
+}
+
+.dropdown_body {
+  display: flex;
+  width: 100%;
 }

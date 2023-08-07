@@ -61,7 +61,6 @@
 .text_wrap {
   display: flex;
   flex-direction: column;
-  // margin-bottom: 30px;
   justify-content: center;
   align-items: center;
   @include view("pc") {
@@ -226,7 +225,7 @@
     padding-left: 27vw;
   }
   @include view("mobile") {
-    font-size: 16px;
+    font-size: 12px;
     justify-content: flex-start;
     padding: 15px;
     overflow-x: scroll;

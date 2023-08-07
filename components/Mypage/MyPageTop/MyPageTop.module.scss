@@ -2,25 +2,6 @@
 
 .container {
   position: relative;
-  @include view("very_small") {
-    padding: 0 20px;
-  }
-  @include view("mobile") {
-    padding: 0 20px;
-  }
-}
-
-.my_top_wrap {
-  display: flex;
-
-  @include view("very_small") {
-    flex-direction: column;
-    margin: 0;
-  }
-  @include view("mobile") {
-    flex-direction: column;
-    margin: 0;
-  }
 }
 
 .top_wrap {
@@ -28,11 +9,9 @@
 
   @include view("very_small") {
     flex-direction: column;
-    margin: 0;
   }
   @include view("mobile") {
     flex-direction: column;
-    margin: 0;
   }
 }
 
@@ -356,4 +335,13 @@
   font-size: 16px;
   color: #989898;
   margin-top: 10px;
+}
+
+.padding {
+  @include view("very_small") {
+    padding: 0 20px;
+  }
+  @include view("mobile") {
+    padding: 0 20px;
+  }
 }

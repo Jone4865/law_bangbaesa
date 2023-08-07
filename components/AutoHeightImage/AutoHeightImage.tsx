@@ -50,12 +50,13 @@ function AutoHeightImage({
       id={id}
     >
       <Image
-        src={src}
+        src={`${src}?v=1231`}
         alt={alt}
         layout={layout}
         objectFit={objectFit}
         style={{ borderRadius }}
         priority={true}
+        quality={100}
         placeholder={blurDataURL ? "blur" : undefined}
         blurDataURL={blurDataURL ?? undefined}
       />

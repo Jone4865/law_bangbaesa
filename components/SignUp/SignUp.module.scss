@@ -68,7 +68,6 @@
   font-size: 18px;
   border: solid 1px #dcdcdc;
   padding: 10px;
-  max-width: 470px;
   width: 100%;
   @include view("very_small") {
     font-size: 16px;
@@ -93,9 +92,7 @@
   background-color: #fff;
   cursor: pointer;
   font-size: 18px;
-  max-width: 160px;
-  width: 24vw;
-  min-width: 110px;
+  min-width: 160px;
   margin-left: 10px;
   @include view("very_small") {
     font-size: 16px;
@@ -103,6 +100,7 @@
   @include view("mobile") {
     font-size: 16px;
     min-width: 81px;
+    max-width: 81px;
   }
 }
 

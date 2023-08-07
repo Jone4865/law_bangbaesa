@@ -117,10 +117,12 @@ export default function BasicInfo({ myInfo, setNowAble }: Props) {
                   disable
                 />
               </div>
-              <div className={cx("text_view_phone")}>{myInfo?.phone}</div>
-              <button className={cx("btn")} onClick={onClickChangeHandle}>
-                변경
-              </button>
+              <div className={cx("phone_wrap")}>
+                <div className={cx("text_view_phone")}>{myInfo?.phone}</div>
+                <button className={cx("btn")} onClick={onClickChangeHandle}>
+                  변경
+                </button>
+              </div>
             </div>
             <div className={cx("title")}>이메일 주소</div>
             <div className="flex">

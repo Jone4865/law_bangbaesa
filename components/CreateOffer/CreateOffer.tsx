@@ -518,8 +518,11 @@ export default function CreateOffer() {
           placeholder="여기에 조건을 입력하세요..."
           value={text ? text : ""}
           onChange={(e) => setText(e.target.value)}
+          maxLength={1000}
         />
-        <div className={cx("text_len_box")}>
+        <div
+          className={cx("text_len_box", text && text?.length >= 1000 && "red")}
+        >
           <span>{`${text?.length ?? 0} / 1000`}</span>
         </div>
         <div className={cx("sub_text")}>

@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import styles from "./CreateInquiry.module.scss";
 import className from "classnames/bind";
 import { ToastContainer, toast } from "react-toastify";
@@ -36,6 +36,10 @@ export default function CreateInquiry({ setCreate }: Props) {
       },
     });
 
+  useEffect(() => {
+    if (content.length > 500) {
+    }
+  }, [content]);
   return (
     <div className={cx("container")}>
       <ToastContainer
@@ -60,8 +64,9 @@ export default function CreateInquiry({ setCreate }: Props) {
           placeholder="문의사항 (최소 10글자 이상 입력해주세요.)"
           value={content}
           onChange={(e) => setContent(e.target.value)}
+          maxLength={500}
         />
-        <div className={cx("text_len_box")}>
+        <div className={cx("text_len_box", content.length >= 500 && "red")}>
           <span>{`${content.length} / 500`}</span>
         </div>
         <div className={cx("bottom")}>
