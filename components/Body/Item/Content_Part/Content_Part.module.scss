@@ -1,17 +1,14 @@
 @import "/public/scss/style.scss";
 
-.container_white {
+.container {
   width: 100%;
   color: #fff;
   display: flex;
   flex-direction: column;
 }
 
-.container_orange {
-  width: 100%;
+.color_black {
   color: #333;
-  display: flex;
-  flex-direction: column;
 }
 
 .logo {

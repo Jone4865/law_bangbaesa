@@ -10,7 +10,6 @@
 
   column-gap: 10px;
   background-color: #fff;
-  // white-space: nowrap;
   @include view("mobile") {
     display: none;
   }

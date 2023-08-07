@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import styles from "./PassPort.module.scss";
+import styles from "../Level3_certificate.module.scss";
 import className from "classnames/bind";
 import ImageUpload from "../../../ImageUpload/ImageUpload";
 import { useMutation } from "@apollo/client";

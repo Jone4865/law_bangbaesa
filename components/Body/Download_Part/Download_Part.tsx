@@ -23,7 +23,7 @@ export default function Download_Part() {
               priority
             />
           </div>
-          <div onClick={onClickHandle} className={cx("img", "margin_left")}>
+          <div onClick={onClickHandle} className={cx("img")}>
             <Image
               quality={100}
               alt="플레이 스토어"
