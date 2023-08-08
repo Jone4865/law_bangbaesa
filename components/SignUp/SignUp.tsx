@@ -29,7 +29,6 @@ import {
 } from "src/graphql/generated/graphql";
 import { FIND_MANY_COUNTRY_CODE } from "src/graphql/query/findManyCountryCode";
 
-import Image from "next/image";
 import CountryDropDown from "components/DropDown/CountryDropDown/CountryDropDown";
 
 const cx = className.bind(styles);
@@ -366,17 +365,17 @@ export default function SignUp() {
             <div className={cx("warn")}>비밀번호와 일치하지 않습니다.</div>
           )}
           <div className={cx("part_title")}>휴대폰 인증</div>
-          <form className={cx("part_wrap")} onSubmit={onSendCertification}>
-            <div className={cx("warn_wrap")}>
-              {viewConfirmTell && !passTell && (
-                <div className={cx("warn_text_wrap")}>!</div>
-              )}
-              <div className={cx("dropdown_wrap")}>
-                <CountryDropDown
-                  data={countryCodes}
-                  onChangeHandel={changeCountry}
-                />
-              </div>
+          <form
+            className={cx("dropdown_container")}
+            onSubmit={onSendCertification}
+          >
+            <div className={cx("dropdown_wrap")}>
+              <CountryDropDown
+                data={countryCodes}
+                onChangeHandel={changeCountry}
+              />
+            </div>
+            <div className={cx("dropdown_body")}>
               <input
                 className={cx("part_input")}
                 placeholder="- 를 빼고 입력하세요"
@@ -386,31 +385,35 @@ export default function SignUp() {
                   setPassTell(false);
                 }}
               />
+              <button className={cx("part_btn")}>
+                {viewConfirmTell ? "재전송" : "인증"}
+              </button>
             </div>
-
-            <button className={cx("part_btn")}>
-              {viewConfirmTell ? "재전송" : "인증"}
-            </button>
           </form>
           {viewConfirmTell && (
             <form
               className={cx("part_wrap")}
               onSubmit={onCertificationTellHandle}
             >
-              <input
-                placeholder="숫자를 입력해주세요"
-                className={cx(
-                  "part_input",
-                  "more",
-                  viewConfirmTell && !passTell && "warn_border"
+              <div className={cx("warn_wrap")}>
+                {viewConfirmTell && !passTell && (
+                  <div className={cx("phone_warn_text_wrap")}>!</div>
                 )}
-                value={certificationTellText}
-                onChange={(e) =>
-                  setCertificationTellText(
-                    e.target.value.replace(/\D/g, "").trim()
-                  )
-                }
-              />
+                <input
+                  placeholder="숫자를 입력해주세요"
+                  className={cx(
+                    "part_input",
+                    "more",
+                    viewConfirmTell && !passTell && "warn_border"
+                  )}
+                  value={certificationTellText}
+                  onChange={(e) =>
+                    setCertificationTellText(
+                      e.target.value.replace(/\D/g, "").trim()
+                    )
+                  }
+                />
+              </div>
               <button className={cx("part_btn", "more")} disabled={passTell}>
                 {passTell ? "인증완료" : "인증"}
               </button>

@@ -219,13 +219,16 @@ export default function CreateOffer() {
   });
 
   useEffect(() => {
+    findMyInfoByUser();
+  }, []);
+
+  useEffect(() => {
     findManyCity();
     if (router.pathname.includes("edit-offer") && router.query.id) {
       findOneOffer({
         variables: { findOneOfferId: +router.query.id },
       });
     }
-    findMyInfoByUser();
   }, [router.pathname, walletAddress, router.isReady]);
 
   useEffect(() => {
