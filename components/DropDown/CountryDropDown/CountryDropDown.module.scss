@@ -57,6 +57,9 @@
   max-height: 300px;
   width: 100%;
   top: calc(100% - 5.5px);
+  @include view("mobile") {
+    padding: 10px;
+  }
 }
 
 .menu_body {
