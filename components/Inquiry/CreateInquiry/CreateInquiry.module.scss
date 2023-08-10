@@ -44,7 +44,6 @@
   min-height: 190px;
   border-radius: 10px;
   border: solid 1px #dcdcdc;
-  margin-bottom: 30px;
   resize: none;
   outline: none;
   font-size: 18px;
@@ -66,9 +65,14 @@
   border: none;
   border-radius: 10px;
   font-size: 20px;
+  margin-top: 30px;
   cursor: pointer;
   @include view("mobile") {
     width: 100%;
     font-size: 18px;
   }
+}
+
+.red {
+  color: #ff7401;
 }

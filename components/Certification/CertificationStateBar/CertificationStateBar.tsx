@@ -43,7 +43,7 @@ export default function CertificationStateBar({ path, isReady }: Props) {
         <div className={cx("line")} />
         {arrs.map((arr, idx) => (
           <div className={cx("body")} key={idx}>
-            <div className={cx(idx + 1 <= level ? "ableBox" : "defaultBox")}>
+            <div className={cx(idx + 1 <= level ? "able_Box" : "default_Box")}>
               <div
                 className={cx(idx + 1 <= level ? "able_level" : "notyet_level")}
               >
@@ -76,7 +76,6 @@ export default function CertificationStateBar({ path, isReady }: Props) {
                 </div>
               </div>
             </div>
-            {/* {idx !== 2 && <div className={cx("line")} />} */}
           </div>
         ))}
       </div>

@@ -213,7 +213,6 @@
   font-size: 16px;
   border-radius: 10px;
   border: solid 1px #dcdcdc;
-  margin-bottom: 20px;
 }
 
 .img_wrap {
@@ -232,6 +231,7 @@
   color: #777;
   display: flex;
   line-height: 20px;
+  margin-top: 20px;
   @include view("mobile") {
     font-size: 12px;
   }
@@ -458,4 +458,8 @@
   @include view("mobile") {
     font-size: 14px;
   }
+}
+
+.red {
+  color: #ff7401;
 }

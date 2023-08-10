@@ -109,26 +109,28 @@ export default function FindId() {
         <div className={cx("title")}>아이디 찾기</div>
         <div className={cx("text")}>휴대폰 인증</div>
         <form className={cx("body")} onSubmit={onSendMessage}>
-          <div className="flex">
+          <div className={cx("dropdown_container")}>
             <div className={cx("dropdown_wrap")}>
               <CountryDropDown
                 data={countryCodes}
                 onChangeHandel={changeCountry}
               />
             </div>
-            <input
-              className={cx(!moreVisible ? "input" : "part_input")}
-              placeholder="- 를 빼고 입력하세요"
-              value={tell}
-              onChange={(e) => {
-                setTell(e.target.value.replace(/\D/g, "").trim());
-                setConfirmTell("");
-                setMoreVisible(false);
-              }}
-            />
-            <button className={cx(moreVisible ? "part_btn" : "none")}>
-              {moreVisible ? "재발송" : ""}
-            </button>
+            <div className={cx("dropdown_body")}>
+              <input
+                className={cx(!moreVisible ? "input" : "part_input")}
+                placeholder="- 를 빼고 입력하세요"
+                value={tell}
+                onChange={(e) => {
+                  setTell(e.target.value.replace(/\D/g, "").trim());
+                  setConfirmTell("");
+                  setMoreVisible(false);
+                }}
+              />
+              <button className={cx(moreVisible ? "part_btn" : "none")}>
+                {moreVisible ? "재발송" : ""}
+              </button>
+            </div>
           </div>
         </form>
         <form

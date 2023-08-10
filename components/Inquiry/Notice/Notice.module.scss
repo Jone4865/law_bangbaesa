@@ -226,6 +226,7 @@
 
 .mobile {
   display: none;
+  font-size: 14px;
   @include view("mobile") {
     display: flex;
     width: 100%;

@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, FormEvent, SetStateAction, useState } from "react";
 import styles from "./CreateInquiry.module.scss";
 import className from "classnames/bind";
 import { ToastContainer, toast } from "react-toastify";
@@ -17,7 +17,8 @@ export default function CreateInquiry({ setCreate }: Props) {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
 
-  const onSubmitHandle = () => {
+  const onSubmitHandle = (e: FormEvent) => {
+    e.preventDefault();
     if (title === "" || title.length > 100) {
       toast.warn("제목은 1~100자 사이로 입력해주세요.");
     } else if (content.length < 10 || content.length > 500) {
@@ -38,15 +39,7 @@ export default function CreateInquiry({ setCreate }: Props) {
 
   return (
     <div className={cx("container")}>
-      <ToastContainer
-        limit={1}
-        position="top-center"
-        autoClose={1}
-        hideProgressBar
-        pauseOnFocusLoss={false}
-        containerId={0}
-      />
-      <div>
+      <form onSubmit={onSubmitHandle}>
         <div className={cx("title")}>제목</div>
         <input
           className={cx("input")}
@@ -60,20 +53,15 @@ export default function CreateInquiry({ setCreate }: Props) {
           placeholder="문의사항 (최소 10글자 이상 입력해주세요.)"
           value={content}
           onChange={(e) => setContent(e.target.value)}
+          maxLength={500}
         />
-        <div className={cx("text_len_box")}>
+        <div className={cx("text_len_box", content.length >= 500 && "red")}>
           <span>{`${content.length} / 500`}</span>
         </div>
         <div className={cx("bottom")}>
-          <button
-            className={cx("btn")}
-            onSubmit={(e) => e.preventDefault()}
-            onClick={onSubmitHandle}
-          >
-            문의 접수
-          </button>
+          <button className={cx("btn")}>문의 접수</button>
         </div>
-      </div>
+      </form>
     </div>
   );
 }

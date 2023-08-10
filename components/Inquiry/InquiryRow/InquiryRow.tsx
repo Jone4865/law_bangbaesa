@@ -67,14 +67,17 @@ export default function InquiryRow({ create, setCreate }: Props) {
           >
             <div className={cx("number")}>{v.id}</div>
             <div className={cx("title_wrap")}>
-              <div className={cx("title")}>{v.title}</div>
-              <div className={cx("mobile")}>
-                {v.reply ? (
-                  <div className={cx("done")}>답변완료</div>
-                ) : (
-                  <div className={cx("wait")}>답변대기</div>
-                )}
-                <div className={cx("line")} />
+              <div className={cx("title")}>
+                <p>{v.title}</p>
+                <div className={cx("mobile")}>
+                  {v.reply ? (
+                    <div className={cx("done")}>답변완료</div>
+                  ) : (
+                    <div className={cx("wait")}>답변대기</div>
+                  )}
+                </div>
+              </div>
+              <div className={cx("mobile", "right_bottom")}>
                 {moment(v.createdAt).format("YYYY-MM-DD")}
               </div>
             </div>

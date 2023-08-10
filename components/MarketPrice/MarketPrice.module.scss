@@ -61,7 +61,6 @@
 .text_wrap {
   display: flex;
   flex-direction: column;
-  // margin-bottom: 30px;
   justify-content: center;
   align-items: center;
   @include view("pc") {
@@ -226,7 +225,7 @@
     padding-left: 27vw;
   }
   @include view("mobile") {
-    font-size: 16px;
+    font-size: 12px;
     justify-content: flex-start;
     padding: 15px;
     overflow-x: scroll;
@@ -500,12 +499,6 @@
 
 .non_mobile_title {
   display: flex;
-  // @include view("very_small") {
-  //   display: none;
-  // }
-  // @include view("mobile") {
-  //   display: none;
-  // }
 }
 
 .up_and_down_img {
@@ -522,7 +515,7 @@
   @include view("mobile") {
     width: 15px;
     height: 13px;
-    margin: 2px -4px 0 0;
+    margin: auto -4px auto 0;
   }
 }
 

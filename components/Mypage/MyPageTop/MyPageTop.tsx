@@ -6,21 +6,14 @@ import { useRouter } from "next/router";
 import { useMutation } from "@apollo/client";
 import { TOGGLE_FEEDBACK_BY_USER } from "../../../src/graphql/mutation/toggleFeedbackByUser";
 import { toast } from "react-toastify";
-import {
-  FindMyInfoByUserQuery,
-  FindUserInfoByUserQuery,
-  ToggleFeedbackByUserMutation,
-} from "src/graphql/generated/graphql";
+import { ToggleFeedbackByUserMutation } from "src/graphql/generated/graphql";
 import { AutoHeightImage } from "components/AutoHeightImage";
 import { convertConnectionDate } from "utils/convertConnectionDate";
 
 const cx = className.bind(styles);
 
 type Props = {
-  data:
-    | undefined
-    | FindMyInfoByUserQuery["findMyInfoByUser"]
-    | FindUserInfoByUserQuery["findUserInfoByUser"];
+  data: any;
   handleRefetch: () => void;
   detail?: boolean;
 };
@@ -50,7 +43,9 @@ export default function MyPageTop({ detail, data, handleRefetch }: Props) {
     <div className={cx("container")}>
       <div
         className={cx(
-          router.pathname === "/mypage" ? "my_top_wrap" : "top_wrap"
+          "top_wrap",
+          router.pathname === "/mypage" && "padding",
+          router.pathname === "/user/[id]" && "padding"
         )}
       >
         <div
@@ -102,7 +97,8 @@ export default function MyPageTop({ detail, data, handleRefetch }: Props) {
             className={cx(
               "feedback_box",
               router.pathname === "/user/[id]" && "cursor",
-              "positive"
+              "positive",
+              data?.isPositiveFeedback && "active_positive"
             )}
           >
             <div className={cx("count_wrap")}>
@@ -132,7 +128,8 @@ export default function MyPageTop({ detail, data, handleRefetch }: Props) {
             className={cx(
               "feedback_box",
               "negative",
-              router.pathname === "/user/[id]" && "cursor"
+              router.pathname === "/user/[id]" && "cursor",
+              data?.isNegativeFeedback && "active_negative"
             )}
           >
             <div className={cx("count_wrap")}>

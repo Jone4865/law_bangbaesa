@@ -105,8 +105,8 @@ export default function Body() {
         </div>
       </div>
       <div className={cx("OTC_container")}>
-        <div className={cx("OTC_body")}>
-          <div className={cx("OTC_wrap")}>
+        <div className={cx("OTC_wrap")}>
+          <div className={cx("OTC_body")}>
             <div className={cx("OTC_title")}>
               <div className={cx("mobile_top_wrap")}>
                 <div className={cx("only_pc")}>팝니다</div>
@@ -134,12 +134,12 @@ export default function Body() {
                   <div
                     className={cx(
                       buyCoinKind === v.code && `${v.code.toLowerCase()}`,
-                      "coin_btn"
+                      "btn"
                     )}
                     onClick={() => setBuyCoinKind(v.code)}
                     key={idx}
                   >
-                    <div className={cx("coin_img_wrap")}>
+                    <div className={cx("img_wrap")}>
                       <Image
                         alt={`${v.code} 이미지`}
                         fill
@@ -166,12 +166,12 @@ export default function Body() {
                   <div
                     className={cx(
                       sellCoinKind === v.code && `${v.code.toLowerCase()}`,
-                      "coin_btn"
+                      "btn"
                     )}
                     onClick={() => setSellCoinKind(v.code)}
                     key={idx}
                   >
-                    <div className={cx("coin_img_wrap")}>
+                    <div className={cx("img_wrap")}>
                       <Image
                         alt={`${v.code} 이미지`}
                         fill
