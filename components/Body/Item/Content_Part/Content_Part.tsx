@@ -12,11 +12,7 @@ type Props = {
 
 export default function Content_Part({ title, content, logo_color }: Props) {
   return (
-    <div
-      className={cx(
-        logo_color === "white" ? "container_white" : "container_orange"
-      )}
-    >
+    <div className={cx("container", logo_color === "orange" && "color_black")}>
       <div className={cx("logo")}>
         <Image
           fill

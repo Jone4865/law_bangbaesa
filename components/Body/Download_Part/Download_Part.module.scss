@@ -40,11 +40,14 @@
 .img_wrap {
   display: flex;
   margin: 20px 0 0 0;
+  gap: 8px;
   @include view("pc") {
     margin: 0 0 0 43px;
+    gap: 20px;
   }
   @include view("middle") {
     margin: 0 0 0 20px;
+    gap: 20px;
   }
 }
 
@@ -66,15 +69,5 @@
     width: 43vw;
     height: 12.3vw;
     max-height: 55px;
-  }
-}
-
-.margin_left {
-  margin-left: 8px;
-  @include view("pc") {
-    margin-left: 20px;
-  }
-  @include view("middle") {
-    margin: 0 0 0 20px;
   }
 }

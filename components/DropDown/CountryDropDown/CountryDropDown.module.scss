@@ -43,7 +43,7 @@
 
 .menu {
   position: absolute;
-  padding: 5px 20px;
+  padding: 5px 25px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -55,6 +55,11 @@
   overflow-x: hidden;
   row-gap: 10px;
   max-height: 300px;
+  width: 100%;
+  top: calc(100% - 5.5px);
+  @include view("mobile") {
+    padding: 10px;
+  }
 }
 
 .menu_body {
@@ -80,4 +85,10 @@
 
 .gray {
   background-color: #f6f6f6;
+}
+
+.country_img {
+  position: relative;
+  width: 30px;
+  height: 20px;
 }

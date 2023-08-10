@@ -45,7 +45,7 @@ export default function Big_TopImage({ imageName }: Props) {
             quality={100}
             src={`/img/top_image/img/${
               middle ? imageName : imageName + "_m"
-            }.png?v=3131`}
+            }.png?v=3133`}
           />
         </div>
       </div>

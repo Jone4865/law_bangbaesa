@@ -30,7 +30,7 @@ const CountryDropDown = ({ data, onChangeHandel, disable }: Props) => {
   useEffect(() => {
     setSelectedOption(
       (data as CountryCodeModel[]).filter(
-        (v: CountryCodeModel) => v.native === "대한민국"
+        (v: CountryCodeModel) => v.code === "KR"
       )[0]
     );
   }, [data]);
@@ -40,8 +40,14 @@ const CountryDropDown = ({ data, onChangeHandel, disable }: Props) => {
       <div className={cx("btn_wrap")} onClick={toggleDropdown}>
         <div className={cx("btn")}>
           <div onClick={() => setIsOpen(false)} className={cx("text")}>
-            <div>{selectedOption?.emoji}</div>
-            <div>+{selectedOption?.phone}</div>
+            <div className={cx("country_img")}>
+              <Image
+                fill
+                alt="ss"
+                src={`https://flagcdn.com/${selectedOption?.code.toLocaleLowerCase()}.svg`}
+              />
+            </div>
+            <div>+ {selectedOption?.phone}</div>
           </div>
           <div className={cx(!isOpen ? "img_wrap" : "arrow_rotate")}>
             <Image
@@ -63,8 +69,14 @@ const CountryDropDown = ({ data, onChangeHandel, disable }: Props) => {
                 onClick={() => handleOptionSelect(v)}
                 key={idx}
               >
-                <div>{v?.emoji}</div>
-                <div>+{v.phone}</div>
+                <div className={cx("country_img")}>
+                  <Image
+                    fill
+                    alt="ss"
+                    src={`https://flagcdn.com/${v?.code.toLocaleLowerCase()}.svg`}
+                  />
+                </div>
+                <div>+ {v.phone}</div>
               </div>
             )
           )}

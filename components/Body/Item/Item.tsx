@@ -16,9 +16,7 @@ type Props = {
 export default function Item({ title, content, img_name, item_name }: Props) {
   const router = useRouter();
   return (
-    <div
-      className={cx("container", router.pathname === "/" ? "gray" : "white")}
-    >
+    <div className={cx("container", router.pathname === "/" && "back_color")}>
       <div className={cx("content_wrap")}>
         <div className={cx("title")}>{title}</div>
         <div className={cx("content")}>{content}</div>

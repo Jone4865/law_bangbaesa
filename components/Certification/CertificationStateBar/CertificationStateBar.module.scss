@@ -23,11 +23,6 @@
   display: flex;
 }
 
-.box {
-  border: solid 1px gray;
-  width: 100%;
-}
-
 .line {
   height: 1px;
   background-color: #dcdcdc;
@@ -41,7 +36,7 @@
   }
 }
 
-.ableBox {
+.able_Box {
   border: solid 1px #dcdcdc;
   border-radius: 10px;
   width: 154px;
@@ -62,7 +57,7 @@
   }
 }
 
-.defaultBox {
+.default_Box {
   border: solid 1px #dcdcdc;
   border-radius: 10px;
   width: 154px;

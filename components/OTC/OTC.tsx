@@ -347,7 +347,10 @@ export default function OTC({
                                 v.coinKind.toLocaleLowerCase()
                             )}
                             key={v.coinKind}
-                            onClick={() => onClickHandle(v.coinKind, "coin")}
+                            onClick={() =>
+                              coin !== v.coinKind &&
+                              onClickHandle(v.coinKind, "coin")
+                            }
                           >
                             <div className={cx("coin_img_wrap")}>
                               <Image

@@ -12,6 +12,8 @@ export const FIND_USER_INFO_BY_USER = gql(/* GraphQL */ `
       positiveFeedbackCount
       negativeFeedbackCount
       offerCompleteCount
+      isPositiveFeedback
+      isNegativeFeedback
     }
   }
 `);
